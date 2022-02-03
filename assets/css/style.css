@@ -1,0 +1,237 @@
+body {
+    font-size:14px;
+    line-height:25px;
+    font-family:Arial, sans-serif;
+    background-color:white;
+}
+.clear {
+    clear:both;
+}
+h1 {
+    font-size:60px;
+    line-height:60px;
+    font-family:georgia, Arial, serif;
+    margin-bottom:15px;
+    font-weight:normal;
+}
+h2 {
+    font-size:20px;
+    line-height:20px;
+    margin-bottom:15px;
+    font-family:Arial, sans-serif;
+    color:black;
+}
+h3 {
+    font-size:16px;
+    line-height:16px;
+    margin-bottom:15px;
+    font-family:Arial, serif;
+    color:#000;
+    font-style:italic;
+}
+p {
+    margin-bottom:25px;
+}
+a:hover {
+    text-decoration:none;
+}
+em {
+    font-style:normal;
+    font-weight:bold;
+}
+#content ul {
+    list-style-type:disc;
+    margin:25px 25px;
+}
+img.right {
+    float: right;
+    margin:10px;
+}
+img.left {
+    float: left;
+    margin:10px;
+}
+img.center {
+    margin:10px auto 25px auto;
+    display:block;
+}
+pre.code {
+    color:white;
+    /*background-color:#522812;*/
+    background-color:black;
+    font-family:Consolas, "Courier New", monospace;
+    font-size:12px;
+    line-height:16px;
+    padding:5px;
+    margin-bottom:25px;
+    background-repeat:no-repeat;
+    background-position:top right;
+}
+.hs ol li {
+    /*background-image:url(hs.jpg);*/
+    background-color:black;
+}
+.hintbox {
+    padding:10px;
+    background-color:#ffc;
+    margin-bottom:25px;
+    background-image:url(http://s3.amazonaws.com/lyah/note.jpg);
+}
+.label {
+    white-space:nowrap;
+    font-family:Consolas, "Courier New", monospace;
+    font-size:16px;
+    padding:0px 3px;
+}
+.function {
+    background-color:#c00;
+    color:white;
+}
+.type {
+    background-color:#519179;
+    color:white;
+}
+.class {
+    background-color:#CC33CC;
+    color:white;
+}
+.law {
+    background-color:#99DDcc;
+    color:black;
+}
+.fixed {
+    white-space:nowrap;
+    font-family:Consolas, "Courier New", monospace;
+    background-color:#ddd;
+    font-weight:normal;
+    padding:0px 3px;
+    font-weight:bold;
+}
+#content {
+    width:800px;
+    margin:0px auto;
+}
+.introcontent {
+    background-image:url(http://s3.amazonaws.com/lyah/bg.png);
+}
+.bgwrapper {
+    margin-top:50px;
+    margin-bottom:50px;
+    background-color:white;
+    padding:25px 0 50px 0;
+}
+.chapters {
+    list-style-type:decimal;
+    font-family:arial,serif;
+    font-size:24px;
+    padding-left:25px;
+    margin:0px; 
+    color:#408156 ;
+    margin-bottom:25px;
+}
+.chapters > li {
+    font-family:georgia,serif;
+}
+.chapters > li > a {
+    text-decoration:none;
+    color:black;
+    display:block;
+    border-bottom:1px solid #ddd;
+}
+.chapters > li > a:visited {
+    color:#555;
+}
+.chapters > li > a:hover {
+    color:#BD2A33;
+}
+.chapters > li > a.upcoming {
+    color:#888;
+}
+.chapters > li > a.upcoming:hover {
+    color:#888;
+}
+.chapters > li> ul  {
+    line-height:40px;
+    font-family:arial, sans-serif;
+}
+.chapters > li> ul> li {
+    list-style-type:none;
+}
+.chapters > li > ul > li > a {
+    font-size:16px;
+    color:black;
+    text-decoration:underline;
+}
+.chapters > li > ul > li > a:visited {
+    color:#777;
+}
+.chapters > li > ul > li > a:hover {
+    color:#BD2A33;
+}
+.footdiv {
+    width:100%;
+    display:table;
+}
+.footdiv ul {
+    display:table-row;
+}
+.footdiv ul li {
+    display:table-cell;
+    width:33%;
+}
+.prevlink {
+    padding-left:20px;
+    background-image:url(http://s3.amazonaws.com/lyah/prv.png);
+    background-position:0px 3px;
+    background-repeat:no-repeat;
+}
+.nxtlink {
+    padding-right:20px;
+    background-image:url(http://s3.amazonaws.com/lyah/nxt.png);
+    background-position:top right;
+    background-repeat:no-repeat;
+}
+.splashdiv {
+    width:700px;
+    margin:0 auto;
+    color:white;
+}
+.splashdiv a {
+    color:white;
+}
+.splashdiv .introtext {
+    width:550px;
+    float:left;
+    text-align:left;
+}
+.splashdiv .go {
+    width:150px;
+    float:left;
+    text-align:right;
+}
+p.exercise {
+    font-weight:bold;
+    color:black;
+    margin-bottom:0px;
+}
+.dp-highlighter {
+    width: auto !important;
+}
+.newsplash a.nostarchlink {
+    color:white;
+    text-decoration:underline;
+}
+.newsplash a.nostarchlink:hover {
+    text-decoration:none;
+}
+.newsplash ul {
+    margin-top:14px;
+    margin-bottom:14px;
+}
+.newsplash li {
+    list-style-type:disc;
+}
+.errata {
+    background-color:#ffeded;
+    padding:3px;
+}
