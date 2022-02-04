@@ -18,42 +18,57 @@
 </head>
 
 <body>
-    <div class="newsplash"
-        style="width:880px;height:800px;margin:0px auto 0 auto;background-repeat:no-repeat;background-image:url(assets/images/newsplash-new.webp);position:relative;font-size:16px;color:white;text-shadow:#24536F -1px 1px 1px">
+    <div id="newsplash" class="newsplash" style="width:880px;height:800px;margin:0px auto 0 auto;background-repeat:no-repeat;background-image:url(assets/images/newsplash-new-short.webp);position:relative;font-size:16px;color:white;text-shadow:#24536F -1px 1px 1px">
         <div style="position:absolute;top:235px;height:235px;line-height:24px;">
             <p>
-                Hey yo! This is an <em style="color: greenyellow">open-source</em> fork of the original <em style="color: orange;">Learn You a Haskell</em> (LYAH for short),
-                the funkiest way to learn Haskell, the best functional programming language around. May have heard of it. This guide is meant
-                for people who have programmed already, but have yet to try functional programming.
+                Hey yo! This is an <em style="color: greenyellow">open-source</em> fork of the original <em
+                    style="color: orange;">Learn You a Haskell</em> (LYAH for short),
+                "the funkiest way to learn Haskell, the best functional programming language around". This guide is
+                meant for people who have programmed already, but have yet to try functional programming.
+            </p>
+            <div style="margin-bottom: 10px;">
+                <em class="link" onclick='ShowAndHide("fork-explain")'>Now, why did I create this fork?</em> ("fork"
+                means a copy of an original which may be modified or extended)
+            </div>
+            <div style="display: none;" id="fork-explain">
+                <p>
+                    Well, I began learning Haskell in 2021 at my undergrad studies and quickly came across
+                    LYAH (<a class="nostarchlink" href="http://learnyouahaskell.com/">link for original</a>). I
+                    immediately fell in love and followed it to supplement my journey of learning Haskell.
+                </p>
+                <p>
+                    However, I quickly realised some parts are slowly becoming outdated as Haskell continues to
+                    evolve. That is why I decided to create this <em style="color: greenyellow">open-source</em>
+                    fork to enable the Haskell community to participate in preserving and maintanining this awesome
+                    resource for the future times.
+                </p>
+            </div>
+            <p>
+                Anyone is invited to <em style="color: greenyellow">contribute</em> be either <a class="nostarchlink" href="https://github.com/learnyouahaskell/learnyouahaskell.github.io">opening a pull request</a>
+                (preferred) or opening a <a class="nostarchlink" href="https://github.com/learnyouahaskell/learnyouahaskell.github.io">content edit request</a> for proposed changes.
             </p>
             <p>
-                <em>Now, why did I create this fork?</em> ("fork" means a copy of an original which may be modified or extended) Well, I began learning Haskell in 2021
-                at my undergraduate studies and quickly came across LYAH (<a class="nostarchlink" href="http://learnyouahaskell.com/">link for original</a>). I immediately fell in love
-                with it and followed it to supplement my journey of learning Haskell.
-            </p>
-            <p>
-                However, I quickly realised some parts are slowly going to become outdated as Haskell continues to evolve. That is why I decied to create this <em style="color: greenyellow">open-source</em>
-                fork to enable the Haskell community to participate in preserving and maintanining this awesome resource for the future times.</p>
-            <p>
-                The whole thing is completely free to read online, but the original is also available in print and we encourage you
-                to buy as many copies as you can afford!
+                The whole thing is completely free to read online, but the original is also available in print and we
+                encourage you to buy a copy!
             </p>
         </div>
-        <a href="faq.html"
-            style="display:block;text-indent:-9999px;position:absolute;width:265px;height:40px;top:630px;left:110px;">
+        <a id="faq-button" href="faq.html"
+            style="display:block;text-indent:-9999px;position:absolute;width:265px;height:100px;top:535px;left:110px;">
             Got questions? Read the FAQ</a>
-        <a href="http://nostarch.com/lyah.htm"
-            style="display:block;text-indent:-9999px;position:absolute;width:167px;height:143px;top:572px;left:434px;">
+        <a id="book-button" href="http://nostarch.com/lyah.htm"
+            style="display:block;text-indent:-9999px;position:absolute;width:167px;height:143px;top:477px;left:434px;">
             Buy it!</a>
-        <a href="chapters.html"
-            style="display:block;text-indent:-9999px;position:absolute;width:167px;height:143px;top:572px;left:638px;">
+        <a id="read-button" href="chapters.html"
+            style="display:block;text-indent:-9999px;position:absolute;width:167px;height:143px;top:477px;left:638px;">
             Read it online!</a>
     </div>
-    
+
+    <!-- Clicky tracking -->
     <script async src="//static.getclicky.com/101352715.js"></script>
     <noscript>
         <p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101352715ns.gif" /></p>
     </noscript>
+    <script src="assets/js/toggleShow.js"></script>
 </body>
 
 </html>

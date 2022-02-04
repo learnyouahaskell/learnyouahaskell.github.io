@@ -221,6 +221,14 @@ p.exercise {
 .dp-highlighter {
     width: auto !important;
 }
+.link {
+    cursor:pointer;
+    text-decoration:underline;
+}
+.link:hover {
+    cursor:pointer;
+    text-decoration:none;
+}
 .newsplash a.nostarchlink {
     color:white;
     text-decoration:underline;
