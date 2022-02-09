@@ -1,2 +1,4 @@
-User-agent: *
-Disallow:
+User-Agent: *
+Disallow: 
+
+Sitemap: https://learnyouahaskell.github.io/sitemap.xml

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://learnyouahaskell.github.io/</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/faq.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/chapters.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/introduction.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/starting-out.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/types-and-typeclasses.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/syntax-in-functions.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/recursion.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/higher-order-functions.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/modules.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/making-our-own-types-and-typeclasses.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/input-and-output.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/functionally-solving-problems.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/functors-applicative-functors-and-monoids.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/a-fistful-of-monads.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/for-a-few-monads-more.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/zippers.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://learnyouahaskell.github.io/higher-order-functions/index.html</loc>
+  <lastmod>2022-02-09T11:43:11+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
