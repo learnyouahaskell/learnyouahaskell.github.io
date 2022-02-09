@@ -12,3 +12,9 @@ Anyone is invited to **contribute** be either opening a pull request (preferred)
 The whole thing is completely free to read online, but the original is also available in print and we encourage you to buy a copy!
 
 *This is still a work in progress. Happy for any suggestions or feedback!*
+
+# TODOs:
+- [ ] make mobile-friendly
+- [ ] prepare "content edit request" interface on GitHub
+- [ ] add exercises
+- [ ] update (just overall, the outdated parts)
