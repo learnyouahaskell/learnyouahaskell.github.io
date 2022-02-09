@@ -14,6 +14,7 @@ The whole thing is completely free to read online, but the original is also avai
 *This is still a work in progress. Happy for any suggestions or feedback!*
 
 # TODOs:
+- [ ] refactor web code
 - [ ] make mobile-friendly
 - [ ] prepare "content edit request" interface on GitHub
 - [ ] add exercises
