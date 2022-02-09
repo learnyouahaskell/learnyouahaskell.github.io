@@ -10,3 +10,5 @@ However, I quickly realised some parts are slowly becoming outdated as Haskell c
 Anyone is invited to **contribute** be either opening a pull request (preferred) or opening a content edit request for proposed changes.
 
 The whole thing is completely free to read online, but the original is also available in print and we encourage you to buy a copy!
+
+*This is still a work in progress. Happy for any suggestions or feedback!*
