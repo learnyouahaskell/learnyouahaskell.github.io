@@ -7,7 +7,7 @@ Well, I began learning Haskell in 2021 at my undergrad studies and quickly came 
 
 However, I quickly realised some parts are slowly becoming outdated as Haskell continues to evolve. That is why I decided to create this open-source fork to enable the Haskell community to participate in preserving and maintaining this awesome resource for the future times.
 
-Anyone is invited to **contribute** be either opening a pull request (preferred) or opening a content edit request for proposed changes.
+Anyone is invited to **contribute** be either opening a pull request (preferred) or opening a content edit request (in the pipeline, open soon!) for proposed changes.
 
 The whole thing is completely free to read online, but the original is also available in print and we encourage you to buy a copy!
 
