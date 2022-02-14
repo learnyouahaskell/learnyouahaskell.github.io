@@ -22,6 +22,13 @@ The whole thing is completely free to read online, but the original is also avai
 
 Don't forget to star star the GitHub repository if you like it! 🙂
 
+## Discussion
+Discuss the ideas with the community.
+
+* GitHub - Please feel free to use the "Discussions" GitHub space (https://github.com/learnyouahaskell/learnyouahaskell.github.io/discussions)
+* Reddit - https://www.reddit.com/r/haskell/comments/sogi3s/learn_you_a_haskell_a_community_version/
+* Haskell Discourse - https://discourse.haskell.org/t/learn-you-a-haskell-a-community-version/4056
+
 ## Licence
 This domain and repository is in no way affiliated with Miran Lipovača (the original author) and is being extended and modified with his permision as per the licence the original work was released under ([Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/)) as well as his literal statement encouraging modifiations to be made ([FAQ](http://learnyouahaskell.com/faq)).
 ##
