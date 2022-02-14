@@ -1,3 +1,4 @@
+[![pages-build-deployment](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment)
 # Learn You a Haskell: A community version
 
 Hey yo! [learnyouahaskell.github.io](https://learnyouahaskell.github.io/) is an **open-source** fork of the original **Learn You a Haskell** (**LYAH** for short) by Miran Lipovača, "the funkiest way to learn Haskell, the best functional programming language around". This guide is meant for people who have programmed already, but have yet to try functional programming.
