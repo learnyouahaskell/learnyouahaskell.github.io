@@ -20,6 +20,8 @@ The whole thing is completely free to read online, but the original is also avai
 - [ ] add exercises
 - [ ] update (just overall, the outdated parts)
 
+Don't forget to star star the GitHub repository if you like it! 🙂
+
 ## Licence
 This domain and repository is in no way affiliated with Miran Lipovača (the original author) and is being extended and modified with his permision as per the licence the original work was released under ([Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/)) as well as his literal statement encouraging modifiations to be made ([FAQ](http://learnyouahaskell.com/faq)).
 ##
