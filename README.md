@@ -19,7 +19,7 @@ The whole thing is completely free to read online, but the original is also avai
 ## TODOs:
 - [ ] refactor web code
 - [ ] make mobile-friendly
-- [ ] prepare "content edit request" interface on GitHub
+- [x] prepare "content edit request" interface on GitHub
 - [ ] add exercises
 - [ ] update (just overall, the outdated parts)
 
