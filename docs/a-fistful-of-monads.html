@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+   "https://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <title>A Fistful of Monads - Learn You a Haskell for Great Good!</title>
@@ -47,7 +47,7 @@ monads, which are just beefed up applicative functors, much like
 applicative functors are only beefed up functors.
 </p>
 
-<img src="http://s3.amazonaws.com/lyah/smugpig.png" alt="more cool than u" class="right" width="307" height="186">
+<img src="https://s3.amazonaws.com/lyah/smugpig.png" alt="more cool than u" class="right" width="307" height="186">
 
 <p>
 When we started off with functors, we saw that it's possible to map functions 
@@ -168,7 +168,7 @@ three.
 <a name="getting-our-feet-wet-with-maybe"></a>
 <h2>Getting our feet wet with Maybe</h2>
 
-<img src="http://s3.amazonaws.com/lyah/buddha.png" alt="monads, grasshoppa" class="left" width="302" height="387">
+<img src="https://s3.amazonaws.com/lyah/buddha.png" alt="monads, grasshoppa" class="left" width="302" height="387">
 
 <p>
 Now that we have a vague idea of what monads are about, let's see if we can make 
@@ -393,7 +393,7 @@ class Monad m where
     fail msg = error msg
 </pre>
 
-<img src="http://s3.amazonaws.com/lyah/kid.png" alt="this is you on monads" class="right" width="363" height="451">
+<img src="https://s3.amazonaws.com/lyah/kid.png" alt="this is you on monads" class="right" width="363" height="451">
 <p>
 Let's start with the first line. It says <span class="fixed">class Monad m where</span>. 
 But wait, didn't we say that monads are just beefed up applicative functors? Shouldn't 
@@ -429,7 +429,7 @@ function execution or anything, it just takes a normal value and puts it in a
 context.
 </div>
 
-<img src="http://s3.amazonaws.com/lyah/tur2.png" alt="hmmm yaes" class="left" width="169" height="145">
+<img src="https://s3.amazonaws.com/lyah/tur2.png" alt="hmmm yaes" class="left" width="169" height="145">
 
 <p>
 The next function is <span class="fixed">&gt;&gt;=</span>, or bind. It's like 
@@ -515,7 +515,7 @@ the result of using <span class="fixed">&gt;&gt;=</span> will be <span class="fi
 <a name="walk-the-line"></a>
 <h2>Walk the line</h2>
 
-<img src="http://s3.amazonaws.com/lyah/pierre.png" alt="pierre" class="left" width="374" height="405">
+<img src="https://s3.amazonaws.com/lyah/pierre.png" alt="pierre" class="left" width="374" height="405">
 
 <p>
 Now that we know how to feed a <span class="fixed">Maybe a</span> value to a 
@@ -809,7 +809,7 @@ ghci&gt; return (0,0) &gt;&gt;= landLeft 1 &gt;&gt;= landRight 4 &gt;&gt;= landL
 Nothing
 </pre>
 
-<img src="http://s3.amazonaws.com/lyah/banana.png" alt="iama banana" class="right" width="262" height="130">
+<img src="https://s3.amazonaws.com/lyah/banana.png" alt="iama banana" class="right" width="262" height="130">
 
 <p>
 Awesome. The final result represents failure, which is what we expected. Let's 
@@ -940,7 +940,7 @@ routine = case landLeft 1 (0,0) of
             Just pole3 -&gt; landLeft 1 pole3
 </pre>
 
-<img src="http://s3.amazonaws.com/lyah/centaur.png" alt="john joe glanton" class="right" width="297" height="331">
+<img src="https://s3.amazonaws.com/lyah/centaur.png" alt="john joe glanton" class="right" width="297" height="331">
 
 <p>
 We land a bird on the left and then we examine the possibility of failure and 
@@ -1077,7 +1077,7 @@ foo = do
     Just (show x ++ y)
 </pre>
 
-<img src="http://s3.amazonaws.com/lyah/owld.png" alt="90s owl" class="right" width="269" height="348">
+<img src="https://s3.amazonaws.com/lyah/owld.png" alt="90s owl" class="right" width="269" height="348">
 
 <p>
 It would seem as though we've gained the ability to temporarily extract things 
@@ -1329,7 +1329,7 @@ monad instead of causing a program-wide failure, which is pretty neat.
 
 <a name="the-list-monad"></a>
 <h2>The list monad</h2>
-<img src="http://s3.amazonaws.com/lyah/deadcat.png" alt="dead cat" class="left" width="235" height="230">
+<img src="https://s3.amazonaws.com/lyah/deadcat.png" alt="dead cat" class="left" width="235" height="230">
 <p>
 So far, we've seen how <span class="fixed">Maybe</span> values can be viewed as 
 values with a failure context and how we can incorporate failure handling into 
@@ -1465,7 +1465,7 @@ ghci&gt; [1,2] &gt;&gt;= \n -&gt; ['a','b'] &gt;&gt;= \ch -&gt; return (n,ch)
 [(1,'a'),(1,'b'),(2,'a'),(2,'b')]
 </pre>
 
-<img src="http://s3.amazonaws.com/lyah/concatmap.png" alt="concatmap" class="left" width="399" height="340">
+<img src="https://s3.amazonaws.com/lyah/concatmap.png" alt="concatmap" class="left" width="399" height="340">
 
 <p>
 The list <span class="fixed">[1,2]</span> gets bound to <span 
@@ -1692,7 +1692,7 @@ number will determine the column he's in and the second number will determine
 the row.
 </p>
 
-<img src="http://s3.amazonaws.com/lyah/chess.png" alt="hee haw im a horse" class="center" width="760" height="447">
+<img src="https://s3.amazonaws.com/lyah/chess.png" alt="hee haw im a horse" class="center" width="760" height="447">
 
 <p>
 Let's make a type synonym for the knight's current position on the chess board:
@@ -1842,7 +1842,7 @@ instead of that number being hardcoded like it is now.
 <a name="monad-laws"></a>
 <h2>Monad laws</h2>
 
-<img src="http://s3.amazonaws.com/lyah/judgedog.png" alt="the court finds you guilty of peeing all over 
+<img src="https://s3.amazonaws.com/lyah/judgedog.png" alt="the court finds you guilty of peeing all over 
 everything" class="right" width="343" height="170">
 
 <p>
