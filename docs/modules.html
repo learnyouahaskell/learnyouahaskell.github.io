@@ -70,8 +70,8 @@ import qualified Data.Map
 import qualified Data.Map as M
 </pre>
 <p>Now, to reference <span class="fixed">Data.Map</span>'s <span class="fixed">filter</span> function, we just use <span class="fixed">M.filter</span>.</p>
-<p>Use <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/">this handy reference</a> to see which modules are in the standard library. A great way to pick up new Haskell knowledge is to just click through the standard library reference and explore the modules and their functions. You can also view the Haskell source code for each module. Reading the source code of some modules is a really good way to learn Haskell and get a solid feel for it.</p>
-<p>To search for functions or to find out where they're located, use <a href="http://haskell.org/hoogle">Hoogle</a>. It's a really awesome Haskell search engine, you can search by name, module name or even type signature.</p>
+<p>Use <a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/">this handy reference</a> to see which modules are in the standard library. A great way to pick up new Haskell knowledge is to just click through the standard library reference and explore the modules and their functions. You can also view the Haskell source code for each module. Reading the source code of some modules is a really good way to learn Haskell and get a solid feel for it.</p>
+<p>To search for functions or to find out where they're located, use <a href="https://hoogle.haskell.org/">Hoogle</a>. It's a really awesome Haskell search engine, you can search by name, module name or even type signature.</p>
 <a name="data-list"></a><h2>Data.List</h2>
 <p>The <span class="fixed">Data.List</span> module is all about lists, obviously. It provides some very useful functions for dealing with them. We've already met some of its functions (like <span class="fixed">map</span> and <span class="fixed">filter</span>) because the <span class="fixed">Prelude</span> module exports some functions from <span class="fixed">Data.List</span> for convenience. You don't have to import <span class="fixed">Data.List</span> via a qualified import because it doesn't clash with any <span class="fixed">Prelude</span> names except for those that <span class="fixed">Prelude</span> already steals from <span class="fixed">Data.List</span>. Let's take a look at some of the functions that we haven't met before.</p>
 <p><span class="label function">intersperse</span> takes an element and a list and then puts that element in between each pair of elements in the list. Here's a demonstration:</p>
@@ -707,7 +707,7 @@ fromList [(2,108),(3,62),(4,37)]
 ghci&gt; Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)]
 fromList [(3,104),(5,103),(6,339)]
 </pre>
-<p>These were just a few functions from <span class="fixed">Data.Map</span>. You can see a complete list of functions in the <a href="http://www.haskell.org/ghc/docs/latest/html/libraries/containers/Data-Map.html#v%3Aassocs">documentation</a>.</p>
+<p>These were just a few functions from <span class="fixed">Data.Map</span>. You can see a complete list of functions in the <a href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
 <a name="data-set"></a><h2>Data.Set</h2>
 <img src="http://s3.amazonaws.com/lyah/legosets.png" alt="legosets" class="right" width="150" height="236">
 <p>The <span class="fixed">Data.Set</span> module offers us, well, sets. Like sets from mathematics. Sets are kind of like a cross between lists and maps. All the elements in a set are unique. And because they're internally implemented with trees (much like maps in <span class="fixed">Data.Map</span>), they're ordered. Checking for membership, inserting, deleting, etc. is much faster than doing the same thing with lists. The most common operation when dealing with sets are inserting into a set, checking for membership and converting a set to a list.</p>
