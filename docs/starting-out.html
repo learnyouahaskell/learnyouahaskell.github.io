@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+   "https://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <title>Starting Out - Learn You a Haskell for Great Good!</title>
@@ -34,7 +34,7 @@
         <h1 style="margin-left:-3px">Starting Out</h1>
 <a name="ready-set-go"></a><h2>Ready, set, go!</h2>
 <p>
-<img src="http://s3.amazonaws.com/lyah/startingout.png" class="right" alt="egg" width="214" height="187">
+<img src="https://s3.amazonaws.com/lyah/startingout.png" class="right" alt="egg" width="214" height="187">
 Alright, let's get started! If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions. The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
 </p>
 <pre name="code" class="haskell: ghci">
@@ -114,7 +114,7 @@ Yikes! What GHCI is telling us here is that <span class="fixed">"llama"</span> i
 You may not have known it but we've been using functions now all along. For instance, <span class="fixed">*</span> is a function that takes two numbers and multiplies them. As you've seen, we call it by sandwiching it between them. This is what we call an <i>infix</i> function. Most functions that aren't used with numbers are <i>prefix</i> functions. Let's take a look at them. 
 </p>
 <p>
-<img src="http://s3.amazonaws.com/lyah/ringring.png" alt="phoen" class="right" width="160" height="161">
+<img src="https://s3.amazonaws.com/lyah/ringring.png" alt="phoen" class="right" width="160" height="161">
 Functions are usually prefix so from now on we won't explicitly state that a function is of the prefix form, we'll just assume it. In most imperative languages functions are called by writing the function name and then writing its parameters in parentheses, usually separated by commas. In Haskell, functions are called by writing the function name, a space and then the parameters, separated by spaces. For a start, we'll try calling one of the most boring functions in Haskell.
 </p>
 <pre name="code" class="haskell: ghci">
@@ -193,7 +193,7 @@ This is a very simple example of a common pattern you will see throughout Haskel
 doubleSmallNumber x = if x &gt; 100
                         then x
                         else x*2 </pre>
-<img src="http://s3.amazonaws.com/lyah/baby.png" alt="this is you" class="left" width="140" height="211">
+<img src="https://s3.amazonaws.com/lyah/baby.png" alt="this is you" class="left" width="140" height="211">
 <p>
 Right here we introduced Haskell's if statement. You're probably familiar with if statements from other languages. The difference between Haskell's if statement and if statements in imperative languages is that the else part is mandatory in Haskell. In imperative languages you can just skip a couple of steps if the condition isn't satisfied but in Haskell every expression and function must return something. We could have also written that if statement in one line but I find this way more readable. Another thing about the if statement in Haskell is that it is an <i>expression</i>. An expression is basically a piece of code that returns a value. <span class="fixed">5</span> is an expression because it returns 5, <span class="fixed">4 + 8</span> is an expression, <span class="fixed">x + y</span> is an expression because it returns the sum of <span class="fixed">x</span> and <span class="fixed">y</span>. Because the else is mandatory, an if statement will always return something and that's why it's an expression. If we wanted to add one to every number that's produced in our previous function, we could have written its body like this.
 </p>
@@ -210,7 +210,7 @@ There are two noteworthy things here. The first is that in the function name we 
 </p>
 <a name="an-intro-to-lists"></a><h2>An intro to lists</h2>
 <p>
-<img src="http://s3.amazonaws.com/lyah/list.png" alt="BUY A DOG" class="left" width="150" height="103">
+<img src="https://s3.amazonaws.com/lyah/list.png" alt="BUY A DOG" class="left" width="150" height="103">
 Much like shopping lists in the real world, lists in Haskell are very useful. It's the most used data structure and it can be used in a multitude of different ways to model and solve a whole bunch of problems. Lists are SO awesome. In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 </p>
 <p>
@@ -305,7 +305,7 @@ ghci&gt; last [5,4,3,2,1]
 ghci&gt; init [5,4,3,2,1]
 [5,4,3,2] </pre>
 <p>If we think of a list as a monster, here's what's what.</p>
-<img src="http://s3.amazonaws.com/lyah/listmonster.png" alt="list monster" class="center" width="580" height="290">
+<img src="https://s3.amazonaws.com/lyah/listmonster.png" alt="list monster" class="center" width="580" height="290">
 <p>But what happens if we try to get the head of an empty list?</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; head []
@@ -368,7 +368,7 @@ False
 <p>Those were a few basic functions that operate on lists. We'll take a look at more list functions <a href="modules.html#data-list">later</a></p>
 <a name="texas-ranges"></a><h2>Texas ranges</h2>
 <p>
-<img src="http://s3.amazonaws.com/lyah/cowboy.png" alt="draw" class="right" width="200" height="258">
+<img src="https://s3.amazonaws.com/lyah/cowboy.png" alt="draw" class="right" width="200" height="258">
 What if we want a list of all numbers between 1 and 20? Sure, we could just type them all out but obviously that's not a solution for gentlemen who demand excellence from their programming languages. Instead, we'll use ranges. Ranges are a way of making lists that are arithmetic sequences of elements that can be enumerated. Numbers can be enumerated. One, two, three, four, etc. Characters can also be enumerated. The alphabet is an enumeration of characters from A to Z. Names can't be enumerated. What comes after "John"? I don't know.
 </p>
 <p>To make a list containing all the natural numbers from 1 to 20, you just write <span class="fixed">[1..20]</span>. That is the equivalent of writing <span class="fixed">[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]</span> and there's no difference between writing one or the other except that writing out long enumeration sequences manually is stupid.</p>
@@ -414,8 +414,8 @@ ghci&gt; take 10 (repeat 5)
 <p>Although it's simpler to just use the <span class="label function">replicate</span> function if you want some number of the same element in a list. <span class="fixed">replicate 3 10</span> returns <span class="fixed">[10,10,10]</span>.</p>
 <a name="im-a-list-comprehension"></a><h2>I'm a list comprehension</h2>
 <p>
-<img src="http://s3.amazonaws.com/lyah/kermit.png" alt="frog" class="left" width="180" height="156">
-If you've ever taken a course in mathematics, you've probably run into <i>set comprehensions</i>. They're normally used for building more specific sets out of general sets. A basic comprehension for a set that contains the first ten even natural numbers is <img src="http://s3.amazonaws.com/lyah/setnotation.png" alt="set notation">. The part before the pipe is called the output function, <span class="fixed">x</span> is the variable, <span class="fixed">N</span> is the input set and <span class="fixed">x &lt;= 10</span> is the predicate. That means that the set contains the doubles of all natural numbers that satisfy the predicate.
+<img src="https://s3.amazonaws.com/lyah/kermit.png" alt="frog" class="left" width="180" height="156">
+If you've ever taken a course in mathematics, you've probably run into <i>set comprehensions</i>. They're normally used for building more specific sets out of general sets. A basic comprehension for a set that contains the first ten even natural numbers is <img src="https://s3.amazonaws.com/lyah/setnotation.png" alt="set notation">. The part before the pipe is called the output function, <span class="fixed">x</span> is the variable, <span class="fixed">N</span> is the input set and <span class="fixed">x &lt;= 10</span> is the predicate. That means that the set contains the doubles of all natural numbers that satisfy the predicate.
 </p>
 <p>If we wanted to write that in Haskell, we could do something like <span class="fixed">take 10 [2,4..]</span>. But what if we didn't want doubles of the first 10 natural numbers but some kind of more complex function applied on them? We could use a list comprehension for that. List comprehensions are very similar to set comprehensions. We'll stick to getting the first 10 even numbers for now. The list comprehension we could use is <span class="fixed">[x*2 | x &lt;- [1..10]]</span>. <span class="fixed">x</span> is drawn from <span class="fixed">[1..10]</span> and for every element in <span class="fixed">[1..10]</span> (which we have bound to <span class="fixed">x</span>), we get that element, only doubled. Here's that comprehension in action. </p>
 <pre name="code" class="haskell: ghci">
@@ -480,7 +480,7 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 </pre>
 <p>You can write list comprehensions across several lines. So if you're not in GHCI, it's better to split longer list comprehensions across multiple lines, especially if they're nested.</p>
 <a name="tuples"></a><h2>Tuples</h2>
-<img src="http://s3.amazonaws.com/lyah/tuple.png" alt="tuples" class="right" width="160" height="162">
+<img src="https://s3.amazonaws.com/lyah/tuple.png" alt="tuples" class="right" width="160" height="162">
 <p>In some ways, tuples are like lists &mdash; they are a way to store several values into a single value. However, there are a few fundamental differences. A list of numbers is a list of numbers. That's its type and it doesn't matter if it has only one number in it or an infinite amount of numbers. Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components. They are denoted with parentheses and their components are separated by commas.</p>
 <p>Another key difference is that they don't have to be homogenous. Unlike a list, a tuple can contain a combination of several types.</p>
 <p>Think about how we'd represent a two-dimensional vector in Haskell. One way would be to use a list. That would kind of work. So what if we wanted to put a couple of vectors in a list to represent points of a shape on a two-dimensional plane? We could do something like <span class="fixed">[[1,2],[8,11],[4,5]]</span>. The problem with that method is that we could also do stuff like <span class="fixed">[[1,2],[8,11,5],[4,5]]</span>, which Haskell has no problem with since it's still a list of lists with numbers but it kind of doesn't make sense. But a tuple of size two (also called a pair) is its own type, which means that a list can't have a couple of pairs in it and then a triple (a tuple of size three), so let's use that instead. Instead of surrounding the vectors with square brackets, we use parentheses: <span class="fixed">[(1,2),(8,11),(4,5)]</span>. What if we tried to make a shape like <span class="fixed">[(1,2),(8,11,5),(4,5)]</span>? Well, we'd get this error:</p>
@@ -525,7 +525,7 @@ ghci&gt; zip [5,3,2,6,2,7,2,5,4,6,6] ["im","a","turtle"]
 ghci&gt; zip [1..] ["apple", "orange", "cherry", "mango"]
 [(1,"apple"),(2,"orange"),(3,"cherry"),(4,"mango")]
 </pre>
-<img src="http://s3.amazonaws.com/lyah/pythag.png" alt="look at meee" class="center" width="350" height="315">
+<img src="https://s3.amazonaws.com/lyah/pythag.png" alt="look at meee" class="center" width="350" height="315">
 <p>Here's a problem that combines tuples and list comprehensions: which right triangle that has integers for all sides and all sides equal to or smaller than 10 has a perimeter of 24? First, let's try generating all triangles with sides equal to or smaller than 10:</p>
 <pre name="code" class="haskell: ghci">ghci&gt; let triangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..10], a &lt;- [1..10] ] </pre>
 <p>We're just drawing from three lists and our output function is combining them into a triple. If you evaluate that by typing out <span class="fixed">triangles</span> in GHCI, you'll get a list of all possible triangles with sides under or equal to 10. Next, we'll add a condition that they all have to be right triangles. We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.</p>
