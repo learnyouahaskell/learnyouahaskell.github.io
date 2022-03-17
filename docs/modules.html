@@ -227,7 +227,7 @@ ghci&gt; let w = "w00t" in zip (inits w) (tails w)
 <p>Let's use a fold to implement searching a list for a sublist.</p>
 <pre name="code" class="haskell:hs">
 search :: (Eq a) =&gt; [a] -&gt; [a] -&gt; Bool
-search needle haystack = 
+search needle haystack =
     let nlen = length needle
     in  foldl (\acc x -&gt; if take nlen x == needle then True else acc) False (tails haystack)
 </pre>
@@ -260,7 +260,7 @@ ghci&gt; partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
 ghci&gt; partition (&gt;3) [1,3,5,6,3,2,1,0,3,7]
 ([5,6,7],[1,3,3,2,1,0,3])
 </pre>
-<p>It's important to understand how this is different from <span class="fixed">span</span> and <span class="fixed">break</span>:</p> 
+<p>It's important to understand how this is different from <span class="fixed">span</span> and <span class="fixed">break</span>:</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; span (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
 ("BOB","sidneyMORGANeddy")
@@ -532,7 +532,7 @@ ghci&gt; decode 5 . encode 5 $ "This is a sentence"
 <p>Association lists (also called dictionaries) are lists that are used to store key-value pairs where ordering doesn't matter. For instance, we might use an association list to store phone numbers, where phone numbers would be the values and people's names would be the keys. We don't care in which order they're stored, we just want to get the right phone number for the right person.</p>
 <p>The most obvious way to represent association lists in Haskell would be by having a list of pairs. The first component in the pair would be the key, the second component the value. Here's an example of an association list with phone numbers:</p>
 <pre name="code" class="haskell:hs">
-phoneBook = 
+phoneBook =
     [("betty","555-2938")
     ,("bonnie","452-2928")
     ,("patsy","493-2928")
@@ -657,7 +657,7 @@ ghci&gt; Map.toList . Map.insert 9 2 $ Map.singleton 4 3
 <p><span class="label function">keys</span> and <span class="label function">elems</span> return lists of keys and values respectively. <span class="fixed">keys</span> is the equivalent of <span class="fixed">map fst . Map.toList</span> and <span class="fixed">elems</span> is the equivalent of <span class="fixed">map snd . Map.toList</span>.</p>
 <p><span class="label function">fromListWith</span> is a cool little function. It acts like <span class="fixed">fromList</span>, only it doesn't discard duplicate keys but it uses a function supplied to it to decide what to do with them. Let's say that a girl can have several numbers and we have an association list set up like this.</p>
 <pre name="code" class="haskell:hs">
-phoneBook = 
+phoneBook =
     [("betty","555-2938")
     ,("betty","342-2492")
     ,("bonnie","452-2928")
