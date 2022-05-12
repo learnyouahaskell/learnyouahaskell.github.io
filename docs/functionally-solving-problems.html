@@ -153,7 +153,7 @@ ghci&gt; solveRPN "43.2425 0.5 ^"
     <li>Think about how we're going to represent our data in Haskell</li>
     <li>Figure out how to operate on that data in Haskell so that we produce at a solution</li>
 </ul>
-<p>In the RPN calculator section, we first figured out that when calculating an expression by hand, we'd keep a sort of stack in our minds and then go over the expression one item at a time. We decided to use a list of strings to represent our expression. Finally, we used a left fold to walk oevr the list of strings while keeping a stack to produce a solution.</p>
+<p>In the RPN calculator section, we first figured out that when calculating an expression by hand, we'd keep a sort of stack in our minds and then go over the expression one item at a time. We decided to use a list of strings to represent our expression. Finally, we used a left fold to walk over the list of strings while keeping a stack to produce a solution.</p>
 <p>Okay, so how would we figure out the shortest path from Heathrow to London by hand? Well, we can just sort of look at the whole picture and try to guess what the shortest path is and hopefully we'll make a guess that's right. That solution works for very small inputs, but what if we have a road that has 10,000 sections? Yikes! We also won't be able to say for certain that our solution is the optimal one, we can just sort of say that we're pretty sure.</p>
 <p>That's not a good solution then. Here's a simplified picture of our road system:</p>
 <img src="https://s3.amazonaws.com/lyah/roads_simple.png" alt="roads" class="center" width="685" height="245">
