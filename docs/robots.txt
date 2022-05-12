@@ -1,4 +1,3 @@
 User-agent: *
-Allow: /
 
 Sitemap: https://learnyouahaskell.github.io/sitemap.xml
