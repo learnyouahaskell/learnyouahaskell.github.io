@@ -35,11 +35,10 @@
 <a name="ready-set-go"></a><h2>Ready, set, go!</h2>
 <p>
 <img src="https://s3.amazonaws.com/lyah/startingout.png" class="right" alt="egg" width="214" height="187">
-Alright, let's get started! If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions. The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
+Alright, let's get started! If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions. The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for Haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
 </p>
 <pre name="code" class="haskell: ghci">
-GHCi, version 6.8.2: http://www.haskell.org/ghc/  :? for help
-Loading package base ... linking ... done.
+GHCi, version 8.10.7: https://www.haskell.org/ghc/  :? for help
 Prelude&gt;</pre>
 <p>
 Congratulations, you're in GHCI! The prompt here is <span class="fixed">Prelude&gt;</span> but because it can get longer when you load stuff into the session, we're going to use <span class="fixed">ghci&gt;</span>. If you want to have the same prompt, just type in <span class="fixed">:set prompt "ghci&gt; "</span>. 
@@ -102,11 +101,10 @@ True </pre>
 What about doing <span class="fixed">5 + "llama"</span> or <span class="fixed">5 == True</span>? Well, if we try the first snippet, we get a big scary error message!
 </p>
 <pre name="code" class="haskell: ghci">
-No instance for (Num [Char])
-arising from a use of `+' at &lt;interactive&gt;:1:0-9
-Possible fix: add an instance declaration for (Num [Char])
-In the expression: 5 + "llama"
-In the definition of `it': it = 5 + "llama" </pre>
+    • No instance for (Num [Char]) arising from a use of ‘+’
+    • In the expression: 5 + "llama"
+      In an equation for ‘it’: it = 5 + "llama"
+</pre>
 <p>
 Yikes! What GHCI is telling us here is that <span class="fixed">"llama"</span> is not a number and so it doesn't know how to add it to 5. Even if it wasn't <span class="fixed">"llama"</span> but <span class="fixed">"four"</span> or <span class="fixed">"4"</span>, Haskell still wouldn't consider it to be a number. <span class="fixed">+</span> expects its left and right side to be numbers. If we tried to do <span class="fixed">True == 5</span>, GHCI would tell us that the types don't match. Whereas <span class="fixed">+</span> works only on things that are considered numbers, <span class="fixed">==</span> works on any two things that can be compared. But the catch is that they both have to be the same type of thing. You can't compare apples and oranges. We'll take a closer look at types a bit later. Note: you can do <span class="fixed">5 + 4.0</span> because <span class="fixed">5</span> is sneaky and can act like an integer or a floating-point number. <span class="fixed">4.0</span> can't act like an integer, so <span class="fixed">5</span> is the one that has to adapt.
 </p>
@@ -115,19 +113,17 @@ You may not have known it but we've been using functions now all along. For inst
 </p>
 <p>
 <img src="https://s3.amazonaws.com/lyah/ringring.png" alt="phoen" class="right" width="160" height="161">
-Functions are usually prefix so from now on we won't explicitly state that a function is of the prefix form, we'll just assume it. In most imperative languages functions are called by writing the function name and then writing its parameters in parentheses, usually separated by commas. In Haskell, functions are called by writing the function name, a space and then the parameters, separated by spaces. For a start, we'll try calling one of the most boring functions in Haskell.
+Functions are usually prefix, so from now on we won't explicitly state that a function is of the prefix form, we'll just assume it. In most imperative languages, functions are called by writing the function name and then writing its parameters in parentheses, usually separated by commas. In Haskell, functions are called by writing the function name, a space and then the parameters, separated by spaces. For a start, we'll try calling one of the most boring functions in Haskell.
 </p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; succ 8
 9 </pre>
 <p>
-The <span class="fixed">succ</span> function takes anything that has a defined successor and returns that successor. As you can see, we just separate the function name from the parameter with a space. Calling a function with several parameters is also simple. The functions <span class="fixed">min</span> and <span class="fixed">max</span> take two things that can be put in an order (like numbers!). <span class="fixed">min</span> returns the one that's lesser and <span class="fixed">max</span> returns the one that's greater. See for yourself:
+The <span class="fixed">succ</span> function takes anything that has a defined successor and returns that successor. As you can see, we just separate the function name from the parameter with a space. Calling a function with several parameters is also simple. The functions <span class="fixed">min</span> and <span class="fixed">max</span> take two things that can be put in an order (like integers!). <span class="fixed">min</span> returns the one that's lesser and <span class="fixed">max</span> returns the one that's greater. See for yourself:
 </p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; min 9 10
 9
-ghci&gt; min 3.4 3.2
-3.2
 ghci&gt; max 100 101
 101 </pre>
 
@@ -157,7 +153,7 @@ Functions are defined in a similar way that they are called. The function name i
 <pre name="code" class="haskell: ghci">
 ghci&gt; :l baby
 [1 of 1] Compiling Main             ( baby.hs, interpreted )
-Ok, modules loaded: Main.
+Ok, one module loaded.
 ghci&gt; doubleMe 9
 18
 ghci&gt; doubleMe 8.3
@@ -214,11 +210,10 @@ There are two noteworthy things here. The first is that in the function name we 
 Much like shopping lists in the real world, lists in Haskell are very useful. It's the most used data structure and it can be used in a multitude of different ways to model and solve a whole bunch of problems. Lists are SO awesome. In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 </p>
 <p>
-In Haskell, lists are a <em>homogenous</em> data structure. It stores several elements of the same type. That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters. And now, a list!
+In Haskell, lists are a <em>homogenous</em> data structure. They store several elements of the same type. That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters. And now, a list!
 </p>
-<div class="hintbox"><em>Note</em>: We can use the <span class="fixed">let</span> keyword to define a name right in GHCI. Doing <span class="fixed">let a = 1</span> inside GHCI is the equivalent of writing <span class="fixed">a = 1</span> in a script and then loading it. </div>
 <pre name="code" class="haskell: ghci">
-ghci&gt; let lostNumbers = [4,8,15,16,23,42]
+ghci&gt; lostNumbers = [4,8,15,16,23,42]
 ghci&gt; lostNumbers
 [4,8,15,16,23,42]
 </pre>
@@ -261,7 +256,7 @@ ghci&gt; [9.4,33.2,96.2,11.2,23.25] !! 1
 Lists can also contain lists. They can also contain lists that contain lists that contain lists &hellip;
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; let b = [[1,2,3,4],[5,3,3,3],[1,2,2,3,4],[1,2,3]]
+ghci&gt; b = [[1,2,3,4],[5,3,3,3],[1,2,2,3,4],[1,2,3]]
 ghci&gt; b
 [[1,2,3,4],[5,3,3,3],[1,2,2,3,4],[1,2,3]]
 ghci&gt; b ++ [[1,1,1,1]]
@@ -310,12 +305,12 @@ ghci&gt; init [5,4,3,2,1]
 <pre name="code" class="haskell: ghci">
 ghci&gt; head []
 *** Exception: Prelude.head: empty list</pre>
-<p>Oh my! It all blows up in our face! If there's no monster, it doesn't have a head. When using <span class="fixed">head</span>, <span class="fixed">tail</span>, <span class="fixed">last</span> and <span class="fixed">init</span>, be careful not to use them on empty lists. This error cannot be caught at compile time so it's always good practice to take precautions against accidentally telling Haskell to give you some elements from an empty list.
+<p>Oh my! It all blows up in our face! If there's no monster, it doesn't have a head. When using <span class="fixed">head</span>, <span class="fixed">tail</span>, <span class="fixed">last</span> and <span class="fixed">init</span>, be careful not to use them on empty lists. This error cannot be caught at compile time, so it's always good practice to take precautions against accidentally telling Haskell to give you some elements from an empty list.
 <p><span class="label function">length</span> takes a list and returns its length, obviously.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; length [5,4,3,2,1]
 5</pre>
-<p><span class="label function">null</span> checks if a list is empty. If it is, it returns <span class="fixed">True</span>, otherwise it returns <span class="fixed">False</span>. Use this function instead of <span class="fixed">xs == []</span> (if you have a list called <span class="fixed">xs</span>)</p>
+<p><span class="label function">null</span> checks if a list is empty. If it is, it returns <span class="fixed">True</span>, otherwise it returns <span class="fixed">False</span>. Use this function instead of <span class="fixed">xs == []</span> (if you have a list called <span class="fixed">xs</span>).</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; null [1,2,3]
 False
@@ -325,7 +320,7 @@ True</pre>
 <pre name="code" class="haskell: ghci">
 ghci&gt; reverse [5,4,3,2,1]
 [1,2,3,4,5]</pre>
-<p><span class="label function">take</span> takes number and a list. It extracts that many elements from the beginning of the list. Watch.</p>
+<p><span class="label function">take</span> takes a number and a list. It extracts that many elements from the beginning of the list. Watch.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; take 3 [5,4,3,2,1]
 [5,4,3]
@@ -365,7 +360,7 @@ True
 ghci&gt; 10 `elem` [3,4,5,6]
 False
 </pre>
-<p>Those were a few basic functions that operate on lists. We'll take a look at more list functions <a href="modules.html#data-list">later</a></p>
+<p>Those were a few basic functions that operate on lists. We'll take a look at more list functions <a href="modules.html#data-list">later</a>.</p>
 <a name="texas-ranges"></a><h2>Texas ranges</h2>
 <p>
 <img src="https://s3.amazonaws.com/lyah/cowboy.png" alt="draw" class="right" width="200" height="258">
@@ -452,8 +447,8 @@ ghci&gt; [ x*y | x &lt;- [2,5,10], y &lt;- [8,10,11], x*y &gt; 50]
 [55,80,100,110] </pre>
 <p>How about a list comprehension that combines a list of adjectives and a list of nouns &hellip; for epic hilarity.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; let nouns = ["hobo","frog","pope"]
-ghci&gt; let adjectives = ["lazy","grouchy","scheming"]
+ghci&gt; nouns = ["hobo","frog","pope"]
+ghci&gt; adjectives = ["lazy","grouchy","scheming"]
 ghci&gt; [adjective ++ " " ++ noun | adjective &lt;- adjectives, noun &lt;- nouns]
 ["lazy hobo","lazy frog","lazy pope","grouchy hobo","grouchy frog",
 "grouchy pope","scheming hobo","scheming frog","scheming pope"] </pre>
@@ -483,13 +478,15 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 <img src="https://s3.amazonaws.com/lyah/tuple.png" alt="tuples" class="right" width="160" height="162">
 <p>In some ways, tuples are like lists &mdash; they are a way to store several values into a single value. However, there are a few fundamental differences. A list of numbers is a list of numbers. That's its type and it doesn't matter if it has only one number in it or an infinite amount of numbers. Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components. They are denoted with parentheses and their components are separated by commas.</p>
 <p>Another key difference is that they don't have to be homogenous. Unlike a list, a tuple can contain a combination of several types.</p>
-<p>Think about how we'd represent a two-dimensional vector in Haskell. One way would be to use a list. That would kind of work. So what if we wanted to put a couple of vectors in a list to represent points of a shape on a two-dimensional plane? We could do something like <span class="fixed">[[1,2],[8,11],[4,5]]</span>. The problem with that method is that we could also do stuff like <span class="fixed">[[1,2],[8,11,5],[4,5]]</span>, which Haskell has no problem with since it's still a list of lists with numbers but it kind of doesn't make sense. But a tuple of size two (also called a pair) is its own type, which means that a list can't have a couple of pairs in it and then a triple (a tuple of size three), so let's use that instead. Instead of surrounding the vectors with square brackets, we use parentheses: <span class="fixed">[(1,2),(8,11),(4,5)]</span>. What if we tried to make a shape like <span class="fixed">[(1,2),(8,11,5),(4,5)]</span>? Well, we'd get this error:</p>
+<p>Think about how we'd represent a two-dimensional vector in Haskell. One way would be to use a list. That would kind of work. So what if we wanted to put a couple of vectors in a list to represent points of a shape on a two-dimensional plane? We could do something like <span class="fixed">[[1,2],[8,11],[4,5]]</span>. The problem with that method is that we could also do stuff like <span class="fixed">[[1,2],[8,11,5],[4,5]]</span>, which Haskell has no problem with since it's still a list of lists with numbers, but it kind of doesn't make sense. But a tuple of size two (also called a pair) is its own type, which means that a list can't have a couple of pairs in it and then a triple (a tuple of size three), so let's use that instead. Instead of surrounding the vectors with square brackets, we use parentheses: <span class="fixed">[(1,2),(8,11),(4,5)]</span>. What if we tried to make a shape like <span class="fixed">[(1,2),(8,11,5),(4,5)]</span>? Well, we'd get this error:</p>
 <pre name="code" class="haskell: ghci">
-Couldn't match expected type `(t, t1)'
-against inferred type `(t2, t3, t4)'
-In the expression: (8, 11, 5)
-In the expression: [(1, 2), (8, 11, 5), (4, 5)]
-In the definition of `it': it = [(1, 2), (8, 11, 5), (4, 5)]
+    • Couldn't match expected type ‘(a, b)’
+                  with actual type ‘(a0, b0, c0)’
+    • In the expression: (8, 11, 5)
+      In the expression: [(1, 2), (8, 11, 5), (4, 5)]
+      In an equation for ‘it’: it = [(1, 2), (8, 11, 5), (4, 5)]
+    • Relevant bindings include
+        it :: [(a, b)] (bound at &lt;interactive&gt;:1:1)
 </pre>
 <p>It's telling us that we tried to use a pair and a triple in the same list, which is not supposed to happen. You also couldn't make a list like <span class="fixed">[(1,2),("One",2)]</span> because the first element of the list is a pair of numbers and the second element is a pair consisting of a string and a number. Tuples can also be used to represent a wide variety of data. For instance, if we wanted to represent someone's name and age in Haskell, we could use a triple: <span class="fixed">("Christopher", "Walken", 55)</span>. As seen in this example, tuples can also contain lists.</p>
 <p>Use tuples when you know in advance how many components some piece of data should have. Tuples are much more rigid because each different size of tuple is its own type, so you can't write a general function to append an element to a tuple &mdash; you'd have to write a function for appending to a pair, one function for appending to a triple, one function for appending to a 4-tuple, etc.</p>
@@ -527,13 +524,13 @@ ghci&gt; zip [1..] ["apple", "orange", "cherry", "mango"]
 </pre>
 <img src="https://s3.amazonaws.com/lyah/pythag.png" alt="look at meee" class="center" width="350" height="315">
 <p>Here's a problem that combines tuples and list comprehensions: which right triangle that has integers for all sides and all sides equal to or smaller than 10 has a perimeter of 24? First, let's try generating all triangles with sides equal to or smaller than 10:</p>
-<pre name="code" class="haskell: ghci">ghci&gt; let triangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..10], a &lt;- [1..10] ] </pre>
+<pre name="code" class="haskell: ghci">ghci&gt; triangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..10], a &lt;- [1..10] ] </pre>
 <p>We're just drawing from three lists and our output function is combining them into a triple. If you evaluate that by typing out <span class="fixed">triangles</span> in GHCI, you'll get a list of all possible triangles with sides under or equal to 10. Next, we'll add a condition that they all have to be right triangles. We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; let rightTriangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2] </pre>
+ghci&gt; rightTriangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2] </pre>
 <p>We're almost done. Now, we just modify the function by saying that we want the ones where the perimeter is 24.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; let rightTriangles' = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
+ghci&gt; rightTriangles' = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
 ghci&gt; rightTriangles'
 [(6,8,10)]
 </pre>
