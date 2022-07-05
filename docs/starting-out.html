@@ -41,7 +41,7 @@ Alright, let's get started! If you're the sort of horrible person who doesn't re
 GHCi, version 8.10.7: https://www.haskell.org/ghc/  :? for help
 Prelude&gt;</pre>
 <p>
-Congratulations, you're in GHCI! The prompt here is <span class="fixed">Prelude&gt;</span> but because it can get longer when you load stuff into the session, we're going to use <span class="fixed">ghci&gt;</span>. If you want to have the same prompt, just type in <span class="fixed">:set prompt "ghci&gt; "</span>. 
+Congratulations, you're in GHCI! The prompt here is <span class="fixed">Prelude&gt;</span> but because it can get longer when you load stuff into the session, we're going to use <span class="fixed">ghci&gt;</span>. If you want to have the same prompt, just type in <span class="fixed">:set prompt "ghci&gt; "</span>.
 </p>
 <p>
 Here's some simple arithmetic.
@@ -78,7 +78,7 @@ False
 ghci&gt; True &amp;&amp; True
 True
 ghci&gt; False || True
-True 
+True
 ghci&gt; not False
 True
 ghci&gt; not (True &amp;&amp; True)
@@ -109,7 +109,7 @@ What about doing <span class="fixed">5 + "llama"</span> or <span class="fixed">5
 Yikes! What GHCI is telling us here is that <span class="fixed">"llama"</span> is not a number and so it doesn't know how to add it to 5. Even if it wasn't <span class="fixed">"llama"</span> but <span class="fixed">"four"</span> or <span class="fixed">"4"</span>, Haskell still wouldn't consider it to be a number. <span class="fixed">+</span> expects its left and right side to be numbers. If we tried to do <span class="fixed">True == 5</span>, GHCI would tell us that the types don't match. Whereas <span class="fixed">+</span> works only on things that are considered numbers, <span class="fixed">==</span> works on any two things that can be compared. But the catch is that they both have to be the same type of thing. You can't compare apples and oranges. We'll take a closer look at types a bit later. Note: you can do <span class="fixed">5 + 4.0</span> because <span class="fixed">5</span> is sneaky and can act like an integer or a floating-point number. <span class="fixed">4.0</span> can't act like an integer, so <span class="fixed">5</span> is the one that has to adapt.
 </p>
 <p>
-You may not have known it but we've been using functions now all along. For instance, <span class="fixed">*</span> is a function that takes two numbers and multiplies them. As you've seen, we call it by sandwiching it between them. This is what we call an <i>infix</i> function. Most functions that aren't used with numbers are <i>prefix</i> functions. Let's take a look at them. 
+You may not have known it but we've been using functions now all along. For instance, <span class="fixed">*</span> is a function that takes two numbers and multiplies them. As you've seen, we call it by sandwiching it between them. This is what we call an <i>infix</i> function. Most functions that aren't used with numbers are <i>prefix</i> functions. Let's take a look at them.
 </p>
 <p>
 <img src="https://s3.amazonaws.com/lyah/ringring.png" alt="phoen" class="right" width="160" height="161">
@@ -218,7 +218,7 @@ ghci&gt; lostNumbers
 [4,8,15,16,23,42]
 </pre>
 <p>
-As you can see, lists are denoted by square brackets and the values in the lists are separated by commas. If we tried a list like <span class="fixed">[1,2,'a',3,'b','c',4]</span>, Haskell would complain that characters (which are, by the way, denoted as a character between single quotes) are not numbers. Speaking of characters, strings are just lists of characters. <span class="fixed">"hello"</span> is just syntactic sugar for <span class="fixed">['h','e','l','l','o']</span>. Because strings are lists, we can use list functions on them, which is really handy. 
+As you can see, lists are denoted by square brackets and the values in the lists are separated by commas. If we tried a list like <span class="fixed">[1,2,'a',3,'b','c',4]</span>, Haskell would complain that characters (which are, by the way, denoted as a character between single quotes) are not numbers. Speaking of characters, strings are just lists of characters. <span class="fixed">"hello"</span> is just syntactic sugar for <span class="fixed">['h','e','l','l','o']</span>. Because strings are lists, we can use list functions on them, which is really handy.
 </p>
 <p>A common task is putting two lists together. This is done by using the <span class="fixed">++</span> operator. </p>
 <pre name="code" class="haskell: ghci">

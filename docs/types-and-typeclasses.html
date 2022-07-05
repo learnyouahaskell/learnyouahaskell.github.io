@@ -59,7 +59,7 @@ Functions also have types. When writing our own functions, we can choose to give
 </p>
 <pre name="code" class="haskell: hs">
 removeNonUppercase :: [Char] -&gt; [Char]
-removeNonUppercase st = [ c | c &lt;- st, c `elem` ['A'..'Z']] 
+removeNonUppercase st = [ c | c &lt;- st, c `elem` ['A'..'Z']]
 </pre>
 <p>
 <span class="fixed">removeNonUppercase</span> has a type of <span class="fixed">[Char] -&gt; [Char]</span>, meaning that it maps from a string to a string. That's because it takes one string as a parameter and returns another as a result. The <span class="fixed">[Char]</span> type is synonymous with <span class="fixed">String</span> so it's clearer if we write <span class="fixed">removeNonUppercase :: String -&gt; String</span>. We didn't have to give this function a type declaration because the compiler can infer by itself that it's a function from a string to a string but we did anyway. But how do we write out the type of a function that takes several parameters? Here's a simple function that takes three integers and adds them together:
@@ -165,7 +165,7 @@ ghci&gt; :t (&gt;)
 (&gt;) :: (Ord a) =&gt; a -&gt; a -&gt; Bool
 </pre>
 <p>
-All the types we covered so far except for functions are part of <span class="fixed">Ord</span>. <span class="fixed">Ord</span> covers all the standard comparing functions such as <span class="fixed">&gt;</span>, <span class="fixed">&lt;</span>, <span class="fixed">&gt;=</span> and <span class="fixed">&lt;=</span>. The <span class="fixed">compare</span> function takes two <span class="fixed">Ord</span> members of the same type and returns an ordering. <span class="label type">Ordering</span> is a type that can be <span class="fixed">GT</span>, <span class="fixed">LT</span> or <span class="fixed">EQ</span>, meaning <i>greater than</i>, <i>lesser than</i> and <i>equal</i>, respectively. 
+All the types we covered so far except for functions are part of <span class="fixed">Ord</span>. <span class="fixed">Ord</span> covers all the standard comparing functions such as <span class="fixed">&gt;</span>, <span class="fixed">&lt;</span>, <span class="fixed">&gt;=</span> and <span class="fixed">&lt;=</span>. The <span class="fixed">compare</span> function takes two <span class="fixed">Ord</span> members of the same type and returns an ordering. <span class="label type">Ordering</span> is a type that can be <span class="fixed">GT</span>, <span class="fixed">LT</span> or <span class="fixed">EQ</span>, meaning <i>greater than</i>, <i>lesser than</i> and <i>equal</i>, respectively.
 <p>To be a member of <span class="fixed">Ord</span>, a type must first have membership in the prestigious and exclusive <span class="fixed">Eq</span> club.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; "Abrakadabra" &lt; "Zebra"

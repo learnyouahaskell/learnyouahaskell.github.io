@@ -44,7 +44,7 @@
 maximum' :: (Ord a) =&gt; [a] -&gt; a
 maximum' [] = error "maximum of empty list"
 maximum' [x] = x
-maximum' (x:xs) 
+maximum' (x:xs)
     | x &gt; maxTail = x
     | otherwise = maxTail
     where maxTail = maximum' xs
@@ -108,7 +108,7 @@ elem' :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
 elem' a [] = False
 elem' a (x:xs)
     | a == x    = True
-    | otherwise = a `elem'` xs 
+    | otherwise = a `elem'` xs
 </pre>
 <p>Pretty simple and expected. If the head isn't the element then we check the tail. If we reach an empty list, the result is <span class="fixed">False</span>.</p>
 <a name="quick-sort"></a><h2>Quick, sort!</h2>
@@ -118,7 +118,7 @@ elem' a (x:xs)
 <pre name="code" class="haskell:hs">
 quicksort :: (Ord a) =&gt; [a] -&gt; [a]
 quicksort [] = []
-quicksort (x:xs) = 
+quicksort (x:xs) =
     let smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]
         biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]
     in  smallerSorted ++ [x] ++ biggerSorted

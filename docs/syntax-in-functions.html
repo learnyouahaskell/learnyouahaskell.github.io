@@ -198,7 +198,7 @@ ghci&gt; bmiTell 85 1.90
 <p>Another very simple example: let's implement our own <span class="fixed">max</span> function. If you remember, it takes two things that can be compared and returns the larger of them.</p>
 <pre name="code" class="haskell:hs">
 max' :: (Ord a) =&gt; a -&gt; a -&gt; a
-max' a b 
+max' a b
     | a &gt; b     = a
     | otherwise = b
 </pre>
@@ -267,7 +267,7 @@ bmiTell weight height
 initials :: String -&gt; String -&gt; String
 initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
     where (f:_) = firstname
-          (l:_) = lastname  
+          (l:_) = lastname
 </pre>
 <p>We could have done this pattern matching directly in the function's parameters (it would have been shorter and clearer actually) but this just goes to show that it's possible to do it in where bindings as well.</p>
 <p>Just like we've defined constants in where blocks, you can also define functions. Staying true to our healthy programming theme, let's make a function that takes a list of weight-height pairs and returns a list of BMIs.</p>
@@ -328,7 +328,7 @@ calcBmis xs = [bmi | (w, h) &lt;- xs, let bmi = w / h ^ 2]
 calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
 calcBmis xs = [bmi | (w, h) &lt;- xs, let bmi = w / h ^ 2, bmi &gt;= 25.0]
 </pre>
-<p>We can't use the <span class="fixed">bmi</span> name in the <span class="fixed">(w, h) &lt;- xs</span> part because it's defined prior to the <i>let</i> binding.</p> 
+<p>We can't use the <span class="fixed">bmi</span> name in the <span class="fixed">(w, h) &lt;- xs</span> part because it's defined prior to the <i>let</i> binding.</p>
 <p>We omitted the <i>in</i> part of the <i>let</i> binding when we used them in list comprehensions because the visibility of the names is already predefined there. However, we could use a <i>let in</i> binding in a predicate and the names defined would only be visible to that predicate. The <i>in</i> part can also be omitted when defining functions and constants directly in GHCi. If we do that, then the names will be visible throughout the entire interactive session.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; let zoot x y z = x * y + z
@@ -366,7 +366,7 @@ case expression of pattern -&gt; result
 <pre name="code" class="haskell:hs">
 describeList :: [a] -&gt; String
 describeList xs = "The list is " ++ case xs of [] -&gt; "empty."
-                                               [x] -&gt; "a singleton list." 
+                                               [x] -&gt; "a singleton list."
                                                xs -&gt; "a longer list."
 </pre>
 <p>They are useful for pattern matching against something in the middle of an expression. Because pattern matching in function definitions is syntactic sugar for case expressions, we could have also defined this like so:</p>
