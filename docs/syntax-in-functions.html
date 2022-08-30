@@ -167,33 +167,33 @@ ghci&gt; capital "Dracula"
 <a name="guards-guards"></a><h2>Guards, guards!</h2>
 <img src="https://s3.amazonaws.com/lyah/guards.png" alt="guards" class="left" width="83" height="180">
 <p>Whereas patterns are a way of making sure a value conforms to some form and deconstructing it, guards are a way of testing whether some property of a value (or several of them) are true or false. That sounds a lot like an if statement and it's very similar. The thing is that guards are a lot more readable when you have several conditions and they play really nicely with patterns.</p>
-<p>Instead of explaining their syntax, let's just dive in and make a function using guards. We're going to make a simple function that berates you differently depending on your <a href="http://en.wikipedia.org/wiki/Body_mass_index">BMI</a> (body mass index). Your BMI equals your weight divided by your height squared. If your BMI is less than 18.5, you're considered underweight. If it's anywhere from 18.5 to 25 then you're considered normal. 25 to 30 is overweight and more than 30 is obese. So here's the function (we won't be calculating it right now, this function just gets a BMI and tells you off)</p>
+<p>Instead of explaining their syntax, let's just dive in and make a function using guards. We're going to make a simple function that responds differently depending on the <a href="https://en.wikipedia.org/wiki/Density">density</a> given. Density (or specific mass) is a substance's mass per unit of volume (here, grams per liter). If a substance has a density of less than 1.2, it will float in air, as 1.2g/L is the density of air. If it has more than 1000g/L (the density of water), it will sink in water. Between are things (like people, usually) that will neither float away nor sink in water.
+
+    So here's the function (we won't be calculating density right now, this function just gets a density and responds)</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; String
-bmiTell bmi
-    | bmi &lt;= 18.5 = "You're underweight, you emo, you!"
-    | bmi &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | bmi &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise   = "You're a whale, congratulations!"
+densityTell :: (RealFloat a) =&gt; a -&gt; String
+densityTell density
+    | density &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | density &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Guards are indicated by pipes that follow a function's name and its parameters. Usually, they're indented a bit to the right and lined up. A guard is basically a boolean expression. If it evaluates to <span class="fixed">True</span>, then the corresponding function body is used. If it evaluates to <span class="fixed">False</span>, checking drops through to the next guard and so on. If we call this function with <span class="fixed">24.3</span>, it will first check if that's smaller than or equal to <span class="fixed">18.5</span>. Because it isn't, it falls through to the next guard. The check is carried out with the second guard and because 24.3 is less than 25.0, the second string is returned.</p>
+<p>Guards are indicated by pipes that follow a function's name and its parameters. Usually, they're indented a bit to the right and lined up. A guard is basically a boolean expression. If it evaluates to <span class="fixed">True</span>, then the corresponding function body is used. If it evaluates to <span class="fixed">False</span>, checking drops through to the next guard and so on. If we call this function with <span class="fixed">24.3</span>, it will first check if that's smaller than or equal to <span class="fixed">1.2</span>. Because it isn't, it falls through to the next guard. The check is carried out with the second guard and because <span class="fixed">24.3</span> is less than <span class="fixed">1000.0</span>, the second string is returned.</p>
 <p>This is very reminiscent of a big if else tree in imperative languages, only this is far better and more readable. While big if else trees are usually frowned upon, sometimes a problem is defined in such a discrete way that you can't get around them. Guards are a very nice alternative for this.</p>
 <p>Many times, the last guard is <span class="fixed">otherwise</span>. <span class="fixed">otherwise</span> is defined simply as <span class="fixed">otherwise = True</span> and catches everything. This is very similar to patterns, only they check if the input satisfies a pattern but guards check for boolean conditions. If all the guards of a function evaluate to <span class="fixed">False</span> (and we haven't provided an <span class="fixed">otherwise</span> catch-all guard), evaluation falls through to the next <em>pattern</em>. That's how patterns and guards play nicely together. If no suitable guards or patterns are found, an error is thrown.</p>
-<p>Of course we can use guards with functions that take as many parameters as we want. Instead of having the user calculate his own BMI before calling the function, let's modify this function so that it takes a height and weight and calculates it for us.</p>
+<p>Of course we can use guards with functions that take as many parameters as we want. Instead of having the user calculate the density of the substance on their own before calling the function, let's modify this function so that it takes a mass (in grams) and volume (in liters).</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
-bmiTell weight height
-    | weight / height ^ 2 &lt;= 18.5 = "You're underweight, you emo, you!"
-    | weight / height ^ 2 &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | weight / height ^ 2 &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise                 = "You're a whale, congratulations!"
+densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
+densityTell mass volume
+    | mass / volume &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Let's see if I'm fat ...</p>
+<p>Let's see if cat food will float ...</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; bmiTell 85 1.90
-"You're supposedly normal. Pffft, I bet you're ugly!"
+ghci&gt; densityTell 400 1
+"Have fun swimming, but watch out for sharks!"
 </pre>
-<p>Yay! I'm not fat! But Haskell just called me ugly. Whatever!</p>
+<p>Looks like it will! At least until it dissolves into the pool... Yuck!</p>
 <p>Note that there's no <span class="fixed">=</span> right after the function name and its parameters, before the first guard. Many newbies get syntax errors because they sometimes put it there.</p>
 <p>Another very simple example: let's implement our own <span class="fixed">max</span> function. If you remember, it takes two things that can be compared and returns the larger of them.</p>
 <pre name="code" class="haskell:hs">
