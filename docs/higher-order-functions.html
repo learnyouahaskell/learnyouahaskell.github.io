@@ -198,8 +198,8 @@ ghci&gt; let notNull x = not (null x) in filter notNull [[1,2,3],[],[3,4,5],[2,2
 [[1,2,3],[3,4,5],[2,2]]
 ghci&gt; filter (`elem` ['a'..'z']) "u LaUgH aT mE BeCaUsE I aM diFfeRent"
 "uagameasadifeent"
-ghci&gt; filter (`elem` ['A'..'Z']) "i lauGh At You BecAuse u r aLL the Same"
-"GAYBALLS"
+ghci&gt; filter (`elem` ['A'..'Z']) "i Laugh At you Because u R All The Same"
+"LABRATS"
 </pre>
 <p>All of this could also be achived with list comprehensions by the use of predicates. There's no set rule for when to use <span class="fixed">map</span> and <span class="fixed">filter</span> versus using list comprehension, you just have to decide what's more readable depending on the code and the context. The <span class="fixed">filter</span> equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical <span class="fixed">&amp;&amp;</span> function. </p>
 <p>Remember our quicksort function from the <a href="recursion.html">previous chapter</a>? We used list comprehensions to filter out the list elements that are smaller than (or equal to) and larger than the pivot. We can achieve the same functionality in a more readable way by using <span class="fixed">filter</span>:</p>

@@ -167,33 +167,33 @@ ghci&gt; capital "Dracula"
 <a name="guards-guards"></a><h2>Guards, guards!</h2>
 <img src="https://s3.amazonaws.com/lyah/guards.png" alt="guards" class="left" width="83" height="180">
 <p>Whereas patterns are a way of making sure a value conforms to some form and deconstructing it, guards are a way of testing whether some property of a value (or several of them) are true or false. That sounds a lot like an if statement and it's very similar. The thing is that guards are a lot more readable when you have several conditions and they play really nicely with patterns.</p>
-<p>Instead of explaining their syntax, let's just dive in and make a function using guards. We're going to make a simple function that berates you differently depending on your <a href="http://en.wikipedia.org/wiki/Body_mass_index">BMI</a> (body mass index). Your BMI equals your weight divided by your height squared. If your BMI is less than 18.5, you're considered underweight. If it's anywhere from 18.5 to 25 then you're considered normal. 25 to 30 is overweight and more than 30 is obese. So here's the function (we won't be calculating it right now, this function just gets a BMI and tells you off)</p>
+<p>Instead of explaining their syntax, let's just dive in and make a function using guards. We're going to make a simple function that responds differently depending on the <a href="https://en.wikipedia.org/wiki/Density">density</a> given. Density (or specific mass) is a substance's mass per unit of volume (here, grams per liter). If a substance has a density of less than 1.2, it will float in air, as 1.2g/L is the density of air. If it has more than 1000g/L (the density of water), it will sink in water. Between are things (like people, usually) that will neither float away nor sink in water.
+
+    So here's the function (we won't be calculating density right now, this function just gets a density and responds)</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; String
-bmiTell bmi
-    | bmi &lt;= 18.5 = "You're underweight, you emo, you!"
-    | bmi &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | bmi &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise   = "You're a whale, congratulations!"
+densityTell :: (RealFloat a) =&gt; a -&gt; String
+densityTell density
+    | density &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | density &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Guards are indicated by pipes that follow a function's name and its parameters. Usually, they're indented a bit to the right and lined up. A guard is basically a boolean expression. If it evaluates to <span class="fixed">True</span>, then the corresponding function body is used. If it evaluates to <span class="fixed">False</span>, checking drops through to the next guard and so on. If we call this function with <span class="fixed">24.3</span>, it will first check if that's smaller than or equal to <span class="fixed">18.5</span>. Because it isn't, it falls through to the next guard. The check is carried out with the second guard and because 24.3 is less than 25.0, the second string is returned.</p>
+<p>Guards are indicated by pipes that follow a function's name and its parameters. Usually, they're indented a bit to the right and lined up. A guard is basically a boolean expression. If it evaluates to <span class="fixed">True</span>, then the corresponding function body is used. If it evaluates to <span class="fixed">False</span>, checking drops through to the next guard and so on. If we call this function with <span class="fixed">24.3</span>, it will first check if that's smaller than or equal to <span class="fixed">1.2</span>. Because it isn't, it falls through to the next guard. The check is carried out with the second guard and because <span class="fixed">24.3</span> is less than <span class="fixed">1000.0</span>, the second string is returned.</p>
 <p>This is very reminiscent of a big if else tree in imperative languages, only this is far better and more readable. While big if else trees are usually frowned upon, sometimes a problem is defined in such a discrete way that you can't get around them. Guards are a very nice alternative for this.</p>
 <p>Many times, the last guard is <span class="fixed">otherwise</span>. <span class="fixed">otherwise</span> is defined simply as <span class="fixed">otherwise = True</span> and catches everything. This is very similar to patterns, only they check if the input satisfies a pattern but guards check for boolean conditions. If all the guards of a function evaluate to <span class="fixed">False</span> (and we haven't provided an <span class="fixed">otherwise</span> catch-all guard), evaluation falls through to the next <em>pattern</em>. That's how patterns and guards play nicely together. If no suitable guards or patterns are found, an error is thrown.</p>
-<p>Of course we can use guards with functions that take as many parameters as we want. Instead of having the user calculate his own BMI before calling the function, let's modify this function so that it takes a height and weight and calculates it for us.</p>
+<p>Of course we can use guards with functions that take as many parameters as we want. Instead of having the user calculate the density of the substance on their own before calling the function, let's modify this function so that it takes a mass (in grams) and volume (in liters).</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
-bmiTell weight height
-    | weight / height ^ 2 &lt;= 18.5 = "You're underweight, you emo, you!"
-    | weight / height ^ 2 &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | weight / height ^ 2 &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise                 = "You're a whale, congratulations!"
+densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
+densityTell mass volume
+    | mass / volume &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Let's see if I'm fat ...</p>
+<p>Let's see if cat food will float ...</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; bmiTell 85 1.90
-"You're supposedly normal. Pffft, I bet you're ugly!"
+ghci&gt; densityTell 400 1
+"Have fun swimming, but watch out for sharks!"
 </pre>
-<p>Yay! I'm not fat! But Haskell just called me ugly. Whatever!</p>
+<p>Looks like it will! At least until it dissolves into the pool... Yuck!</p>
 <p>Note that there's no <span class="fixed">=</span> right after the function name and its parameters, before the first guard. Many newbies get syntax errors because they sometimes put it there.</p>
 <p>Another very simple example: let's implement our own <span class="fixed">max</span> function. If you remember, it takes two things that can be compared and returns the larger of them.</p>
 <pre name="code" class="haskell:hs">
@@ -222,45 +222,41 @@ GT
 </pre>
 <div class="hintbox"><em>Note:</em> Not only can we call functions as infix with backticks, we can also define them using backticks. Sometimes it's easier to read that way.</div>
 <a name="where"></a><h2>Where!?</h2>
-<p>In the previous section, we defined a BMI calculator function and berator like this:</p>
+<p>In the previous section, we defined a density calculator function and responder like this:</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
-bmiTell weight height
-    | weight / height ^ 2 &lt;= 18.5 = "You're underweight, you emo, you!"
-    | weight / height ^ 2 &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | weight / height ^ 2 &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise                   = "You're a whale, congratulations!"
+densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
+densityTell mass volume
+    | mass / volume &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Notice that we repeat ourselves here three times. We repeat ourselves three times. Repeating yourself (three times) while programming is about as desirable as getting kicked inna head. Since we repeat the same expression three times, it would be ideal if we could calculate it once, bind it to a name and then use that name instead of the expression. Well, we can modify our function like this:</p>
+<p>Notice that we repeat ourselves here two times. We repeat ourselves two times. Repeating yourself (two times) while programming is about as desirable as getting kicked inna head. Since we repeat the same expression twice, it would be ideal if we could calculate it once, bind it to a name and then use that name instead of the expression. Well, we can modify our function like this:</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
-bmiTell weight height
-    | bmi &lt;= 18.5 = "You're underweight, you emo, you!"
-    | bmi &lt;= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | bmi &lt;= 30.0 = "You're fat! Lose some weight, fatty!"
-    | otherwise   = "You're a whale, congratulations!"
-    where bmi = weight / height ^ 2
+densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
+densityTell mass volume
+    | density &lt; 1.2 = "Wow! You're going for a ride in the sky!"
+    | density &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
+    where density = mass / volume
 </pre>
-<p>We put the keyword <span class="fixed">where</span> after the guards (usually it's best to indent it as much as the pipes are indented) and then we define several names or functions. These names are visible across the guards and give us the advantage of not having to repeat ourselves. If we decide that we want to calculate BMI a bit differently, we only have to change it once. It also improves readability by giving names to things and can make our programs faster since stuff like our <span class="fixed">bmi</span> variable here is calculated only once. We could go a bit overboard and present our function like this:</p>
+<p>We put the keyword <span class="fixed">where</span> after the guards (usually it's best to indent it as much as the pipes are indented) and then we define several names or functions. These names are visible across the guards and give us the advantage of not having to repeat ourselves. If we decide that we want to calculate density a bit differently, we only have to change it once. It also improves readability by giving names to things and can make our programs faster since stuff like our <span class="fixed">density</span> variable here is calculated only once. We could go a bit overboard and present our function like this:</p>
 <pre name="code" class="haskell:hs">
-bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
-bmiTell weight height
-    | bmi &lt;= skinny = "You're underweight, you emo, you!"
-    | bmi &lt;= normal = "You're supposedly normal. Pffft, I bet you're ugly!"
-    | bmi &lt;= fat    = "You're fat! Lose some weight, fatty!"
-    | otherwise     = "You're a whale, congratulations!"
-    where bmi = weight / height ^ 2
-          skinny = 18.5
-          normal = 25.0
-          fat = 30.0
+densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
+densityTell mass volume
+    | density &lt; air = "Wow! You're going for a ride in the sky!"
+    | density &lt;= water = "Have fun swimming, but watch out for sharks!"
+    | otherwise   = "If it's sink or swim, you're going to sink."
+    where density = mass / volume
+          air = 1.2
+          water = 1000.0
 </pre>
 <p>The names we define in the where section of a function are only visible to that function, so we don't have to worry about them polluting the namespace of other functions. Notice that all the names are aligned at a single column. If we don't align them nice and proper, Haskell gets confused because then it doesn't know they're all part of the same block.</p>
 <p><i>where</i> bindings aren't shared across function bodies of different patterns. If you want several patterns of one function to access some shared name, you have to define it globally.</p>
 <p>You can also use where bindings to <em>pattern match</em>! We could have rewritten the where section of our previous function as:</p>
 <pre name="code" class="haskell:hs">
     ...
-    where bmi = weight / height ^ 2
-          (skinny, normal, fat) = (18.5, 25.0, 30.0)
+    where density = mass / volume
+          (air, water) = (1.2, 1000.0)
 </pre>
 <p>Let's make another fairly trivial function where we get a first and a last name and give someone back their initials.</p>
 <pre name="code" class="haskell:hs">
@@ -270,13 +266,13 @@ initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
           (l:_) = lastname
 </pre>
 <p>We could have done this pattern matching directly in the function's parameters (it would have been shorter and clearer actually) but this just goes to show that it's possible to do it in where bindings as well.</p>
-<p>Just like we've defined constants in where blocks, you can also define functions. Staying true to our healthy programming theme, let's make a function that takes a list of weight-height pairs and returns a list of BMIs.</p>
+<p>Just like we've defined constants in where blocks, you can also define functions. Staying true to our solids programming theme, let's make a function that takes a list of mass-volume pairs and returns a list of densities.</p>
 <pre name="code" class="haskell:hs">
-calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
-calcBmis xs = [bmi w h | (w, h) &lt;- xs]
-    where bmi weight height = weight / height ^ 2
+calcDensities :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
+calcDensities xs = [density m v | (m, v) &lt;- xs]
+    where density mass volume = mass / volume
 </pre>
-<p>And that's all there is to it! The reason we had to introduce <span class="fixed">bmi</span> as a function in this example is because we can't just calculate one BMI from the function's parameters. We have to examine the list passed to the function and there's a different BMI for every pair in there.</p>
+<p>And that's all there is to it! The reason we had to introduce <span class="fixed">density</span> as a function in this example is because we can't just calculate one density from the function's parameters. We have to examine the list passed to the function and there's a different density for every pair in there.</p>
 <p><i>where</i> bindings can also be nested. It's a common idiom to make a function and define some helper function in its <i>where</i> clause and then to give those functions helper functions as well, each with its own <i>where</i> clause.</p>
 <a name="let-it-be"></a><h2>Let it be</h2>
 <p>
@@ -318,17 +314,17 @@ ghci&gt; (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar = "there!"
 ghci&gt; (let (a,b,c) = (1,2,3) in a+b+c) * 100
 600
 </pre>
-<p>You can also put <i>let</i> bindings inside list comprehensions. Let's rewrite our previous example of calculating lists of weight-height pairs to use a <i>let</i> inside a list comprehension instead of defining an auxiliary function with a <i>where</i>.</p>
+<p>You can also put <i>let</i> bindings inside list comprehensions. Let's rewrite our previous example of calculating lists of mass-volume pairs to use a <i>let</i> inside a list comprehension instead of defining an auxiliary function with a <i>where</i>.</p>
 <pre name="code" class="haskell:hs">
-calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
-calcBmis xs = [bmi | (w, h) &lt;- xs, let bmi = w / h ^ 2]
+calcDensities :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
+calcDensities xs = [density | (m, v) &lt;- xs, let density = m / v]
 </pre>
-<p>We include a <i>let</i> inside a list comprehension much like we would a predicate, only it doesn't filter the list, it only binds to names. The names defined in a <i>let</i> inside a list comprehension are visible to the output function (the part before the <span class="fixed">|</span>) and all predicates and sections that come after of the binding. So we could make our function return only the BMIs of fat people:</p>
+<p>We include a <i>let</i> inside a list comprehension much like we would a predicate, only it doesn't filter the list, it only binds to names. The names defined in a <i>let</i> inside a list comprehension are visible to the output function (the part before the <span class="fixed">|</span>) and all predicates and sections that come after of the binding. So we could make our function return only the densities that will float in air:</p>
 <pre name="code" class="haskell:hs">
-calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
-calcBmis xs = [bmi | (w, h) &lt;- xs, let bmi = w / h ^ 2, bmi &gt;= 25.0]
+calcDensities :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]
+calcDensities xs = [density | (m, v) &lt;- xs, let density = m / v, density &lt; 1.2]
 </pre>
-<p>We can't use the <span class="fixed">bmi</span> name in the <span class="fixed">(w, h) &lt;- xs</span> part because it's defined prior to the <i>let</i> binding.</p>
+<p>We can't use the <span class="fixed">density</span> name in the <span class="fixed">(m, v) &lt;- xs</span> part because it's defined prior to the <i>let</i> binding.</p>
 <p>We omitted the <i>in</i> part of the <i>let</i> binding when we used them in list comprehensions because the visibility of the names is already predefined there. However, we could use a <i>let in</i> binding in a predicate and the names defined would only be visible to that predicate. The <i>in</i> part can also be omitted when defining functions and constants directly in GHCi. If we do that, then the names will be visible throughout the entire interactive session.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; let zoot x y z = x * y + z

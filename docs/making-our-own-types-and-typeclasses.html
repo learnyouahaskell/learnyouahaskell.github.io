@@ -472,7 +472,7 @@ ghci&gt; [minBound .. maxBound] :: [Day]
 <p>That's pretty awesome.</p>
 <a name="type-synonyms"></a><h2>Type synonyms</h2>
 <p>
- Previously, we mentioned that when writing types, the <span class="fixed">[Char]</span> and <span class="fixed">String </span> types are equivalent and interchangeable. That's implemented with <em>type synonyms</em>. Type synonyms don't really do anything per se, they're just about giving some types different names so that they make more sense to someone reading our code and documentation. Here's how the standard library defines <span class="fixed">String</span> as a synonym for <span class="fixed">[Char]</span>.
+ Previously, we mentioned that when writing types, the <span class="fixed">[Char]</span> and <span class="fixed">String</span> types are equivalent and interchangeable. That's implemented with <em>type synonyms</em>. Type synonyms don't really do anything per se, they're just about giving some types different names so that they make more sense to someone reading our code and documentation. Here's how the standard library defines <span class="fixed">String</span> as a synonym for <span class="fixed">[Char]</span>.
  </p>
  <pre name="code" class="haskell:hs">
  type String = [Char]
