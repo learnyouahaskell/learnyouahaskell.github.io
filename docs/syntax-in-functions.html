@@ -198,7 +198,7 @@ ghci&gt; densityTell 400 1
 <p>Another very simple example: let's implement our own <span class="fixed">max</span> function. If you remember, it takes two things that can be compared and returns the larger of them.</p>
 <pre name="code" class="haskell:hs">
 max' :: (Ord a) =&gt; a -&gt; a -&gt; a
-max' a b 
+max' a b
     | a &gt; b     = a
     | otherwise = b
 </pre>
@@ -263,7 +263,7 @@ densityTell mass volume
 initials :: String -&gt; String -&gt; String
 initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
     where (f:_) = firstname
-          (l:_) = lastname  
+          (l:_) = lastname
 </pre>
 <p>We could have done this pattern matching directly in the function's parameters (it would have been shorter and clearer actually) but this just goes to show that it's possible to do it in where bindings as well.</p>
 <p>Just like we've defined constants in where blocks, you can also define functions. Staying true to our solids programming theme, let's make a function that takes a list of mass-volume pairs and returns a list of densities.</p>
@@ -362,7 +362,7 @@ case expression of pattern -&gt; result
 <pre name="code" class="haskell:hs">
 describeList :: [a] -&gt; String
 describeList xs = "The list is " ++ case xs of [] -&gt; "empty."
-                                               [x] -&gt; "a singleton list." 
+                                               [x] -&gt; "a singleton list."
                                                xs -&gt; "a longer list."
 </pre>
 <p>They are useful for pattern matching against something in the middle of an expression. Because pattern matching in function definitions is syntactic sugar for case expressions, we could have also defined this like so:</p>

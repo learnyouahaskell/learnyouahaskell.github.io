@@ -178,11 +178,11 @@ ghci&gt; map fst [(1,2),(3,5),(6,3),(2,6),(2,5)]
 [1,3,6,2,2]
 </pre>
 <p>You've probably noticed that each of these could be achieved with a list comprehension. <span class="fixed">map (+3) [1,5,3,1,6]</span> is the same as writing <span class="fixed">[x+3 | x &lt;- [1,5,3,1,6]]</span>. However, using <span class="fixed">map</span> is much more readable for cases where you only apply some function to the elements of a list, especially once you're dealing with maps of maps and then the whole thing with a lot of brackets can get a bit messy.</p>
-<p><span class="label function">filter</span> is a function that takes a predicate (a predicate is a function that tells whether something is true or not, so in our case, a function that returns a boolean value) and a list and then returns the list of elements that satisfy the predicate. The type signature and implementation go like this:</p> 
+<p><span class="label function">filter</span> is a function that takes a predicate (a predicate is a function that tells whether something is true or not, so in our case, a function that returns a boolean value) and a list and then returns the list of elements that satisfy the predicate. The type signature and implementation go like this:</p>
 <pre name="code" class="haskell:hs">
 filter :: (a -&gt; Bool) -&gt; [a] -&gt; [a]
 filter _ [] = []
-filter p (x:xs) 
+filter p (x:xs)
     | p x       = x : filter p xs
     | otherwise = filter p xs
 </pre>
@@ -204,11 +204,11 @@ ghci&gt; filter (`elem` ['A'..'Z']) "i Laugh At you Because u R All The Same"
 <p>All of this could also be achived with list comprehensions by the use of predicates. There's no set rule for when to use <span class="fixed">map</span> and <span class="fixed">filter</span> versus using list comprehension, you just have to decide what's more readable depending on the code and the context. The <span class="fixed">filter</span> equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical <span class="fixed">&amp;&amp;</span> function. </p>
 <p>Remember our quicksort function from the <a href="recursion.html">previous chapter</a>? We used list comprehensions to filter out the list elements that are smaller than (or equal to) and larger than the pivot. We can achieve the same functionality in a more readable way by using <span class="fixed">filter</span>:</p>
 <pre name="code" class="haskell:ghci">
-quicksort :: (Ord a) =&gt; [a] -&gt; [a]  
-quicksort [] = []  
-quicksort (x:xs) =   
+quicksort :: (Ord a) =&gt; [a] -&gt; [a]
+quicksort [] = []
+quicksort (x:xs) =
     let smallerSorted = quicksort (filter (&lt;=x) xs)
-        biggerSorted = quicksort (filter (&gt;x) xs) 
+        biggerSorted = quicksort (filter (&gt;x) xs)
     in  smallerSorted ++ [x] ++ biggerSorted
 </pre>
 <img src="https://s3.amazonaws.com/lyah/map.png" alt="map" class="left" width="210" height="115">
@@ -318,7 +318,7 @@ ghci&gt; sum' [3,5,2,1]
 </pre>
 <img src="https://s3.amazonaws.com/lyah/foldl.png" alt="foldl" class="left" width="172" height="348">
 <p>Let's take an in-depth look into how this fold happens. <span class="fixed">\acc x -&gt; acc + x</span> is the binary function. <span class="fixed">0</span> is the starting value and <span class="fixed">xs</span> is the list to be folded up. Now first, <span class="fixed">0</span> is used as the <span class="fixed">acc</span> parameter to the binary function and <span class="fixed">3</span> is used as the <span class="fixed">x</span> (or the current element) parameter. <span class="fixed">0 + 3</span> produces a <span class="fixed">3</span> and it becomes the new accumulator value, so to speak. Next up, <span class="fixed">3</span> is used as the accumulator value and <span class="fixed">5</span> as the current element and <span class="fixed">8</span> becomes the new accumulator value. Moving forward, <span class="fixed">8</span> is the accumulator value, <span class="fixed">2</span> is the current element, the new accumulator value is <span class="fixed">10</span>. Finally, that <span class="fixed">10</span> is used as the accumulator value and <span class="fixed">1</span> as the current element, producing an <span class="fixed">11</span>. Congratulations, you've done a fold! </p>
-<p>This professional diagram on the left illustrates how a fold happens, step by step (day by day!). The greenish brown number is the accumulator value. You can see how the list is sort of consumed up from the left side by the accumulator. Om nom nom nom! If we take into account that functions are curried, we can write this implementation ever more succinctly, like so:</p> 
+<p>This professional diagram on the left illustrates how a fold happens, step by step (day by day!). The greenish brown number is the accumulator value. You can see how the list is sort of consumed up from the left side by the accumulator. Om nom nom nom! If we take into account that functions are curried, we can write this implementation ever more succinctly, like so:</p>
 <pre name="code" class="haskell:hs">
 sum' :: (Num a) =&gt; [a] -&gt; a
 sum' = foldl (+) 0
@@ -340,7 +340,7 @@ map' f xs = foldr (\x acc -&gt; f x : acc) [] xs
 <p>Of course, we could have implemented this function with a left fold too. It would be <span class="fixed">map' f xs = foldl (\acc x -&gt; acc ++ [f x]) [] xs</span>, but the thing is that the <span class="fixed">++</span> function is much more expensive than <span class="fixed">:</span>, so we usually use right folds when we're building up new lists from a list.</p>
 <img src="https://s3.amazonaws.com/lyah/washmachine.png" alt="fold this up!" class="right" width="250" height="205">
 <p>If you reverse a list, you can do a right fold on it just like you would have done a left fold and vice versa. Sometimes you don't even have to do that. The <span class="fixed">sum</span> function can be implemented pretty much the same with a left and right fold. One big difference is that right folds work on infinite lists, whereas left ones don't! To put it plainly, if you take an infinite list at some point and you fold it up from the right, you'll eventually reach the beginning of the list. However, if you take an infinite list at a point and you try to fold it up from the left, you'll never reach an end! </p>
-<p><em>Folds can be used to implement any function where you traverse a list once, element by element, and then return something based on that. Whenever you want to traverse a list to return something, chances are you want a fold.</em> That's why folds are, along with maps and filters, one of the most useful types of functions in functional programming.</p> 
+<p><em>Folds can be used to implement any function where you traverse a list once, element by element, and then return something based on that. Whenever you want to traverse a list to return something, chances are you want a fold.</em> That's why folds are, along with maps and filters, one of the most useful types of functions in functional programming.</p>
 <p>The <span class="label function">foldl1</span> and <span class="label function">foldr1</span> functions work much like <span class="fixed">foldl</span> and <span class="fixed">foldr</span>, only you don't need to provide them with an explicit starting value. They assume the first (or last) element of the list to be the starting value and then start the fold with the element next to it. With that in mind, the <span class="fixed">sum</span> function can be implemented like so: <span class="fixed">sum = foldl1 (+)</span>. Because they depend on the lists they fold up having at least one element, they cause runtime errors if called with empty lists. <span class="fixed">foldl</span> and <span class="fixed">foldr</span>, on the other hand, work fine with empty lists. When making a fold, think about how it acts on an empty list. If the function doesn't make sense when given an empty list, you can probably use a <span class="fixed">foldl1</span> or <span class="fixed">foldr1</span> to implement it.</p>
 <p>Just to show you how powerful folds are, we're going to implement a bunch of standard library functions by using folds:</p>
 <pre name="code" class="haskell:hs">
@@ -437,8 +437,8 @@ ghci&gt; map (negate . sum . tail) [[1..5],[3..6],[1..7]]
 <p>But what about functions that take several parameters? Well, if we want to use them in function composition, we usually have to partially apply them just so much that each function takes just one parameter. <span class="fixed"> sum (replicate 5 (max 6.7 8.9))</span> can be rewritten as <span class="fixed">(sum . replicate 5 . max 6.7) 8.9</span> or as <span class="fixed">sum . replicate 5 . max 6.7 $ 8.9</span>. What goes on in here is this: a function that takes what <span class="fixed">max 6.7</span> takes and applies <span class="fixed">replicate 5</span> to it is created. Then, a function that takes the result of that and does a sum of it is created. Finally, that function is called with <span class="fixed">8.9</span>. But normally, you just read that as: apply <span class="fixed">8.9</span> to <span class="fixed">max 6.7</span>, then apply <span class="fixed">replicate 5</span> to that and then apply <span class="fixed">sum</span> to that. If you want to rewrite an expression with a lot of parentheses by using function composition, you can start by putting the last parameter of the innermost function after a <span class="fixed">$</span> and then just composing all the other function calls, writing them without their last parameter and putting dots between them. If you have <span class="fixed">replicate 100 (product (map (*3) (zipWith max [1,2,3,4,5] [4,5,6,7,8])))</span>, you can write it as <span class="fixed">replicate 100 . product . map (*3) . zipWith max [1,2,3,4,5] $ [4,5,6,7,8]</span>. If the expression ends with three parentheses, chances are that if you translate it into function composition, it'll have three composition operators.</p>
 <p>Another common use of function composition is defining functions in the so-called point free style (also called the point<i>less</i> style). Take for example this function that we wrote earlier:</p>
 <pre name="code" class="haskell:hs">
-sum' :: (Num a) =&gt; [a] -&gt; a   
-sum' xs = foldl (+) 0 xs   
+sum' :: (Num a) =&gt; [a] -&gt; a
+sum' xs = foldl (+) 0 xs
 </pre>
 <p>The <span class="fixed">xs</span> is exposed on both right sides. Because of currying, we can omit the <span class="fixed">xs</span> on both sides, because calling <span class="fixed">foldl (+) 0</span> creates a function that takes a list. Writing the function as <span class="fixed">sum' = foldl (+) 0</span> is called writing it in point free style. How would we write this in point free style?</p>
 <pre name="code" class="haskell:hs">
@@ -452,7 +452,7 @@ fn = ceiling . negate . tan . cos . max 50
 <p>In the section about maps and filters, we solved a problem of finding the sum of all odd squares that are smaller than 10,000. Here's what the solution looks like when put into a function.</p>
 <pre name="code" class="haskell:hs">
 oddSquareSum :: Integer
-oddSquareSum = sum (takeWhile (&lt;10000) (filter odd (map (^2) [1..])))   
+oddSquareSum = sum (takeWhile (&lt;10000) (filter odd (map (^2) [1..])))
 </pre>
 <p>Being such a fan of function composition, I would have probably written that like this:</p>
 <pre name="code" class="haskell:hs">
@@ -462,7 +462,7 @@ oddSquareSum = sum . takeWhile (&lt;10000) . filter odd . map (^2) $ [1..]
 <p>However, if there was a chance of someone else reading that code, I would have written it like this:</p>
 <pre name="code" class="haskell:hs">
 oddSquareSum :: Integer
-oddSquareSum = 
+oddSquareSum =
     let oddSquares = filter odd $ map (^2) [1..]
         belowLimit = takeWhile (&lt;10000) oddSquares
     in  sum belowLimit

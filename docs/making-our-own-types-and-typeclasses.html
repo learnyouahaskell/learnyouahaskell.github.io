@@ -47,7 +47,7 @@ data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647
 <p>The first and last value constructors are the minimum and maximum possible values of <span class="fixed">Int</span>. It's not actually defined like this, the ellipses are here because we omitted a heapload of numbers, so this is just for illustrative purposes.</p>
 <p>Now, let's think about how we would represent a shape in Haskell. One way would be to use tuples. A circle could be denoted as <span class="fixed">(43.1, 55.0, 10.4)</span> where the first and second fields are the coordinates of the circle's center and the third field is the radius. Sounds OK, but those could also represent a 3D vector or anything else. A better solution would be to make our own type to represent a shape. Let's say that a shape can be a circle or a rectangle. Here it is:</p>
 <pre name="code" class="haskell:hs">
-data Shape = Circle Float Float Float | Rectangle Float Float Float Float 
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
 </pre>
 <p>
 Now what's this? Think of it like this. The <span class="fixed">Circle</span> value constructor has three fields, which take floats. So when we write a value constructor, we can optionally add some types after it and those types define the values it will contain. Here, the first two fields are the coordinates of its center, the third one its radius. The <span class="fixed">Rectangle</span> value constructor has four fields which accept floats. The first two are the coordinates to its upper left corner and the second two are coordinates to its lower right one.
@@ -132,7 +132,7 @@ Rectangle (Point 60.0 23.0) (Point 100.0 123.0)
 <p>You can, of course, export your data types in your modules. To do that, just write your type along with the functions you are exporting and then add some parentheses and in them specify the value constructors that you want to export for it, separated by commas. If you want to export all the value constructors for a given type, just write <span class="fixed">..</span>.</p>
 <p>If we wanted to export the functions and types that we defined here in a module, we could start it off like this:</p>
 <pre name="code" class="haskell:hs">
-module Shapes 
+module Shapes
 ( Point(..)
 , Shape(..)
 , surface
@@ -258,7 +258,7 @@ data Car = Car { company :: String
 <pre name="code" class="haskell:hs">
 data Car a b c = Car { company :: a
                      , model :: b
-                     , year :: c 
+                     , year :: c
                      } deriving (Show)
 </pre>
 <p>But would we really benefit? The answer is: probably no, because we'd just end up defining functions that only work on the <span class="fixed">Car String String Int</span> type. For instance, given our first definition of <span class="fixed">Car</span>, we could make a function that displays the car's properties in a nice little text.</p>
@@ -389,14 +389,14 @@ ghci&gt; read "Person {firstName =\"Michael\", lastName =\"Diamond\", age = 43}"
 True
 </pre>
 <p>We can also read parameterized types, but we have to fill in the type parameters. So we can't do <span class="fixed">read "Just 't'" :: Maybe a</span>, but we can do <span class="fixed">read "Just 't'" :: Maybe Char</span>.</p>
-<p>We can derive instances for the <span class="fixed">Ord</span> type class, 
-which is for types that have values that can be ordered. If we compare two 
-values of the same type that were made using different constructors, the value 
-which was made with a constructor that's defined first is considered smaller. 
+<p>We can derive instances for the <span class="fixed">Ord</span> type class,
+which is for types that have values that can be ordered. If we compare two
+values of the same type that were made using different constructors, the value
+which was made with a constructor that's defined first is considered smaller.
 For instance, consider the <span class="fixed">Bool</span>
-type, which can have a value of either <span class="fixed">False</span> or <span 
-class="fixed">True</span>. For the purpose of seeing how it behaves when 
-compared, we can think of it as being implemented like 
+type, which can have a value of either <span class="fixed">False</span> or <span
+class="fixed">True</span>. For the purpose of seeing how it behaves when
+compared, we can think of it as being implemented like
 this:</p>
 <pre name="code" class="haskell:hs">
 data Bool = False | True deriving (Ord)
@@ -428,7 +428,7 @@ data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 </pre>
 <p>Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the <span class="fixed">Enum</span> typeclass. The <span class="fixed">Enum</span> typeclass is for things that have predecessors and successors. We can also make it part of the <span class="fixed">Bounded</span> typeclass, which is for things that have a lowest possible value and highest possible value. And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.</p>
 <pre name="code" class="haskell:hs">
-data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday 
+data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
            deriving (Eq, Ord, Show, Read, Bounded, Enum)
 </pre>
 <p>Because it's part of the <span class="fixed">Show</span> and <span class="fixed">Read</span> typeclasses, we can convert values of this type to and from strings.</p>
@@ -487,13 +487,13 @@ ghci&gt; [minBound .. maxBound] :: [Day]
  </p>
 <pre name="code" class="haskell:hs">
 phoneBook :: [(String,String)]
-phoneBook =    
-    [("betty","555-2938")   
-    ,("bonnie","452-2928")   
-    ,("patsy","493-2928")   
-    ,("lucille","205-2928")   
-    ,("wendy","939-8282")   
-    ,("penny","853-2492")   
+phoneBook =
+    [("betty","555-2938")
+    ,("bonnie","452-2928")
+    ,("patsy","493-2928")
+    ,("lucille","205-2928")
+    ,("wendy","939-8282")
+    ,("penny","853-2492")
     ]</pre>
  <p>We see that the type of <span class="fixed">phoneBook</span> is <span class="fixed">[(String,String)]</span>. That tells us that it's an association list that maps from strings to strings, but not much else. Let's make a type synonym to convey some more information in the type declaration.</p>
 <pre name="code" class="haskell:hs">
@@ -558,16 +558,16 @@ type LockerMap = Map.Map Int (LockerState, Code)
 <p>Simple stuff. We introduce a new data type to represent whether a locker is taken or free and we make a type synonym for the locker code. We also make a type synonym for the type that maps from integers to pairs of locker state and code. And now, we're going to make a function that searches for the code in a locker map. We're going to use an <span class="fixed">Either String Code</span> type to represent our result, because our lookup can fail in two ways &mdash; the locker can be taken, in which case we can't tell the code or the locker number might not exist at all. If the lookup fails, we're just going to use a <span class="fixed">String</span> to tell what's happened. </p>
 <pre name="code" class="haskell:hs">
 lockerLookup :: Int -&gt; LockerMap -&gt; Either String Code
-lockerLookup lockerNumber map = 
-    case Map.lookup lockerNumber map of 
+lockerLookup lockerNumber map =
+    case Map.lookup lockerNumber map of
         Nothing -&gt; Left $ "Locker number " ++ show lockerNumber ++ " doesn't exist!"
-        Just (state, code) -&gt; if state /= Taken 
+        Just (state, code) -&gt; if state /= Taken
                                 then Right code
                                 else Left $ "Locker " ++ show lockerNumber ++ " is already taken!"</pre>
 <p>We do a normal lookup in the map. If we get a <span class="fixed">Nothing</span>, we return a value of type <span class="fixed">Left String</span>, saying that the locker doesn't exist at all. If we do find it, then we do an additional check to see if the locker is taken. If it is, return a <span class="fixed">Left</span> saying that it's already taken. If it isn't, then return a value of type <span class="fixed">Right Code</span>, in which we give the student the correct code for the locker. It's actually a <span class="fixed">Right String</span>, but we introduced that type synonym to introduce some additional documentation into the type declaration. Here's an example map:</p>
 <pre name="code" class="haskell:hs">
 lockers :: LockerMap
-lockers = Map.fromList 
+lockers = Map.fromList
     [(100,(Taken,"ZD39I"))
     ,(101,(Free,"JAH3I"))
     ,(103,(Free,"IQSA9"))
@@ -640,7 +640,7 @@ infixr 5  ++
 <p>So we'll just steal that for our own list. We'll name the function <span class="fixed">.++</span>.</p>
 <pre name="code" class="haskell:hs">
 infixr 5  .++
-(.++) :: List a -&gt; List a -&gt; List a 
+(.++) :: List a -&gt; List a -&gt; List a
 Empty .++ ys = ys
 (x :-: xs) .++ ys = x :-: (xs .++ ys)
 </pre>
@@ -669,12 +669,12 @@ singleton x = Node x EmptyTree EmptyTree
 
 treeInsert :: (Ord a) =&gt; a -&gt; Tree a -&gt; Tree a
 treeInsert x EmptyTree = singleton x
-treeInsert x (Node a left right) 
+treeInsert x (Node a left right)
     | x == a = Node x left right
     | x &lt; a  = Node a (treeInsert x left) right
     | x &gt; a  = Node a left (treeInsert x right)
 </pre>
-<p>The <span class="fixed">singleton</span> function is just a shortcut for making a node that has something and then two empty sub-trees. In the insertion function, we first have the edge condition as a pattern. If we've reached an empty sub-tree, that means we're where we want and instead of the empty tree, we put a singleton tree with our element. If we're not inserting into an empty tree, then we have to check some things. First off, if the element we're inserting is equal to the root element, just return a tree that's the same. If it's smaller, return a tree that has the same root value, the same right sub-tree but instead of its left sub-tree, put a tree that has our value inserted into it. Same (but the other way around) goes if our value is bigger than the root element.</p> 
+<p>The <span class="fixed">singleton</span> function is just a shortcut for making a node that has something and then two empty sub-trees. In the insertion function, we first have the edge condition as a pattern. If we've reached an empty sub-tree, that means we're where we want and instead of the empty tree, we put a singleton tree with our element. If we're not inserting into an empty tree, then we have to check some things. First off, if the element we're inserting is equal to the root element, just return a tree that's the same. If it's smaller, return a tree that has the same root value, the same right sub-tree but instead of its left sub-tree, put a tree that has our value inserted into it. Same (but the other way around) goes if our value is bigger than the root element.</p>
 <p>Next up, we're going to make a function that checks if some element is in the tree. First, let's define the edge condition. If we're looking for an element in an empty tree, then it's certainly not there. Okay. Notice how this is the same as the edge condition when searching for elements in lists. If we're looking for an element in an empty list, it's not there. Anyway, if we're not looking for an element in an empty tree, then we check some things. If the element in the root node is what we're looking for, great! If it's not, what then? Well, we can take advantage of knowing that all the left elements are smaller than the root node. So if the element we're looking for is smaller than the root node, check to see if it's in the left sub-tree. If it's bigger, check to see if it's in the right sub-tree.</p>
 <pre name="code" class="haskell:hs">
 treeElem :: (Ord a) =&gt; a -&gt; Tree a -&gt; Bool
@@ -822,7 +822,7 @@ instance YesNo [a] where
 <p>Notice how we just put in a type parameter <span class="fixed">a</span> in there to make the list a concrete type, even though we don't make any assumptions about the type that's contained in the list. What else, hmm ... I know, <span class="fixed">Bool</span> itself also holds true-ness and false-ness and it's pretty obvious which is which.</p>
 <pre name="code" class="haskell:hs">
 instance YesNo Bool where
-    yesno = id   
+    yesno = id
 </pre>
 <p>Huh? What's <span class="fixed">id</span>? It's just a standard library function that takes a parameter and returns the same thing, which is what we would be writing here anyway.</p>
 <p>Let's make <span class="fixed">Maybe a</span> an instance too.</p>
@@ -990,7 +990,7 @@ Either String Int :: *
 </pre>
 <p>When we wanted to make <span class="fixed">Either</span> a part of the <span class="fixed">Functor</span> typeclass, we had to partially apply it because <span class="fixed">Functor</span> wants types that take only one parameter while <span class="fixed">Either</span> takes two. In other words, <span class="fixed">Functor</span> wants types of kind <span class="fixed">* -&gt; *</span> and so we had to partially apply <span class="fixed">Either</span> to get a type of kind <span class="fixed">* -&gt; *</span> instead of its original kind <span class="fixed">* -&gt; * -&gt; *</span>. If we look at the definition of <span class="fixed">Functor</span> again</p>
 <pre name="code" class="haskell:hs">
-class Functor f where 
+class Functor f where
     fmap :: (a -&gt; b) -&gt; f a -&gt; f b
 </pre>
 <p>we see that the <span class="fixed">f</span> type variable is used as a type that takes one concrete type to produce a concrete type. We know it has to produce a concrete type because it's used as the type of a value in a function. And from that, we can deduce that types that want to be friends with <span class="fixed">Functor</span> have to be of kind <span class="fixed">* -&gt; *</span>.</p>
