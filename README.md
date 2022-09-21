@@ -25,7 +25,7 @@ The whole thing is completely free to read online, but the original is also avai
 - [ ] add exercises
 - [ ] update (just overall, the outdated parts)
 
-Don't forget to star star the GitHub repository if you like it! 🙂
+Don't forget to star the GitHub repository if you like it! 🙂
 
 ## Discussion
 Discuss the ideas with the community.
