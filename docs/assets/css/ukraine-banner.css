@@ -1,0 +1,64 @@
+body {
+  margin-top: 35px;
+}
+.support-ukraine,
+.support-ukraine:visited {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  background: rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  z-index: 10000;
+  text-decoration: none;
+  font-family: arial;
+}
+.support-ukraine:hover,
+.support-ukraine:active {
+  background: black;
+  display: flex;
+  background: rgb(80, 80, 80);
+  text-decoration: none;
+}
+.support-ukraine__flag {
+  height: 25px;
+  margin-right: 10px;
+}
+.support-ukraine__flag__blue {
+  width: 40px;
+  height: 12.5px;
+  background: #005bbb;
+}
+.support-ukraine__flag__yellow {
+  width: 40px;
+  height: 12.5px;
+  background: #ffd500;
+}
+.support-ukraine__label {
+  color: white;
+  font-size: 12px;
+  line-height: 25px;
+}
+
+.support-ukraine__label--ru {
+  display: none;
+}
+
+body[lang="en"] .support-ukraine__label--en {
+  display: block;
+}
+
+body[lang="en"] .support-ukraine__label--ru {
+  display: none;
+}
+
+body[lang="ru"] .support-ukraine__label--ru {
+  display: block;
+}
+
+body[lang="ru"] .support-ukraine__label--en {
+  display: none;
+}
