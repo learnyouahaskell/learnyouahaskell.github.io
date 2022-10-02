@@ -9,7 +9,7 @@
 	@import url('reset.css');
 	@import url('style.css');
 </style>
-<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="shortcut icon" href="assets/images/favicon.png" type="image/png">
         <link rel="prev" href="higher-order-functions.html">
         <link rel="next" href="making-our-own-types-and-typeclasses.html">
 <link type="text/css" rel="stylesheet" href="sh/Styles/SyntaxHighlighter.css">
@@ -33,7 +33,7 @@
             </div>
         <h1>Modules</h1>
 <a name="loading-modules"></a><h2>Loading modules</h2>
-<img src="https://s3.amazonaws.com/lyah/modules.png" alt="modules" class="right" width="230" height="162">
+<img src="assets/images/modules/modules.png" alt="modules" class="right" width="230" height="162">
 <p>A Haskell module is a collection of related functions, types and typeclasses. A Haskell program is a collection of modules where the main module loads up the other modules and then uses the functions defined in them to do something. Having code split up into several modules has quite a lot of advantages. If a module is generic enough, the functions it exports can be used in a multitude of different programs. If your own code is separated into self-contained modules which don't rely on each other too much (we also say they are loosely coupled), you can reuse them later on. It makes the whole deal of writing code more manageable by having it split into several parts, each of which has some sort of purpose.</p>
 <p>The Haskell standard library is split into modules, each of them contains functions and types that are somehow related and serve some common purpose. There's a module for manipulating lists, a module for concurrent programming, a module for dealing with complex numbers, etc. All the functions, types and typeclasses that we've dealt with so far were part of the <span class="fixed">Prelude</span> module, which is imported by default. In this chapter, we're going to examine a few useful modules and the functions that they have. But first, we're going to see how to import modules.</p>
 <p>The syntax for importing modules in a Haskell script is <span class="fixed">import &lt;module name&gt;</span>. This must be done before defining any functions, so imports are usually done at the top of the file. One script can, of course, import several modules. Just put each import statement into a separate line. Let's import the <span class="fixed">Data.List</span> module, which has a bunch of useful functions for working with lists and use a function that it exports to create a function that tells us how many unique elements a list has.</p>
@@ -101,7 +101,7 @@ ghci&gt; map sum $ transpose [[0,3,5,9],[10,0,0,9],[8,5,1,-1]]
 [18,8,6,17]
 </pre>
 <p>When we transpose these three lists, the third powers are then in the first row, the second powers in the second one and so on. Mapping <span class="fixed">sum</span> to that produces our desired result.</p>
-<img src="https://s3.amazonaws.com/lyah/legolists.png" alt="shopping lists" class="left" width="230" height="212">
+<img src="assets/images/modules/legolists.png" alt="shopping lists" class="left" width="230" height="212">
 <p><span class="label function">foldl'</span> and <span class="label function">foldl1'</span> are stricter versions of their respective lazy incarnations. When using lazy folds on really big lists, you might often get a stack overflow error. The culprit for that is that due to the lazy nature of the folds, the accumulator value isn't actually updated as the folding happens. What actually happens is that the accumulator kind of makes a promise that it will compute its value when asked to actually produce the result (also called a thunk). That happens for every intermediate accumulator and all those thunks overflow your stack. The strict folds aren't lazy buggers and actually compute the intermediate values as they go along instead of filling up your stack with thunks. So if you ever get stack overflow errors when doing lazy folds, try switching to their strict versions.</p>
 <p><span class="label function">concat</span> flattens a list of lists into just a list of elements.</p>
 <pre name="code" class="haskell:ghci">
@@ -409,7 +409,7 @@ ghci&gt; sortBy (compare `on` length) xs
 </pre>
 <p>Awesome! <span class="fixed">compare `on` length</span> ... man, that reads almost like real English! If you're not sure how exactly the <span class="fixed">on</span> works here, <span class="fixed">compare `on` length</span> is the equivalent of <span class="fixed">\x y -&gt; length x `compare` length y</span>. When you're dealing with <i>By</i> functions that take an equality function, you usually do <span class="fixed">(==) `on` something</span> and when you're dealing with <i>By</i> functions that take an ordering function, you usually do <span class="fixed">compare `on` something</span>.</p>
 <a name="data-char"></a><h2>Data.Char</h2>
-<img src="https://s3.amazonaws.com/lyah/legochar.png" alt="lego char" class="right" width="230" height="323">
+<img src="assets/images/modules/legochar.png" alt="lego char" class="right" width="230" height="323">
 <p>The <span class="fixed">Data.Char</span> module does what its name suggests. It exports functions that deal with characters. It's also helpful when filtering and mapping over strings because they're just lists of characters.</p>
 <p><span class="fixed">Data.Char</span> exports a bunch of predicates over characters. That is, functions that take a character and tell us whether some assumption about it is true or false. Here's what they are:</p>
 <p><span class="label function">isControl</span> checks whether a character is a control character.</p>
@@ -569,7 +569,7 @@ Just "555-2938"
 ghci&gt; findKey "wilma" phoneBook
 Nothing
 </pre>
-<img src="https://s3.amazonaws.com/lyah/legomap.png" alt="legomap" class="left" width="214" height="240">
+<img src="assets/images/modules/legomap.png" alt="legomap" class="left" width="214" height="240">
 <p>Works like a charm! If we have the girl's phone number, we <span class="fixed">Just</span> get the number, otherwise we get <span class="fixed">Nothing</span>.</p>
 <p>We just implemented the <span class="fixed">lookup</span> function from <span class="fixed">Data.List</span>. If we want to find the corresponding value to a key, we have to traverse all the elements of the list until we find it. The <span class="fixed">Data.Map</span> module offers association lists that are much faster (because they're internally implemented with trees) and also it provides a lot of utility functions. From now on, we'll say we're working with maps instead of association lists.</p>
 <p>Because <span class="fixed">Data.Map</span> exports functions that clash with the <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> ones, we'll do a qualified import.
@@ -709,7 +709,7 @@ fromList [(3,104),(5,103),(6,339)]
 </pre>
 <p>These were just a few functions from <span class="fixed">Data.Map</span>. You can see a complete list of functions in the <a href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
 <a name="data-set"></a><h2>Data.Set</h2>
-<img src="https://s3.amazonaws.com/lyah/legosets.png" alt="legosets" class="right" width="150" height="236">
+<img src="assets/images/modules/legosets.png" alt="legosets" class="right" width="150" height="236">
 <p>The <span class="fixed">Data.Set</span> module offers us, well, sets. Like sets from mathematics. Sets are kind of like a cross between lists and maps. All the elements in a set are unique. And because they're internally implemented with trees (much like maps in <span class="fixed">Data.Map</span>), they're ordered. Checking for membership, inserting, deleting, etc. is much faster than doing the same thing with lists. The most common operation when dealing with sets are inserting into a set, checking for membership and converting a set to a list.</p>
 <p>Because the names in <span class="fixed">Data.Set</span> clash with a lot of <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> names, we do a qualified import.</p>
 <p>Put this import statement in a script:</p>
@@ -794,7 +794,7 @@ ghci&gt; nub "HEY WHATS CRACKALACKIN"
 </pre>
 <p><span class="fixed">setNub</span> is generally faster than <span class="fixed">nub</span> on big lists but as you can see, <span class="fixed">nub</span> preserves the ordering of the list's elements, while <span class="fixed">setNub</span> does not.</p>
 <a name="making-our-own-modules"></a><h2>Making our own modules</h2>
-<img src="https://s3.amazonaws.com/lyah/making_modules.png" alt="making modules" class="right" width="345" height="224">
+<img src="assets/images/modules/making_modules.png" alt="making modules" class="right" width="345" height="224">
 <p>We've looked at some cool modules so far, but how do we make our own module? Almost every programming language enables you to split your code up into several files and Haskell is no different. When making programs, it's good practice to take functions and types that work towards a similar purpose and put them in a module. That way, you can easily reuse those functions in other programs by just importing your module.</p>
 <p>Let's see how we can make our own modules by making a little module that provides some functions for calculating the volume and area of a few geometrical objects. We'll start by creating a file called <span class="fixed">Geometry.hs</span>.</p>
 <p>We say that a module <i>exports</i> functions. What that means is that when I import a module, I can use the functions that it exports. It can define functions that its functions call internally, but we can only see and use the ones that it exports.</p>
