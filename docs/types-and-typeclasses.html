@@ -9,7 +9,7 @@
 	@import url('reset.css');
 	@import url('style.css');
 </style>
-<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="shortcut icon" href="assets/images/favicon.png" type="image/png">
         <link rel="prev" href="starting-out.html">
         <link rel="next" href="syntax-in-functions.html">
 <link type="text/css" rel="stylesheet" href="sh/Styles/SyntaxHighlighter.css">
@@ -33,7 +33,7 @@
             </div>
         <h1>Types and Typeclasses</h1>
 <a name="believe-the-type"></a><h2>Believe the type</h2>
-<img src="https://s3.amazonaws.com/lyah/cow.png" alt="moo" class="left" width="180" height="127">
+<img src="assets/images/types-and-typeclasses/cow.png" alt="moo" class="left" width="180" height="127">
 <p>Previously we mentioned that Haskell has a static type system. The type of every expression is known at compile time, which leads to safer code. If you write a program where you try to divide a boolean type with some number, it won't even compile. That's good because it's better to catch such errors at compile time instead of having your program crash. Everything in Haskell has a type, so the compiler can reason quite a lot about your program before compiling it.</p>
 <p>Unlike Java or Pascal, Haskell has type inference. If we write a number, we don't have to tell Haskell it's a number. It can <i>infer</i> that on its own, so we don't have to explicitly write out the types of our functions and expressions to get things done. We covered some of the basics of Haskell with only a very superficial glance at types. However, understanding the type system is a very important part of learning Haskell.</p>
 <p>A type is a kind of label that every expression has. It tells us in which category of things that expression fits. The expression <span class="fixed">True</span> is a boolean, <span class="fixed">"hello"</span> is a string, etc.</p>
@@ -51,7 +51,7 @@ ghci&gt; :t 4 == 5
 4 == 5 :: Bool
 </pre>
 <p>
-<img src="https://s3.amazonaws.com/lyah/bomb.png" alt="bomb" class="right" width="171" height="144">
+<img src="assets/images/types-and-typeclasses/bomb.png" alt="bomb" class="right" width="171" height="144">
 Here we see that doing <span class="fixed">:t</span> on an expression prints out the expression followed by <span class="fixed">::</span> and its type. <span class="fixed">::</span> is read as "has type of". Explicit types are always denoted with the first letter in capital case. <span class="fixed">'a'</span>, as it would seem, has a type of <span class="fixed">Char</span>. It's not hard to conclude that it stands for <i>character</i>. <span class="fixed">True</span> is of a <span class="fixed">Bool</span> type. That makes sense. But what's this? Examining the type of <span class="fixed">"HELLO!"</span> yields a <span class="fixed">[Char]</span>. The square brackets denote a list. So we read that as it being <i>a list of characters</i>. Unlike lists, each tuple length has its own type. So the expression of <span class="fixed">(True, 'a')</span> has a type of <span class="fixed">(Bool, Char)</span>, whereas an expression such as <span class="fixed">('a','b','c')</span> would have the type of <span class="fixed">(Char, Char, Char)</span>. <span class="fixed">4 == 5</span> will always return <span class="fixed">False</span>, so its type is <span class="fixed">Bool</span>.
 </p>
 <p>
@@ -119,7 +119,7 @@ ghci&gt; :t head
 head :: [a] -&gt; a
 </pre>
 <p>
-<img src="https://s3.amazonaws.com/lyah/box.png" alt="box" class="left" width="130" height="93">
+<img src="assets/images/types-and-typeclasses/box.png" alt="box" class="left" width="130" height="93">
 Hmmm! What is this <span class="fixed">a</span>? Is it a type? Remember that we previously stated that types are written in capital case, so it can't exactly be a type. Because it's not in capital case it's actually a <em>type variable</em>. That means that <span class="fixed">a</span> can be of any type. This is much like generics in other languages, only in Haskell it's much more powerful because it allows us to easily write very general functions if they don't use any specific behavior of the types in them. Functions that have type variables are called <em>polymorphic functions</em>. The type declaration of <span class="fixed">head</span> states that it takes a list of any type and returns one element of that type.
 </p>
 <p>Although type variables can have names longer than one character, we usually give them names of a, b, c, d &hellip;</p>
@@ -132,7 +132,7 @@ fst :: (a, b) -&gt; a
 We see that <span class="fixed">fst</span> takes a tuple which contains two types and returns an element which is of the same type as the pair's first component. That's why we can use <span class="fixed">fst</span> on a pair that contains any two types. Note that just because <span class="fixed">a</span> and <span class="fixed">b</span> are different type variables, they don't have to be different types. It just states that the first component's type and the return value's type are the same.
 </p>
 <a name="typeclasses-101"></a><h2>Typeclasses 101</h2>
-<img src="https://s3.amazonaws.com/lyah/classes.png" alt="class" class="right" width="210" height="158">
+<img src="assets/images/types-and-typeclasses/classes.png" alt="class" class="right" width="210" height="158">
 <p>A typeclass is a sort of interface that defines some behavior. If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes. A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object oriented languages. Well, they're not. You can think of them kind of as Java interfaces, only better.
 </p>
 <p>What's the type signature of the <span class="fixed">==</span> function?</p>

@@ -9,7 +9,7 @@
 	@import url('reset.css');
 	@import url('style.css');
 </style>
-<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="shortcut icon" href="assets/images/favicon.png" type="image/png">
         <link rel="prev" href="for-a-few-monads-more.html">
 <link type="text/css" rel="stylesheet" href="sh/Styles/SyntaxHighlighter.css">
 <link href="rss.php" rel="alternate" type="application/rss+xml" title="Learn You a Haskell for Great Good! feed">
@@ -31,7 +31,7 @@
             </div>
         <h1>Zippers</h1>
 
-<img src="60sdude.png" alt="hi im chet" class="right" width="122" height="407">
+<img src="assets/images/zippers/60sdude.png" alt="hi im chet" class="right" width="122" height="407">
 
 <p>
 While Haskell's purity comes with a whole bunch of benefits, it makes us tackle
@@ -115,7 +115,7 @@ freeTree =
 And here's this tree represented graphically:
 </p>
 
-<img src="pollywantsa.png" alt="polly says her back hurts" class="center" width="780" height="504">
+<img src="assets/images/zippers/pollywantsa.png" alt="polly says her back hurts" class="center" width="780" height="504">
 
 <p>
 Notice that <span class="fixed">W</span> in the tree there? Say we want to
@@ -224,7 +224,7 @@ allows us to efficiently switch focus to sub-trees that are nearby.
 <a name="a-trail-of-breadcrumbs"></a>
 <h2>A trail of breadcrumbs</h2>
 
-<img src="bread.png" alt="whoop dee doo" class="right" width="321" height="250">
+<img src="assets/images/zippers/bread.png" alt="whoop dee doo" class="right" width="321" height="250">
 
 <p>
 Okay, so for focusing on a sub-tree, we want something better than just a list
@@ -280,7 +280,7 @@ ghci&gt; goLeft (goRight (freeTree, []))
 (Node 'W' (Node 'C' Empty Empty) (Node 'R' Empty Empty),[L,R])
 </pre>
 
-<img src="almostzipper.png" alt="almostthere" class="left" width="399" height="224">
+<img src="assets/images/zippers/almostzipper.png" alt="almostthere" class="left" width="399" height="224">
 
 <p>
 Okay, so now we have a tree that has <span class="fixed">'W'</span>
@@ -429,7 +429,7 @@ goUp (t, LeftCrumb x r:bs) = (Node x t r, bs)
 goUp (t, RightCrumb x l:bs) = (Node x l t, bs)
 </pre>
 
-<img src="asstronaut.png" alt="asstronaut" class="left" width="511" height="433">
+<img src="assets/images/zippers/asstronaut.png" alt="asstronaut" class="left" width="511" height="433">
 
 <p>
 We're focusing on the tree <span class="fixed">t</span> and we check what the
@@ -600,7 +600,7 @@ our own lists</a>, we defined our data type like so:
 data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)
 </pre>
 
-<img src="picard.png" alt="the best damn thing" class="right" width="355" height="380">
+<img src="assets/images/zippers/picard.png" alt="the best damn thing" class="right" width="355" height="380">
 
 <p>
 Contrast this with our definition of our binary tree and it's easy to see how
@@ -773,7 +773,7 @@ That's actually what my disk contains right now.
 
 <h3>A zipper for our file system</h3>
 
-<img src="spongedisk.png" alt="spongedisk" class="right" width="243" height="271">
+<img src="assets/images/zippers/spongedisk.png" alt="spongedisk" class="right" width="243" height="271">
 
 <p>
 Now that we have a file system, all we need is a zipper so we can zip and zoom
@@ -874,7 +874,7 @@ with the given name. That file has to be in the current focused folder. This
 function doesn't search all over the place, it just looks at the current folder.
 </p>
 
-<img src="cool.png" alt="wow cool great" class="left" width="205" height="197">
+<img src="assets/images/zippers/cool.png" alt="wow cool great" class="left" width="205" height="197">
 
 <p>
 First we use <span class="fixed">break</span> to break the list of items in a
@@ -1015,7 +1015,7 @@ goLeft :: Zipper a -&gt; Zipper a
 goLeft (Node x l r, bs) = (l, LeftCrumb x r:bs)
 </pre>
 
-<img src="bigtree.png" alt="falling for you" class="right" width="247" height="367">
+<img src="assets/images/zippers/bigtree.png" alt="falling for you" class="right" width="247" height="367">
 
 <p>
 But what if the tree we're stepping off from is an empty tree? That is, what if
