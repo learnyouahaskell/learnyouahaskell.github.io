@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "https://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>$title$ - Learn You a Haskell for Great Good!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<base href="">
+<style type="text/css">
+	@import url('reset.css');
+	@import url('style.css');
+</style>
+<link rel="shortcut icon" href="assets/images/favicon.png" type="image/png">
+$if(prev_filename)$
+        <link rel="prev" href="${prev_filename}.html">
+$endif$
+$if(next_filename)$
+        <link rel="next" href="${next_filename}.html">
+$endif$
+<link type="text/css" rel="stylesheet" href="sh/Styles/SyntaxHighlighter.css">
+<link href="rss.php" rel="alternate" type="application/rss+xml" title="Learn You a Haskell for Great Good! feed">
+</head>
+<body class="introcontent">
+<div class="bgwrapper">
+    <div id="content">
+$if(footdiv)$
+                <div class="footdiv" style="margin-bottom:25px;">
+                <ul>
+                    <li style="text-align:left">
+$if(prev_filename)$
+                                                        <a href="${prev_filename}.html" class="prevlink">$prev_title$</a>
+$endif$
+                                            </li>
+                    <li style="text-align:center">
+                        <a href="chapters.html">Table of contents</a>
+                    </li>
+                    <li style="text-align:right">
+$if(next_filename)$
+                                                        <a href="${next_filename}.html" class="nxtlink">$next_title$</a>
+$endif$
+                                            </li>
+                </ul>
+            </div>
+$endif$
+$body$
+$if(footdiv)$
+                <div class="footdiv">
+                <ul>
+                    <li style="text-align:left">
+$if(prev_filename)$
+                                                        <a href="$prev_filename$.html" class="prevlink">$prev_title$</a>
+$endif$
+                                            </li>
+                    <li style="text-align:center">
+                        <a href="chapters.html">Table of contents</a>
+                    </li>
+                    <li style="text-align:right">
+$if(next_filename)$
+                                                        <a href="$next_filename$.html" class="nxtlink">$next_title$</a>
+$endif$
+                                            </li>
+                </ul>
+            </div>
+$endif$
+$if(faq)$
+            <div class="footdiv">
+                <ul>
+                    <li style="text-align:center">
+                        <a href="index.html" rel="nofollow">Back</a>
+                    </li>
+                </ul>
+            </div>
+$endif$
+        </div>
+    <script type="text/javascript" src="sh/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="shBrushHaskell.js"></script>
+    <script type="text/javascript" src="shBrushPlain.js"></script>
+    <script type="text/javascript">
+    dp.SyntaxHighlighter.ClipboardSwf = '/sh/Scripts/clipboard.swf';
+    dp.SyntaxHighlighter.HighlightAll('code', false, false, false, 1, false);
+    </script>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4461592-3");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>
