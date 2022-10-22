@@ -737,7 +737,7 @@ ghci&gt; Nothing &lt;*&gt; Just &quot;woot&quot;
 Nothing</code></pre>
 <p>We see how doing <code>pure (+3)</code> and <code>Just (+3)</code> is
 the same in this case. Use <code>pure</code> if you’re dealing with
-<code>Maybe</code> values in an applicative context (i.e. using them
+<code>Maybe</code> values in an applicative context (i.e. using them
 with <code>&lt;*&gt;</code>), otherwise stick to <code>Just</code>. The
 first four input lines demonstrate how the function is extracted and
 then mapped, but in this case, they could have been achieved by just

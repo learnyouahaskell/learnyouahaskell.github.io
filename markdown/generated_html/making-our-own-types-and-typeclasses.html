@@ -437,7 +437,7 @@ any other type, as long as the type of the key is part of the
 add a typeclass constraint in the <em>data</em> declaration:</p>
 <pre class="haskell:hs"><code>data (Ord k) =&gt; Map k v = ...</code></pre>
 <p>However, it’s a very strong convention in Haskell to <strong>never
-add typeclass constraints in data declarations.</strong>Why? Well,
+add typeclass constraints in data declarations.</strong> Why? Well,
 because we don’t benefit a lot, but we end up writing more class
 constraints, even when we don’t need them. If we put or don’t put the
 <code>Ord k</code> constraint in the <em>data</em> declaration for
@@ -657,7 +657,7 @@ aren’t instances of <code>Ord</code>.</p>
 that. Consider the following data type:</p>
 <pre class="haskell:hs"><code>data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday</code></pre>
 <p>Because all the value constructors are nullary (take no parameters,
-i.e. fields), we can make it part of the <code>Enum</code> typeclass.
+i.e. fields), we can make it part of the <code>Enum</code> typeclass.
 The <code>Enum</code> typeclass is for things that have predecessors and
 successors. We can also make it part of the <code>Bounded</code>
 typeclass, which is for things that have a lowest possible value and
