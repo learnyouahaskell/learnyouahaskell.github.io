@@ -635,7 +635,7 @@ ghci&gt; Map.insert 5 9 $ Map.singleton 3 9
 fromList [(3,9),(5,9)]
 </pre>
 <p><span class="label function">lookup</span> works like the <span class="fixed">Data.List</span> <span class="fixed">lookup</span>, only it operates on maps. It returns <span class="fixed">Just something</span> if it finds something for the key and <span class="fixed">Nothing</span> if it doesn't.</p>
-<p><span class="label function">member</span> is a predicate takes a key and a map and reports whether the key is in the map or not.</p>
+<p><span class="label function">member</span> is a predicate that takes a key and a map and reports whether the key is in the map or not.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
 True
