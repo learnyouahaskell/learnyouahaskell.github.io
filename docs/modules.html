@@ -81,7 +81,7 @@ ghci&gt; intersperse '.' "MONKEY"
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]
 </pre>
-<p><span class="label function">intercalate</span> takes a list of lists and a list. It then inserts that list in between all those lists and then flattens the result.</p>
+<p><span class="label function">intercalate</span> takes a list and a list of lists. It then inserts that list in between all those lists and then flattens the result.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; intercalate " " ["hey","there","guys"]
 "hey there guys"
@@ -276,7 +276,7 @@ ghci&gt; :t find
 find :: (a -&gt; Bool) -&gt; [a] -&gt; Maybe a
 </pre>
 <p>Notice the type of <span class="fixed">find</span>. Its result is <span class="fixed">Maybe a</span>. That's kind of like having the type of <span class="fixed">[a]</span>, only a value of the type <span class="fixed">Maybe</span> can contain either no elements or one element, whereas a list can contain no elements, one element or several elements.</p>
-<p>Remember when we were searching for the first time our stock went over $1000. We did <span class="fixed">head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</span>. Remember that <span class="fixed">head</span> is not really safe. What would happen if our stock never went over $1000? Our application of <span class="fixed">dropWhile</span> would return an empty list and getting the head of an empty list would result in an error. However, if we rewrote that as <span class="fixed">find (\(val,y,m,d) -&gt; val &gt; 1000) stock</span>, we'd be much safer. If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a <span class="fixed">Nothing</span>. But there was a valid answer in that list, we'd get, say, <span class="fixed">Just (1001.4,2008,9,4)</span>.
+<p>Remember when we were searching for the first time our stock went over $1000. We did <span class="fixed">head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</span>. Remember that <span class="fixed">head</span> is not really safe. What would happen if our stock never went over $1000? Our application of <span class="fixed">dropWhile</span> would return an empty list and getting the head of an empty list would result in an error. However, if we rewrote that as <span class="fixed">find (\(val,y,m,d) -&gt; val &gt; 1000) stock</span>, we'd be much safer. If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a <span class="fixed">Nothing</span>. But if there was a valid answer in that list, we'd get, say, <span class="fixed">Just (1001.4,2008,9,4)</span>.
 <p><span class="label function">elemIndex</span> is kind of like <span class="fixed">elem</span>, only it doesn't return a boolean value. It maybe returns the index of the element we're looking for. If that element isn't in our list, it returns a <span class="fixed">Nothing</span>.  </p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; :t elemIndex
