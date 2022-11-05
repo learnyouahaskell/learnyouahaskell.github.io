@@ -1,0 +1,14 @@
+introduction
+starting-out
+types-and-typeclasses
+syntax-in-functions
+recursion
+higher-order-functions
+modules
+making-our-own-types-and-typeclasses
+input-and-output
+functionally-solving-problems
+functors-applicative-functors-and-monoids
+a-fistful-of-monads
+for-a-few-monads-more
+zippers
