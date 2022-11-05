@@ -308,7 +308,7 @@ ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 [(2,2,5,2),(3,2,5,2),(3,2,3,2)]
 </pre>
 <p>Just like with normal zipping, lists that are longer than the shortest list that's being zipped are cut down to size.</p>
-<p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string in a separate list.</p>
+<p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string as separate element of a list.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; lines "first line\nsecond line\nthird line"
 ["first line","second line","third line"]
