@@ -156,7 +156,7 @@ ghci&gt; let guy = Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
 ghci&gt; guy
 Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
 </pre>
-<p>That's kind of cool, although slightly unreadable. What if we want to create a function to get seperate info from a person? A function that gets some person's first name, a function that gets some person's last name, etc. Well, we'd have to define them kind of like this.</p>
+<p>That's kind of cool, although slightly unreadable. What if we want to create a function to get separate info from a person? A function that gets some person's first name, a function that gets some person's last name, etc. Well, we'd have to define them kind of like this.</p>
 <pre name="code" class="haskell:hs">
 firstName :: Person -&gt; String
 firstName (Person firstname _ _ _ _ _) = firstname

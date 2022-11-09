@@ -308,7 +308,7 @@ ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 [(2,2,5,2),(3,2,5,2),(3,2,3,2)]
 </pre>
 <p>Just like with normal zipping, lists that are longer than the shortest list that's being zipped are cut down to size.</p>
-<p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string in a separate list.</p>
+<p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string as separate element of a list.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; lines "first line\nsecond line\nthird line"
 ["first line","second line","third line"]
@@ -423,7 +423,7 @@ ghci&gt; sortBy (compare `on` length) xs
 <p><span class="label function">isOctDigit</span> checks whether a character is an octal digit.</p>
 <p><span class="label function">isHexDigit</span> checks whether a character is a hex digit.</p>
 <p><span class="label function">isLetter</span> checks whether a character is a letter.</p>
-<p><span class="label function">isMark</span> checks for Unicode mark characters. Those are characters that combine with preceding letters to form latters with accents. Use this if you are French.</p>
+<p><span class="label function">isMark</span> checks for Unicode mark characters. Those are characters that combine with preceding letters to form letters with accents. Use this if you are French.</p>
 <p><span class="label function">isNumber</span> checks whether a character is numeric.</p>
 <p><span class="label function">isPunctuation</span> checks whether a character is punctuation.</p>
 <p><span class="label function">isSymbol</span> checks whether a character is a fancy mathematical or currency symbol.</p>
@@ -635,7 +635,7 @@ ghci&gt; Map.insert 5 9 $ Map.singleton 3 9
 fromList [(3,9),(5,9)]
 </pre>
 <p><span class="label function">lookup</span> works like the <span class="fixed">Data.List</span> <span class="fixed">lookup</span>, only it operates on maps. It returns <span class="fixed">Just something</span> if it finds something for the key and <span class="fixed">Nothing</span> if it doesn't.</p>
-<p><span class="label function">member</span> is a predicate takes a key and a map and reports whether the key is in the map or not.</p>
+<p><span class="label function">member</span> is a predicate that takes a key and a map and reports whether the key is in the map or not.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
 True
