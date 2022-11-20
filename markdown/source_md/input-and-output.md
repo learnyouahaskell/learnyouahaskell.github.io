@@ -897,7 +897,7 @@ Same goes for writing to the terminal, it's kind of like writing to a file.
 We can call these two files `stdout` and `stdin`, meaning *standard output* and *standard input*, respectively.
 Keeping that in mind, we'll see that writing to and reading from files is very much like writing to the standard output and reading from the standard input.
 
-We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints out to the terminal.
+We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints it out to the terminal.
 Here's *girlfriend.txt*:
 
 ```{.plain}
@@ -1211,7 +1211,7 @@ Let's say they want to delete number 1, which is `Dust the dog`, so they punch i
 Remember the `delete` and `!!` functions from `Data.List`.
 `!!` returns an element from a list with some index and `delete` deletes the first occurrence of an element in a list and returns a new list without that occurrence.
 `(todoTasks !! number)` (number is now `1`) returns `"Dust the dog"`.
-We bind `todoTasks` without the first occurence of `"Dust the dog"` to `newTodoItems` and then join that into a single string with `unlines` before writing it to the temporary file that we opened.
+We bind `todoTasks` without the first occurrence of `"Dust the dog"` to `newTodoItems` and then join that into a single string with `unlines` before writing it to the temporary file that we opened.
 The old file is now unchanged and the temporary file contains all the lines that the old one does, except the one we deleted.
 
 After that we close both the original and the temporary files and then we remove the original one with `removeFile`{.label .function}, which, as you can see, takes a path to a file and deletes it.

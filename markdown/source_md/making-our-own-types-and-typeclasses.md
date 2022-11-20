@@ -210,7 +210,7 @@ We could also opt not to export any value constructors for `Shape` by just writi
 That way, someone importing our module could only make shapes by using the auxiliary functions `baseCircle` and `baseRect`.
 `Data.Map` uses that approach.
 You can't create a map by doing `Map.Map [(1,2),(3,4)]` because it doesn't export that value constructor.
-However, you can make a mapping by using one of the auxilliary functions like `Map.fromList`.
+However, you can make a mapping by using one of the auxiliary functions like `Map.fromList`.
 Remember, value constructors are just functions that take the fields as parameters and return a value of some type (like `Shape`) as a result.
 So when we choose not to export them, we just prevent the person importing our module from using those functions, but if some other functions that are exported return a type, we can use them to make values of our custom data types.
 
@@ -241,7 +241,7 @@ Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
 ```
 
 That's kind of cool, although slightly unreadable.
-What if we want to create a function to get seperate info from a person?
+What if we want to create a function to get separate info from a person?
 A function that gets some person's first name, a function that gets some person's last name, etc.
 Well, we'd have to define them kind of like this.
 
