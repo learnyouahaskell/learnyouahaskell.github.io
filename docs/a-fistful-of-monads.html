@@ -42,7 +42,7 @@ preserving the meaning of those contexts.
 </p>
 
 <p>
-In this chapter, we'll learn about
+In this chapter, we’ll learn about
 monads, which are just beefed up applicative functors, much like
 applicative functors are only beefed up functors.
 </p>
@@ -50,7 +50,7 @@ applicative functors are only beefed up functors.
 <img src="assets/images/a-fistful-of-monads/smugpig.png" alt="more cool than u" class="right" width="307" height="186">
 
 <p>
-When we started off with functors, we saw that it's possible to map functions
+When we started off with functors, we saw that it’s possible to map functions
 over various data types. We saw that for this purpose, the <span class="fixed">Functor</span>
 type class was introduced and it had us asking the question: when we have a
 function of type <span class="fixed">a -&gt; b</span> and some data type
@@ -77,7 +77,7 @@ class="fixed">Functor</span> instance.
 Then we saw a possible improvement of functors and said, hey, what if that
 function <span class="fixed">a -&gt; b</span> is already wrapped inside a
 functor value? Like, what if we have <span class="fixed">Just (*3)</span>, how
-do we apply that to <span class="fixed">Just 5</span>? What if we don't want to
+do we apply that to <span class="fixed">Just 5</span>? What if we don’t want to
 apply it to <span class="fixed">Just 5</span> but to a <span
 class="fixed">Nothing</span> instead? Or if we have <span class="fixed">[(*2),(+4)]</span>,
 how would we apply that to <span class="fixed">[1,2,3]</span>? How would that
@@ -133,7 +133,7 @@ a</span> values represent values that have side-effects, etc.
 </p>
 
 <p>
-Monads are a natural extension of applicative functors and with them we're
+Monads are a natural extension of applicative functors and with them we’re
 concerned with this: if you have a value with a context, <span class="fixed">m
 a</span>, how do you apply to it a function that takes a normal <span
 class="fixed">a</span> and returns a value with a context? That is, how do you
@@ -157,11 +157,11 @@ applicative functors that support <span class="fixed">&gt;&gt;=</span>. The
 
 <p>
 When we have a normal value <span class="fixed">a</span> and a normal function
-<span class="fixed">a -&gt; b</span> it's really easy to feed the value to the
-function &mdash; you just apply the function to the value normally and that's
-it. But when we're dealing with values that come with certain contexts, it takes
+<span class="fixed">a -&gt; b</span> it’s really easy to feed the value to the
+function &mdash; you just apply the function to the value normally and that’s
+it. But when we’re dealing with values that come with certain contexts, it takes
 a bit of thinking to see how these fancy values are fed to functions and how to
-take into account their behavior, but you'll see that it's easy as one two
+take into account their behavior, but you’ll see that it’s easy as one two
 three.
 </p>
 
@@ -171,18 +171,18 @@ three.
 <img src="assets/images/a-fistful-of-monads/buddha.png" alt="monads, grasshoppa" class="left" width="302" height="387">
 
 <p>
-Now that we have a vague idea of what monads are about, let's see if we can make
+Now that we have a vague idea of what monads are about, let’s see if we can make
 that idea a bit less vague.
 </p>
 
 <p>
-Much to no one's surprise, <span class="fixed">Maybe</span> is a monad, so let's
+Much to no one’s surprise, <span class="fixed">Maybe</span> is a monad, so let’s
 explore it a bit more and see if we can combine it with what we know about
 monads.
 </p>
 
 <div class="hintbox">
-Make sure you understand <a href="functors-applicative-functors-and-monoids.html#applicative-functors">applicatives</a> at this point. It's good if you have a
+Make sure you understand <a href="functors-applicative-functors-and-monoids.html#applicative-functors">applicatives</a> at this point. It’s good if you have a
 feel for how the various <span class="fixed">Applicative</span> instances work
 and what kind of computations they represent, because monads are nothing more
 than taking our existing applicative knowledge and upgrading it.
@@ -200,8 +200,8 @@ string as the result of a computation, it means that the computation has failed.
 <p>
 When we looked at <span class="fixed">Maybe</span> as a functor, we saw that if
 we want to <span class="fixed">fmap</span> a function over it, it gets mapped
-over the insides if it's a <span class="fixed">Just</span> value, otherwise the
-<span class="fixed">Nothing</span> is kept because there's nothing to map it
+over the insides if it’s a <span class="fixed">Just</span> value, otherwise the
+<span class="fixed">Nothing</span> is kept because there’s nothing to map it
 over!
 </p>
 
@@ -220,12 +220,12 @@ Nothing
 As an applicative functor, it functions similarly. However, applicatives also
 have the function wrapped. <span class="fixed">Maybe</span> is an applicative
 functor in such a way that when we use <span class="fixed">&lt;*&gt;</span> to
-apply a function inside a <span class="fixed">Maybe</span> to a value that's
+apply a function inside a <span class="fixed">Maybe</span> to a value that’s
 inside a <span class="fixed">Maybe</span>, they both have to be <span
 class="fixed">Just</span> values for the result to be a <span
 class="fixed">Just</span> value, otherwise the result is <span
-class="fixed">Nothing</span>. It makes sense because if you're missing either
-the function or the thing you're applying it to, you can't make something up out
+class="fixed">Nothing</span>. It makes sense because if you’re missing either
+the function or the thing you’re applying it to, you can’t make something up out
 of thin air, so you have to propagate the failure:
 </p>
 
@@ -240,8 +240,8 @@ Nothing
 
 <p>
 When we use the applicative style to have normal functions act on <span
-class="fixed">Maybe</span> values, it's similar. All the values have to be <span
-class="fixed">Just</span> values, otherwise it's all for <span
+class="fixed">Maybe</span> values, it’s similar. All the values have to be <span
+class="fixed">Just</span> values, otherwise it’s all for <span
 class="fixed">Nothing</span>!
 </p>
 
@@ -253,7 +253,7 @@ Nothing
 </pre>
 
 <p>
-And now, let's think about how we would do <span class="fixed">&gt;&gt;=</span>
+And now, let’s think about how we would do <span class="fixed">&gt;&gt;=</span>
 for <span class="fixed">Maybe</span>. Like we said, <span class="fixed">&gt;&gt;=</span>
 takes a monadic value, and a function that takes a normal value and returns a
 monadic value and manages to apply that function to the monadic value. How does
@@ -266,7 +266,7 @@ In this case, <span class="fixed">&gt;&gt;=</span> would take a <span
 class="fixed">Maybe a</span> value and a function of type <span class="fixed">a -&gt; Maybe b</span>
 and somehow apply the function to the <span class="fixed">Maybe a</span>. To
 figure out how it does that, we can use the intuition that we have from <span
-class="fixed">Maybe</span> being an applicative functor. Let's say that we have
+class="fixed">Maybe</span> being an applicative functor. Let’s say that we have
 a function <span class="fixed">\x -&gt; Just (x+1)</span>. It takes a number,
 adds <span class="fixed">1</span> to it and wraps it in a <span
 class="fixed">Just</span>:
@@ -284,19 +284,19 @@ Just 101
 If we feed it <span class="fixed">1</span>, it evaluates to <span
 class="fixed">Just 2</span>. If we give it the number <span
 class="fixed">100</span>, the result is <span class="fixed">Just 101</span>.
-Very straightforward. Now here's the kicker: how do we feed a
+Very straightforward. Now here’s the kicker: how do we feed a
 <span class="fixed">Maybe</span> value to this function? If we think about how
 <span class="fixed">Maybe</span> acts as an applicative functor, answering this
-is pretty easy. If we feed it a <span class="fixed">Just</span> value, take what's inside
+is pretty easy. If we feed it a <span class="fixed">Just</span> value, take what’s inside
 the <span class="fixed">Just</span> and apply the function to it. If give it
-a <span class="fixed">Nothing</span>, hmm, well, then we're left with a
+a <span class="fixed">Nothing</span>, hmm, well, then we’re left with a
 function but <span class="fixed">Nothing</span> to apply it to. In that case,
-let's just do what we did before and say that the result is <span
+let’s just do what we did before and say that the result is <span
 class="fixed">Nothing</span>.
 </p>
 
 <p>
-Instead of calling it <span class="fixed">&gt;&gt;=</span>, let's call it
+Instead of calling it <span class="fixed">&gt;&gt;=</span>, let’s call it
 <span class="fixed">applyMaybe</span> for now. It takes a <span
 class="fixed">Maybe a</span> and a function that returns a <span
 class="fixed">Maybe b</span> and manages to apply that function to the <span
@@ -310,7 +310,7 @@ applyMaybe (Just x) f = f x
 </pre>
 
 <p>
-Okay, now let's play with it for a bit. We'll use it as an infix function so that
+Okay, now let’s play with it for a bit. We’ll use it as an infix function so that
 the <span class="fixed">Maybe</span> value is on the left side and the function on
 the right:
 </p>
@@ -328,7 +328,7 @@ Nothing
 
 <p>
 In the above example, we see that when we used <span class="fixed">applyMaybe</span> with a <span class="fixed">Just</span> value and a function, the function simply got applied to the value inside the <span class="fixed">Just</span>. When we tried to use it with a <span class="fixed">Nothing</span>, the whole result was <span class="fixed">Nothing</span>.
-What about if the function returns a <span class="fixed">Nothing</span>? Let's
+What about if the function returns a <span class="fixed">Nothing</span>? Let’s
 see:
 </p>
 
@@ -350,7 +350,7 @@ class="fixed">Nothing</span>.
 </p>
 
 <p>
-It looks like that for <span class="fixed">Maybe</span>, we've figured out how
+It looks like that for <span class="fixed">Maybe</span>, we’ve figured out how
 to take a fancy value and feed it to a function that takes a normal value and
 returns a fancy one. We did this by keeping in mind that a <span
 class="fixed">Maybe</span> value represents a computation that might have
@@ -360,14 +360,14 @@ failed.
 <p>
 You might be asking yourself, how is this useful? It may seem like applicative
 functors are stronger than monads, since applicative functors allow us to take a
-normal function and make it operate on values with contexts. We'll see that
-monads can do that as well because they're an upgrade of applicative functors,
-and that they can also do some cool stuff that applicative functors can't.
+normal function and make it operate on values with contexts. We’ll see that
+monads can do that as well because they’re an upgrade of applicative functors,
+and that they can also do some cool stuff that applicative functors can’t.
 </p>
 
 <p>
-We'll come back to <span class="fixed">Maybe</span> in a minute, but first,
-let's check out the type class that belongs to monads.
+We’ll come back to <span class="fixed">Maybe</span> in a minute, but first,
+let’s check out the type class that belongs to monads.
 </p>
 
 <a name="the-monad-type-class"></a>
@@ -395,26 +395,26 @@ class Monad m where
 
 <img src="assets/images/a-fistful-of-monads/kid.png" alt="this is you on monads" class="right" width="363" height="451">
 <p>
-Let's start with the first line. It says <span class="fixed">class Monad m where</span>.
-But wait, didn't we say that monads are just beefed up applicative functors? Shouldn't
+Let’s start with the first line. It says <span class="fixed">class Monad m where</span>.
+But wait, didn’t we say that monads are just beefed up applicative functors? Shouldn’t
 there be a class constraint in there along the lines of <span
 class="fixed">class (Applicative m) = &gt; Monad m where</span> so that a type
 has to be an applicative functor first before it can be made a monad? Well,
-there should, but when Haskell was made, it hadn't occurred to people that
-applicative functors are a good fit for Haskell so they weren't in there. But
+there should, but when Haskell was made, it hadn’t occurred to people that
+applicative functors are a good fit for Haskell so they weren’t in there. But
 rest assured, every monad is an applicative functor, even if the <span
-class="fixed">Monad</span> class declaration doesn't say so.
+class="fixed">Monad</span> class declaration doesn’t say so.
 </p>
 
 <p>
 The first function that the <span class="fixed">Monad</span> type class defines
-is <span class="fixed">return</span>. It's the same as <span
+is <span class="fixed">return</span>. It’s the same as <span
 class="fixed">pure</span>, only with a different name. Its type is <span
 class="fixed">(Monad m) =&gt; a -&gt; m a</span>. It takes a value and puts it
 in a minimal default context that still holds that value. In other words, it
 takes something and wraps it in a monad. It always does the same thing as the
 <span class="fixed">pure</span> function from the <span
-class="fixed">Applicative</span> type class, which means we're already
+class="fixed">Applicative</span> type class, which means we’re already
 acquainted with <span class="fixed">return</span>.  We already used <span
 class="fixed">return</span> when doing I/O. We used it to take a value and make
 a bogus I/O action that does nothing but yield that value.  For <span
@@ -424,7 +424,7 @@ class="fixed">Just</span>.
 
 <div class="hintbox">
 Just a reminder: <span class="fixed">return</span> is nothing like the
-<span class="fixed">return</span> that's in most other languages. It doesn't end
+<span class="fixed">return</span> that’s in most other languages. It doesn’t end
 function execution or anything, it just takes a normal value and puts it in a
 context.
 </div>
@@ -432,14 +432,14 @@ context.
 <img src="assets/images/a-fistful-of-monads/tur2.png" alt="hmmm yaes" class="left" width="169" height="145">
 
 <p>
-The next function is <span class="fixed">&gt;&gt;=</span>, or bind. It's like
+The next function is <span class="fixed">&gt;&gt;=</span>, or bind. It’s like
 function application, only instead of taking a normal value and feeding it to a
 normal function, it takes a monadic value (that is, a value with a context) and
 feeds it to a function that takes a normal value but returns a monadic value.
 </p>
 
 <p>
-Next up, we have <span class="fixed">&gt;&gt;</span>. We won't pay too much
+Next up, we have <span class="fixed">&gt;&gt;</span>. We won’t pay too much
 attention to it for now because it comes with a default implementation and we
 pretty much never implement it when making <span class="fixed">Monad</span>
 instances.
@@ -447,12 +447,12 @@ instances.
 
 <p>
 The final function of the <span class="fixed">Monad</span> type class is
-<span class="fixed">fail</span>. We never use it explicitly in our code. Instead, it's used by Haskell to enable failure in a special syntactic construct for monads that we'll meet later. We don't need to concern ourselves with <span class="fixed">fail</span> too much for now.
+<span class="fixed">fail</span>. We never use it explicitly in our code. Instead, it’s used by Haskell to enable failure in a special syntactic construct for monads that we’ll meet later. We don’t need to concern ourselves with <span class="fixed">fail</span> too much for now.
 </p>
 
 <p>
 Now that we know what the <span class="fixed">Monad</span> type class looks
-like, let's take a look at how <span class="fixed">Maybe</span> is an instance
+like, let’s take a look at how <span class="fixed">Maybe</span> is an instance
 of <span class="fixed">Monad</span>!
 </p>
 
@@ -466,7 +466,7 @@ instance Monad Maybe where
 
 <p>
 <span class="fixed">return</span> is the same as <span
-class="fixed">pure</span>, so that one's a no-brainer. We do what we did in the
+class="fixed">pure</span>, so that one’s a no-brainer. We do what we did in the
 <span class="fixed">Applicative</span> type class and wrap it in a <span
 class="fixed">Just</span>.
 </p>
@@ -476,9 +476,9 @@ The <span class="fixed">&gt;&gt;=</span> function is the same as our
 <span class="fixed">applyMaybe</span>. When feeding the <span
 class="fixed">Maybe a</span> to our function, we keep in mind the context and
 return a <span class="fixed">Nothing</span> if the value on the left is <span
-class="fixed">Nothing</span> because if there's no value then there's no way to
-apply our function to it. If it's a <span class="fixed">Just</span> we take
-what's inside and apply <span class="fixed">f</span> to it.
+class="fixed">Nothing</span> because if there’s no value then there’s no way to
+apply our function to it. If it’s a <span class="fixed">Just</span> we take
+what’s inside and apply <span class="fixed">f</span> to it.
 </p>
 
 <p>
@@ -507,8 +507,8 @@ Notice how when we fed <span class="fixed">Just 9</span> to the function <span
 class="fixed">\x -&gt; return (x*10)</span>, the <span class="fixed">x</span>
 took on the value <span class="fixed">9</span> inside the function. It seems as
 though we were able to extract the value from a <span class="fixed">Maybe</span>
-without pattern-matching. And we still didn't lose the context of our <span
-class="fixed">Maybe</span> value, because when it's <span class="fixed">Nothing</span>,
+without pattern-matching. And we still didn’t lose the context of our <span
+class="fixed">Maybe</span> value, because when it’s <span class="fixed">Nothing</span>,
 the result of using <span class="fixed">&gt;&gt;=</span> will be <span class="fixed">Nothing</span> as well.
 </p>
 
@@ -521,32 +521,32 @@ the result of using <span class="fixed">&gt;&gt;=</span> will be <span class="fi
 Now that we know how to feed a <span class="fixed">Maybe a</span> value to a
 function of type
 <span class="fixed">a -&gt; Maybe b</span> while taking into account the context
-of possible failure, let's see how we can use <span
+of possible failure, let’s see how we can use <span
 class="fixed">&gt;&gt;=</span> repeatedly to handle computations of several
 <span class="fixed">Maybe a</span> values.
 </p>
 
 <p>
 Pierre has decided to take a break from his job at the fish farm and try
-tightrope walking. He's not that bad at it, but he does have one problem: birds
+tightrope walking. He’s not that bad at it, but he does have one problem: birds
 keep landing on his balancing pole! They come and they take a short rest, chat
 with their avian friends and then take off in search of breadcrumbs. This
-wouldn't bother him so much if the number of birds on the left side of the pole
+wouldn’t bother him so much if the number of birds on the left side of the pole
 was always equal to the number of birds on the right side. But sometimes, all
 the birds decide that they like one side better and so they throw him off
-balance, which results in an embarrassing tumble for Pierre (he's using a safety
+balance, which results in an embarrassing tumble for Pierre (he’s using a safety
 net).
 </p>
 
 <p>
-Let's say that he keeps his balance if the number of birds on the left side of
-the pole and on the right side of the pole is within three. So if there's
-one bird on the right side and four birds on the left side, he's okay. But if a
+Let’s say that he keeps his balance if the number of birds on the left side of
+the pole and on the right side of the pole is within three. So if there’s
+one bird on the right side and four birds on the left side, he’s okay. But if a
 fifth bird lands on the left side, then he loses his balance and takes a dive.
 </p>
 
 <p>
-We're going to simulate birds landing on and flying away from the pole and see
+We’re going to simulate birds landing on and flying away from the pole and see
 if Pierre is still at it after a certain number of birdy arrivals and
 departures. For instance, we want to see what happens to Pierre if first one
 bird arrives on the left side, then four birds occupy the right side and then
@@ -566,7 +566,7 @@ type Pole = (Birds,Birds)
 
 <p>
 First we made a type synonym for <span class="fixed">Int</span>, called
-<span class="fixed">Birds</span>, because we're using integers to represent
+<span class="fixed">Birds</span>, because we’re using integers to represent
 how many birds there are. And then we made a type synonym <span class="fixed">(Birds,Birds)</span> and we called it <span class="fixed">Pole</span> (not to be
 confused with a person of Polish descent).
 </p>
@@ -585,7 +585,7 @@ landRight n (left,right) = (left,right + n)
 </pre>
 
 <p>
-Pretty straightforward stuff. Let's try them out:
+Pretty straightforward stuff. Let’s try them out:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -649,7 +649,7 @@ ghci&gt; (0,0) -: landLeft 1 -: landRight 1 -: landLeft 2
 
 <p>
 Pretty cool! This example is equivalent to the one before where we repeatedly
-landed birds on the pole, only it looks neater. Here, it's more obvious that we
+landed birds on the pole, only it looks neater. Here, it’s more obvious that we
 start off with <span class="fixed">(0,0)</span> and then land one bird one the
 left, then one on the right and finally two on the left.
 </p>
@@ -664,7 +664,7 @@ ghci&gt; landLeft 10 (0,3)
 </pre>
 
 <p>
-10 birds on the left side and only 3 on the right? That's sure to send poor
+10 birds on the left side and only 3 on the right? That’s sure to send poor
 Pierre falling through the air! This is pretty obvious here but what if we had a
 sequence of landings like this:
 </p>
@@ -675,14 +675,14 @@ ghci&gt; (0,0) -: landLeft 1 -: landRight 4 -: landLeft (-1) -: landRight (-2)
 </pre>
 
 <p>
-It might seem like everything is okay but if you follow the steps here, you'll
+It might seem like everything is okay but if you follow the steps here, you’ll
 see that at one time there are 4 birds on the right side and no birds on the
 left! To fix this, we have to take another look at our <span
 class="fixed">landLeft</span> and <span class="fixed">landRight</span>
-functions. From what we've seen, we want these functions to be able to fail.
+functions. From what we’ve seen, we want these functions to be able to fail.
 That is, we want them to return a new pole if the balance is okay but fail if
 the birds land in a lopsided manner. And what better way to add a context of
-failure to value than by using <span class="fixed">Maybe</span>! Let's rework
+failure to value than by using <span class="fixed">Maybe</span>! Let’s rework
 these functions:
 </p>
 
@@ -705,11 +705,11 @@ birds and the old pole as before, but then they check if landing that many birds
 on the pole would throw Pierre off balance. We use guards to check if the
 difference between the number of birds on the new pole is less than 4. If it is,
 we wrap the new pole in a <span class="fixed">Just</span> and return that. If it
-isn't, we return a <span class="fixed">Nothing</span>, indicating failure.
+isn’t, we return a <span class="fixed">Nothing</span>, indicating failure.
 </p>
 
 <p>
-Let's give these babies a go:
+Let’s give these babies a go:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -724,9 +724,9 @@ Nice! When we land birds without throwing Pierre off balance, we get a new pole
 wrapped in a <span class="fixed">Just</span>. But when many more birds end up on
 one side of the pole, we get a <span class="fixed">Nothing</span>. This is cool,
 but we seem to have lost the ability to repeatedly land birds on the pole. We
-can't do <span class="fixed">landLeft 1 (landRight 1 (0,0))</span> anymore
+can’t do <span class="fixed">landLeft 1 (landRight 1 (0,0))</span> anymore
 because when we apply <span class="fixed">landRight 1</span> to <span
-class="fixed">(0,0)</span>, we don't get a <span class="fixed">Pole</span>, but
+class="fixed">(0,0)</span>, we don’t get a <span class="fixed">Pole</span>, but
 a <span class="fixed">Maybe Pole</span>. <span class="fixed">landLeft 1</span>
 takes a <span class="fixed">Pole</span> and not a <span class="fixed">Maybe
 Pole</span>.
@@ -736,7 +736,7 @@ Pole</span>.
 We need a way of taking a <span class="fixed">Maybe Pole</span> and feeding it
 to a function that takes a <span class="fixed">Pole</span> and returns a <span
 class="fixed">Maybe Pole</span>. Luckily, we have <span class="fixed">&gt;&gt;=</span>,
-which does just that for <span class="fixed">Maybe</span>. Let's give it a go:
+which does just that for <span class="fixed">Maybe</span>. Let’s give it a go:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -746,7 +746,7 @@ Just (2,1)
 
 <p>
 Remember, <span class="fixed">landLeft 2</span> has a type of <span
-class="fixed">Pole -&gt; Maybe Pole</span>. We couldn't just feed it the <span
+class="fixed">Pole -&gt; Maybe Pole</span>. We couldn’t just feed it the <span
 class="fixed">Maybe Pole</span> that is the result of <span
 class="fixed">landRight 1 (0,0)</span>, so we use <span class="fixed">&gt;&gt;=</span> to take that value with a context and give
 it to <span class="fixed">landLeft 2</span>. <span
@@ -768,7 +768,7 @@ monadic value to a function that takes a normal one.
 </p>
 
 <p>
-Here's a sequence of birdy landings:
+Here’s a sequence of birdy landings:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -789,7 +789,7 @@ class="fixed">Just (2,2)</span>, and so on.
 </p>
 
 <p>
-Remember this example from before we introduced failure into Pierre's routine:
+Remember this example from before we introduced failure into Pierre’s routine:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -798,8 +798,8 @@ ghci&gt; (0,0) -: landLeft 1 -: landRight 4 -: landLeft (-1) -: landRight (-2)
 </pre>
 
 <p>
-It didn't simulate his interaction with birds very well because in the middle
-there his balance was off but the result didn't reflect that. But let's give
+It didn’t simulate his interaction with birds very well because in the middle
+there his balance was off but the result didn’t reflect that. But let’s give
 that a go now by using monadic application (<span class="fixed">&gt;&gt;=</span>)
 instead of normal application:
 </p>
@@ -812,7 +812,7 @@ Nothing
 <img src="assets/images/a-fistful-of-monads/banana.png" alt="iama banana" class="right" width="262" height="130">
 
 <p>
-Awesome. The final result represents failure, which is what we expected. Let's
+Awesome. The final result represents failure, which is what we expected. Let’s
 see how this result was obtained. First, <span class="fixed">return</span> puts
  <span class="fixed">(0,0)</span> into a default context, making it a <span
  class="fixed">Just (0,0)</span>. Then, <span class="fixed">Just (0,0) &gt;&gt;=
@@ -828,21 +828,21 @@ see how this result was obtained. First, <span class="fixed">return</span> puts
  class="fixed">landLeft</span> works, this results in a <span
  class="fixed">Nothing</span>, because the resulting pole is off balance. Now
  that we have a <span class="fixed">Nothing</span>, it gets fed to <span
- class="fixed">landRight (-2)</span>, but because it's a <span
+ class="fixed">landRight (-2)</span>, but because it’s a <span
  class="fixed">Nothing</span>, the result is automatically <span
  class="fixed">Nothing</span>, as we have nothing to apply <span
  class="fixed">landRight (-2)</span> to.
 </p>
 
 <p>
-We couldn't have achieved this by just using <span class="fixed">Maybe</span>
-as an applicative. If you try it, you'll get stuck, because applicative functors
-don't allow for the applicative values to interact with each other very much.
+We couldn’t have achieved this by just using <span class="fixed">Maybe</span>
+as an applicative. If you try it, you’ll get stuck, because applicative functors
+don’t allow for the applicative values to interact with each other very much.
 They can, at best, be used as parameters to a function by using the applicative
 style. The applicative operators will fetch their results and feed them to the
 function in a manner appropriate for each applicative and then put the final
-applicative value together, but there isn't that much interaction going on
-between them. Here, however, each step relies on the previous one's result. On
+applicative value together, but there isn’t that much interaction going on
+between them. Here, however, each step relies on the previous one’s result. On
 every landing, the possible result from the previous one is examined and the
 pole is checked for balance. This determines whether the landing will succeed or
 fail.
@@ -861,7 +861,7 @@ banana _ = Nothing
 
 <p>
 Now we can chain it together with our bird landings. It will always cause our walker
-to fall, because it ignores whatever's passed to it and always returns a
+to fall, because it ignores whatever’s passed to it and always returns a
 failure. Check it:
 </p>
 
@@ -891,7 +891,7 @@ m &gt;&gt; n = m &gt;&gt;= \_ -&gt; n
 <p>
 Normally, passing some value to a function that ignores its parameter and always
 just returns some predetermined value would always result in that predetermined value. With
-monads however, their context and meaning has to be considered as well. Here's
+monads however, their context and meaning has to be considered as well. Here’s
 how <span class="fixed">&gt;&gt;</span> acts with <span class="fixed">Maybe</span>:
 </p>
 
@@ -906,7 +906,7 @@ Nothing
 
 <p>
 If you replace <span class="fixed">&gt;&gt;</span> with <span class="fixed">&gt;&gt;=
-\_ -&gt;</span>, it's easy to see why it acts like it does.
+\_ -&gt;</span>, it’s easy to see why it acts like it does.
 </p>
 
 <p>
@@ -923,9 +923,9 @@ There we go, guaranteed and obvious failure!
 </p>
 
 <p>
-It's also worth taking a look at what this would look like if we hadn't made the
+It’s also worth taking a look at what this would look like if we hadn’t made the
 clever choice of treating <span class="fixed">Maybe</span> values as values with
-a failure context and feeding them to functions like we did. Here's how a
+a failure context and feeding them to functions like we did. Here’s how a
 series of bird landings would look like:
 </p>
 
@@ -957,7 +957,7 @@ computations that might have failed.
 Notice how the <span class="fixed">Maybe</span> implementation of <span
 class="fixed">&gt;&gt;=</span> features exactly this logic of seeing if a value
 is <span class="fixed">Nothing</span> and if it is, returning a <span
-class="fixed">Nothing</span> right away and if it isn't, going forward with what's
+class="fixed">Nothing</span> right away and if it isn’t, going forward with what’s
 inside the <span class="fixed">Just</span>.
 </p>
 
@@ -978,13 +978,13 @@ possibility of failure was always taken into account.
 
 <p>
 Monads in Haskell are so useful that they got their own special syntax called
-<span class="fixed">do</span> notation. We've already encountered <span
+<span class="fixed">do</span> notation. We’ve already encountered <span
 class="fixed">do</span> notation when we were doing I/O and there we said that
 it was for gluing together several I/O actions into one. Well, as it turns out,
-<span class="fixed">do</span> notation isn't just for <span class="fixed">IO</span>, but can be used
+<span class="fixed">do</span> notation isn’t just for <span class="fixed">IO</span>, but can be used
 for any monad. Its principle is still the same: gluing together monadic
-values in sequence. We're going to take a look at how <span
-class="fixed">do</span> notation works and why it's useful.
+values in sequence. We’re going to take a look at how <span
+class="fixed">do</span> notation works and why it’s useful.
 </p>
 
 <p>
@@ -999,8 +999,8 @@ Just "3!"
 <p>
 Been there, done that. Feeding a monadic value to a function that returns one,
 no big deal. Notice how when we do this, <span class="fixed">x</span> becomes
-<span class="fixed">3</span> inside the lambda. Once we're inside that lambda,
-it's just a normal value rather than a monadic value. Now, what if we had another
+<span class="fixed">3</span> inside the lambda. Once we’re inside that lambda,
+it’s just a normal value rather than a monadic value. Now, what if we had another
 <span class="fixed">&gt;&gt;=</span>
 inside that function? Check this out:
 </p>
@@ -1026,7 +1026,7 @@ ghci&gt; let x = 3; y = "!" in show x ++ y
 
 <p>
 The main difference between these two is that the values in the former example
-are monadic. They're values with a failure context. We can replace any of them
+are monadic. They’re values with a failure context. We can replace any of them
 with a failure:
 </p>
 
@@ -1052,7 +1052,7 @@ values in question are monadic values.
 </p>
 
 <p>
-To further illustrate this point, let's write this in a script and have each
+To further illustrate this point, let’s write this in a script and have each
 <span class="fixed">Maybe</span> value take up its own line:
 </p>
 
@@ -1080,15 +1080,15 @@ foo = do
 <img src="assets/images/a-fistful-of-monads/owld.png" alt="90s owl" class="right" width="269" height="348">
 
 <p>
-It would seem as though we've gained the ability to temporarily extract things
+It would seem as though we’ve gained the ability to temporarily extract things
 from <span class="fixed">Maybe</span> values without having to check if the
 <span class="fixed">Maybe</span> values are <span class="fixed">Just</span>
 values or <span class="fixed">Nothing</span> values at every step. How cool! If any of the
 values that we try to extract from are <span class="fixed">Nothing</span>, the
 whole <span class="fixed">do</span> expression will result in a <span
-class="fixed">Nothing</span>. We're yanking out their (possibly existing) values
+class="fixed">Nothing</span>. We’re yanking out their (possibly existing) values
 and letting <span class="fixed">&gt;&gt;=</span> worry about the context that
-comes with those values. It's important to remember that
+comes with those values. It’s important to remember that
 <span class="fixed">do</span> expressions are just different syntax for chaining
 monadic values.
 </p>
@@ -1101,8 +1101,8 @@ class="fixed">&lt;-</span> to a variable, that variable will be a <span
 class="fixed">String</span>, just like when we used <span class="fixed">&gt;&gt;=</span>
 to feed monadic values to lambdas. The last monadic value in a  <span
 class="fixed">do</span> expression, like <span class="fixed">Just (show x ++ y)</span> here,
-can't be used with <span class="fixed">&lt;-</span> to bind its result, because that
-wouldn't make sense if we translated the <span class="fixed">do</span>
+can’t be used with <span class="fixed">&lt;-</span> to bind its result, because that
+wouldn’t make sense if we translated the <span class="fixed">do</span>
 expression
 back to a chain of <span class="fixed">&gt;&gt;=</span> applications. Rather,
 its result is the result of the whole glued up monadic value, taking into
@@ -1133,20 +1133,20 @@ marySue = do
 </pre>
 
 <p>
-If we compare these two, it's easy to see why the result of the whole monadic
+If we compare these two, it’s easy to see why the result of the whole monadic
 value is the result of the last monadic value in the <span class="fixed">do</span>
 expression with all the previous ones chained into it.
 </p>
 
 <p>
-Our tightwalker's routine can also be expressed with <span class="fixed">do</span>
+Our tightwalker’s routine can also be expressed with <span class="fixed">do</span>
 notation. <span class="fixed">landLeft</span> and <span class="fixed">landRight</span>
 take a number of birds and a pole and produce a pole wrapped in a <span
 class="fixed">Just</span>, unless the tightwalker
 slips, in which case a <span class="fixed">Nothing</span> is produced. We used
 <span class="fixed">&gt;&gt;=</span> to chain successive steps because each one
 relied on the previous one and each one had an added context of possible
-failure. Here's two birds landing on the left side, then two birds landing on
+failure. Here’s two birds landing on the left side, then two birds landing on
 the right and then one bird landing on the left:
 </p>
 
@@ -1160,7 +1160,7 @@ routine = do
 </pre>
 
 <p>
-Let's see if he succeeds:
+Let’s see if he succeeds:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1184,12 +1184,12 @@ class="fixed">first</span> would be <span class="fixed">(2,0)</span> and so on.
 
 <p>
 Because <span class="fixed">do</span> expressions are written line by line, they may look
-like imperative code to some people. But the thing is, they're just sequential, as each value in
+like imperative code to some people. But the thing is, they’re just sequential, as each value in
 each line relies on the result of the previous ones, along with their contexts
 (in this case, whether they succeeded or failed).
 </p>
 
-<p>Again, let's take a look at what this piece of code would look like if we hadn't
+<p>Again, let’s take a look at what this piece of code would look like if we hadn’t
 used the monadic aspects of <span class="fixed">Maybe</span>:</p>
 
 <pre name="code" class="haskell:hs">
@@ -1227,10 +1227,10 @@ routine = do
 
 <p>
 When we write a line in <span class="fixed">do</span> notation without binding
-the monadic value with <span class="fixed">&lt;-</span>, it's just like putting
+the monadic value with <span class="fixed">&lt;-</span>, it’s just like putting
 <span class="fixed">&gt;&gt;</span> after the monadic value whose result we
 want to ignore. We sequence the monadic value but we ignore its result because
-we don't care what it is and it's prettier than writing
+we don’t care what it is and it’s prettier than writing
 <span class="fixed">_ &lt;- Nothing</span>, which is equivalent to the above.
 </p>
 
@@ -1247,7 +1247,7 @@ it gave us some insight into <span class="fixed">do</span> notation.
 <p>
 In <span class="fixed">do</span> notation, when we bind monadic values to
 names, we can utilize pattern matching, just like in <span class="fixed">let</span>
-expressions and function parameters. Here's an example of pattern matching in a
+expressions and function parameters. Here’s an example of pattern matching in a
 <span class="fixed">do</span> expression:
 </p>
 
@@ -1270,10 +1270,10 @@ fail? When matching on a pattern in a function fails, the next pattern is
 matched. If the matching falls through all the patterns for a given function, an
 error is thrown and our program crashes. On the other hand, failed pattern
 matching in <span class="fixed">let</span> expressions results in an error being
-produced right away, because the mechanism of falling through patterns isn't
+produced right away, because the mechanism of falling through patterns isn’t
 present in <span class="fixed">let</span> expressions. When pattern matching
 fails in a <span class="fixed">do</span> expression, the <span
-class="fixed">fail</span> function is called. It's part of the <span
+class="fixed">fail</span> function is called. It’s part of the <span
 class="fixed">Monad</span> type class and it enables failed pattern matching to
 result in a failure in the context of the current monad instead of making our
 program crash. Its default implementation is this:
@@ -1297,10 +1297,10 @@ fail _ = Nothing
 
 <p>
 It ignores the error message and makes a <span class="fixed">Nothing</span>. So
-when pattern matching fails in a <span class="fixed">Maybe</span> value that's
+when pattern matching fails in a <span class="fixed">Maybe</span> value that’s
 written in <span class="fixed">do</span> notation, the whole value results in a
 <span class="fixed">Nothing</span>. This is preferable to having our program
-crash. Here's a <span class="fixed">do</span> expression with a pattern that's
+crash. Here’s a <span class="fixed">do</span> expression with a pattern that’s
 bound to fail:
 </p>
 
@@ -1313,7 +1313,7 @@ wopwop = do
 
 <p>
 The pattern matching fails, so the effect is the same as if the whole line with
-the pattern was replaced with a <span class="fixed">Nothing</span>. Let's try
+the pattern was replaced with a <span class="fixed">Nothing</span>. Let’s try
 this out:
 </p>
 
@@ -1331,16 +1331,16 @@ monad instead of causing a program-wide failure, which is pretty neat.
 <h2>The list monad</h2>
 <img src="assets/images/a-fistful-of-monads/deadcat.png" alt="dead cat" class="left" width="235" height="230">
 <p>
-So far, we've seen how <span class="fixed">Maybe</span> values can be viewed as
+So far, we’ve seen how <span class="fixed">Maybe</span> values can be viewed as
 values with a failure context and how we can incorporate failure handling into
 our code by using <span class="fixed">&gt;&gt;=</span> to feed them to functions.
-In this section, we're going to take a look at how to use the monadic aspects of
+In this section, we’re going to take a look at how to use the monadic aspects of
 lists to bring non-determinism into our code in a clear and readable manner.
 </p>
 
 <p>
-We've already talked about how lists represent non-deterministic values
-when they're used as applicatives. A value like <span class="fixed">5</span>
+We’ve already talked about how lists represent non-deterministic values
+when they’re used as applicatives. A value like <span class="fixed">5</span>
 is deterministic. It has only one result and we know exactly what it is. On the
 other hand, a value like <span class="fixed">[3,8,9]</span> contains several
 results, so we can view it as one value that is actually many values at the same
@@ -1362,7 +1362,7 @@ many more results.
 </p>
 
 <p>
-This context of non-determinism translates to monads very nicely. Let's go ahead
+This context of non-determinism translates to monads very nicely. Let’s go ahead
 and see what the <span class="fixed">Monad</span> instance for lists looks like:
 </p>
 
@@ -1384,13 +1384,13 @@ non-deterministic values.
 </p>
 
 <p>
-To understand how <span class="fixed">&gt;&gt;=</span> works for lists, it's
+To understand how <span class="fixed">&gt;&gt;=</span> works for lists, it’s
 best if we take a look at it in action to gain some intuition first. <span
 class="fixed">&gt;&gt;=</span> is about taking a value with a context (a monadic
 value) and feeding it to a function that takes a normal value and returns one
 that has context. If that function just produced a normal value instead of one
-with a context, <span class="fixed">&gt;&gt;=</span> wouldn't be so useful
-because after one use, the context would be lost. Anyway, let's try feeding a
+with a context, <span class="fixed">&gt;&gt;=</span> wouldn’t be so useful
+because after one use, the context would be lost. Anyway, let’s try feeding a
 non-deterministic value to a function:
 </p>
 
@@ -1408,10 +1408,10 @@ into a function that returns a non-deterministic value as well. The result is
 also non-deterministic, and it features all the possible results of taking
 elements from the list <span class="fixed">[3,4,5]</span> and passing them to
 the function <span class="fixed">\x -&gt; [x,-x]</span>. This function takes a
-number and produces two results: one negated and one that's unchanged. So when
+number and produces two results: one negated and one that’s unchanged. So when
 we use <span class="fixed">&gt;&gt;=</span> to feed this list to the function,
 every number is negated and also kept unchanged. The <span class="fixed">x</span>
-from the lambda takes on every value from the list that's fed to it.
+from the lambda takes on every value from the list that’s fed to it.
 </p>
 
 <p>
@@ -1426,7 +1426,7 @@ lambda over it and the result is the following:
 
 <p>
 The lambda is applied to every element and we get a list of lists. Finally, we
-just flatten the list and voila! We've applied a non-deterministic function to a
+just flatten the list and voila! We’ve applied a non-deterministic function to a
 non-deterministic value!
 </p>
 
@@ -1434,8 +1434,8 @@ non-deterministic value!
 Non-determinism also includes support for failure. The empty list <span
 class="fixed">[]</span> is pretty much the equivalent of <span
 class="fixed">Nothing</span>, because it signifies the absence of a result.
-That's why failing is just defined as the empty list. The error message gets
-thrown away. Let's play around with lists that fail:
+That’s why failing is just defined as the empty list. The error message gets
+thrown away. Let’s play around with lists that fail:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1472,17 +1472,17 @@ The list <span class="fixed">[1,2]</span> gets bound to <span
 class="fixed">n</span> and <span class="fixed">['a','b']</span> gets bound to
 <span class="fixed">ch</span>. Then, we do <span class="fixed">return (n,ch)</span> (or <span class="fixed">[(n,ch)]</span>),
 which means taking a pair of <span class="fixed">(n,ch)</span> and putting it in
-a default minimal context. In this case, it's making the smallest possible list
+a default minimal context. In this case, it’s making the smallest possible list
 that still presents <span class="fixed">(n,ch)</span> as the result and features
 as little non-determinism as possible. Its effect on the context is minimal.
-What we're saying here is this: for every element in <span class="fixed">[1,2]</span>,
+What we’re saying here is this: for every element in <span class="fixed">[1,2]</span>,
 go over every element in <span class="fixed">['a','b']</span> and produce a
 tuple of one element from each list.
 </p>
 
 <p>
 Generally speaking, because <span class="fixed">return</span> takes a value and
-wraps it  in a minimal context, it doesn't have any extra effect (like failing
+wraps it  in a minimal context, it doesn’t have any extra effect (like failing
 in <span class="fixed">Maybe</span> or resulting in more non-determinism for
 lists) but it does present something as its result.
 </p>
@@ -1494,7 +1494,7 @@ separate branch.
 </div>
 
 <p>
-Here's the previous expression rewritten in <span class="fixed">do</span> notation:
+Here’s the previous expression rewritten in <span class="fixed">do</span> notation:
 </p>
 
 
@@ -1511,14 +1511,14 @@ This makes it a bit more obvious that <span class="fixed">n</span> takes on
 every value from <span class="fixed">[1,2]</span> and <span
 class="fixed">ch</span> takes on every value from <span
 class="fixed">['a','b']</span>. Just like with <span class="fixed">Maybe</span>,
-we're extracting the elements from the monadic values and treating them like
+we’re extracting the elements from the monadic values and treating them like
 normal values and <span class="fixed">&gt;&gt;=</span> takes care of the context
 for us. The context in this case is non-determinism.
 </p>
 
 <p>
 Using lists with <span class="fixed">do</span> notation really reminds me of
-something we've seen before. Check out the following piece of code:
+something we’ve seen before. Check out the following piece of code:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1533,7 +1533,7 @@ and for every such result, <span class="fixed">ch</span> was assigned a result
 from <span class="fixed">['a','b']</span> and then the final line put <span
 class="fixed">(n,ch)</span> into a default context (a singleton list) to present
 it as the result without introducing any additional non-determinism. In this
-list comprehension, the same thing happened, only we didn't have to write
+list comprehension, the same thing happened, only we didn’t have to write
 <span class="fixed">return</span> at the end to present <span
 class="fixed">(n,ch)</span> as the result because the output part of a list
 comprehension did that for us.
@@ -1564,7 +1564,7 @@ class="fixed">'7'</span> is part of that string. Pretty clever. To see how
 filtering in list comprehensions translates to the list monad, we have to check
 out the <span class="fixed">guard</span> function and the <span
 class="fixed">MonadPlus</span> type class. The <span class="fixed">MonadPlus</span>
-type class is for monads that can also act as monoids. Here's its definition:
+type class is for monads that can also act as monoids. Here’s its definition:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1601,7 +1601,7 @@ guard False = mzero
 </pre>
 
 <p>
-It takes a boolean value and if it's <span class="fixed">True</span>, takes a <span class="fixed">()</span> and puts it in a minimal default context
+It takes a boolean value and if it’s <span class="fixed">True</span>, takes a <span class="fixed">()</span> and puts it in a minimal default context
 that still succeeds. Otherwise, it makes a failed monadic value. Here it is in
 action:
 </p>
@@ -1629,7 +1629,7 @@ ghci&gt; [1..50] &gt;&gt;= (\x -&gt; guard ('7' `elem` show x) &gt;&gt; return x
 
 <p>
 The result here is the same as the result of our previous list comprehension.
-How does <span class="fixed">guard</span> achieve this? Let's first
+How does <span class="fixed">guard</span> achieve this? Let’s first
 see how <span class="fixed">guard</span> functions in conjunction with <span
 class="fixed">&gt;&gt;</span>:
 </p>
@@ -1655,7 +1655,7 @@ inside it. All this does is to allow the computation to continue.
 </p>
 
 <p>
-Here's the previous example rewritten in <span class="fixed">do</span> notation:
+Here’s the previous example rewritten in <span class="fixed">do</span> notation:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1669,7 +1669,7 @@ sevensOnly = do
 <p>
 Had we forgotten to present <span class="fixed">x</span> as the final result by
 using <span class="fixed">return</span>, the resulting list would just be a list
-of empty tuples. Here's this again in the form of a list comprehension:
+of empty tuples. Here’s this again in the form of a list comprehension:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1682,20 +1682,20 @@ So filtering in list comprehensions is the same as using <span
 class="fixed">guard</span>.
 </p>
 
-<h3>A knight's quest</h3>
+<h3>A knight’s quest</h3>
 <p>
-Here's a problem that really lends itself to being solved with non-determinism.
+Here’s a problem that really lends itself to being solved with non-determinism.
 Say you have a chess board and only one knight piece on it. We want to find out
-if the knight can reach a certain position in three moves. We'll just use a pair
-of numbers to represent the knight's position on the chess board. The first
-number will determine the column he's in and the second number will determine
+if the knight can reach a certain position in three moves. We’ll just use a pair
+of numbers to represent the knight’s position on the chess board. The first
+number will determine the column he’s in and the second number will determine
 the row.
 </p>
 
 <img src="assets/images/a-fistful-of-monads/chess.png" alt="hee haw im a horse" class="center" width="760" height="447">
 
 <p>
-Let's make a type synonym for the knight's current position on the chess board:
+Let’s make a type synonym for the knight’s current position on the chess board:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1703,12 +1703,12 @@ type KnightPos = (Int,Int)
 </pre>
 
 <p>
-So let's say that the knight starts at <span class="fixed">(6,2)</span>. Can he
-get to <span class="fixed">(6,1)</span> in exactly three moves? Let's see. If we
-start off at <span class="fixed">(6,2)</span> what's the best move to make next?
+So let’s say that the knight starts at <span class="fixed">(6,2)</span>. Can he
+get to <span class="fixed">(6,1)</span> in exactly three moves? Let’s see. If we
+start off at <span class="fixed">(6,2)</span> what’s the best move to make next?
 I know, how about all of them! We have non-determinism at our disposal, so
-instead of picking one move, let's just pick all of them at once. Here's a
-function that takes the knight's position and returns all of its next moves:
+instead of picking one move, let’s just pick all of them at once. Here’s a
+function that takes the knight’s position and returns all of its next moves:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1726,9 +1726,9 @@ The knight can always take one step horizontally or vertically and two steps
 horizontally or vertically but its movement has to be both horizontal and
 vertical. <span class="fixed">(c',r')</span> takes on every value from the list
 of movements and then <span class="fixed">guard</span> makes sure that the new
-move, <span class="fixed">(c',r')</span> is still on the board. If it it's not,
+move, <span class="fixed">(c',r')</span> is still on the board. If it it’s not,
 it produces an empty list, which causes a failure and <span
-class="fixed">return (c',r')</span> isn't carried out for that position.
+class="fixed">return (c',r')</span> isn’t carried out for that position.
 </p>
 
 <p>
@@ -1747,7 +1747,7 @@ moveKnight (c,r) = filter onBoard
 </pre>
 
 <p>
-Both of these do the same thing, so pick one that you think looks nicer. Let's
+Both of these do the same thing, so pick one that you think looks nicer. Let’s
 give it a whirl:
 </p>
 
@@ -1762,7 +1762,7 @@ ghci&gt; moveKnight (8,1)
 Works like a charm! We take one position and we just carry out all the possible
 moves at once, so to speak. So now that we have a non-deterministic next position,
 we just use <span class="fixed">&gt;&gt;=</span> to feed it to <span
-class="fixed">moveKnight</span>. Here's a function that takes a position and
+class="fixed">moveKnight</span>. Here’s a function that takes a position and
 returns all the positions that you can reach from it in three moves:
 </p>
 
@@ -1801,7 +1801,7 @@ here anyway for style.
 </p>
 
 <p>
-Now, let's make a function that takes two positions and tells us if you can
+Now, let’s make a function that takes two positions and tells us if you can
 get from one to the other in exactly three steps:
 </p>
 
@@ -1812,7 +1812,7 @@ canReachIn3 start end = end `elem` in3 start
 
 <p>
 We generate all the possible positions in three steps and then we see if the
-position we're looking for is among them. So let's see if we can get from
+position we’re looking for is among them. So let’s see if we can get from
 <span class="fixed">(6,2)</span> to <span class="fixed">(6,1)</span> in three
 moves:
 </p>
@@ -1834,7 +1834,7 @@ False
 
 <p>
 No! As an exercise, you can change this function so that when you can reach one
-position from the other, it tells you which moves to take. Later on, we'll see
+position from the other, it tells you which moves to take. Later on, we’ll see
 how to modify this function so that we also pass it the number of moves to take
 instead of that number being hardcoded like it is now.
 </p>
@@ -1848,20 +1848,20 @@ everything" class="right" width="343" height="170">
 <p>
 Just like applicative functors, and functors before them, monads come with a few
 laws that all monad instances must abide by. Just because something is made an
-instance of the <span class="fixed">Monad</span> type class doesn't mean that
-it's a monad, it just means that it was made an instance of a type class. For
+instance of the <span class="fixed">Monad</span> type class doesn’t mean that
+it’s a monad, it just means that it was made an instance of a type class. For
 a type to truly be a monad, the monad laws must hold for that type. These laws
 allow us to make reasonable assumptions about the type and its behavior.
 </p>
 
 <p>
 Haskell allows any type to be an instance of any type class as long as the types check
-out. It can't check if the monad laws hold for a type though, so if we're making
+out. It can’t check if the monad laws hold for a type though, so if we’re making
 a new instance of the <span class="fixed">Monad</span> type class, we have to be
 reasonably sure that all is well with the monad laws for that type. We can rely
 on the types that come with the standard library to satisfy the laws, but later
-when we go about making our own monads, we're going to have to manually check
-the if the laws hold. But don't worry, they're not complicated.
+when we go about making our own monads, we’re going to have to manually check
+the if the laws hold. But don’t worry, they’re not complicated.
 </p>
 
 <h3>Left identity</h3>
@@ -1869,7 +1869,7 @@ the if the laws hold. But don't worry, they're not complicated.
 <p>
 The first monad law states that if we take a value, put it in a default
 context with <span class="fixed">return</span> and then feed it to a function by
-using <span class="fixed">&gt;&gt;=</span>, it's the same as just taking the
+using <span class="fixed">&gt;&gt;=</span>, it’s the same as just taking the
 value and applying the function to it. To put it formally:
 </p>
 
@@ -1883,8 +1883,8 @@ If you look at monadic values as values with a context and <span
 class="fixed">return</span> as taking a value and putting it in a default
 minimal context that still presents that value as its result, it makes sense,
 because if that context is really minimal, feeding this monadic value to a
-function shouldn't be much different than just applying the function to the
-normal value, and indeed it isn't different at all.
+function shouldn’t be much different than just applying the function to the
+normal value, and indeed it isn’t different at all.
 </p>
 
 <p>
@@ -1892,7 +1892,7 @@ For the <span class="fixed">Maybe</span> monad <span class="fixed">return</span>
 is defined as <span class="fixed">Just</span>. The <span class="fixed">Maybe</span>
 monad is all about possible failure, and if we have a value and want to put it
 in such a context, it makes sense that we treat it as a successful computation
-because, well, we know what the value is. Here's some <span
+because, well, we know what the value is. Here’s some <span
 class="fixed">return</span> usage with <span class="fixed">Maybe</span>:
 </p>
 
@@ -1907,7 +1907,7 @@ Just 100003
 For the list monad <span class="fixed">return</span> puts something in a
 singleton list. The <span class="fixed">&gt;&gt;=</span> implementation for
 lists goes over all the values in the list and applies the function to them, but
-since there's only one value in a singleton list, it's the same as applying the
+since there’s only one value in a singleton list, it’s the same as applying the
 function to that value:
 </p>
 
@@ -1939,15 +1939,15 @@ the result is our original monadic value. Formally:
 </ul>
 
 <p>
-This one might be a bit less obvious than the first one, but let's take a look
+This one might be a bit less obvious than the first one, but let’s take a look
 at why it should hold. When we feed monadic values to functions by using <span
 class="fixed">&gt;&gt;=</span>, those functions take normal values and return
 monadic ones. <span class="fixed">return</span> is also one such function, if
 you consider its type. Like we said, <span class="fixed">return</span> puts a
 value in a minimal context that still presents that value as its result. This
-means that, for instance, for <span class="fixed">Maybe</span>, it doesn't
-introduce any failure and for lists, it doesn't introduce any extra
-non-determinism. Here's a test run for a few monads:
+means that, for instance, for <span class="fixed">Maybe</span>, it doesn’t
+introduce any failure and for lists, it doesn’t introduce any extra
+non-determinism. Here’s a test run for a few monads:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1978,8 +1978,8 @@ we have our original list.
 
 <p>
 Left identity and right identity are basically laws that describe how <span
-class="fixed">return</span> should behave. It's an important function for
-making normal values into monadic ones and it wouldn't be good if the monadic
+class="fixed">return</span> should behave. It’s an important function for
+making normal values into monadic ones and it wouldn’t be good if the monadic
 value that it produced did a lot of other stuff.
 </p>
 
@@ -1987,8 +1987,8 @@ value that it produced did a lot of other stuff.
 
 <p>
 The final monad law says that when we have a chain of monadic function
-applications with <span class="fixed">&gt;&gt;=</span>, it shouldn't matter how
-they're nested. Formally written:
+applications with <span class="fixed">&gt;&gt;=</span>, it shouldn’t matter how
+they’re nested. Formally written:
 </p>
 
 <ul>
@@ -1997,14 +1997,14 @@ they're nested. Formally written:
 </ul>
 
 <p>
-Hmmm, now what's going on here? We have one monadic value, <span
+Hmmm, now what’s going on here? We have one monadic value, <span
 class="fixed">m</span> and two monadic functions <span class="fixed">f</span>
-and <span class="fixed">g</span>. When we're doing <span class="fixed">(m
-&gt;&gt;= f) &gt;&gt;= g</span>, we're feeding <span class="fixed">m</span> to <span class="fixed">f</span>, which results in a monadic value. Then, we feed that monadic value to <span class="fixed">g</span>.
+and <span class="fixed">g</span>. When we’re doing <span class="fixed">(m
+&gt;&gt;= f) &gt;&gt;= g</span>, we’re feeding <span class="fixed">m</span> to <span class="fixed">f</span>, which results in a monadic value. Then, we feed that monadic value to <span class="fixed">g</span>.
 In the expression <span class="fixed">m &gt;&gt;= (\x -&gt; f x &gt;&gt;= g)</span>, we take a
 monadic value and we feed it to a function that feeds the result of <span
-class="fixed">f x</span> to <span class="fixed">g</span>. It's not easy to see
-how those two are equal, so let's take a look at an example that makes this
+class="fixed">f x</span> to <span class="fixed">g</span>. It’s not easy to see
+how those two are equal, so let’s take a look at an example that makes this
 equality a bit clearer.
 </p>
 
@@ -2023,7 +2023,7 @@ Just (2,4)
 We started with <span class="fixed">Just (0,0)</span> and then bound that value
 to the next monadic function, <span class="fixed">landRight 2</span>. The result
 of that was another monadic value which got bound into the next
-monadic function, and so on. If we were to explicitly parenthesize this, we'd
+monadic function, and so on. If we were to explicitly parenthesize this, we’d
 write:
 </p>
 
@@ -2048,7 +2048,7 @@ landRight 2 z)))
 <span class="fixed">Just (0,0)</span> and when we feed it to the lambda,
 the <span class="fixed">x</span> becomes <span class="fixed">(0,0)</span>.
 <span class="fixed">landRight</span> takes a number of birds and a pole (a tuple
-of numbers) and that's what it gets passed. This results in a <span
+of numbers) and that’s what it gets passed. This results in a <span
 class="fixed">Just (0,2)</span> and when we feed this to the next lambda,
 <span class="fixed">y</span> is <span class="fixed">(0,2)</span>. This goes on
 until the final bird landing produces a <span class="fixed">Just (2,4)</span>,
@@ -2056,8 +2056,8 @@ which is indeed the result of the whole expression.
 </p>
 
 <p>
-So it doesn't matter how you nest feeding values to monadic functions, what
-matters is their meaning. Here's another way to look at this law: consider
+So it doesn’t matter how you nest feeding values to monadic functions, what
+matters is their meaning. Here’s another way to look at this law: consider
 composing two functions, <span class="fixed">f</span> and <span
 class="fixed">g</span>. Composing two functions is implemented like so:
 </p>
@@ -2074,7 +2074,7 @@ we arrange them into a new function which has a type of <span
 class="fixed">a -&gt; c</span>, so that its parameter is passed between those
 functions. Now what if those two functions were monadic, that is, what if the
 values they returned were monadic values? If we had a function of type
-<span class="fixed">a -&gt; m b</span>, we couldn't just pass its result to a
+<span class="fixed">a -&gt; m b</span>, we couldn’t just pass its result to a
 function of type <span class="fixed">b -&gt; m c</span>, because that function
 accepts a normal <span class="fixed">b</span>, not a monadic one. We could
 however, use <span class="fixed">&gt;&gt;=</span> to make that happen. So by
@@ -2104,7 +2104,7 @@ Cool. So what does that have to do with the associativity law? Well, when we
 look at the law as a law of compositions, it states that
 <span class="label law">f &lt;=&lt; (g &lt;=&lt; h)</span> should be the same as
 <span class="label law">(f &lt;=&lt; g) &lt;=&lt; h</span>. This is just another
-way of saying that for monads, the nesting of operations shouldn't matter.
+way of saying that for monads, the nesting of operations shouldn’t matter.
 </p>
 
 <p>
@@ -2127,7 +2127,7 @@ is also just <span class="fixed">f</span>.
 <p>
 In this chapter, we took a look at the basics of monads and learned how the
 <span class="fixed">Maybe</span> monad and the list monad work. In the next
-chapter, we'll take a look at a whole bunch of other cool monads and we'll also
+chapter, we’ll take a look at a whole bunch of other cool monads and we’ll also
 learn how to make our own.
 </p>
                 <div class="footdiv">

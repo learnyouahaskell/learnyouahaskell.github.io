@@ -36,29 +36,29 @@
 <img src="assets/images/for-a-few-monads-more/clint.png" alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java" class="right" width="189" height="400">
 
 <p>
-We've seen how monads can be used to take values with contexts and apply them to
+We’ve seen how monads can be used to take values with contexts and apply them to
 functions and how using <span class="fixed">&gt;&gt;=</span> or <span
 class="fixed">do</span> notation allows us to focus on the values themselves while the
 context gets handled for us.
 </p>
 
 <p>
-We've met the <span class="fixed">Maybe</span> monad and seen how it adds a
-context of possible failure to values. We've learned about the list monad and
-saw how it lets us easily introduce non-determinism into our programs. We've also
+We’ve met the <span class="fixed">Maybe</span> monad and seen how it adds a
+context of possible failure to values. We’ve learned about the list monad and
+saw how it lets us easily introduce non-determinism into our programs. We’ve also
 learned how to work in the <span class="fixed">IO</span> monad, even before we
 knew what a monad was!
 </p>
 
 <p>
-In this chapter, we're going to learn about a few other monads. We'll see how
+In this chapter, we’re going to learn about a few other monads. We’ll see how
 they can make our programs clearer by letting us treat all sorts of values as
 monadic ones. Exploring a few monads more will also solidify our intuition for
 monads.
 </p>
 
 <p>
-The monads that we'll be exploring are all part of the <span class="fixed">mtl</span>
+The monads that we’ll be exploring are all part of the <span class="fixed">mtl</span>
 package. A Haskell package is a collection of modules. The <span
 class="fixed">mtl</span> package comes with the Haskell Platform, so you
 probably already have it. To check if you do, type <span
@@ -71,8 +71,8 @@ class="fixed">mtl</span>, followed by a version number.
 <h2>Writer? I hardly know her!</h2>
 
 <p>
-We've loaded our gun with the <span class="fixed">Maybe</span> monad, the list
-monad and the <span class="fixed">IO</span> monad. Now let's put the <span
+We’ve loaded our gun with the <span class="fixed">Maybe</span> monad, the list
+monad and the <span class="fixed">IO</span> monad. Now let’s put the <span
 class="fixed">Writer</span> monad in the chamber and see what happens when we
 fire it!
 </p>
@@ -87,9 +87,9 @@ log value that then gets attached to the result.
 </p>
 
 <p>
-For instance, we might want to equip our values with strings that explain what's
+For instance, we might want to equip our values with strings that explain what’s
 going on, probably for debugging purposes. Consider a function that takes a
-number of bandits in a gang and tells us if that's a big gang or not. That's a
+number of bandits in a gang and tells us if that’s a big gang or not. That’s a
 very simple function:
 </p>
 
@@ -113,8 +113,8 @@ isBigGang x = (x &gt; 9, "Compared gang size to 9.")
 <p>
 So now instead of just returning a <span class="fixed">Bool</span>, we return a
 tuple where the first component of the tuple is the actual value and the second
-component is the string that accompanies that value. There's some added context
-to our value now. Let's give this a go:
+component is the string that accompanies that value. There’s some added context
+to our value now. Let’s give this a go:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -124,16 +124,16 @@ ghci&gt; isBigGang 30
 (True,"Compared gang size to 9.")
 </pre>
 
-<img src="assets/images/for-a-few-monads-more/tuco.png" alt="when you have to poop, poop, don't talk" class="left"
+<img src="assets/images/for-a-few-monads-more/tuco.png" alt="when you have to poop, poop, don’t talk" class="left"
 width="196" height="280">
 
 <p>
 So far so good. <span class="fixed">isBigGang</span> takes a normal value and
-returns a value with a context. As we've just seen, feeding it a normal value is
+returns a value with a context. As we’ve just seen, feeding it a normal value is
 not a problem. Now what if we already have a value that has a log string
 attached to it, such as <span class="fixed">(3, "Smallish gang.")</span>,
 and we want to feed it to <span class="fixed">isBigGang</span>? It seems like
-once again, we're faced with this question: if we have a function that takes a
+once again, we’re faced with this question: if we have a function that takes a
 normal value and returns a value with a context, how do we take a value with a
 context and feed it to the function?
 </p>
@@ -154,15 +154,15 @@ class="fixed">Just</span> value.
 </p>
 
 <p>
-In the same vein, let's make a function that takes a value with an attached log,
+In the same vein, let’s make a function that takes a value with an attached log,
 that is, an <span class="fixed">(a,String)</span> value and a function of type
 <span class="fixed">a -&gt; (b,String)</span> and feeds that value into the
-function. We'll call it <span class="fixed">applyLog</span>. But because an
-<span class="fixed">(a,String)</span> value doesn't carry with it a context of
+function. We’ll call it <span class="fixed">applyLog</span>. But because an
+<span class="fixed">(a,String)</span> value doesn’t carry with it a context of
 possible failure, but rather a context of an additional log value, <span
 class="fixed">applyLog</span> is going to make sure that the log of the original
-value isn't lost, but is joined together with the log of the value that results
-from the function. Here's the implementation of <span class="fixed">applyLog</span>:
+value isn’t lost, but is joined together with the log of the value that results
+from the function. Here’s the implementation of <span class="fixed">applyLog</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -177,19 +177,19 @@ the function to the value and then see that the context is taken care of. In the
 <span class="fixed">Maybe</span> monad, we checked if the value was a <span
 class="fixed">Just x</span> and if it was, we took that <span
 class="fixed">x</span> and applied the function to it. In this case,
-it's very easy to find the actual value, because we're dealing with a pair where
+it’s very easy to find the actual value, because we’re dealing with a pair where
 one component is the value and the other a log. So first we just take the value,
 which is <span class="fixed">x</span> and we apply the function <span
 class="fixed">f</span> to it. We get a pair of <span class="fixed">(y,newLog)</span>, where
 <span class="fixed">y</span> is the new result and <span class="fixed">newLog</span>
-the new log. But if we returned that as the result, the old log value wouldn't
+the new log. But if we returned that as the result, the old log value wouldn’t
 be included in the result, so we return a pair of <span class="fixed">(y,log ++
 newLog)</span>. We use <span class="fixed">++</span> to append the new log to
 the old one.
 </p>
 
 <p>
-Here's <span class="fixed">applyLog</span> in action:
+Here’s <span class="fixed">applyLog</span> in action:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -228,7 +228,7 @@ Be sure you know what <a href="functors-applicative-functors-and-monoids.html#mo
 Right now, <span class="fixed">applyLog</span> takes values of type <span
 class="fixed">(a,String)</span>, but is there a reason that the log has to be a
 <span class="fixed">String</span>? It uses <span class="fixed">++</span> to append
-the logs, so wouldn't this work on any kind of list, not just a list of
+the logs, so wouldn’t this work on any kind of list, not just a list of
 characters? Sure it would. We can go ahead and change its type to this:
 </p>
 
@@ -239,13 +239,13 @@ applyLog :: (a,[c]) -&gt; (a -&gt; (b,[c])) -&gt; (b,[c])
 <p>
 Now, the log is a list. The type of values contained in the list has to be the
 same for the original list as well as for the list that the function returns,
-otherwise we wouldn't be able to use <span class="fixed">++</span> to stick them
+otherwise we wouldn’t be able to use <span class="fixed">++</span> to stick them
 together.
 </p>
 
 <p>
-Would this work for bytestrings? There's no reason it shouldn't. However, the
-type we have now only works for lists. It seems like we'd have to make a
+Would this work for bytestrings? There’s no reason it shouldn’t. However, the
+type we have now only works for lists. It seems like we’d have to make a
 separate <span class="fixed">applyLog</span> for bytestrings. But wait! Both
 lists and bytestrings are monoids. As such, they are both instances of the
 <span class="fixed">Monoid</span> type class, which means that they implement
@@ -277,7 +277,7 @@ think of the tuple as a value and a log, but now we can think of it as a value
 with an accompanying monoid value. For instance, we can have a tuple that has an
 item name and an item price as the monoid value. We just use the <span
 class="fixed">Sum</span> newtype to make sure that the prices get added as we
-operate with the items. Here's a function that adds drink to some cowboy food:
+operate with the items. Here’s a function that adds drink to some cowboy food:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -306,12 +306,12 @@ Sum {getSum = 12}
 </pre>
 
 <p>
-The <span class="fixed">addDrink</span> function is pretty simple. If we're
+The <span class="fixed">addDrink</span> function is pretty simple. If we’re
 eating beans, it returns <span class="fixed">"milk"</span> along with <span
 class="fixed">Sum 25</span>, so 25 cents wrapped in <span
-class="fixed">Sum</span>. If we're eating jerky we drink whiskey and if we're
+class="fixed">Sum</span>. If we’re eating jerky we drink whiskey and if we’re
 eating anything else we drink beer. Just normally applying this function to a
-food wouldn't be terribly interesting right now, but using <span
+food wouldn’t be terribly interesting right now, but using <span
 class="fixed">applyLog</span> to feed a food that comes with a price itself into
 this function is interesting:
 </p>
@@ -327,9 +327,9 @@ ghci&gt; ("dogmeat", Sum 5) `applyLog` addDrink
 
 <p>
 Milk costs <span class="fixed">25</span> cents, but if we eat
-it with beans that cost <span class="fixed">10</span> cents, we'll end up paying
-<span class="fixed">35</span> cents. Now it's clear how the attached value
-doesn't always have to be a log, it can be any monoid value and how two such
+it with beans that cost <span class="fixed">10</span> cents, we’ll end up paying
+<span class="fixed">35</span> cents. Now it’s clear how the attached value
+doesn’t always have to be a log, it can be any monoid value and how two such
 values are combined into one depends on the monoid. When we were doing logs,
 they got appended, but now, the numbers are being added up.
 </p>
@@ -338,7 +338,7 @@ they got appended, but now, the numbers are being added up.
 Because the value that <span class="fixed">addDrink</span> returns is a tuple of
 type <span class="fixed">(Food,Price)</span>, we can feed that result to <span
 class="fixed">addDrink</span> again, so that it tells us what we should drink
-along with our drink and how much that will cost us. Let's give it a shot:
+along with our drink and how much that will cost us. Let’s give it a shot:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -357,8 +357,8 @@ class="fixed">addDrink</span>, we get another beer and the result is
 <h3>The Writer type</h3>
 
 <p>
-Now that we've seen that a value with an attached monoid acts like a monadic
-value, let's examine the <span class="fixed">Monad</span> instance for types of
+Now that we’ve seen that a value with an attached monoid acts like a monadic
+value, let’s examine the <span class="fixed">Monad</span> instance for types of
 such values.  The <span class="fixed">Control.Monad.Writer</span> module exports
 the <span class="fixed">Writer w a</span> type along with its <span
 class="fixed">Monad</span> instance and some useful functions for dealing with
@@ -366,7 +366,7 @@ values of this type.
 </p>
 
 <p>
-First, let's examine the type itself. To attach a monoid to a value, we just
+First, let’s examine the type itself. To attach a monoid to a value, we just
 need to put them together in a tuple. The <span class="fixed">Writer w a</span>
 type is just a <span class="fixed">newtype</span> wrapper for this. Its
 definition is very simple:
@@ -377,7 +377,7 @@ newtype Writer w a = Writer { runWriter :: (a, w) }
 </pre>
 
 <p>
-It's wrapped in a <span class="fixed">newtype</span> so that it can be made an
+It’s wrapped in a <span class="fixed">newtype</span> so that it can be made an
 instance of <span class="fixed">Monad</span> and that its type is separate from
 a normal tuple. The <span class="fixed">a</span> type parameter represents the type
 of the value and the <span class="fixed">w</span> type parameter the type of the
@@ -395,9 +395,9 @@ instance (Monoid w) =&gt; Monad (Writer w) where
 </pre>
 
 
-<img src="assets/images/for-a-few-monads-more/angeleyes.png" alt="when you have to poop, poop, don't talk" class="right" width="383" height="248">
+<img src="assets/images/for-a-few-monads-more/angeleyes.png" alt="when you have to poop, poop, don’t talk" class="right" width="383" height="248">
 <p>
-First off, let's examine <span class="fixed">&gt;&gt;=</span>. Its
+First off, let’s examine <span class="fixed">&gt;&gt;=</span>. Its
 implementation is essentially the same as <span class="fixed">applyLog</span>,
 only now that our tuple is wrapped in the <span class="fixed">Writer</span>
 <span class="fixed">newtype</span>, we have to unwrap it when pattern matching.
@@ -425,8 +425,8 @@ class="fixed">mempty</span> and some other monoid value, the result is that
 other monoid value. So if we use <span class="fixed">return</span> to make a
 <span class="fixed">Writer</span> value and then use <span class="fixed">&gt;&gt;=</span>
 to feed that value to a function, the resulting monoid value will be only what
-the function returns. Let's use <span class="fixed">return</span> on the number
-<span class="fixed">3</span> a bunch of times, only we'll pair it with a
+the function returns. Let’s use <span class="fixed">return</span> on the number
+<span class="fixed">3</span> a bunch of times, only we’ll pair it with a
 different monoid every time:
 </p>
 
@@ -440,18 +440,18 @@ ghci&gt; runWriter (return 3 :: Writer (Product Int) Int)
 </pre>
 
 <p>
-Because <span class="fixed">Writer</span> doesn't have a <span
+Because <span class="fixed">Writer</span> doesn’t have a <span
 class="fixed">Show</span> instance, we had to use <span
 class="fixed">runWriter</span> to convert our <span class="fixed">Writer</span>
 values to normal tuples that can be shown. For <span
 class="fixed">String</span>, the monoid value is the empty string. With <span
-class="fixed">Sum</span>, it's <span class="fixed">0</span>, because if we add 0
+class="fixed">Sum</span>, it’s <span class="fixed">0</span>, because if we add 0
 to something, that something stays the same. For <span class="fixed">Product</span>,
 the identity is <span class="fixed">1</span>.
 </p>
 
 <p>
-The <span class="fixed">Writer</span> instance doesn't feature an implementation
+The <span class="fixed">Writer</span> instance doesn’t feature an implementation
 for <span class="fixed">fail</span>, so if a pattern match fails in <span
 class="fixed">do</span> notation, <span class="fixed">error</span> is called.
 </p>
@@ -459,13 +459,13 @@ class="fixed">do</span> notation, <span class="fixed">error</span> is called.
 <h3>Using do notation with Writer</h3>
 
 <p>
-Now that we have a <span class="fixed">Monad</span> instance, we're free to use
+Now that we have a <span class="fixed">Monad</span> instance, we’re free to use
 <span class="fixed">do</span> notation for <span class="fixed">Writer</span>
-values. It's handy for when we have a several <span class="fixed">Writer</span>
+values. It’s handy for when we have a several <span class="fixed">Writer</span>
 values and we want to do stuff with them. Like with other monads, we can treat
 them as normal values and the context gets taken for us. In this case,
 all the monoid values that come attached get <span class="fixed">mappend</span>ed
-and so are reflected in the final result. Here's a simple example of using
+and so are reflected in the final result. Here’s a simple example of using
 <span class="fixed">do</span> notation with <span class="fixed">Writer</span> to
 multiply two numbers:
 </p>
@@ -493,7 +493,7 @@ and <span class="fixed">5</span> and makes sure that their attached logs get
 included in the final log. We use <span class="fixed">return</span> to present
 <span class="fixed">a*b</span> as the result. Because <span
 class="fixed">return</span> just takes something and puts it in a minimal
-context, we can be sure that it won't add anything to the log. Here's what we
+context, we can be sure that it won’t add anything to the log. Here’s what we
 see if we run this:
 </p>
 
@@ -505,14 +505,14 @@ ghci&gt; runWriter multWithLog
 <p>
 Sometimes we just want some monoid value to be included at some particular
 point. For this, the
-<span class="fixed">tell</span> function is useful. It's part of the
+<span class="fixed">tell</span> function is useful. It’s part of the
 <span class="fixed">MonadWriter</span> type class and in the case of
 <span class="fixed">Writer</span> it takes a monoid value, like <span
 class="fixed">["This is going on"]</span> and creates a <span
 class="fixed">Writer</span> value that presents the dummy value <span
 class="fixed">()</span> as its result but has our desired monoid value attached.
 When we have a monadic value that has <span class="fixed">()</span> as its
-result, we don't bind it to a variable. Here's <span class="fixed">multWithLog</span>
+result, we don’t bind it to a variable. Here’s <span class="fixed">multWithLog</span>
 but with some extra reporting included:
 </p>
 
@@ -526,12 +526,12 @@ multWithLog = do
 </pre>
 
 <p>
-It's important that <span class="fixed">return (a*b)</span> is the last line,
+It’s important that <span class="fixed">return (a*b)</span> is the last line,
 because the result of the last line in a <span class="fixed">do</span> expression
 is the result of the whole <span class="fixed">do</span> expression. Had we
 put <span class="fixed">tell</span> as the last line, <span
 class="fixed">()</span> would have been the result of this <span
-class="fixed">do</span> expression. We'd lose the result of the multiplication.
+class="fixed">do</span> expression. We’d lose the result of the multiplication.
 However, the log would be the same. Here is this in action:
 </p>
 
@@ -543,11 +543,11 @@ ghci&gt; runWriter multWithLog
 <h3>Adding logging to programs</h3>
 
 <p>
-Euclid's algorithm is an algorithm that takes two numbers and computes their
+Euclid’s algorithm is an algorithm that takes two numbers and computes their
 greatest common divisor. That is, the biggest number that still divides both of
 them. Haskell already features the <span class="fixed">gcd</span>
-function, which does exactly this, but let's implement our own and then equip it
-with logging capabilities. Here's the normal algorithm:
+function, which does exactly this, but let’s implement our own and then equip it
+with logging capabilities. Here’s the normal algorithm:
 </p>
 
 
@@ -561,16 +561,16 @@ gcd' a b
 
 <p>
 The algorithm is very simple. First, it checks if the second number is 0. If it
-is, then the result is the first number. If it isn't, then the result is the
+is, then the result is the first number. If it isn’t, then the result is the
 greatest common divisor of the second number and the remainder of dividing the
 first number with the second one. For instance, if we want to know what the
 greatest common divisor of 8 and 3 is, we just follow the algorithm outlined.
-Because 3 isn't 0, we have to find the greatest common divisor of 3 and 2
+Because 3 isn’t 0, we have to find the greatest common divisor of 3 and 2
 (if we divide 8 by 3, the remainder is 2). Next, we find the greatest
-common divisor of 3 and 2. 2 still isn't 0, so now we have 2 and 1. The
-second number isn't 0, so we run the algorithm again for 1 and 0, as
+common divisor of 3 and 2. 2 still isn’t 0, so now we have 2 and 1. The
+second number isn’t 0, so we run the algorithm again for 1 and 0, as
 dividing 2 by 1 gives us a remainder of 0. And finally, because the second number
-is now 0, the final result is 1. Let's see if our code agrees:
+is now 0, the final result is 1. Let’s see if our code agrees:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -580,7 +580,7 @@ ghci&gt; gcd' 8 3
 
 <p>
 It does. Very good! Now, we want to equip our result with a context, and the
-context will be a monoid value that acts as a log. Like before, we'll use a list
+context will be a monoid value that acts as a log. Like before, we’ll use a list
 of strings as our monoid. So the type of our new <span class="fixed">gcd'</span>
 function should be:
 </p>
@@ -590,7 +590,7 @@ gcd' :: Int -&gt; Int -&gt; Writer [String] Int
 </pre>
 
 <p>
-All that's left now is to equip our function with log values. Here's the code:
+All that’s left now is to equip our function with log values. Here’s the code:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -613,7 +613,7 @@ class="fixed">Int</span> that has a log context. In the case where <span
 class="fixed">b</span> is <span class="fixed">0</span>, instead of just giving
 <span class="fixed">a</span> as the result, we use a <span class="fixed">do</span> expression
 to put together a <span class="fixed">Writer</span> value as a result. First we
-use <span class="fixed">tell</span> to report that we're finished and then we
+use <span class="fixed">tell</span> to report that we’re finished and then we
 use <span class="fixed">return</span> to present <span class="fixed">a</span> as
 the result of the <span class="fixed">do</span> expression. Instead of this
 <span class="fixed">do</span> expression, we could have also written this:
@@ -625,28 +625,28 @@ Writer (a, ["Finished with " ++ show a])
 
 <p>
 However, I think the <span class="fixed">do</span> expression is easier to read. Next,
-we have the case when <span class="fixed">b</span> isn't <span class="fixed">0</span>. In this case,
-we log that we're using <span class="fixed">mod</span> to figure out the
+we have the case when <span class="fixed">b</span> isn’t <span class="fixed">0</span>. In this case,
+we log that we’re using <span class="fixed">mod</span> to figure out the
 remainder of dividing <span class="fixed">a</span> and <span
 class="fixed">b</span>. Then, the second line of the <span class="fixed">do</span> expression
 just recursively calls <span class="fixed">gcd'</span>. Remember, <span
 class="fixed">gcd'</span> now ultimately returns a <span class="fixed">Writer</span> value,
-so it's perfectly valid that <span class="fixed">gcd' b (a `mod` b)</span> is a
+so it’s perfectly valid that <span class="fixed">gcd' b (a `mod` b)</span> is a
 line in a <span class="fixed">do</span> expression.
 </p>
 
 <p>
 While it may be kind of useful to trace the execution of this new <span
-class="fixed">gcd'</span> by hand to see how the logs get appended, I think it's
+class="fixed">gcd'</span> by hand to see how the logs get appended, I think it’s
 more insightful to just look at the big picture and view these as values with a
 context and from that gain insight as to what the final result will be.
 </p>
 
 <p>
-Let's try our new <span class="fixed">gcd'</span> out. Its result is a
+Let’s try our new <span class="fixed">gcd'</span> out. Its result is a
 <span class="fixed">Writer [String] Int</span> value and if we unwrap that from
 its <span class="fixed">newtype</span>, we get a tuple. The first part of the
-tuple is the result. Let's see if it's okay:
+tuple is the result. Let’s see if it’s okay:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -655,7 +655,7 @@ ghci&gt; fst $ runWriter (gcd' 8 3)
 </pre>
 
 <p>
-Good! Now what about the log? Because the log is a list of strings, let's use
+Good! Now what about the log? Because the log is a list of strings, let’s use
 <span class="fixed">mapM_ putStrLn</span> to print those strings to the screen:
 </p>
 
@@ -668,7 +668,7 @@ Finished with 1
 </pre>
 
 <p>
-I think it's awesome how we were able to change our ordinary algorithm to one
+I think it’s awesome how we were able to change our ordinary algorithm to one
 that reports what it does as it goes along just by changing normal values to
 monadic values and letting the implementation of <span class="fixed">&gt;&gt;=</span>
 for <span class="fixed">Writer</span> take care of the logs for us. We can add a
@@ -683,7 +683,7 @@ class="fixed">do</span> expressions if it increases readability).
 <p>
 When using the <span class="fixed">Writer</span> monad, you have to be careful
 which monoid to use, because using lists can sometimes turn out to be very
-slow. That's because lists use <span class="fixed">++</span> for <span class="fixed">mappend</span>
+slow. That’s because lists use <span class="fixed">++</span> for <span class="fixed">mappend</span>
 and using <span class="fixed">++</span> to add something to the end of a list is
 slow if that list is really long.
 </p>
@@ -698,9 +698,9 @@ a ++ (b ++ (c ++ (d ++ (e ++ f))))
 </pre>
 
 <p>
-Lists are a data structure that's constructed from left to right, and this is
+Lists are a data structure that’s constructed from left to right, and this is
 efficient because we first fully construct the left part of a list and only
-then add a longer list on the right. But if we're not careful, using the
+then add a longer list on the right. But if we’re not careful, using the
 <span class="fixed">Writer</span> monad can produce list appending that looks like this:
 </p>
 
@@ -750,7 +750,7 @@ Finished with 1
 </pre>
 
 <p>
-It's inefficient because it ends up associating the use of <span
+It’s inefficient because it ends up associating the use of <span
 class="fixed">++</span> to
 the left instead of to the right.
 </p>
@@ -761,9 +761,9 @@ the left instead of to the right.
 
 <p>
 Because lists can sometimes be inefficient when repeatedly appended in this
-manner, it's best to use a data structure that always supports efficient
+manner, it’s best to use a data structure that always supports efficient
 appending. One such data structure is the difference list.  A difference list
-is similar to a list, only instead of being a normal list, it's a function that
+is similar to a list, only instead of being a normal list, it’s a function that
 takes a list and prepends another list to it. The difference list equivalent of
 a list like <span class="fixed">[1,2,3]</span> would be the function <span class="fixed">\xs -&gt; [1,2,3] ++ xs</span>.
 A normal empty list is <span class="fixed">[]</span>, whereas an empty difference list
@@ -789,7 +789,7 @@ functions that take lists and prepend something to them. So, for instance, if
 <span class="fixed">f</span> is the function <span class="fixed">("dog"++)</span> (just another
 way of writing <span class="fixed">\xs -&gt; "dog" ++ xs</span>) and <span
 class="fixed">g</span> the function <span class="fixed">("meat"++)</span>, then
-<span class="fixed">f `append` g</span> makes a new function that's equivalent
+<span class="fixed">f `append` g</span> makes a new function that’s equivalent
 to the following:
 </p>
 
@@ -798,12 +798,12 @@ to the following:
 </pre>
 
 <p>
-We've appended two difference lists just by making a new function that first
+We’ve appended two difference lists just by making a new function that first
 applies one difference list some list and then the other.
 </p>
 
 <p>
-Let's make a <span class="fixed">newtype</span> wrapper for difference lists so
+Let’s make a <span class="fixed">newtype</span> wrapper for difference lists so
 that we can easily give them monoid instances:
 </p>
 
@@ -833,7 +833,7 @@ something, we apply the function to an empty list!
 </p>
 
 <p>
-Here's the <span class="fixed">Monoid</span> instance:
+Here’s the <span class="fixed">Monoid</span> instance:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -845,7 +845,7 @@ instance Monoid (DiffList a) where
 <p>
 Notice how for lists, <span class="fixed">mempty</span> is just the
 <span class="fixed">id</span> function and <span class="fixed">mappend</span> is
-actually just function composition. Let's see if this works:
+actually just function composition. Let’s see if this works:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -878,7 +878,7 @@ gcd' a b
 We only had to change the type of the monoid from <span class="fixed">[String]</span>
 to <span class="fixed">DiffList String</span> and then when using
 <span class="fixed">tell</span>, convert our normal lists into difference lists
-with <span class="fixed">toDiffList</span>. Let's see if the log gets assembled
+with <span class="fixed">toDiffList</span>. Let’s see if the log gets assembled
 properly:
 </p>
 
@@ -926,7 +926,7 @@ log.
 
 <p>
 Anyway, if you load this function in GHCi and apply it to a big number,
-like <span class="fixed">500000</span>, you'll see that it quickly starts counting from
+like <span class="fixed">500000</span>, you’ll see that it quickly starts counting from
 <span class="fixed">0</span> onwards:
 </p>
 
@@ -960,7 +960,7 @@ ghci&gt; mapM_ putStrLn . snd . runWriter $ finalCountDown 500000
 </pre>
 
 <p>
-We'll see that the counting is really slow.
+We’ll see that the counting is really slow.
 </p>
 
 <p>
@@ -988,7 +988,7 @@ that the function type, <span class="fixed">(-&gt;) r</span> is an instance of
 class="fixed">f</span> over a function <span class="fixed">g</span> will make a
 function that takes the same thing as <span class="fixed">g</span>, applies
 <span class="fixed">g</span> to it and then applies <span class="fixed">f</span>
-to that result. So basically, we're making a new function that's like <span
+to that result. So basically, we’re making a new function that’s like <span
 class="fixed">g</span>, only before returning its result, <span
 class="fixed">f</span> gets applied to that result as well. For instance:
 </p>
@@ -1001,9 +1001,9 @@ ghci&gt; (fmap f g) 8
 </pre>
 
 <p>
-We've also seen that functions are applicative functors. They allow us to
+We’ve also seen that functions are applicative functors. They allow us to
 operate on the eventual results of functions as if we already had their results.
-Here's an example:
+Here’s an example:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1026,17 +1026,17 @@ class="fixed">3</span>, it applies both <span class="fixed">(*2)</span> and
 
 <p>
 Not only is the function type <span class="fixed">(-&gt;) r</span> a functor
-and an applicative functor, but it's also a monad. Just like other monadic
-values that we've met so far, a function can also be considered a value with
+and an applicative functor, but it’s also a monad. Just like other monadic
+values that we’ve met so far, a function can also be considered a value with
 a context. The context for functions is that that value is not present yet and
 that we have to apply that function to something in order to get its result
 value.
 </p>
 
 <p>
-Because we're already acquainted with how functions work as functors and
-applicative functors, let's dive right in and see what their
-<span class="fixed">Monad</span> instance looks like. It's located in
+Because we’re already acquainted with how functions work as functors and
+applicative functors, let’s dive right in and see what their
+<span class="fixed">Monad</span> instance looks like. It’s located in
 <span class="fixed">Control.Monad.Instances</span> and it goes a little
 something like this:
 </p>
@@ -1048,7 +1048,7 @@ instance Monad ((-&gt;) r) where
 </pre>
 
 <p>
-We've already seen how <span class="fixed">pure</span> is implemented for
+We’ve already seen how <span class="fixed">pure</span> is implemented for
 functions, and <span class="fixed">return</span> is pretty much the same thing
 as <span class="fixed">pure</span>. It takes a value and puts it in a minimal
 context that always has that value as its result. And the only way to make a
@@ -1058,10 +1058,10 @@ ignore its parameter.
 
 <p>
 The implementation for <span class="fixed">&gt;&gt;=</span> seems a bit cryptic,
-but it's really not all that. When we use <span class="fixed">&gt;&gt;=</span>
+but it’s really not all that. When we use <span class="fixed">&gt;&gt;=</span>
 to feed a monadic value to a function, the result is always a monadic value. So
 in this case, when we feed a function to another function, the result is a
-function as well. That's why the result starts off as a lambda. All of the
+function as well. That’s why the result starts off as a lambda. All of the
 implementations of <span class="fixed">&gt;&gt;=</span> so far always somehow
 isolated the result from the monadic value and then applied the function
 <span class="fixed">f</span> to that result. The same thing happens here. To get
@@ -1073,8 +1073,8 @@ returns a monadic value, which is a function in our case, so we apply it to
 </p>
 
 <p>
-If you don't understand how <span class="fixed">&gt;&gt;=</span> works at this point, don't
-worry, because with examples we'll see how this is a really simple monad. Here's
+If you don’t understand how <span class="fixed">&gt;&gt;=</span> works at this point, don’t
+worry, because with examples we’ll see how this is a really simple monad. Here’s
 a <span class="fixed">do</span> expression that utilizes this monad:
 </p>
 
@@ -1097,7 +1097,7 @@ number and then <span class="fixed">(*2)</span> gets applied to that number and
 the result becomes <span class="fixed">a</span>. <span class="fixed">(+10)</span> is applied to the same number that
 <span class="fixed">(*2)</span> got applied to and the result becomes <span
 class="fixed">b</span>. <span class="fixed">return</span>, like in other monads,
-doesn't have any other effect but to make a monadic value that presents some
+doesn’t have any other effect but to make a monadic value that presents some
 result. This presents <span class="fixed">a+b</span> as the result of this
 function. If we test it out, we get the same result as before:
 </p>
@@ -1129,8 +1129,8 @@ addStuff x = let
 We see that the reader monad allows us to treat functions as values with a
 context. We can act as if we already know what the functions will return. It
 does this by gluing functions together into one function and then giving that
-function's parameter to all of the functions that it was glued from. So if we
-have a lot of functions that are all just missing one parameter and they'd
+function’s parameter to all of the functions that it was glued from. So if we
+have a lot of functions that are all just missing one parameter and they’d
 eventually be applied to the same thing, we can use the reader monad to sort of
 extract their future results and the <span class="fixed">&gt;&gt;=</span>
 implementation will make sure that it all works out.
@@ -1138,18 +1138,18 @@ implementation will make sure that it all works out.
 
 <a name="state"></a>
 <h2>Tasteful stateful computations</h2>
-<img src="assets/images/for-a-few-monads-more/texas.png" alt="don't jest with texas" class="left" width="244"
+<img src="assets/images/for-a-few-monads-more/texas.png" alt="don’t jest with texas" class="left" width="244"
 height="230">
 
 <p>
 Haskell is a pure language and because of that, our programs are made of
-functions that can't change any global state or variables,
+functions that can’t change any global state or variables,
 they can only do some computations and return them results. This restriction
 actually makes it easier to think about our programs, as it frees us from
-worrying what every variable's value is at some point in time. However, some
+worrying what every variable’s value is at some point in time. However, some
 problems are inherently stateful in that they rely on some state that changes
-over time. While such problems aren't a problem for Haskell, they can be a bit
-tedious to model sometimes. That's why Haskell features a thing called the state
+over time. While such problems aren’t a problem for Haskell, they can be a bit
+tedious to model sometimes. That’s why Haskell features a thing called the state
 monad, which makes dealing with stateful problems a breeze while still keeping
 everything nice and pure.
 </p>
@@ -1176,23 +1176,23 @@ threeCoins gen =
 It took a generator <span class="fixed">gen</span> and then <span
 class="fixed">random gen</span> returned a <span class="fixed">Bool</span> value
 along with a new generator. To throw the second coin, we used the new generator,
-and so on. In most other languages, we wouldn't have to return a new generator
+and so on. In most other languages, we wouldn’t have to return a new generator
 along with a random number. We could just modify the existing one! But since
-Haskell is pure, we can't do that, so we had to take some state, make a result
+Haskell is pure, we can’t do that, so we had to take some state, make a result
 from it and a new state and then use that new state to generate new results.
 </p>
 
 <p>
-You'd think that to avoid manually dealing with stateful computations in this
-way, we'd have to give up the purity of Haskell. Well, we don't have to, since
+You’d think that to avoid manually dealing with stateful computations in this
+way, we’d have to give up the purity of Haskell. Well, we don’t have to, since
 there exist a special little monad called the state monad which handles all this
 state business for us and without giving up any of the purity that makes Haskell
 programming so cool.
 </p>
 
 <p>
-So, to help us understand this concept of stateful computations better, let's go
-ahead and give them a type. We'll say that a stateful computation is a function
+So, to help us understand this concept of stateful computations better, let’s go
+ahead and give them a type. We’ll say that a stateful computation is a function
 that takes some state and returns a value along with some new state. That
 function would have the following type:
 </p>
@@ -1231,15 +1231,15 @@ from getting a result we also get a new state.
 <p>
 Say we want to model operating a stack. You have a stack of things one on top
 of another and you can either push stuff on top of that stack or you can take stuff
-off the top of the stack. When you're putting an item on top of the stack we say
-that you're pushing it to the stack and when you're taking stuff off the
-top we say that you're popping it. If you want something that's at the bottom
-of the stack, you have to pop everything that's above it.
+off the top of the stack. When you’re putting an item on top of the stack we say
+that you’re pushing it to the stack and when you’re taking stuff off the
+top we say that you’re popping it. If you want something that’s at the bottom
+of the stack, you have to pop everything that’s above it.
 </p>
 
 <p>
-We'll use a list to represent our stack and the head of the list will be the top
-of the stack. To help us with our task, we'll make two functions: <span
+We’ll use a list to represent our stack and the head of the list will be the top
+of the stack. To help us with our task, we’ll make two functions: <span
 class="fixed">pop</span> and <span class="fixed">push</span>. <span
 class="fixed">pop</span> will take a stack, pop one item and return that item as
 the result and also return a new stack, without that item. <span
@@ -1260,15 +1260,15 @@ push a xs = ((),a:xs)
 
 <p>
 We used <span class="fixed">()</span> as the result when pushing to the stack
-because pushing an item onto the stack doesn't have any important result value,
+because pushing an item onto the stack doesn’t have any important result value,
 its main job is to change the stack. Notice how we just apply the first parameter of <span class="fixed">push</span>, we get a stateful
 computation. <span class="fixed">pop</span> is already a stateful computation
 because of its type.
 </p>
 
 <p>
-Let's write a small piece of code to simulate a stack using these functions.
-We'll take a stack, push <span class="fixed">3</span> to it and then pop two
+Let’s write a small piece of code to simulate a stack using these functions.
+We’ll take a stack, push <span class="fixed">3</span> to it and then pop two
 items, just for kicks. Here it is:
 </p>
 
@@ -1289,9 +1289,9 @@ Then, we pop a number from <span class="fixed">newStack1</span>, which results
 in a number <span class="fixed">a</span> (which is the <span
 class="fixed">3</span>) that we pushed and a new stack which we call
 <span class="fixed">newStack2</span>. Then, we pop a number off
-<span class="fixed">newStack2</span> and we get a number that's <span
+<span class="fixed">newStack2</span> and we get a number that’s <span
 class="fixed">b</span> and a <span class="fixed">newStack3</span>. We return a
-tuple with that number and that stack. Let's try it out:
+tuple with that number and that stack. Let’s try it out:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1302,14 +1302,14 @@ ghci&gt; stackManip [5,8,2,1]
 <p>
 Cool, the result is <span class="fixed">5</span> and the new stack is
 <span class="fixed">[8,2,1]</span>. Notice how <span class="fixed">stackManip</span>
-is itself a stateful computation. We've taken a bunch of stateful computations
-and we've sort of glued them together. Hmm, sounds familiar.
+is itself a stateful computation. We’ve taken a bunch of stateful computations
+and we’ve sort of glued them together. Hmm, sounds familiar.
 </p>
 <p>
 The above code for
-<span class="fixed">stackManip</span> is kind of tedious since we're manually
+<span class="fixed">stackManip</span> is kind of tedious since we’re manually
 giving the state to every stateful computation and storing it and then giving it
-to the next one. Wouldn't it be cooler if, instead of giving the stack manually
+to the next one. Wouldn’t it be cooler if, instead of giving the stack manually
 to each function, we could write something like this:
 </p>
 
@@ -1330,7 +1330,7 @@ the state manually.
 
 <p>
 The <span class="fixed">Control.Monad.State</span> module provides a <span
-class="fixed">newtype</span> that wraps stateful computations. Here's its definition:
+class="fixed">newtype</span> that wraps stateful computations. Here’s its definition:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1344,8 +1344,8 @@ type <span class="fixed">a</span>.
 </p>
 
 <p>
-Now that we've seen what stateful computations are about and how they can even be
-thought of as values with contexts, let's check out their <span
+Now that we’ve seen what stateful computations are about and how they can even be
+thought of as values with contexts, let’s check out their <span
 class="fixed">Monad</span> instance:
 </p>
 
@@ -1358,9 +1358,9 @@ instance Monad (State s) where
 </pre>
 
 <p>
-Let's take a gander at <span class="fixed">return</span> first. Our aim
+Let’s take a gander at <span class="fixed">return</span> first. Our aim
 with <span class="fixed">return</span> is to take a value and make a stateful
-computation that always has that value as its result. That's why we just make a
+computation that always has that value as its result. That’s why we just make a
 lambda <span class="fixed">\s -&gt; (x,s)</span>. We always present <span
 class="fixed">x</span> as the
 result of the stateful computation and the state is kept unchanged, because
@@ -1378,7 +1378,7 @@ stateful computation, right? So we start off with the <span class="fixed">State<
 <span class="fixed">newtype</span> wrapper and then we type out a lambda. This
 lambda will be our new stateful computation. But what goes on in it? Well, we
 somehow have to extract the result value from the first stateful computation.
-Because we're in a stateful computation right now, we can give the stateful
+Because we’re in a stateful computation right now, we can give the stateful
 computation <span class="fixed">h</span> our current state <span
 class="fixed">s</span>, which results in a pair of result and a new state:
 <span class="fixed">(a, newState)</span>. Every time so far when we were
@@ -1399,8 +1399,8 @@ state!
 <p>
 So with <span class="fixed">&gt;&gt;=</span>, we kind of glue two stateful
 computations together, only the second one is hidden inside a function that
-takes the previous one's result. Because <span class="fixed">pop</span> and
-<span class="fixed">push</span> are already stateful computations, it's easy to
+takes the previous one’s result. Because <span class="fixed">pop</span> and
+<span class="fixed">push</span> are already stateful computations, it’s easy to
 wrap them into a <span class="fixed">State</span> wrapper. Watch:
 </p>
 
@@ -1433,7 +1433,7 @@ stackManip = do
 </pre>
 
 <p>
-See how we've glued a push and two pops into one stateful computation? When we
+See how we’ve glued a push and two pops into one stateful computation? When we
 unwrap it from its <span class="fixed">newtype</span> wrapper we get a function
 to which we can provide some initial state:
 </p>
@@ -1444,8 +1444,8 @@ ghci&gt; runState stackManip [5,8,2,1]
 </pre>
 
 <p>
-We didn't have to bind the second <span class="fixed">pop</span> to <span
-class="fixed">a</span> because we didn't use that <span class="fixed">a</span>
+We didn’t have to bind the second <span class="fixed">pop</span> to <span
+class="fixed">a</span> because we didn’t use that <span class="fixed">a</span>
 at all. So we could have written it like this:
 </p>
 
@@ -1460,8 +1460,8 @@ stackManip = do
 <p>
 Pretty cool. But what if we want to do this: pop one number off the stack and
 then if that number is <span class="fixed">5</span> we just put it back onto the
-stack and stop but if it isn't <span class="fixed">5</span>, we push <span
-class="fixed">3</span> and <span class="fixed">8</span> back on? Well, here's
+stack and stop but if it isn’t <span class="fixed">5</span>, we push <span
+class="fixed">3</span> and <span class="fixed">8</span> back on? Well, here’s
 the code:
 </p>
 
@@ -1477,7 +1477,7 @@ stackStuff = do
 </pre>
 
 <p>
-This is quite straightforward. Let's run it with an initial stack.
+This is quite straightforward. Let’s run it with an initial stack.
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1512,7 +1512,7 @@ state as it is and does nothing.
 
 <p>
 The <span class="fixed">Control.Monad.State</span> module provides a type class
-that's called <span class="fixed">MonadState</span> and it features two pretty
+that’s called <span class="fixed">MonadState</span> and it features two pretty
 useful functions, namely <span class="fixed">get</span> and <span
 class="fixed">put</span>. For <span class="fixed">State</span>, the <span
 class="fixed">get</span> function is implemented like this:
@@ -1547,7 +1547,7 @@ stackyStack = do
 </pre>
 
 <p>
-It's worth examining what the type of <span class="fixed">&gt;&gt;=</span> would
+It’s worth examining what the type of <span class="fixed">&gt;&gt;=</span> would
 be if it only worked for <span class="fixed">State</span> values:
 </p>
 
@@ -1569,11 +1569,11 @@ class="fixed">Maybe</span>, <span class="fixed">&gt;&gt;=</span> has this type:
 </pre>
 
 <p>
-It makes sense that the monad itself, <span class="fixed">Maybe</span>, doesn't
-change. It wouldn't make sense to use <span class="fixed">&gt;&gt;=</span>
+It makes sense that the monad itself, <span class="fixed">Maybe</span>, doesn’t
+change. It wouldn’t make sense to use <span class="fixed">&gt;&gt;=</span>
 between two different monads. Well, for the state monad, the monad is actually <span
 class="fixed">State s</span>, so if that <span class="fixed">s</span> was
-different, we'd be using <span class="fixed">&gt;&gt;=</span> between two
+different, we’d be using <span class="fixed">&gt;&gt;=</span> between two
 different monads.
 </p>
 
@@ -1598,7 +1598,7 @@ random :: (RandomGen g, Random a) =&gt; g -&gt; (a, g)
 
 <p>
 Meaning it takes a random generator and produces a random number along with a
-new generator. We can see that it's a stateful computation, so we can wrap it in
+new generator. We can see that it’s a stateful computation, so we can wrap it in
 the <span class="fixed">State</span> <span class="fixed">newtype</span>
 constructor and then use it as a monadic value so that passing of the state gets
 handled for us:
@@ -1635,7 +1635,7 @@ taking an initial random generator, it passes it to the first <span
 class="fixed">randomSt</span>, which produces a number and a new generator,
 which gets passed to the next one and so on. We use <span class="fixed">return
 (a,b,c)</span> to present <span class="fixed">(a,b,c)</span> as the result
-without changing the most recent generator. Let's give this a go:
+without changing the most recent generator. Let’s give this a go:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1656,7 +1656,7 @@ We know by now that <span class="fixed">Maybe</span> is used to add a
 context of possible failure to values. A value can be a
 <span class="fixed">Just something</span> or a <span class="fixed">Nothing</span>.
 However useful it may be, when we have a <span class="fixed">Nothing</span>, all
-we know is that there was some sort of failure, but there's no way to cram
+we know is that there was some sort of failure, but there’s no way to cram
 some more info in there telling us what kind of failure it was or why it failed.
 </p>
 
@@ -1682,8 +1682,8 @@ Left "out of cheese error" :: Either [Char] b
 <p>
 This is pretty much just an enhanced <span class="fixed">Maybe</span>,
 so it makes sense for it to be a monad, because it can also be viewed as a value
-with an added context of possible failure, only now there's a value attached
-when there's an error as well.
+with an added context of possible failure, only now there’s a value attached
+when there’s an error as well.
 </p>
 
 <p>
@@ -1702,7 +1702,7 @@ instance (Error e) =&gt; Monad (Either e) where
 <p>
 <span class="fixed">return</span>, as always, takes a value and puts it in a
 default minimal context. It wraps our value in the <span class="fixed">Right</span>
-constructor because we're using <span class="fixed">Right</span> to represent a
+constructor because we’re using <span class="fixed">Right</span> to represent a
 successful computation where a result is present. This is a lot like <span
 class="fixed">return</span> for <span class="fixed">Maybe</span>.
 </p>
@@ -1721,7 +1721,7 @@ kept, along with its contents, which describe the failure.
 The <span class="fixed">Monad</span> instance for <span class="fixed">Either
 e</span> makes an
 additional requirement, and that is that the type of the value contained in a
-<span class="fixed">Left</span>, the one that's indexed by the <span class="fixed">e</span>
+<span class="fixed">Left</span>, the one that’s indexed by the <span class="fixed">e</span>
 type parameter, has to be an instance of the <span class="fixed">Error</span>
 type class. The <span class="fixed">Error</span> type class is for types whose
 values can act like error messages. It defines the <span class="fixed">strMsg</span> function, which takes
@@ -1740,7 +1740,7 @@ ghci&gt; strMsg "boom!" :: String
 
 <p>
 But since we usually use <span class="fixed">String</span> to describe the error
-when using <span class="fixed">Either</span>, we don't have to worry about this
+when using <span class="fixed">Either</span>, we don’t have to worry about this
 too much. When a pattern match fails in <span class="fixed">do</span> notation,
 a <span class="fixed">Left</span> value is used to signify this failure.
 </p>
@@ -1761,13 +1761,13 @@ When we use <span class="fixed">&gt;&gt;=</span> to feed a <span
 class="fixed">Left</span> value to a function,
 the function is ignored and an identical <span class="fixed">Left</span> value
 is returned. When we feed a <span class="fixed">Right</span> value to a function,
-the function gets applied to what's on the inside, but in this case that
+the function gets applied to what’s on the inside, but in this case that
 function produced a <span class="fixed">Left</span> value anyway!
 </p>
 
 <p>
 When we try to feed a <span class="fixed">Right</span> value to a function that
-also succeeds, we're tripped up by a peculiar type error! Hmmm.
+also succeeds, we’re tripped up by a peculiar type error! Hmmm.
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1781,9 +1781,9 @@ ghci&gt; Right 3 &gt;&gt;= \x -&gt; return (x + 100)
 </pre>
 
 <p>
-Haskell says that it doesn't know which type to choose for the
+Haskell says that it doesn’t know which type to choose for the
 <span class="fixed">e</span> part of our <span class="fixed">Either e a</span>
-typed value, even though we're just printing the <span class="fixed">Right</span> part.
+typed value, even though we’re just printing the <span class="fixed">Right</span> part.
 This is due to the <span class="fixed">Error e</span> constraint on the
 <span class="fixed">Monad</span> instance. So if you get type errors like this
 one when using <span class="fixed">Either</span> as a monad, just add an
@@ -1814,12 +1814,12 @@ the pole when he fell.
 
 
 <p>
-In this section, we're going to explore a few functions that either operate on
+In this section, we’re going to explore a few functions that either operate on
 monadic values or return monadic values as their results (or both!). Such
 functions are usually referred to as monadic functions. While some of them will
 be brand new, others will be monadic counterparts of functions that we already
 know, like <span class="fixed">filter</span> and <span class="fixed">foldl</span>.
-Let's see what they are then!
+Let’s see what they are then!
 </p>
 
 <h3>liftM and friends</h3>
@@ -1843,17 +1843,17 @@ constraint such that our type has to be an instance of <span
 class="fixed">Functor</span> before we can make it an instance of <span
 class="fixed">Applicative</span>. But even though <span class="fixed">Monad</span> should have the same
 constraint for <span class="fixed">Applicative</span>, as every monad is an
-applicative functor, it doesn't, because the <span class="fixed">Monad</span>
+applicative functor, it doesn’t, because the <span class="fixed">Monad</span>
 type class was introduced to Haskell way before <span class="fixed">Applicative</span>.
 </p>
 
 <p>
-But even though every monad is a functor, we don't have to rely on it having a
+But even though every monad is a functor, we don’t have to rely on it having a
 <span class="fixed">Functor</span> instance because of the <span
 class="fixed">liftM</span> function. <span class="fixed">liftM</span> takes a
-function and a monadic value and maps it over the monadic value. So it's pretty
+function and a monadic value and maps it over the monadic value. So it’s pretty
 much the same thing as <span class="fixed">fmap</span>! This is
-<span class="fixed">liftM</span>'s type:
+<span class="fixed">liftM</span>’s type:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1871,10 +1871,10 @@ fmap :: (Functor f) =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 <p>
 If the <span class="fixed">Functor</span> and <span class="fixed">Monad</span>
 instances for a type obey the functor and monad laws, these two amount to the
-same thing (and all the monads that we've met so far obey both). This is kind of
+same thing (and all the monads that we’ve met so far obey both). This is kind of
 like <span class="fixed">pure</span> and <span class="fixed">return</span> do
 the same thing, only one has an <span class="fixed">Applicative</span> class
-constraint whereas the other has a <span class="fixed">Monad</span> one. Let's
+constraint whereas the other has a <span class="fixed">Monad</span> one. Let’s
 try <span class="fixed">liftM</span> out:
 </p>
 
@@ -1962,7 +1962,7 @@ class="fixed">&lt;$&gt;</span> is just <span class="fixed">fmap</span> and
 </pre>
 
 <p>
-So it's kind of like <span class="fixed">fmap</span>, only the function itself
+So it’s kind of like <span class="fixed">fmap</span>, only the function itself
 is in a context. We have to somehow extract it from the context and map it over
 the <span class="fixed">f a</span> value and then assemble the context back
 together. Because all functions are curried in Haskell by default, we can use
@@ -1977,7 +1977,7 @@ class="fixed">&lt;*&gt;</span> can also be implemented by using only what the
 <span class="fixed">Monad</span> type class give us. The <span
 class="fixed">ap</span> function is basically <span class="fixed">&lt;*&gt;</span>, only it has a
 <span class="fixed">Monad</span> constraint instead of an <span
-class="fixed">Applicative</span> one. Here's its definition:
+class="fixed">Applicative</span> one. Here’s its definition:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1993,7 +1993,7 @@ ap mf m = do
 Because the function is in a context as well as the value, we get the function
 from the context and call it <span class="fixed">f</span>, then get the value
 and call that <span class="fixed">x</span> and then finally apply the function
-to the value and present that as a result. Here's a quick demonstration:
+to the value and present that as a result. Here’s a quick demonstration:
 </p>
 
 
@@ -2023,7 +2023,7 @@ saying that <span class="fixed">fmap</span> is <span class="fixed">liftM</span>.
 
 <p>
 The <span class="fixed">liftA2</span> function is a convenience function for
-applying a function between two applicative values. It's defined simply like
+applying a function between two applicative values. It’s defined simply like
 so:
 </p>
 
@@ -2041,7 +2041,7 @@ class="fixed">liftM3</span> and <span class="fixed">liftM4</span> and
 
 <p>
 We saw how monads are stronger than applicatives and functors and how even
-though all monads are functors and applicative functors, they don't necessarily
+though all monads are functors and applicative functors, they don’t necessarily
 have <span class="fixed">Functor</span> and <span class="fixed">Applicative</span>
 instances, so we examined the monadic equivalents of the functions that functors
 and applicative functors use.
@@ -2050,7 +2050,7 @@ and applicative functors use.
 <h3>The join function</h3>
 
 <p>
-Here's some food for thought: if the result of one monadic value is another
+Here’s some food for thought: if the result of one monadic value is another
 monadic value i.e. if one monadic value is nested inside the other, can you
 flatten them to just a single normal monadic value? Like, if we have
 <span class="fixed">Just (Just 9)</span>, can we make that into <span
@@ -2080,7 +2080,7 @@ Nothing
 
 <p>
 The first line has a successful computation as a result of a successful
-computation, so they're both just joined into one big successful computation.
+computation, so they’re both just joined into one big successful computation.
 The second line features a <span class="fixed">Nothing</span> as a result of a
 <span class="fixed">Just</span> value. Whenever we were dealing with <span
 class="fixed">Maybe</span> values before and we wanted to combine several of
@@ -2172,12 +2172,12 @@ join mm = do
 
 <p>
 Because the result of <span class="fixed">mm</span> is a monadic value, we
-get that result and then just put it on a line of its own because it's a monadic
+get that result and then just put it on a line of its own because it’s a monadic
 value. The trick here is that when we do <span class="fixed">m &lt;- mm</span>,
 the context of the monad in which we
-are in gets taken care of. That's why, for instance, <span
+are in gets taken care of. That’s why, for instance, <span
 class="fixed">Maybe</span> values result in <span class="fixed">Just</span>
-values only if the outer and inner values are both <span class="fixed">Just</span> values. Here's what this would look like if the <span class="fixed">mm</span> value was set in advance to <span class="fixed">Just (Just 8)</span>:
+values only if the outer and inner values are both <span class="fixed">Just</span> values. Here’s what this would look like if the <span class="fixed">mm</span> value was set in advance to <span class="fixed">Just (Just 8)</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2197,19 +2197,19 @@ class="fixed">&gt;&gt;=</span> is the same thing as just mapping that function
 over the value and then using <span class="fixed">join</span> to flatten the
 resulting nested monadic value! In other words, <span class="fixed">m &gt;&gt;=
 f</span> is always the same thing as <span class="fixed">join (fmap f m)</span>!
-It makes sense when you think about it. With <span class="fixed">&gt;&gt;=</span>, we're always thinking about
+It makes sense when you think about it. With <span class="fixed">&gt;&gt;=</span>, we’re always thinking about
 how to feed a monadic value to a function that takes a normal value but returns
 a monadic value. If we just map that function over the monadic value, we have a
 monadic value inside a monadic value. For instance, say we have <span
 class="fixed">Just 9</span> and the function <span class="fixed">\x -&gt; Just
 (x+1)</span>. If we map this function over <span class="fixed">Just 9</span>,
-we're left with <span class="fixed">Just (Just 10)</span>.
+we’re left with <span class="fixed">Just (Just 10)</span>.
 </p>
 
 <p>
 The fact that <span class="fixed">m &gt;&gt;= f</span> always equals
-<span class="fixed">join (fmap f m)</span> is very useful if we're making our
-own <span class="fixed">Monad</span> instance for some type because it's often
+<span class="fixed">join (fmap f m)</span> is very useful if we’re making our
+own <span class="fixed">Monad</span> instance for some type because it’s often
 easier to figure out how we would flatten a nested monadic value than figuring
 out how to implement <span class="fixed">&gt;&gt;=</span>.
 </p>
@@ -2235,10 +2235,10 @@ Could that work? For instance, what if every <span
 class="fixed">True</span> or a <span class="fixed">False</span> value that the
 predicate produced also had an accompanying monoid value, like <span
 class="fixed">["Accepted the number 5"]</span> or <span class="fixed">["3 is too
-small"]</span>? That sounds like it could work. If that were the case, we'd
+small"]</span>? That sounds like it could work. If that were the case, we’d
 expect the resulting list to also come with a log of all the log values that
 were produced along the way. So if the <span class="fixed">Bool</span> that the
-predicate returned came with a context, we'd expect the final resulting list to have
+predicate returned came with a context, we’d expect the final resulting list to have
 some context attached as well, otherwise the context that each <span
 class="fixed">Bool</span> came with would be lost.
 </p>
@@ -2254,14 +2254,14 @@ filterM :: (Monad m) =&gt; (a -&gt; m Bool) -&gt; [a] -&gt; m [a]
 
 <p>
 The predicate returns a monadic value whose result is a <span
-class="fixed">Bool</span>, but because it's a monadic value, its context can be
+class="fixed">Bool</span>, but because it’s a monadic value, its context can be
 anything from a possible failure to non-determinism and more! To ensure that the
 context is reflected in the final result, the result is also a monadic value.
 </p>
 
 <p>
-Let's take a list and only keep those values that are smaller than 4. To
-start, we'll just use the regular <span class="fixed">filter</span> function:
+Let’s take a list and only keep those values that are smaller than 4. To
+start, we’ll just use the regular <span class="fixed">filter</span> function:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2270,9 +2270,9 @@ ghci&gt; filter (\x -&gt; x &lt; 4) [9,1,5,2,10,3]
 </pre>
 
 <p>
-That's pretty easy. Now, let's make a predicate that, aside from presenting a
+That’s pretty easy. Now, let’s make a predicate that, aside from presenting a
 <span class="fixed">True</span> or <span class="fixed">False</span> result, also
-provides a log of what it did. Of course, we'll be using the <span
+provides a log of what it did. Of course, we’ll be using the <span
 class="fixed">Writer</span> monad for this:
 </p>
 
@@ -2289,14 +2289,14 @@ keepSmall x
 
 <p>
 Instead of just and returning a <span class="fixed">Bool</span>, this function
-returns a <span class="fixed">Writer [String] Bool</span>. It's a monadic
-predicate. Sounds fancy, doesn't it? If the number is smaller than <span
-class="fixed">4</span> we report that we're keeping it and then <span
+returns a <span class="fixed">Writer [String] Bool</span>. It’s a monadic
+predicate. Sounds fancy, doesn’t it? If the number is smaller than <span
+class="fixed">4</span> we report that we’re keeping it and then <span
 class="fixed">return True</span>.
 </p>
 
 <p>
-Now, let's give it to <span class="fixed">filterM</span> along with a list.
+Now, let’s give it to <span class="fixed">filterM</span> along with a list.
 Because the predicate returns a
 <span class="fixed">Writer</span> value, the resulting list will also
 be a <span class="fixed">Writer</span> value.
@@ -2309,7 +2309,7 @@ ghci&gt; fst $ runWriter $ filterM keepSmall [9,1,5,2,10,3]
 
 <p>
 Examining the result of the resulting <span class="fixed">Writer</span> value,
-we see that everything is in order. Now, let's print the log and see what we
+we see that everything is in order. Now, let’s print the log and see what we
 got:
 </p>
 
@@ -2355,12 +2355,12 @@ class="fixed">1</span>.
 </p>
 
 <p>
-To make a function that returns a powerset of some list, we're going to rely on
+To make a function that returns a powerset of some list, we’re going to rely on
 non-determinism. We take the list <span class="fixed">[1,2,3]</span> and then
 look at the first element, which is <span class="fixed">1</span> and we ask
-ourselves: should we keep it or drop it? Well, we'd like to do both actually. So
-we are going to filter a list and we'll use a predicate that non-deterministically
-both keeps and drops every element from the list. Here's our <span
+ourselves: should we keep it or drop it? Well, we’d like to do both actually. So
+we are going to filter a list and we’ll use a predicate that non-deterministically
+both keeps and drops every element from the list. Here’s our <span
 class="fixed">powerset</span> function:
 </p>
 
@@ -2370,9 +2370,9 @@ powerset xs = filterM (\x -&gt; [True, False]) xs
 </pre>
 
 <p>
-Wait, that's it? Yup. We choose to drop and keep every element, regardless of
+Wait, that’s it? Yup. We choose to drop and keep every element, regardless of
 what that element is. We have a non-deterministic predicate, so the resulting
-list will also be a non-deterministic value and will thus be a list of lists. Let's
+list will also be a non-deterministic value and will thus be a list of lists. Let’s
 give this a go:
 </p>
 
@@ -2383,8 +2383,8 @@ ghci&gt; powerset [1,2,3]
 
 <p>
 This takes a bit of thinking to wrap your head around, but if you just consider
-lists as non-deterministic values that don't know what to be so they just decide
-to be everything at once, it's a bit easier.
+lists as non-deterministic values that don’t know what to be so they just decide
+to be everything at once, it’s a bit easier.
 </p>
 
 <h3>foldM</h3>
@@ -2413,7 +2413,7 @@ foldM :: (Monad m) =&gt; (a -&gt; b -&gt; m a) -&gt; a -&gt; [b] -&gt; m a
 
 <p>
 The value that the binary function returns is monadic and so the result of the
-whole fold is monadic as well. Let's sum a list of numbers with a
+whole fold is monadic as well. Let’s sum a list of numbers with a
 fold:
 </p>
 
@@ -2436,9 +2436,9 @@ Now what if we wanted to sum a list of numbers but with the added condition that
 if any number is greater than <span class="fixed">9</span> in the list, the
 whole thing fails? It would make sense to use a binary function that checks if
 the current number is greater than <span class="fixed">9</span> and if it is,
-fails, and if it isn't, continues on its merry way. Because of this added
-possibility of failure, let's make our binary function return a <span
-class="fixed">Maybe</span> accumulator instead of a normal one. Here's the
+fails, and if it isn’t, continues on its merry way. Because of this added
+possibility of failure, let’s make our binary function return a <span
+class="fixed">Maybe</span> accumulator instead of a normal one. Here’s the
 binary function:
 </p>
 
@@ -2450,7 +2450,7 @@ binSmalls acc x
 </pre>
 
 <p>
-Because our binary function is now a monadic function, we can't use it with the
+Because our binary function is now a monadic function, we can’t use it with the
 normal <span class="fixed">foldl</span>, but we have to use <span
 class="fixed">foldM</span>. Here goes:
 </p>
@@ -2472,14 +2472,14 @@ whatever you want as your fold goes along its way.
 
 <h3>Making a safe RPN calculator</h3>
 
-<img src="assets/images/for-a-few-monads-more/miner.png" alt="i've found yellow!" class="left" width="280"
+<img src="assets/images/for-a-few-monads-more/miner.png" alt="i’ve found yellow!" class="left" width="280"
 height="396">
 
 <p>
 When we were solving the problem of <a href="http://learnyouahaskell.com/reverse-polish-notation-calculator">implementing a RPN calculator</a>,
 we noted that it worked fine as long as the input that it got made sense.
 But if something went wrong, it caused our whole program to crash. Now that we
-know how to take some code that we have and make it monadic, let's take our RPN
+know how to take some code that we have and make it monadic, let’s take our RPN
 calculator and add error handling to it by taking advantage of the
 <span class="fixed">Maybe</span> monad.
 </p>
@@ -2529,7 +2529,7 @@ except with that number pushed to the top.
 </p>
 
 <p>
-Let's first make our folding function capable of graceful failure. Its type is
+Let’s first make our folding function capable of graceful failure. Its type is
 going to change from what it is now to this:
 </p>
 
@@ -2545,7 +2545,7 @@ fail with <span class="fixed">Nothing</span>.
 <span class="fixed">read</span>, only it returns a list with a single element in
 case of a successful read. If it fails to read something, then it returns an
 empty list. Apart from returning the value that it read, it also returns the
-part of the string that it didn't consume. We're going to say that it always has
+part of the string that it didn’t consume. We’re going to say that it always has
 to consume the full input to work and make it into a <span class="fixed">readMaybe</span> function
 for convenience. Here it is:
 </p>
@@ -2568,7 +2568,7 @@ Nothing
 </pre>
 
 <p>
-Okay, it seems to work. So, let's make our folding function into a monadic
+Okay, it seems to work. So, let’s make our folding function into a monadic
 function that can fail:
 </p>
 
@@ -2591,7 +2591,7 @@ is <span class="fixed">[1.0,2.0]</span> and <span class="fixed">readMaybe
 numberString</span> results in a <span class="fixed">Just 3.0</span>, the result
 is <span class="fixed">Just [3.0,1.0,2.0]</span>. If <span class="fixed">readMaybe numberString</span> results in a <span
 class="fixed">Nothing</span> then the result is <span class="fixed">Nothing</span>.
-Let's try out the folding function by itself:
+Let’s try out the folding function by itself:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2608,7 +2608,7 @@ Nothing
 </pre>
 
 <p>
-It looks like it's working! And now it's time for the new and improved
+It looks like it’s working! And now it’s time for the new and improved
 <span class="fixed">solveRPN</span>. Here it is ladies and gents!
 </p>
 
@@ -2626,11 +2626,11 @@ Just like before, we take the string and make it into a list of words. Then,
 we do a fold, starting with the empty stack, only instead of doing a normal
 <span class="fixed">foldl</span>, we do a <span class="fixed">foldM</span>. The
 result of that <span class="fixed">foldM</span> should be a <span
-class="fixed">Maybe</span> value that contains a list (that's our final stack)
+class="fixed">Maybe</span> value that contains a list (that’s our final stack)
 and that list should have only one value. We use a <span class="fixed">do</span>
 expression to get that value and we call it <span class="fixed">result</span>. In
 case the <span class="fixed">foldM</span> returns a <span class="fixed">Nothing</span>, the whole thing
-will be a <span class="fixed">Nothing</span>, because that's how <span
+will be a <span class="fixed">Nothing</span>, because that’s how <span
 class="fixed">Maybe</span> works. Also notice that we pattern match in the
 <span class="fixed">do</span> expression, so if the list has more than one value
 or none at all, the pattern match fails and a <span class="fixed">Nothing</span>
@@ -2640,7 +2640,7 @@ class="fixed">Maybe</span> value.
 </p>
 
 <p>
-Let's give it a shot:
+Let’s give it a shot:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2655,7 +2655,7 @@ Nothing
 </pre>
 
 <p>
-The first failure happens because the final stack isn't a list with one element
+The first failure happens because the final stack isn’t a list with one element
 in it and so the pattern matching in the <span class="fixed">do</span>
 expression fails. The second failure happens because <span class="fixed">readMaybe</span>
 returns a <span class="fixed">Nothing</span>.
@@ -2692,7 +2692,7 @@ function with <span class="fixed">&gt;&gt;=</span>.
 If we have a bunch of functions in a list, we can compose them one all into one
 big function by just using <span class="fixed">id</span> as the starting
 accumulator and the <span class="fixed">.</span> function as the binary
-function. Here's an example:
+function. Here’s an example:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2707,7 +2707,7 @@ The function <span class="fixed">f</span> takes a number and then adds
 <span class="fixed">100</span> and then adds <span class="fixed">1</span> to
 that. Anyway, we can compose monadic functions in the same way, only instead
 normal composition we use <span class="fixed">&lt;=&lt;</span> and instead of
-<span class="fixed">id</span> we use <span class="fixed">return</span>. We don't
+<span class="fixed">id</span> we use <span class="fixed">return</span>. We don’t
 have to use a <span class="fixed">foldM</span> over a <span
 class="fixed">foldr</span> or anything because the <span class="fixed">&lt;=&lt;</span>
 function makes sure that composition happens in a monadic fashion.
@@ -2717,7 +2717,7 @@ function makes sure that composition happens in a monadic fashion.
 When we were getting to know the list monad in the <a href="a-fistful-of-monads.html#the-list-monad">previous chapter</a>, we used
 it to figure out if a knight can go from one position on a
 chessboard to another in exactly three moves. We had a function
-called <span class="fixed">moveKnight</span> which took the knight's position on
+called <span class="fixed">moveKnight</span> which took the knight’s position on
 the board and returned all the possible moves that he can make next. Then, to
 generate all the possible positions that he can have after taking three moves,
 we made the following function:
@@ -2744,7 +2744,7 @@ knight can have after making three moves, we can do it for an arbitrary number
 of moves. If you look at <span class="fixed">in3</span>, we see that we
 used <span class="fixed">moveKnight</span> three times and each time we used
 <span class="fixed">&gt;&gt;=</span> to feed it all the possible previous
-positions. So now, let's make it more general. Here's how to do it:
+positions. So now, let’s make it more general. Here’s how to do it:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2779,9 +2779,9 @@ canReachIn x start end = end `elem` inMany x start
 <img src="assets/images/for-a-few-monads-more/spearhead.png" alt="kewl" class="center" width="780" height="244">
 
 <p>
-In this section, we're going to look at an example of how a type gets made,
+In this section, we’re going to look at an example of how a type gets made,
 identified as a monad and then given the appropriate
-<span class="fixed">Monad</span> instance. We don't usually set out to make
+<span class="fixed">Monad</span> instance. We don’t usually set out to make
 a monad with the sole purpose of making a monad. Instead, we usually make a type
 that whose purpose is to model an aspect of some problem and then later on if we
 see that the type represents a value with a context and can act like a monad, we
@@ -2789,9 +2789,9 @@ give it a <span class="fixed">Monad</span> instance.
 </p>
 
 <p>
-As we've seen, lists are used to represent non-deterministic values. A list like
+As we’ve seen, lists are used to represent non-deterministic values. A list like
 <span class="fixed">[3,5,9]</span> can be viewed as a single non-deterministic
-value that just can't decide what it's going to be. When we feed a list into
+value that just can’t decide what it’s going to be. When we feed a list into
 a function with <span class="fixed">&gt;&gt;=</span>, it just makes all the
 possible choices of taking an element from the list and applying the function to it
 and then presents those results in a list as well.
@@ -2800,16 +2800,16 @@ and then presents those results in a list as well.
 <p>
 If we look at the list <span class="fixed">[3,5,9]</span> as the numbers
 <span class="fixed">3</span>, <span class="fixed">5</span> and
-<span class="fixed">9</span> occurring at once, we might notice that there's no
+<span class="fixed">9</span> occurring at once, we might notice that there’s no
 info regarding the probability that each of those numbers occurs. What if we
 wanted to model a non-deterministic value like <span class="fixed">[3,5,9]</span>,
 but we wanted to express that <span class="fixed">3</span> has a 50% chance of
 happening and <span class="fixed">5</span> and <span class="fixed">9</span> both
-have a 25% chance of happening? Let's try and make this happen!
+have a 25% chance of happening? Let’s try and make this happen!
 </p>
 
 <p>
-Let's say that every item in the list comes with another value, a probability
+Let’s say that every item in the list comes with another value, a probability
 of it happening. It might make sense to present this like this then:
 </p>
 
@@ -2818,11 +2818,11 @@ of it happening. It might make sense to present this like this then:
 </pre>
 
 <p>
-In mathematics, probabilities aren't usually expressed in percentages, but
-rather in real numbers between a 0 and 1. A 0 means that there's no chance in
-hell for something to happen and a 1 means that it's happening for sure. Floating
+In mathematics, probabilities aren’t usually expressed in percentages, but
+rather in real numbers between a 0 and 1. A 0 means that there’s no chance in
+hell for something to happen and a 1 means that it’s happening for sure. Floating
 point numbers can get real messy real fast because they tend to lose
-precision, so Haskell offers us a data type for rational numbers that doesn't lose
+precision, so Haskell offers us a data type for rational numbers that doesn’t lose
 precision. That type is called <span class="fixed">Rational</span> and it lives
 in <span class="fixed">Data.Ratio</span>. To make a <span class="fixed">Rational</span>,
 we write it as if it were a fraction. The numerator and the denominator are
@@ -2842,7 +2842,7 @@ ghci&gt; 1%3 + 5%4
 <p>
 The first line is just one quarter. In the second line we add two halves to get
 a whole and in the third line we add one third with five quarters and get
-nineteen twelfths. So let'use throw out our floating points and use
+nineteen twelfths. So let’use throw out our floating points and use
 <span class="fixed">Rational</span> for our probabilities:
 </p>
 
@@ -2859,8 +2859,8 @@ time out of four. Pretty neat.
 
 <p>
 We took lists and we added some extra context to them, so this represents values
-with contexts too. Before we go any further, let's wrap this into a
-<span class="fixed">newtype</span> because something tells me we'll be making
+with contexts too. Before we go any further, let’s wrap this into a
+<span class="fixed">newtype</span> because something tells me we’ll be making
 some instances.
 </p>
 
@@ -2873,8 +2873,8 @@ newtype Prob a = Prob { getProb :: [(a,Rational)] } deriving Show
 <p>
 Alright. Is this a functor? Well, the list is a functor, so this should probably
 be a functor as well, because we just added some stuff to the list. When we map
-a function over a list, we apply it to each element. Here, we'll apply it to
-each element as well, only we'll leave the probabilities as they are. Let's make
+a function over a list, we apply it to each element. Here, we’ll apply it to
+each element as well, only we’ll leave the probabilities as they are. Let’s make
 an instance:
 </p>
 
@@ -2886,7 +2886,7 @@ instance Functor Prob where
 <p>
 We unwrap it from the <span class="fixed">newtype</span> with pattern matching,
 apply the function <span class="fixed">f</span> to the values while keeping the
-probabilities as they are and then wrap it back up. Let's see if it works:
+probabilities as they are and then wrap it back up. Let’s see if it works:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2897,7 +2897,7 @@ Prob {getProb = [(-3,1 % 2),(-5,1 % 4),(-9,1 % 4)]}
 <p>
 Another thing to note is that the probabilities should always add up to
 <span class="fixed">1</span>. If those are all the things that can happen, it
-doesn't make sense for the sum of their probabilities to be anything other than
+doesn’t make sense for the sum of their probabilities to be anything other than
 <span class="fixed">1</span>. A coin that lands tails 75% of the time and
 heads 50% of the time seems like it could only work in some other strange
 universe.
@@ -2905,29 +2905,29 @@ universe.
 
 <p>
 Now the big question, is this a monad? Given how the list is a monad, this
-looks like it should be a monad as well. First, let's think about
+looks like it should be a monad as well. First, let’s think about
 <span class="fixed">return</span>. How does it work for lists? It takes a value
-and puts it in a singleton list. What about here? Well, since it's supposed to
+and puts it in a singleton list. What about here? Well, since it’s supposed to
 be a default minimal context, it should also make a singleton list. What about
 the probability? Well, <span class="fixed">return x</span> is supposed to make a
 monadic value that always presents <span class="fixed">x</span> as its result,
-so it doesn't make sense for the probability to be <span class="fixed">0</span>.
+so it doesn’t make sense for the probability to be <span class="fixed">0</span>.
 If it always has to present it as its result, the probability should be
 <span class="fixed">1</span>!
 </p>
 
 <p>
-What about <span class="fixed">&gt;&gt;=</span>? Seems kind of tricky, so let's
+What about <span class="fixed">&gt;&gt;=</span>? Seems kind of tricky, so let’s
 make use of the fact that <span class="fixed">m &gt;&gt;= f</span> always equals
 <span class="fixed">join (fmap f m)</span> for monads and think about how we
-would flatten a probability list of probability lists. As an example, let's
-consider this list where there's a 25% chance that exactly one of
+would flatten a probability list of probability lists. As an example, let’s
+consider this list where there’s a 25% chance that exactly one of
 <span class="fixed">'a'</span> or <span class="fixed">'b'</span> will happen. Both
 <span class="fixed">'a'</span> and <span class="fixed">'b'</span> are equally
-likely to occur. Also, there's a 75% chance that
+likely to occur. Also, there’s a 75% chance that
 exactly one of <span class="fixed">'c'</span> or <span class="fixed">'d'</span>
 will happen. <span class="fixed">'c'</span> and <span class="fixed">'d'</span>
-are also equally likely to happen. Here's a picture of a probability list that
+are also equally likely to happen. Here’s a picture of a probability list that
 models this scenario:
 </p>
 
@@ -2947,7 +2947,7 @@ all the probabilities, they still add up to one.
 </p>
 
 <p>
-Here's this situation expressed as a probability list:
+Here’s this situation expressed as a probability list:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -2960,10 +2960,10 @@ thisSituation = Prob
 
 <p>
 Notice that its type is <span class="fixed">Prob (Prob Char)</span>. So now that
-we've figure out how to flatten a nested probability list, all we have to do is
+we’ve figure out how to flatten a nested probability list, all we have to do is
 write the code for this and then we can write <span class="fixed">&gt;&gt;=</span> simply as
 <span class="fixed">join (fmap f m)</span> and we have ourselves a monad! So
-here's <span class="fixed">flatten</span>, which we'll use because the name <span class="fixed">join</span>
+here’s <span class="fixed">flatten</span>, which we’ll use because the name <span class="fixed">join</span>
 is already taken:
 </p>
 
@@ -2999,12 +2999,12 @@ instance Monad Prob where
 <p>
 Because we already did all the hard work, the instance is very simple. We also
 defined the <span class="fixed">fail</span> function, which is the same as it is
-for lists, so if there's a pattern match failure in a <span class="fixed">do</span>
+for lists, so if there’s a pattern match failure in a <span class="fixed">do</span>
 expression, a failure occurs within the context of a probability list.
 </p>
 
 <p>
-It's also important to check if the monad laws hold for the monad that we just
+It’s also important to check if the monad laws hold for the monad that we just
 made. The first one says that <span class="fixed">return x &gt;&gt;= f</span>
 should be equal to <span class="fixed">f x</span>. A rigorous proof would be
 rather tedious, but we can see that if we put a value in a default context
@@ -3012,7 +3012,7 @@ with <span class="fixed">return</span> and then <span class="fixed">fmap</span>
 a function over that and flatten the resulting probability list, every
 probability that results from the function would be multiplied by the <span
 class="fixed">1%1</span> probability that we made with <span
-class="fixed">return</span>, so it wouldn't affect the context. The reasoning
+class="fixed">return</span>, so it wouldn’t affect the context. The reasoning
 for <span class="fixed">m &gt;&gt;= return</span> being equal to just
 <span class="fixed">m</span> is similar. The third law states that
 <span class="fixed">f &lt;=&lt; (g &lt;=&lt; h)</span> should be the same as
@@ -3032,7 +3032,7 @@ get reflected in the probabilities of the final result.
 <p>
 Say we have two normal coins and one loaded coin that gets tails an astounding
 nine times out of ten and heads only one time out of ten. If we throw all the
-coins at once, what are the odds of all of them landing tails? First, let's make
+coins at once, what are the odds of all of them landing tails? First, let’s make
 probability values for a normal coin flip and for a loaded one:
 </p>
 
@@ -3074,9 +3074,9 @@ ghci&gt; getProb flipThree
 
 <p>
 All three of them will land tails nine times out of forty, which is less than
-25%. We see that our monad doesn't know how to join all of the
-<span class="fixed">False</span> outcomes where all coins don't land tails into
-one outcome. That's not a big problem, since writing a function to put all the
+25%. We see that our monad doesn’t know how to join all of the
+<span class="fixed">False</span> outcomes where all coins don’t land tails into
+one outcome. That’s not a big problem, since writing a function to put all the
 same outcomes into one outcome is pretty easy and is left as an exercise to the
 reader (you!)
 </p>
@@ -3084,8 +3084,8 @@ reader (you!)
 <p>
 In this section, we went from having a question (what if lists also carried
 information about probability?) to making a type, recognizing a monad and
-finally making an instance and doing something with it. I think that's quite
-fetching! By now, we should have a pretty good grasp on monads and what they're
+finally making an instance and doing something with it. I think that’s quite
+fetching! By now, we should have a pretty good grasp on monads and what they’re
 about.
 </p>
                 <div class="footdiv">
