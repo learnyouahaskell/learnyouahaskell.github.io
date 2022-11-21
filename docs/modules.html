@@ -407,7 +407,7 @@ ghci&gt; let xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
 ghci&gt; sortBy (compare `on` length) xs
 [[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]
 </pre>
-<p>Awesome! <span class="fixed">compare `on` length</span> ... man, that reads almost like real English! If you’re not sure how exactly the <span class="fixed">on</span> works here, <span class="fixed">compare `on` length</span> is the equivalent of <span class="fixed">\x y -&gt; length x `compare` length y</span>. When you’re dealing with <i>By</i> functions that take an equality function, you usually do <span class="fixed">(==) `on` something</span> and when you’re dealing with <i>By</i> functions that take an ordering function, you usually do <span class="fixed">compare `on` something</span>.</p>
+<p>Awesome! <span class="fixed">compare `on` length</span> … man, that reads almost like real English! If you’re not sure how exactly the <span class="fixed">on</span> works here, <span class="fixed">compare `on` length</span> is the equivalent of <span class="fixed">\x y -&gt; length x `compare` length y</span>. When you’re dealing with <i>By</i> functions that take an equality function, you usually do <span class="fixed">(==) `on` something</span> and when you’re dealing with <i>By</i> functions that take an ordering function, you usually do <span class="fixed">compare `on` something</span>.</p>
 <a name="data-char"></a><h2>Data.Char</h2>
 <img src="assets/images/modules/legochar.png" alt="lego char" class="right" width="230" height="323">
 <p>The <span class="fixed">Data.Char</span> module does what its name suggests. It exports functions that deal with characters. It’s also helpful when filtering and mapping over strings because they’re just lists of characters.</p>

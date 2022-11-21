@@ -75,7 +75,7 @@ addThree x y z = x + y + z
 <p>
 <span class="label type">Int</span> stands for integer. It’s used for whole numbers. <span class="fixed">7</span> can be an <span class="fixed">Int</span> but <span class="fixed">7.2</span> cannot. <span class="fixed">Int</span> is bounded, which means that it has a minimum and a maximum value. Usually on 32-bit machines the maximum possible <span class="fixed">Int</span> is 2147483647 and the minimum is -2147483648.
 </p>
-<p><span class="label type">Integer</span> stands for, er &hellip; also integer. The main difference is that it’s not bounded so it can be used to represent really really big numbers. I mean like really big. <span class="fixed">Int</span>, however, is more efficient.
+<p><span class="label type">Integer</span> stands for, er … also integer. The main difference is that it’s not bounded so it can be used to represent really really big numbers. I mean like really big. <span class="fixed">Int</span>, however, is more efficient.
 </p>
 <pre name="code" class="haskell: hs">
 factorial :: Integer -&gt; Integer
@@ -122,7 +122,7 @@ head :: [a] -&gt; a
 <img src="assets/images/types-and-typeclasses/box.png" alt="box" class="left" width="130" height="93">
 Hmmm! What is this <span class="fixed">a</span>? Is it a type? Remember that we previously stated that types are written in capital case, so it can’t exactly be a type. Because it’s not in capital case it’s actually a <em>type variable</em>. That means that <span class="fixed">a</span> can be of any type. This is much like generics in other languages, only in Haskell it’s much more powerful because it allows us to easily write very general functions if they don’t use any specific behavior of the types in them. Functions that have type variables are called <em>polymorphic functions</em>. The type declaration of <span class="fixed">head</span> states that it takes a list of any type and returns one element of that type.
 </p>
-<p>Although type variables can have names longer than one character, we usually give them names of a, b, c, d &hellip;</p>
+<p>Although type variables can have names longer than one character, we usually give them names of a, b, c, d …</p>
 <p>Remember <span class="fixed">fst</span>? It returns the first component of a pair. Let’s examine its type.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; :t fst

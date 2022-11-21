@@ -345,7 +345,7 @@ ghci> [9.4,33.2,96.2,11.2,23.25] !! 1
 But if you try to get the sixth element from a list that only has four elements, you'll get an error so be careful!
 
 Lists can also contain lists.
-They can also contain lists that contain lists that contain lists …
+They can also contain lists that contain lists that contain lists ...
 
 ```{.haskell: .ghci}
 ghci> b = [[1,2,3,4],[5,3,3,3],[1,2,2,3,4],[1,2,3]]
@@ -698,7 +698,7 @@ ghci> [ x*y | x <- [2,5,10], y <- [8,10,11], x*y > 50]
 [55,80,100,110]
 ```
 
-How about a list comprehension that combines a list of adjectives and a list of nouns … for epic hilarity.
+How about a list comprehension that combines a list of adjectives and a list of nouns ... for epic hilarity.
 
 ```{.haskell: .ghci}
 ghci> nouns = ["hobo","frog","pope"]

@@ -92,7 +92,7 @@ It's used for whole numbers.
 `Int` is bounded, which means that it has a minimum and a maximum value.
 Usually on 32-bit machines the maximum possible `Int` is 2147483647 and the minimum is -2147483648.
 
-`Integer`{.label .type} stands for, er … also integer.
+`Integer`{.label .type} stands for, er ... also integer.
 The main difference is that it's not bounded so it can be used to represent really really big numbers.
 I mean like really big.
 `Int`, however, is more efficient.
@@ -163,7 +163,7 @@ This is much like generics in other languages, only in Haskell it's much more po
 Functions that have type variables are called **polymorphic functions**.
 The type declaration of `head` states that it takes a list of any type and returns one element of that type.
 
-Although type variables can have names longer than one character, we usually give them names of a, b, c, d …
+Although type variables can have names longer than one character, we usually give them names of a, b, c, d ...
 
 Remember `fst`?
 It returns the first component of a pair.

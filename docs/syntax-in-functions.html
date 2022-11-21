@@ -188,12 +188,12 @@ densityTell mass volume
     | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
     | otherwise   = "If it's sink or swim, you're going to sink."
 </pre>
-<p>Let’s see if cat food will float ...</p>
+<p>Let’s see if cat food will float …</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; densityTell 400 1
 "Have fun swimming, but watch out for sharks!"
 </pre>
-<p>Looks like it will! At least until it dissolves into the pool... Yuck!</p>
+<p>Looks like it will! At least until it dissolves into the pool… Yuck!</p>
 <p>Note that there’s no <span class="fixed">=</span> right after the function name and its parameters, before the first guard. Many newbies get syntax errors because they sometimes put it there.</p>
 <p>Another very simple example: let’s implement our own <span class="fixed">max</span> function. If you remember, it takes two things that can be compared and returns the larger of them.</p>
 <pre name="code" class="haskell:hs">

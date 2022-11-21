@@ -644,7 +644,7 @@ infixr 5  .++
 Empty .++ ys = ys
 (x :-: xs) .++ ys = x :-: (xs .++ ys)
 </pre>
-<p>And let’s see if it works ...</p>
+<p>And let’s see if it works …</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; let a = 3 :-: 4 :-: 5 :-: Empty
 ghci&gt; let b = 6 :-: 7 :-: Empty
@@ -819,7 +819,7 @@ instance YesNo [a] where
     yesno [] = False
     yesno _ = True
 </pre>
-<p>Notice how we just put in a type parameter <span class="fixed">a</span> in there to make the list a concrete type, even though we don’t make any assumptions about the type that’s contained in the list. What else, hmm ... I know, <span class="fixed">Bool</span> itself also holds true-ness and false-ness and it’s pretty obvious which is which.</p>
+<p>Notice how we just put in a type parameter <span class="fixed">a</span> in there to make the list a concrete type, even though we don’t make any assumptions about the type that’s contained in the list. What else, hmm … I know, <span class="fixed">Bool</span> itself also holds true-ness and false-ness and it’s pretty obvious which is which.</p>
 <pre name="code" class="haskell:hs">
 instance YesNo Bool where
     yesno = id

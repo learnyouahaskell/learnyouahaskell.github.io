@@ -15,7 +15,7 @@ So this is an attempt at adding another useful resource for learning Haskell so 
 
 ![bird](assets/images/introduction/bird.png){.left width=230 height=192}
 
-This tutorial is aimed at people who have experience in imperative programming languages (C, C++, Java, Python …) but haven't programmed in a functional language before (Haskell, ML, OCaml …).
+This tutorial is aimed at people who have experience in imperative programming languages (C, C++, Java, Python ...) but haven't programmed in a functional language before (Haskell, ML, OCaml ...).
 Although I bet that even if you don't have any significant programming experience, a smart person such as yourself will be able to follow along and learn Haskell.
 
 The channel #haskell on the Libera.Chat network is a great place to ask questions if you're feeling stuck.
@@ -25,7 +25,7 @@ I failed to learn Haskell approximately 2 times before finally grasping it becau
 But then once it just "clicked" and after getting over that initial hurdle, it was pretty much smooth sailing.
 I guess what I'm trying to say is: Haskell is great and if you're interested in programming you should really learn it even if it seems weird at first.
 Learning Haskell is much like learning to program for the first time --- it's fun!
-It forces you to think differently, which brings us to the next section …
+It forces you to think differently, which brings us to the next section ...
 
 ## So what's Haskell? {#so-whats-haskell}
 
