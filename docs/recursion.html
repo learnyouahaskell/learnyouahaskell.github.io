@@ -102,7 +102,7 @@ zip' [] _ = []
 zip' (x:xs) (y:ys) = (x,y):zip' xs ys
 </pre>
 <p>First two patterns say that if the first list or second list is empty, we get an empty list. The third one says that two lists zipped are equal to pairing up their heads and then tacking on the zipped tails. Zipping <span class="fixed">[1,2,3]</span> and <span class="fixed">['a','b']</span> will eventually try to zip <span class="fixed">[3]</span> with <span class="fixed">[]</span>. The edge condition patterns kick in and so the result is <span class="fixed">(1,'a'):(2,'b'):[]</span>, which is exactly the same as <span class="fixed">[(1,'a'),(2,'b')]</span>.</p>
-<p>Let’s implement one more standard library function &mdash; <span class="fixed">elem</span>. It takes an element and a list and sees if that element is in the list. The edge condition, as is most of the times with lists, is the empty list. We know that an empty list contains no elements, so it certainly doesn’t have the droids we’re looking for.</p>
+<p>Let’s implement one more standard library function — <span class="fixed">elem</span>. It takes an element and a list and sees if that element is in the list. The edge condition, as is most of the times with lists, is the empty list. We know that an empty list contains no elements, so it certainly doesn’t have the droids we’re looking for.</p>
 <pre name="code" class="haskell:hs">
 elem' :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
 elem' a [] = False
