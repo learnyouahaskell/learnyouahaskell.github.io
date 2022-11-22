@@ -136,16 +136,16 @@ here? Well, we pattern match on our tree and name its root element
 <span class="fixed">x</span> (that’s becomes the <span class="fixed">'P'</span> in the
 root) and its left subtree <span class="fixed">l</span>. Instead of giving a
 name to its right subtree, we further pattern match on it. We continue this
-pattern matching until we reach the subtree whose root is our <span
-class="fixed">'W'</span>. Once we’ve done this, we rebuild the tree, only the
+pattern matching until we reach the subtree whose root is our
+<span class="fixed">'W'</span>. Once we’ve done this, we rebuild the tree, only the
 subtree that contained the <span class="fixed">'W'</span> at its root now
 has a <span class="fixed">'P'</span>.
 </p>
 
 <p>
 Is there a better way of doing this? How about we make our function take a tree
-along with a list of directions. The directions will be either <span
-class="fixed">L</span> or <span class="fixed">R</span>, representing left and
+along with a list of directions. The directions will be either
+<span class="fixed">L</span> or <span class="fixed">R</span>, representing left and
 right respectively, and we’ll change
 the element that we arrive at if we follow the supplied directions. Here it is:
 </p>
@@ -161,8 +161,8 @@ changeToP [] (Node _ l r) = Node 'P' l r
 </pre>
 
 <p>
-If the first element in our list of directions is <span
-class="fixed">L</span>, we construct a new tree that’s like the old tree, only
+If the first element in our list of directions is
+<span class="fixed">L</span>, we construct a new tree that’s like the old tree, only
 its left subtree has an element changed to <span class="fixed">'P'</span>. When
 we recursively call <span class="fixed">changeToP</span>, we give it only the
 tail of the list of directions, because we already took a left. We do the same
@@ -187,8 +187,8 @@ elemAt [] (Node x _ _) = x
 <p>
 This function is actually quite similar to <span class="fixed">changeToP</span>,
 only instead of remembering stuff along the way and reconstructing the tree, it
-ignores everything except its destination. Here we change the <span
-class="fixed">'W'</span> to a <span class="fixed">'P'</span> and see if the
+ignores everything except its destination. Here we change the
+<span class="fixed">'W'</span> to a <span class="fixed">'P'</span> and see if the
 change in our new tree sticks:
 </p>
 
@@ -236,8 +236,8 @@ try that.
 </p>
 
 <p>
-To represent our breadcrumbs, we’ll also use a list of <span
-class="fixed">Direction</span> (which is either <span class="fixed">L</span>
+To represent our breadcrumbs, we’ll also use a list of
+<span class="fixed">Direction</span> (which is either <span class="fixed">L</span>
 or <span class="fixed">R</span>), only instead of calling it
 <span class="fixed">Directions</span>, we’ll call it <span class="fixed">Breadcrumbs</span>
 , because our directions will now be reversed since we’re leaving them as
@@ -291,8 +291,8 @@ and then left.
 </p>
 
 <p>
-To make walking along our tree clearer, we can use the <span
-class="fixed">-:</span> function that we defined like so:
+To make walking along our tree clearer, we can use the
+<span class="fixed">-:</span> function that we defined like so:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -336,8 +336,8 @@ had it in the breadcrumbs, we’d have duplicate information.
 
 <p>
 Let’s modify our breadcrumbs so that they also contain information about everything
-that we previously ignored when moving left and right. Instead of <span
-class="fixed">Direction</span>, we’ll make a new data type:
+that we previously ignored when moving left and right. Instead of
+<span class="fixed">Direction</span>, we’ll make a new data type:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -345,10 +345,10 @@ data Crumb a = LeftCrumb a (Tree a) | RightCrumb a (Tree a) deriving (Show)
 </pre>
 
 <p>
-Now, instead of just <span class="fixed">L</span>, we have a <span
-class="fixed">LeftCrumb</span> that also contains the element in the node that we
-moved from and the right tree that we didn’t visit. Instead of <span
-class="fixed">R</span>, we have <span class="fixed">RightCrumb</span>, which
+Now, instead of just <span class="fixed">L</span>, we have a
+<span class="fixed">LeftCrumb</span> that also contains the element in the node that we
+moved from and the right tree that we didn’t visit. Instead of
+<span class="fixed">R</span>, we have <span class="fixed">RightCrumb</span>, which
 contains the element in the node that we moved from and the left tree that we
 didn’t visit.
 </p>
@@ -495,8 +495,8 @@ ghci&gt; let newFocus = modify (\_ -&gt; 'P') (goRight (goLeft (freeTree,[])))
 
 <p>
 We go left, then right and then modify the root element by replacing it with a
-<span class="fixed">'P'</span>. This reads even better if we use <span
-class="fixed">-:</span>:
+<span class="fixed">'P'</span>. This reads even better if we use
+<span class="fixed">-:</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -576,8 +576,8 @@ topMost z = topMost (goUp z)
 <p>
 If our trail of beefed up breadcrumbs is empty, this means that we’re already at
 the root of our tree, so we just return the current focus. Otherwise, we go up
-to get the focus of the parent node and then recursively apply <span
-class="fixed">topMost</span> to that. So now we can walk around our tree, going
+to get the focus of the parent node and then recursively apply
+<span class="fixed">topMost</span> to that. So now we can walk around our tree, going
 left and right and up, applying <span class="fixed">modify</span> and
 <span class="fixed">attach</span> as we go along and then when we’re done with
 our modifications, we use <span class="fixed">topMost</span> to focus on the
@@ -637,14 +637,14 @@ Because there’s only one subtree to each node, we don’t have to remember the
 paths that we didn’t take either. It seems that all we have to remember is the
 previous element. If we have a list like <span class="fixed">[3,4,5]</span> and
 we know that the previous element was <span class="fixed">2</span>, we can go
-back by just putting that element at the head of our list, getting <span
-class="fixed">[2,3,4,5]</span>.
+back by just putting that element at the head of our list, getting
+<span class="fixed">[2,3,4,5]</span>.
 </p>
 
 <p>
 Because a single breadcrumb here is just the element, we don’t really have to
-put it inside a data type, like we did when we made the <span
-class="fixed">Crumb</span> data type for tree zippers:
+put it inside a data type, like we did when we made the
+<span class="fixed">Crumb</span> data type for tree zippers:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -798,8 +798,8 @@ If we’re focusing on the folder <span class="fixed">"root"</span> and we then
 focus on the file <span class="fixed">"dijon_poupon.doc"</span>, what should the
 breadcrumb that we leave look like? Well, it should contain the name of its
 parent folder along with the items that come before the file that we’re focusing
-on and the items that come after it. So all we need is a <span
-class="fixed">Name</span> and two lists of items. By keeping separate lists for
+on and the items that come after it. So all we need is a
+<span class="fixed">Name</span> and two lists of items. By keeping separate lists for
 the items that come before the item that we’re focusing and for the items that
 come after it, we know exactly where to place it once we move back up. So this
 way, we know where the hole is.
@@ -834,9 +834,9 @@ fsUp (item, FSCrumb name ls rs:bs) = (Folder name (ls ++ [item] ++ rs), bs)
 
 <p>
 Because our breadcrumb knew what the parent folder’s name was, as well as the
-items that came before our focused item in the folder (that’s <span
-class="fixed">ls</span>) and the ones that came after (that’s <span
-class="fixed">rs</span>), moving up was easy.
+items that came before our focused item in the folder (that’s
+<span class="fixed">ls</span>) and the ones that came after (that’s
+<span class="fixed">rs</span>), moving up was easy.
 </p>
 
 <p>
@@ -1144,8 +1144,8 @@ Nothing
 </pre>
 
 <p>
-We used <span class="fixed">return</span> to put a zipper in a <span
-class="fixed">Just</span> and then used <span class="fixed">&gt;&gt;=</span> to
+We used <span class="fixed">return</span> to put a zipper in a
+<span class="fixed">Just</span> and then used <span class="fixed">&gt;&gt;=</span> to
 feed that to our <span class="fixed">goRight</span> function. First, we made a
 tree that has on its left an empty subtree and on its right a node that has two
 empty subtrees. When we try to go right once, the result is a success, because

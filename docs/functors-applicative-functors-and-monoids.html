@@ -604,8 +604,8 @@ ghci&gt; getZipList $ ZipList [(+1),(*100),(*5)] <*> ZipList [1,2,3]
 
 <p>
 So, what does this have to do with this <i>newtype</i> keyword? Well, think
-about how we might write the data declaration for our <span
-class="fixed">ZipList a</span> type. One way would be to do it like so:
+about how we might write the data declaration for our
+<span class="fixed">ZipList a</span> type. One way would be to do it like so:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -714,10 +714,10 @@ CharList :: [Char] -&gt; CharList
 </pre>
 
 <p>
-It takes a <span class="fixed">[Char]</span> value, such as <span
-class="fixed">"my sharona"</span>
-and returns a <span
-class="fixed">CharList</span> value. From the above examples where we used
+It takes a <span class="fixed">[Char]</span> value, such as
+<span class="fixed">"my sharona"</span>
+and returns a
+<span class="fixed">CharList</span> value. From the above examples where we used
 the <span class="fixed">CharList</span> value constructor, we see that really is
 the case. Conversely, the <span class="fixed">getCharList</span> function, which
 was generated for us because we used record syntax in our <i>newtype</i>, has
@@ -774,8 +774,8 @@ Isn’t that just peachy? Now what if we wanted to make the tuple an instance of
 <span class="fixed">Functor</span> in such a way that when we <span class="fixed">fmap</span>
 a function over a tuple, it gets applied to the first component of the tuple?
 That way, doing <span class="fixed">fmap (+3) (1,1)</span> would result in <span class="fixed">(4,1)</span>.
-It turns out that writing the instance for that is kind of hard. With <span
-class="fixed">Maybe</span>, we just say <span class="fixed">instance Functor
+It turns out that writing the instance for that is kind of hard. With
+<span class="fixed">Maybe</span>, we just say <span class="fixed">instance Functor
 Maybe where</span> because only type constructors that take exactly one
 parameter can be made an instance of <span class="fixed">Functor</span>. But it
 seems like there’s
@@ -1069,11 +1069,11 @@ ever" class="right" width="460" height="417">
 
 <p>
 Type classes in Haskell are used to present an interface for types that have
-some behavior in common. We started out with simple type classes like <span
-class="fixed">Eq</span>, which is for types whose values can be equated, and
+some behavior in common. We started out with simple type classes like
+<span class="fixed">Eq</span>, which is for types whose values can be equated, and
 <span class="fixed">Ord</span>, which is for things that can be put in an order
-and then moved on to more interesting ones, like <span
-class="fixed">Functor</span> and <span class="fixed">Applicative</span>.
+and then moved on to more interesting ones, like
+<span class="fixed">Functor</span> and <span class="fixed">Applicative</span>.
 </p>
 
 <p>
@@ -1087,11 +1087,11 @@ type is some kind of functor, we make it an instance of
 
 <p>
 Now consider the following: <span class="fixed">*</span> is a function that
-takes two numbers and multiplies them. If we multiply some number with a <span
-class="fixed">1</span>, the result is always equal to that number. It doesn’t
+takes two numbers and multiplies them. If we multiply some number with a
+<span class="fixed">1</span>, the result is always equal to that number. It doesn’t
 matter if we do <span class="fixed">1 * x</span> or <span class="fixed">x *
-1</span>, the result is always <span class="fixed">x</span>. Similarly, <span
-class="fixed">++</span> is
+1</span>, the result is always <span class="fixed">x</span>. Similarly,
+<span class="fixed">++</span> is
 also a function which takes two things and returns a third. Only instead of
 multiplying numbers, it takes two lists and concatenates them. And much like
 <span class="fixed">*</span>, it also has a certain value which doesn’t change
@@ -1111,8 +1111,8 @@ ghci&gt; [] ++ [0.5, 2.5]
 </pre>
 
 <p>
-It seems that both <span class="fixed">*</span> together with <span
-class="fixed">1</span>
+It seems that both <span class="fixed">*</span> together with
+<span class="fixed">1</span>
 and <span class="fixed">++</span> along with <span class="fixed">[]</span> share
 some common properties:
 </p>
@@ -1159,11 +1159,11 @@ By noticing and writing down these properties, we have chanced upon
 is when you have an associative binary function and a value which acts as an
 identity with respect to that function. When something acts as an identity with
 respect to a function, it means that when called with that function and some
-other value, the result is always equal to that other value. <span
-class="fixed">1</span>
-is the identity with respect to <span class="fixed">*</span> and <span
-class="fixed">[]</span> is the identity with respect to <span
-class="fixed">++</span>. There are a lot of other monoids to be found in the
+other value, the result is always equal to that other value.
+<span class="fixed">1</span>
+is the identity with respect to <span class="fixed">*</span> and
+<span class="fixed">[]</span> is the identity with respect to
+<span class="fixed">++</span>. There are a lot of other monoids to be found in the
 world of Haskell, which is why the <span class="fixed">Monoid</span> type class
 exists. It’s for types which can act like monoids. Let’s see how the type class
 is defined:
@@ -1177,8 +1177,7 @@ class Monoid m where
     mconcat = foldr mappend mempty
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/balloondog.png" alt="woof dee do!!!" class="right" width="260"
-height="326">
+<img src="assets/images/functors-applicative-functors-and-monoids/balloondog.png" alt="woof dee do!!!" class="right" width="260" height="326">
 
 <p>
 The <span class="fixed">Monoid</span> type class is defined in
@@ -1197,8 +1196,8 @@ which require their instances to be type constructors which take one parameter.
 <p>
 The first function is <span class="fixed">mempty</span>. It’s not really a
 function, since it doesn’t take parameters, so it’s a polymorphic constant, kind
-of like <span class="fixed">minBound</span> from <span
-class="fixed">Bounded</span>.  <span class="fixed">mempty</span> represents the
+of like <span class="fixed">minBound</span> from
+<span class="fixed">Bounded</span>.  <span class="fixed">mempty</span> represents the
 identity value for a particular monoid.
 </p>
 
@@ -1208,11 +1207,11 @@ guessed, is the binary function. It takes two values of the same type and
 returns a value of that type as well. It’s worth noting that the decision to
 name
 <span class="fixed">mappend</span> as it’s named was kind of unfortunate,
-because it implies that we’re appending two things in some way. While <span
-class="fixed">++</span> does take two lists and append one to the other, <span
-class="fixed">*</span> doesn’t really do any appending, it just multiplies two
-numbers together. When we meet other instances of <span
-class="fixed">Monoid</span>, we’ll see that most of them don’t append values
+because it implies that we’re appending two things in some way. While
+<span class="fixed">++</span> does take two lists and append one to the other,
+<span class="fixed">*</span> doesn’t really do any appending, it just multiplies two
+numbers together. When we meet other instances of
+<span class="fixed">Monoid</span>, we’ll see that most of them don’t append values
 either, so avoid thinking in terms of appending and just think in terms of
 <span class="fixed">mappend</span> being a binary function that takes two monoid
 values and returns a third.
@@ -1280,8 +1279,8 @@ instance Monoid [a] where
 Lists are an instance of the <span class="fixed">Monoid</span> type class
 regardless of the type of the elements they hold.
 Notice that we wrote <span class="fixed">instance Monoid [a]</span> and not
-<span class="fixed">instance Monoid []</span>, because <span
-class="fixed">Monoid</span>
+<span class="fixed">instance Monoid []</span>, because
+<span class="fixed">Monoid</span>
 requires a concrete type for an instance.
 </p>
 
@@ -1608,9 +1607,9 @@ repeat the process.
 For instance, if we were to alphabetically compare the words
 <span class="fixed">"ox"</span> and <span class="fixed">"on"</span>, we’d first
 compare the first two letters of each word, see that they are equal and then
-move on to comparing the second letter of each word. We see that <span
-class="fixed">'x'</span> is alphabetically greater than <span
-class="fixed">'n'</span>, and so we know how the words compare. To gain some
+move on to comparing the second letter of each word. We see that
+<span class="fixed">'x'</span> is alphabetically greater than
+<span class="fixed">'n'</span>, and so we know how the words compare. To gain some
 intuition for <span class="fixed">EQ</span> being the identity, we can notice
 that if we were to cram the same letter in the same position in both words, it
 wouldn’t change their alphabetical ordering. <span class="fixed">"oix"</span> is
@@ -1621,9 +1620,9 @@ still alphabetically greater than and <span class="fixed">"oin"</span>.
 It’s important to note that in the <span class="fixed">Monoid</span> instance
 for <span class="fixed">Ordering</span>, <span class="fixed">x `mappend` y</span>
 doesn’t equal <span class="fixed">y `mappend` x</span>. Because the first
-parameter is kept unless it’s <span class="fixed">EQ</span>, <span
-class="fixed">LT `mappend` GT</span> will result in <span
-class="fixed">LT</span>, whereas <span class="fixed">GT `mappend` LT</span> will
+parameter is kept unless it’s <span class="fixed">EQ</span>,
+<span class="fixed">LT `mappend` GT</span> will result in
+<span class="fixed">LT</span>, whereas <span class="fixed">GT `mappend` LT</span> will
 result in <span class="fixed">GT</span>:
 </p>
 
@@ -1640,8 +1639,8 @@ GT
 
 <p>
 OK, so how is this monoid useful? Let’s say you were writing a function that
-takes two strings, compares their lengths, and returns an <span
-class="fixed">Ordering</span>. But if the strings are of the same length, then
+takes two strings, compares their lengths, and returns an
+<span class="fixed">Ordering</span>. But if the strings are of the same length, then
 instead of returning <span class="fixed">EQ</span> right away, we want to
 compare them alphabetically. One way to write this would be like so:
 </p>
@@ -1704,8 +1703,8 @@ lengthCompare x y = (length x `compare` length y) `mappend`
 
 <p>
 We made a helper function, which takes a string and tells us how many vowels it
-has by first filtering it only for letters that are in the string <span
-class="fixed">"aeiou"</span> and then applying <span class="fixed">length</span>
+has by first filtering it only for letters that are in the string
+<span class="fixed">"aeiou"</span> and then applying <span class="fixed">length</span>
 to that.
 </p>
 
@@ -1764,15 +1763,15 @@ instance Monoid a =&gt; Monoid (Maybe a) where
 
 <p>
 Notice the class constraint. It says that <span class="fixed">Maybe a</span> is
-an instance of <span class="fixed">Monoid</span> only if <span
-class="fixed">a</span> is an instance of <span class="fixed">Monoid</span>.
-If we <span class="fixed">mappend</span> something with a <span
-class="fixed">Nothing</span>,
-the result is that something. If we <span class="fixed">mappend</span> two <span
-class="fixed">Just</span> values, the contents of the <span
-class="fixed">Just</span>s get
-<span class="fixed">mappended</span> and then wrapped back in a <span
-class="fixed">Just</span>. We can do this because the class constraint ensures
+an instance of <span class="fixed">Monoid</span> only if
+<span class="fixed">a</span> is an instance of <span class="fixed">Monoid</span>.
+If we <span class="fixed">mappend</span> something with a
+<span class="fixed">Nothing</span>,
+the result is that something. If we <span class="fixed">mappend</span> two
+<span class="fixed">Just</span> values, the contents of the
+<span class="fixed">Just</span>s get
+<span class="fixed">mappended</span> and then wrapped back in a
+<span class="fixed">Just</span>. We can do this because the class constraint ensures
 that the type of what’s inside the <span class="fixed">Just</span> is an
 instance of <span class="fixed">Monoid</span>.
 </p>
@@ -1843,8 +1842,8 @@ Just 'a'
 </pre>
 
 <p>
-<span class="fixed">First</span> is useful when we have a bunch of <span
-class="fixed">Maybe</span> values
+<span class="fixed">First</span> is useful when we have a bunch of
+<span class="fixed">Maybe</span> values
 and we just want to know if any of them is a <span class="fixed">Just</span>.
 The <span class="fixed">mconcat</span> function comes in handy:
 </p>
@@ -1858,11 +1857,11 @@ Just 9
 If we want a monoid on <span class="fixed">Maybe a</span> such that the second
 parameter is kept if both parameters of <span class="fixed">mappend</span> are
 <span class="fixed">Just</span> values, <span class="fixed">Data.Monoid</span>
-provides a the <span class="fixed">Last a</span> type, which works like <span
-class="fixed">First a</span>, only the last non-<span
-class="fixed">Nothing</span>
-value is kept when <span class="fixed">mappend</span>ing and using <span
-class="fixed">mconcat</span>:
+provides a the <span class="fixed">Last a</span> type, which works like
+<span class="fixed">First a</span>, only the last
+non-<span class="fixed">Nothing</span>
+value is kept when <span class="fixed">mappend</span>ing and using
+<span class="fixed">mconcat</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1950,8 +1949,8 @@ that’s a little more complex then.
 </p>
 
 <p>
-Remember the tree data structure from the <a
-href="making-our-own-types-and-typeclasses.html#recursive-data-structures">Making Our
+Remember the tree data structure from the
+<a href="making-our-own-types-and-typeclasses.html#recursive-data-structures">Making Our
 Own Types and Typeclasses</a> chapter? We defined it like this:
 </p>
 
@@ -2062,10 +2061,10 @@ testTree = Node 5
 <p>
 It has <span class="fixed">5</span> at its root and then its left node is has
 <span class="fixed">3</span> with <span class="fixed">1</span> on the left and
-<span class="fixed">6</span> on the right. The root’s right node has a <span
-class="fixed">9</span>
-and then an <span class="fixed">8</span> to its left and a <span
-class="fixed">10</span> on the far right side. With a <span class="fixed">Foldable</span> instance,
+<span class="fixed">6</span> on the right. The root’s right node has a
+<span class="fixed">9</span>
+and then an <span class="fixed">8</span> to its left and a
+<span class="fixed">10</span> on the far right side. With a <span class="fixed">Foldable</span> instance,
 we can do all of the folds that we can do on lists:
 </p>
 
