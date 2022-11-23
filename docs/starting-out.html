@@ -306,7 +306,7 @@ ghci&gt; init [5,4,3,2,1]
 <pre name="code" class="haskell: ghci">
 ghci&gt; head []
 *** Exception: Prelude.head: empty list</pre>
-<p>Oh my! It all blows up in our face! If there's no monster, it doesn't have a head. When using <span class="fixed">head</span>, <span class="fixed">tail</span>, <span class="fixed">last</span> and <span class="fixed">init</span>, be careful not to use them on empty lists. This error cannot be caught at compile time, so it's always good practice to take precautions against accidentally telling Haskell to give you some elements from an empty list.
+<p>Oh my! It all blows up in our face! If there's no monster, it doesn't have a head. When using <span class="fixed">head</span>, <span class="fixed">tail</span>, <span class="fixed">last</span> and <span class="fixed">init</span>, be careful not to use them on empty lists. This error cannot be caught at compile time, so it's always good practice to take precautions against accidentally telling Haskell to give you some elements from an empty list.</p>
 <p><span class="label function">length</span> takes a list and returns its length, obviously.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; length [5,4,3,2,1]
@@ -431,7 +431,7 @@ ghci&gt; [ x | x &lt;- [50..100], x `mod` 7 == 3]
 <p>Success! Note that weeding out lists by predicates is also called <em>filtering</em>. We took a list of numbers and we filtered them by the predicate. Now for another example. Let's say we want a comprehension that replaces each odd number greater than 10 with <span class="fixed">"BANG!"</span> and each odd number that's less than 10 with <span class="fixed">"BOOM!"</span>. If a number isn't odd, we throw it out of our list. For convenience, we'll put that comprehension inside a function so we can easily reuse it.</p>
 <pre name="code" class="haskell: ghci">
 boomBangs xs = [ if x &lt; 10 then "BOOM!" else "BANG!" | x &lt;- xs, odd x] </pre>
-<p>The last part of the comprehension is the predicate. The function <span class="fixed">odd</span> returns <span class="fixed">True</span> on an odd number and <span class="fixed">False</span>  on an even one. The element is included in the list only if all the predicates evaluate to <span class="fixed">True</span>.
+<p>The last part of the comprehension is the predicate. The function <span class="fixed">odd</span> returns <span class="fixed">True</span> on an odd number and <span class="fixed">False</span>  on an even one. The element is included in the list only if all the predicates evaluate to <span class="fixed">True</span>.</p>
 <pre name="code" class="haskell: hs">
 ghci&gt; boomBangs [7..13]
 ["BOOM!","BOOM!","BANG!","BANG!"] </pre>

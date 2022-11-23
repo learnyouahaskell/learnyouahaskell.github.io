@@ -182,7 +182,7 @@ data Road = Road Int Node
 data Section = Section { getA :: Int, getB :: Int, getC :: Int } deriving (Show)
 type RoadSystem = [Section]
 </pre>
-<p>This is pretty much perfect! It's as simple as it goes and I have a feeling it'll work perfectly for implementing our solution. <span class="fixed">Section</span> is a simple algebraic data type that holds three integers for the lengths of its three road parts. We introduce a type synonym as well, saying that <span class="fixed">RoadSystem</span> is a list of sections.
+<p>This is pretty much perfect! It's as simple as it goes and I have a feeling it'll work perfectly for implementing our solution. <span class="fixed">Section</span> is a simple algebraic data type that holds three integers for the lengths of its three road parts. We introduce a type synonym as well, saying that <span class="fixed">RoadSystem</span> is a list of sections.</p>
 <div class="hintbox">We could also use a triple of <span class="fixed">(Int, Int, Int)</span> to represent a road section. Using tuples instead of making your own algebraic data types is good for some small localized stuff, but it's usually better to make a new type for things like this. It gives the type system more information about what's what. We can use <span class="fixed">(Int, Int, Int)</span> to represent a road section or a vector in 3D space and we can operate on those two, but that allows us to mix them up. If we use <span class="fixed">Section</span> and <span class="fixed">Vector</span> data types, then we can't accidentally add a vector to a section of a road system.</div>
 <p>Our road system from Heathrow to London can now be represented like this:</p>
 <pre name="code" class="haskell:hs">

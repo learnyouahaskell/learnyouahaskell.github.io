@@ -57,7 +57,7 @@ ghci&gt; :m + Data.List Data.Map Data.Set
 <pre name="code" class="haskell:hs">
 import Data.List (nub, sort)
 </pre>
-<p>You can also choose to import all of the functions of a module except a few select ones. That's often useful when several modules export functions with the same name and you want to get rid of the offending ones. Say we already have our own function that's called <span class="fixed">nub</span> and we want to import all the functions from <span class="fixed">Data.List</span> except the <span class="fixed">nub</span> function:
+<p>You can also choose to import all of the functions of a module except a few select ones. That's often useful when several modules export functions with the same name and you want to get rid of the offending ones. Say we already have our own function that's called <span class="fixed">nub</span> and we want to import all the functions from <span class="fixed">Data.List</span> except the <span class="fixed">nub</span> function:</p>
 <pre name="code" class="haskell:hs">
 import Data.List hiding (nub)
 </pre>
@@ -276,7 +276,7 @@ ghci&gt; :t find
 find :: (a -&gt; Bool) -&gt; [a] -&gt; Maybe a
 </pre>
 <p>Notice the type of <span class="fixed">find</span>. Its result is <span class="fixed">Maybe a</span>. That's kind of like having the type of <span class="fixed">[a]</span>, only a value of the type <span class="fixed">Maybe</span> can contain either no elements or one element, whereas a list can contain no elements, one element or several elements.</p>
-<p>Remember when we were searching for the first time our stock went over $1000. We did <span class="fixed">head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</span>. Remember that <span class="fixed">head</span> is not really safe. What would happen if our stock never went over $1000? Our application of <span class="fixed">dropWhile</span> would return an empty list and getting the head of an empty list would result in an error. However, if we rewrote that as <span class="fixed">find (\(val,y,m,d) -&gt; val &gt; 1000) stock</span>, we'd be much safer. If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a <span class="fixed">Nothing</span>. But if there was a valid answer in that list, we'd get, say, <span class="fixed">Just (1001.4,2008,9,4)</span>.
+<p>Remember when we were searching for the first time our stock went over $1000. We did <span class="fixed">head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</span>. Remember that <span class="fixed">head</span> is not really safe. What would happen if our stock never went over $1000? Our application of <span class="fixed">dropWhile</span> would return an empty list and getting the head of an empty list would result in an error. However, if we rewrote that as <span class="fixed">find (\(val,y,m,d) -&gt; val &gt; 1000) stock</span>, we'd be much safer. If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a <span class="fixed">Nothing</span>. But if there was a valid answer in that list, we'd get, say, <span class="fixed">Just (1001.4,2008,9,4)</span>.</p>
 <p><span class="label function">elemIndex</span> is kind of like <span class="fixed">elem</span>, only it doesn't return a boolean value. It maybe returns the index of the element we're looking for. If that element isn't in our list, it returns a <span class="fixed">Nothing</span>.  </p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; :t elemIndex
@@ -372,7 +372,7 @@ ghci&gt; insert 4 [1,3,4,4,1]
 [1,3,4,4,4,1]
 </pre>
 <p>The <span class="fixed">4</span> is inserted right after the <span class="fixed">3</span> and before the <span class="fixed">5</span> in the first example and in between the <span class="fixed">3</span> and <span class="fixed">4</span> in the second example.</p>
-If we use <span class="fixed">insert</span> to insert into a sorted list, the resulting list will be kept sorted.</p>
+<p>If we use <span class="fixed">insert</span> to insert into a sorted list, the resulting list will be kept sorted.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; insert 4 [1,2,3,5,6,7]
 [1,2,3,4,5,6,7]
@@ -389,12 +389,12 @@ ghci&gt; let values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -
 ghci&gt; groupBy (\x y -&gt; (x &gt; 0) == (y &gt; 0)) values
 [[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
 </pre>
-<p>From this, we clearly see which sections are positive and which are negative. The equality function supplied takes two elements and then returns <span class="fixed">True</span> only if they're both negative or if they're both positive. This equality function can also be written as <span class="fixed">\x y -&gt; (x &gt; 0) &amp;&amp; (y &gt; 0) || (x &lt;= 0) &amp;&amp; (y &lt;= 0)</span>, although I think the first way is more readable. An even clearer way to write equality functions for the <i>By</i> functions is if you import the <span class="label function">on</span> function from <span class="fixed">Data.Function</span>. <span class="fixed">on</span> is defined like this:
+<p>From this, we clearly see which sections are positive and which are negative. The equality function supplied takes two elements and then returns <span class="fixed">True</span> only if they're both negative or if they're both positive. This equality function can also be written as <span class="fixed">\x y -&gt; (x &gt; 0) &amp;&amp; (y &gt; 0) || (x &lt;= 0) &amp;&amp; (y &lt;= 0)</span>, although I think the first way is more readable. An even clearer way to write equality functions for the <i>By</i> functions is if you import the <span class="label function">on</span> function from <span class="fixed">Data.Function</span>. <span class="fixed">on</span> is defined like this:</p>
 <pre name="code" class="haskell:ghci">
 on :: (b -&gt; b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; a -&gt; c
 f `on` g = \x y -&gt; f (g x) (g y)
 </pre>
-<p>So doing <span class="fixed">(==) `on` (&gt; 0)</span> returns an equality function that looks like <span class="fixed">\x y -&gt; (x &gt; 0) == (y &gt; 0)</span>. <span class="fixed">on</span> is used a lot with the <i>By</i> functions because with it, we can do:
+<p>So doing <span class="fixed">(==) `on` (&gt; 0)</span> returns an equality function that looks like <span class="fixed">\x y -&gt; (x &gt; 0) == (y &gt; 0)</span>. <span class="fixed">on</span> is used a lot with the <i>By</i> functions because with it, we can do:</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; groupBy ((==) `on` (&gt; 0)) values
 [[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
@@ -440,7 +440,7 @@ ghci&gt; all isAlphaNum "eddy the fish!"
 False
 </pre>
 <p>Kewl. In case you don't remember, <span class="fixed">all</span> takes a predicate and a list and returns <span class="fixed">True</span> only if that predicate holds for every element in the list.</p>
-<p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.
+<p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; words "hey folks its me"
 ["hey","folks","its","me"]
@@ -572,7 +572,7 @@ Nothing
 <img src="assets/images/modules/legomap.png" alt="legomap" class="left" width="214" height="240">
 <p>Works like a charm! If we have the friend's phone number, we <span class="fixed">Just</span> get the number, otherwise we get <span class="fixed">Nothing</span>.</p>
 <p>We just implemented the <span class="fixed">lookup</span> function from <span class="fixed">Data.List</span>. If we want to find the corresponding value to a key, we have to traverse all the elements of the list until we find it. The <span class="fixed">Data.Map</span> module offers association lists that are much faster (because they're internally implemented with trees) and also it provides a lot of utility functions. From now on, we'll say we're working with maps instead of association lists.</p>
-<p>Because <span class="fixed">Data.Map</span> exports functions that clash with the <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> ones, we'll do a qualified import.
+<p>Because <span class="fixed">Data.Map</span> exports functions that clash with the <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> ones, we'll do a qualified import.</p>
 <pre name="code" class="haskell:hs">
 import qualified Data.Map as Map
 </pre>

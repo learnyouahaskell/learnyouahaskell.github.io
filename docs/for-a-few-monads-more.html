@@ -48,6 +48,7 @@ context of possible failure to values. We've learned about the list monad and
 saw how it lets us easily introduce non-determinism into our programs. We've also
 learned how to work in the <span class="fixed">IO</span> monad, even before we
 knew what a monad was!
+</p>
 
 <p>
 In this chapter, we're going to learn about a few other monads. We'll see how
@@ -927,6 +928,7 @@ log.
 Anyway, if you load this function in GHCi and apply it to a big number,
 like <span class="fixed">500000</span>, you'll see that it quickly starts counting from
 <span class="fixed">0</span> onwards:
+</p>
 
 <pre name="code" class="haskell:hs">
 ghci&gt; mapM_ putStrLn . fromDiffList . snd . runWriter $ finalCountDown 500000
