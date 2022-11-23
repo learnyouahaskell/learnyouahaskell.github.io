@@ -106,7 +106,7 @@ third (_, _, z) = z
 <p>Which reminds me, you can also pattern match in list comprehensions. Check this out:</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; let xs = [(1,3), (4,3), (2,4), (5,3), (5,6), (3,1)]
-ghci&gt; [a+b | (a,b) <- xs]
+ghci&gt; [a+b | (a,b) &lt;- xs]
 [4,7,6,8,11,4] </pre>
 <p>
 Should a pattern match fail, it will just move on to the next element.

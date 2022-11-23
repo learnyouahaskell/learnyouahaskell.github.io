@@ -95,7 +95,7 @@ data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
 </pre>
 <p>Notice that when defining a point, we used the same name for the data type and the value constructor. This has no special meaning, although it’s common to use the same name as the type if there’s only one value constructor. So now the <span class="fixed">Circle</span> has two fields, one is of type <span class="fixed">Point</span> and the other of type <span class="fixed">Float</span>. This makes it easier to understand what’s what. Same goes for the rectangle. We have to adjust our <span class="fixed">surface</span> function to reflect these changes.</p>
 <pre name="code" class="haskell:hs">
-surface :: Shape -> Float
+surface :: Shape -&gt; Float
 surface (Circle _ r) = pi * r ^ 2
 surface (Rectangle (Point x1 y1) (Point x2 y2)) = (abs $ x2 - x1) * (abs $ y2 - y1)
 </pre>
@@ -421,7 +421,7 @@ GT
 ghci&gt; Just 100 &gt; Just 50
 True
 </pre>
-<p>But we can’t do something like <span class="fixed">Just (*3) > Just (*2)</span>, because <span class="fixed">(*3)</span> and <span class="fixed">(*2)</span> are functions, which aren’t instances of <span class="fixed">Ord</span>.</p>
+<p>But we can’t do something like <span class="fixed">Just (*3) &gt; Just (*2)</span>, because <span class="fixed">(*3)</span> and <span class="fixed">(*2)</span> are functions, which aren’t instances of <span class="fixed">Ord</span>.</p>
 <p>We can easily use algebraic data types to make enumerations and the <span class="fixed">Enum</span> and <span class="fixed">Bounded</span> typeclasses help us with that. Consider the following data type:</p>
 <pre name="code" class="haskell:hs">
 data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
@@ -681,7 +681,7 @@ treeElem :: (Ord a) =&gt; a -&gt; Tree a -&gt; Bool
 treeElem x EmptyTree = False
 treeElem x (Node a left right)
     | x == a = True
-    | x < a  = treeElem x left
+    | x &lt; a  = treeElem x left
     | x &gt; a  = treeElem x right
 </pre>
 <p>All we had to do was write up the previous paragraph in code. Let’s have some fun with our trees! Instead of manually building one (although we could), we’ll use a fold to build up a tree from a list. Remember, pretty much everything that traverses a list one by one and then returns some sort of value can be implemented with a fold! We’re going to start with the empty tree and then approach a list from the right and just insert element after element into our accumulator tree. </p>

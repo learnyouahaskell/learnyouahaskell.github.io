@@ -576,7 +576,7 @@ list.
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [(+1),(*100),(*5)] <*> [1,2,3]
+ghci&gt; [(+1),(*100),(*5)] &lt;*&gt; [1,2,3]
 [2,3,4,100,200,300,5,10,15]
 </pre>
 
@@ -598,7 +598,7 @@ we’re done, unwrap them with <span class="fixed">getZipList</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; getZipList $ ZipList [(+1),(*100),(*5)] <*> ZipList [1,2,3]
+ghci&gt; getZipList $ ZipList [(+1),(*100),(*5)] &lt;*&gt; ZipList [1,2,3]
 [2,200,15]
 </pre>
 
@@ -1501,7 +1501,7 @@ False
 
 <p>
 The other way for <span class="fixed">Bool</span> to be an instance of
-<span class="fixed">Monoid</span> is to kind of do the opposite: have <span class="fixed">&&</span>
+<span class="fixed">Monoid</span> is to kind of do the opposite: have <span class="fixed">&amp;&amp;</span>
 be the binary function and then make <span class="fixed">True</span>
 the identity value. Logical <i>and</i> will return <span class="fixed">True</span> only
 if both of its parameters are <span class="fixed">True</span>. This is the <i>newtype</i>
@@ -1520,7 +1520,7 @@ And this is the instance:
 <pre name="code" class="haskell:hs">
 instance Monoid All where
         mempty = All True
-        All x `mappend` All y = All (x && y)
+        All x `mappend` All y = All (x &amp;&amp; y)
 </pre>
 
 <p>

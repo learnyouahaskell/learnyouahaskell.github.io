@@ -415,13 +415,13 @@ If you’ve ever taken a course in mathematics, you’ve probably run into <i>se
 </p>
 <p>If we wanted to write that in Haskell, we could do something like <span class="fixed">take 10 [2,4..]</span>. But what if we didn’t want doubles of the first 10 natural numbers but some kind of more complex function applied on them? We could use a list comprehension for that. List comprehensions are very similar to set comprehensions. We’ll stick to getting the first 10 even numbers for now. The list comprehension we could use is <span class="fixed">[x*2 | x &lt;- [1..10]]</span>. <span class="fixed">x</span> is drawn from <span class="fixed">[1..10]</span> and for every element in <span class="fixed">[1..10]</span> (which we have bound to <span class="fixed">x</span>), we get that element, only doubled. Here’s that comprehension in action. </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; [x*2 | x <- [1..10]]
+ghci&gt; [x*2 | x &lt;- [1..10]]
 [2,4,6,8,10,12,14,16,18,20]
 </pre>
 <p>As you can see, we get the desired results. Now let’s add a condition (or a predicate) to that comprehension. Predicates go after the binding parts and are separated from them by a comma. Let’s say we want only the elements which, doubled, are greater than or equal to 12.
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; [x*2 | x <- [1..10], x*2 >= 12]
+ghci&gt; [x*2 | x &lt;- [1..10], x*2 &gt;= 12]
 [12,14,16,18,20]
 </pre>
 <p>Cool, it works. How about if we wanted all numbers from 50 to 100 whose remainder when divided with the number 7 is 3? Easy.</p>

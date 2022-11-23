@@ -66,7 +66,7 @@ maximum&#39; (x:xs) = max x (maximum&#39; xs)
 <pre name="code" class="haskell:hs">
 replicate&#39; :: (Num i, Ord i) =&gt; i -&gt; a -&gt; [a]
 replicate&#39; n x
-    | n <= 0    = []
+    | n &lt;= 0    = []
     | otherwise = x:replicate&#39; (n-1) x
 </pre>
 <p>We used guards here instead of patterns because we’re testing for a boolean condition. If <span class="fixed">n</span> is less than or equal to 0, return an empty list. Otherwise return a list that has <span class="fixed">x</span> as the first element and then <span class="fixed">x</span> replicated n-1 times as the tail. Eventually, the <span class="fixed">(n-1)</span> part will cause our function to reach the edge condition.</p>

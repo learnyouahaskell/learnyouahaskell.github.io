@@ -168,7 +168,7 @@ ghci&gt; takeWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
 </pre>
 <p>Say we wanted to know the sum of all third powers that are under 10,000. We can’t map <span class="fixed">(^3)</span> to <span class="fixed">[1..]</span>, apply a filter and then try to sum that up because filtering an infinite list never finishes. You may know that all the elements here are ascending but Haskell doesn’t. That’s why we can do this:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; sum $ takeWhile (<10000) $ map (^3) [1..]
+ghci&gt; sum $ takeWhile (&lt;10000) $ map (^3) [1..]
 53361
 </pre>
 <p>We apply <span class="fixed">(^3)</span> to an infinite list and then once an element that’s over 10,000 is encountered, the list is cut off. Now we can sum it up easily.</p>
@@ -176,13 +176,13 @@ ghci&gt; sum $ takeWhile (<10000) $ map (^3) [1..]
 <pre name="code" class="haskell:ghci">
 ghci&gt; dropWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
 &quot; is a sentence&quot;
-ghci&gt; dropWhile (<3) [1,2,2,2,3,4,5,4,3,2,1]
+ghci&gt; dropWhile (&lt;3) [1,2,2,2,3,4,5,4,3,2,1]
 [3,4,5,4,3,2,1]
 </pre>
 <p>We’re given a list that represents the value of a stock by date. The list is made of tuples whose first component is the stock value, the second is the year, the third is the month and the fourth is the date. We want to know when the stock value first exceeded one thousand dollars!</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4),(998.3,2008,9,5)]
-ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val < 1000) stock)
+ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)
 (1001.4,2008,9,4)
 </pre>
 <p><span class="label function">span</span> is kind of like <span class="fixed">takeWhile</span>, only it returns a pair of lists. The first list contains everything the resulting list from <span class="fixed">takeWhile</span> would contain if it were called with the same predicate and the same list. The second list contains the part of the list that would have been dropped.</p>
