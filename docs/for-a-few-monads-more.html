@@ -390,7 +390,7 @@ Its <span class="fixed">Monad</span> instance is defined like so:
 <pre name="code" class="haskell:hs">
 instance (Monoid w) =&gt; Monad (Writer w) where
     return x = Writer (x, mempty)
-    (Writer (x,v)) &gt;&gt;= f = let (Writer (y, v')) = f x in Writer (y, v `mappend` v')
+    (Writer (x,v)) &gt;&gt;= f = let (Writer (y, v&#39;)) = f x in Writer (y, v `mappend` v&#39;)
 </pre>
 
 
@@ -552,10 +552,10 @@ with logging capabilities. Here’s the normal algorithm:
 
 
 <pre name="code" class="haskell:hs">
-gcd' :: Int -&gt; Int -&gt; Int
-gcd' a b
+gcd&#39; :: Int -&gt; Int -&gt; Int
+gcd&#39; a b
     | b == 0    = a
-    | otherwise = gcd' b (a `mod` b)
+    | otherwise = gcd&#39; b (a `mod` b)
 </pre>
 
 <p>
@@ -573,7 +573,7 @@ is now 0, the final result is 1. Let’s see if our code agrees:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; gcd' 8 3
+ghci&gt; gcd&#39; 8 3
 1
 </pre>
 
@@ -585,7 +585,7 @@ function should be:
 </p>
 
 <pre name="code" class="haskell:hs">
-gcd' :: Int -&gt; Int -&gt; Writer [String] Int
+gcd&#39; :: Int -&gt; Int -&gt; Writer [String] Int
 </pre>
 
 <p>
@@ -595,14 +595,14 @@ All that’s left now is to equip our function with log values. Here’s the cod
 <pre name="code" class="haskell:hs">
 import Control.Monad.Writer
 
-gcd' :: Int -&gt; Int -&gt; Writer [String] Int
-gcd' a b
+gcd&#39; :: Int -&gt; Int -&gt; Writer [String] Int
+gcd&#39; a b
     | b == 0 = do
         tell ["Finished with " ++ show a]
         return a
     | otherwise = do
         tell [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)]
-        gcd' b (a `mod` b)
+        gcd&#39; b (a `mod` b)
 </pre>
 
 <p>
@@ -649,7 +649,7 @@ tuple is the result. Let’s see if it’s okay:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; fst $ runWriter (gcd' 8 3)
+ghci&gt; fst $ runWriter (gcd&#39; 8 3)
 1
 </pre>
 
@@ -659,7 +659,7 @@ Good! Now what about the log? Because the log is a list of strings, let’s use
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; mapM_ putStrLn $ snd $ runWriter (gcd' 8 3)
+ghci&gt; mapM_ putStrLn $ snd $ runWriter (gcd&#39; 8 3)
 8 mod 3 = 2
 3 mod 2 = 1
 2 mod 1 = 0
@@ -862,13 +862,13 @@ lists:
 <pre name="code" class="haskell:hs">
 import Control.Monad.Writer
 
-gcd' :: Int -&gt; Int -&gt; Writer (DiffList String) Int
-gcd' a b
+gcd&#39; :: Int -&gt; Int -&gt; Writer (DiffList String) Int
+gcd&#39; a b
     | b == 0 = do
         tell (toDiffList ["Finished with " ++ show a])
         return a
     | otherwise = do
-        result &lt;- gcd' b (a `mod` b)
+        result &lt;- gcd&#39; b (a `mod` b)
         tell (toDiffList [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)])
         return result
 </pre>
@@ -1164,8 +1164,8 @@ a coin three times based on that generator, we had to do this:
 threeCoins :: StdGen -&gt; (Bool, Bool, Bool)
 threeCoins gen =
     let (firstCoin, newGen) = random gen
-        (secondCoin, newGen') = random newGen
-        (thirdCoin, newGen'') = random newGen'
+        (secondCoin, newGen&#39;) = random newGen
+        (thirdCoin, newGen&#39;&#39;) = random newGen&#39;
     in  (firstCoin, secondCoin, thirdCoin)
 </pre>
 
@@ -1771,9 +1771,9 @@ also succeeds, we’re tripped up by a peculiar type error! Hmmm.
 ghci&gt; Right 3 &gt;&gt;= \x -&gt; return (x + 100)
 
 &lt;interactive&gt;:1:0:
-    Ambiguous type variable `a' in the constraints:
-      `Error a' arising from a use of `it' at &lt;interactive&gt;:1:0-33
-      `Show a' arising from a use of `print' at &lt;interactive&gt;:1:0-33
+    Ambiguous type variable `a&#39; in the constraints:
+      `Error a&#39; arising from a use of `it&#39; at &lt;interactive&gt;:1:0-33
+      `Show a&#39; arising from a use of `print&#39; at &lt;interactive&gt;:1:0-33
     Probable fix: add a type signature that fixes these type variable(s)
 </pre>
 
@@ -2948,8 +2948,8 @@ Here’s this situation expressed as a probability list:
 <pre name="code" class="haskell:hs">
 thisSituation :: Prob (Prob Char)
 thisSituation = Prob
-    [( Prob [('a',1%2),('b',1%2)] , 1%4 )
-    ,( Prob [('c',1%2),('d',1%2)] , 3%4)
+    [( Prob [(&#39;a&#39;,1%2),(&#39;b&#39;,1%2)] , 1%4 )
+    ,( Prob [(&#39;c&#39;,1%2),(&#39;d&#39;,1%2)] , 3%4)
     ]
 </pre>
 

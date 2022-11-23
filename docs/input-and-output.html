@@ -70,7 +70,7 @@ putStrLn "hello, world" :: IO ()
 <p>Having your whole program be just one I/O action seems kind of limiting. That’s why we can use <i>do</i> syntax to glue together several I/O actions into one. Take a look at the following example:</p>
 <pre name="code" class="haskell:hs">
 main = do
-    putStrLn "Hello, what's your name?"
+    putStrLn "Hello, what&#39;s your name?"
     name &lt;- getLine
     putStrLn ("Hey " ++ name ++ ", you rock!")
 </pre>
@@ -86,7 +86,7 @@ getLine :: IO String
 <p>When I say <i>tainted</i>, I don’t mean tainted in such a way that we can never use the result contained in an I/O action ever again in pure code. No, we temporarily <i>un-taint</i> the data inside an I/O action when we bind it to a name. When we do <span class="fixed">name &lt;- getLine</span>, <span class="fixed">name</span> is just a normal string, because it represents what’s inside the box. We can have a really complicated function that, say, takes your name (a normal string) as a parameter and tells you your fortune and your whole life’s future based on your name. We can do this:</p>
 <pre name="code" class="haskell:hs">
 main = do
-    putStrLn "Hello, what's your name?"
+    putStrLn "Hello, what&#39;s your name?"
     name &lt;- getLine
     putStrLn $ "Read this carefully, because this is your future: " ++ tellFortune name
 </pre>
@@ -99,7 +99,7 @@ nameTag = "Hello, my name is " ++ getLine
 <p>Every I/O action that gets performed has a result encapsulated within it. That’s why our previous example program could also have been written like this:</p>
 <pre name="code" class="haskell:hs">
 main = do
-    foo &lt;- putStrLn "Hello, what's your name?"
+    foo &lt;- putStrLn "Hello, what&#39;s your name?"
     name &lt;- getLine
     putStrLn ("Hey " ++ name ++ ", you rock!")
 </pre>
@@ -122,9 +122,9 @@ HEEY
 import Data.Char
 
 main = do
-    putStrLn "What's your first name?"
+    putStrLn "What&#39;s your first name?"
     firstName &lt;- getLine
-    putStrLn "What's your last name?"
+    putStrLn "What&#39;s your last name?"
     lastName &lt;- getLine
     let bigFirstName = map toUpper firstName
         bigLastName = map toUpper lastName
@@ -187,19 +187,19 @@ main = do
 <p><span class="label function">putStr</span> is much like <span class="fixed">putStrLn</span> in that it takes a string as a parameter and returns an I/O action that will print that string to the terminal, only <span class="fixed">putStr</span> doesn’t jump into a new line after printing out the string while <span class="fixed">putStrLn</span> does.</p>
 <pre name="code" class="haskell:hs">
 main = do   putStr "Hey, "
-            putStr "I'm "
+            putStr "I&#39;m "
             putStrLn "Andy!"
 </pre>
 <pre name="code" class="plain">
 $ runhaskell putstr_test.hs
-Hey, I'm Andy!
+Hey, I&#39;m Andy!
 </pre>
 <p>Its type signature is <span class="fixed">putStr :: String -&gt; IO ()</span>, so the result encapsulated within the resulting I/O action is the unit. A dud value, so it doesn’t make sense to bind it.</p>
 <p><span class="label function">putChar</span> takes a character and returns an I/O action that will print it out to the terminal.</p>
 <pre name="code" class="haskell:hs">
-main = do   putChar 't'
-            putChar 'e'
-            putChar 'h'
+main = do   putChar &#39;t&#39;
+            putChar &#39;e&#39;
+            putChar &#39;h&#39;
 </pre>
 <pre name="code" class="plain">
 $ runhaskell putchar_test.hs
@@ -246,7 +246,7 @@ ghci&gt; print (map (++"!") ["hey","ho","woo"])
 <pre name="code" class="haskell:hs">
 main = do
     c &lt;- getChar
-    if c /= ' '
+    if c /= &#39; &#39;
         then do
             putChar c
             main
@@ -265,7 +265,7 @@ import Control.Monad
 
 main = do
     c &lt;- getChar
-    when (c /= ' ') $ do
+    when (c /= &#39; &#39;) $ do
         putChar c
         main
 </pre>
@@ -356,9 +356,9 @@ orange
 <p><span class="fixed">getChar</span> is an I/O action that reads a single character from the terminal. <span class="fixed">getLine</span> is an I/O action that reads a line from the terminal. These two are pretty straightforward and most programming languages have some functions or statements that are parallel to them. But now, let’s meet <span class="label function">getContents</span>. <span class="fixed">getContents</span> is an I/O action that reads everything from the standard input until it encounters an end-of-file character. Its type is <span class="fixed">getContents :: IO String</span>. What’s cool about <span class="fixed">getContents</span> is that it does lazy I/O. When we do <span class="fixed">foo &lt;- getContents</span>, it doesn’t read all of the input at once, store it in memory and then bind it to <span class="fixed">foo</span>. No, it’s lazy! It’ll say: <i>"Yeah yeah, I’ll read the input from the terminal later as we go along, when you really need it!"</i>. </p>
 <p><span class="fixed">getContents</span> is really useful when we’re piping the output from one program into the input of our program. In case you don’t know how piping works in unix-y systems, here’s a quick primer. Let’s make a text file that contains the following little haiku:</p>
 <pre name="code" class="plain">
-I'm a lil' teapot
-What's with that airplane food, huh?
-It's so small, tasteless
+I&#39;m a lil&#39; teapot
+What&#39;s with that airplane food, huh?
+It&#39;s so small, tasteless
 </pre>
 <p>Yeah, the haiku sucks, what of it? If anyone knows of any good haiku tutorials, let me know.</p>
 <p>Now, recall the little program we wrote when we were introducing the <span class="fixed">forever</span> function. It prompted the user for a line, returned it to him in CAPSLOCK and then did that all over again, indefinitely. Just so you don’t have to scroll all the way back, here it is again:</p>
@@ -377,13 +377,13 @@ $ ghc --make capslocker
 [1 of 1] Compiling Main             ( capslocker.hs, capslocker.o )
 Linking capslocker ...
 $ cat haiku.txt
-I'm a lil' teapot
-What's with that airplane food, huh?
-It's so small, tasteless
+I&#39;m a lil&#39; teapot
+What&#39;s with that airplane food, huh?
+It&#39;s so small, tasteless
 $ cat haiku.txt | ./capslocker
-I'M A LIL' TEAPOT
-WHAT'S WITH THAT AIRPLANE FOOD, HUH?
-IT'S SO SMALL, TASTELESS
+I&#39;M A LIL&#39; TEAPOT
+WHAT&#39;S WITH THAT AIRPLANE FOOD, HUH?
+IT&#39;S SO SMALL, TASTELESS
 capslocker &lt;stdin&gt;: hGetLine: end of file
 </pre>
 <p>As you can see, piping the output of one program (in our case that was <i>cat</i>) to the input of another (<i>capslocker</i>) is done with the <span class="fixed">|</span> character. What we’ve done is pretty much equivalent to just running <i>capslocker</i>, typing our haiku at the terminal and then issuing an end-of-file character (that’s usually done by pressing Ctrl-D). It’s like running <i>cat haiku.txt</i> and saying: &ldquo;Wait, don’t print this out to the terminal, tell it to <i>capslocker</i> instead!&rdquo;.</p>
@@ -398,9 +398,9 @@ main = do
 <p>We run the <span class="fixed">getContents</span> I/O action and name the string it produces <span class="fixed">contents</span>. Then, we map <span class="fixed">toUpper</span> over that string and print that to the terminal. Keep in mind that because strings are basically lists, which are lazy, and <span class="fixed">getContents</span> is I/O lazy, it won’t try to read the whole content at once and store it into memory before printing out the capslocked version. Rather, it will print out the capslocked version as it reads it, because it will only read a line from the input when it really needs to.</p>
 <pre name="code" class="plain">
 $ cat haiku.txt | ./capslocker
-I'M A LIL' TEAPOT
-WHAT'S WITH THAT AIRPLANE FOOD, HUH?
-IT'S SO SMALL, TASTELESS
+I&#39;M A LIL&#39; TEAPOT
+WHAT&#39;S WITH THAT AIRPLANE FOOD, HUH?
+IT&#39;S SO SMALL, TASTELESS
 </pre>
 <p>Cool, it works. What if we just run <i>capslocker</i> and try to type in the lines ourselves?</p>
 <pre name="code" class="plain">
@@ -427,10 +427,10 @@ shortLinesOnly input =
 <p>We’ve made our I/O part of the program as short as possible. Because our program is supposed to take some input and print out some output based on the input, we can implement it by reading the input contents, running a function on them and then printing out what the function gave back.</p>
 <p>The <span class="fixed">shortLinesOnly</span> function works like this: it takes a string, like <span class="fixed">"short\nlooooooooooooooong\nshort again"</span>. That string has three lines, two of them are short and the middle one is long. It runs the <span class="fixed">lines</span> function on that string, which converts it to <span class="fixed">["short", "looooooooooooooong", "short again"]</span>, which we then bind to the name <span class="fixed">allLines</span>. That list of string is then filtered so that only those lines that are shorter than 10 characters remain in the list, producing <span class="fixed">["short", "short again"]</span>. And finally, <span class="fixed">unlines</span> joins that list into a single newline delimited string, giving <span class="fixed">"short\nshort again"</span>. Let’s give it a go.</p>
 <pre name="code" class="plain:hs">
-i'm short
+i&#39;m short
 so am i
 i am a loooooooooong line!!!
-yeah i'm long so what hahahaha!!!!!!
+yeah i&#39;m long so what hahahaha!!!!!!
 short line
 loooooooooooooooooooooooooooong
 short
@@ -440,7 +440,7 @@ $ ghc --make shortlinesonly
 [1 of 1] Compiling Main             ( shortlinesonly.hs, shortlinesonly.o )
 Linking shortlinesonly ...
 $ cat shortlines.txt | ./shortlinesonly
-i'm short
+i&#39;m short
 so am i
 short
 </pre>
@@ -509,7 +509,7 @@ palindrome
 <p>We’ll start off with a really simple program that opens a file called <i>girlfriend.txt</i>, which contains a verse from Avril Lavigne’s #1&nbsp;hit <i>Girlfriend</i>, and just prints it out to the terminal. Here’s <i>girlfriend.txt</i>:</p>
 <pre name="code" class="plain">
 Hey! Hey! You! You!
-I don't like your girlfriend!
+I don&#39;t like your girlfriend!
 No way! No way!
 I think you need a new one!
 </pre>
@@ -527,7 +527,7 @@ main = do
 <pre name="code" class="plain">
 $ runhaskell girlfriend.hs
 Hey! Hey! You! You!
-I don't like your girlfriend!
+I don&#39;t like your girlfriend!
 No way! No way!
 I think you need a new one!
 </pre>
@@ -558,8 +558,8 @@ main = do
 </pre>
 <p>As you can see, it’s very similar to the previous piece of code. <span class="fixed">(\handle -&gt; ... )</span> is the function that takes a handle and returns an I/O action and it’s usually done like this, with a lambda. The reason it has to take a function that returns an I/O action instead of just taking an I/O action to do and then close the file is because the I/O action that we’d pass to it wouldn’t know on which file to operate. This way, <span class="fixed">withFile</span> opens the file and then passes the handle to the function we gave it. It gets an I/O action back from that function and then makes an I/O action that’s just like it, only it closes the file afterwards. Here’s how we can make our own <span class="fixed">withFile</span> function:</p>
 <pre name="code" class="haskell:hs">
-withFile' :: FilePath -&gt; IOMode -&gt; (Handle -&gt; IO a) -&gt; IO a
-withFile' path mode f = do
+withFile&#39; :: FilePath -&gt; IOMode -&gt; (Handle -&gt; IO a) -&gt; IO a
+withFile&#39; path mode f = do
     handle &lt;- openFile path mode
     result &lt;- f handle
     hClose handle
@@ -602,7 +602,7 @@ main = do
 $ runhaskell girlfriendtocaps.hs
 $ cat girlfriendcaps.txt
 HEY! HEY! YOU! YOU!
-I DON'T LIKE YOUR GIRLFRIEND!
+I DON&#39;T LIKE YOUR GIRLFRIEND!
 NO WAY! NO WAY!
 I THINK YOU NEED A NEW ONE!
 </pre>
@@ -889,8 +889,8 @@ ghci&gt; random (mkStdGen 100)
 </pre>
 <pre name="code" class="plain">
 &lt;interactive&gt;:1:0:
-    Ambiguous type variable `a' in the constraint:
-      `Random a' arising from a use of `random' at &lt;interactive&gt;:1:0-20
+    Ambiguous type variable `a&#39; in the constraint:
+      `Random a&#39; arising from a use of `random&#39; at &lt;interactive&gt;:1:0-20
     Probable fix: add a type signature that fixes these type variable(s)
 </pre>
 <p>What’s this? Ah, right, the <span class="fixed">random</span> function can return a value of any type that’s part of the <span class="fixed">Random</span> typeclass, so we have to inform Haskell what kind of type we want. Also let’s not forget that it returns a random value and a random generator in a pair.</p>
@@ -923,8 +923,8 @@ ghci&gt; random (mkStdGen 949488) :: (Integer, StdGen)
 threeCoins :: StdGen -&gt; (Bool, Bool, Bool)
 threeCoins gen =
     let (firstCoin, newGen) = random gen
-        (secondCoin, newGen') = random newGen
-        (thirdCoin, newGen'') = random newGen'
+        (secondCoin, newGen&#39;) = random newGen
+        (thirdCoin, newGen&#39;&#39;) = random newGen&#39;
     in  (firstCoin, secondCoin, thirdCoin)
 </pre>
 <p>We call <span class="fixed">random</span> with the generator we got as a parameter to get a coin and a new generator. Then we call it again, only this time with our new generator, to get the second coin. We do the same for the third coin. Had we called it with the same generator every time, all the coins would have had the same value and we’d only be able to get <span class="fixed">(False, False, False)</span> or <span class="fixed">(True, True, True)</span> as a result.</p>
@@ -950,8 +950,8 @@ ghci&gt; take 5 $ randoms (mkStdGen 11) :: [Float]
 </pre>
 <p>Why doesn’t <span class="fixed">randoms</span> return a new generator as well as a list? We could implement the <span class="fixed">randoms</span> function very easily like this:</p>
 <pre name="code" class="haskell:hs">
-randoms' :: (RandomGen g, Random a) =&gt; g -&gt; [a]
-randoms' gen = let (value, newGen) = random gen in value:randoms' newGen
+randoms&#39; :: (RandomGen g, Random a) =&gt; g -&gt; [a]
+randoms&#39; gen = let (value, newGen) = random gen in value:randoms&#39; newGen
 </pre>
 <p>A recursive definition. We get a random value and a new generator from the current generator and then make a list that has the value as its head and random numbers based on the new generator as its tail. Because we have to be able to potentially generate an infinite amount of numbers, we can’t give the new random generator back.</p>
 <p>We could make a function that generates a finite stream of numbers and a new generator like this:</p>
@@ -973,7 +973,7 @@ ghci&gt; randomR (1,6) (mkStdGen 35935335)
 </pre>
 <p>There’s also <span class="label function">randomRs</span>, which produces a stream of random values within our defined ranges. Check this out:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; take 10 $ randomRs ('a','z') (mkStdGen 3) :: [Char]
+ghci&gt; take 10 $ randomRs (&#39;a&#39;,&#39;z&#39;) (mkStdGen 3) :: [Char]
 "ndkxbvmomg"
 </pre>
 <p>Nice, looks like a super secret password or something.</p>
@@ -984,7 +984,7 @@ import System.Random
 
 main = do
     gen &lt;- getStdGen
-    putStr $ take 20 (randomRs ('a','z') gen)
+    putStr $ take 20 (randomRs (&#39;a&#39;,&#39;z&#39;) gen)
 </pre>
 <pre name="code" class="plain">
 $ runhaskell random_string.hs
@@ -1002,9 +1002,9 @@ import System.Random
 
 main = do
     gen &lt;- getStdGen
-    putStrLn $ take 20 (randomRs ('a','z') gen)
+    putStrLn $ take 20 (randomRs (&#39;a&#39;,&#39;z&#39;) gen)
     gen2 &lt;- getStdGen
-    putStr $ take 20 (randomRs ('a','z') gen2)
+    putStr $ take 20 (randomRs (&#39;a&#39;,&#39;z&#39;) gen2)
 </pre>
 <p>you will get the same string printed out twice! One way to get two different strings of length 20 is to set up an infinite stream and then take the first 20 characters and print them out in one line and then take the second set of 20 characters and print them out in the second line. For this, we can use the <span class="fixed">splitAt</span> function from <span class="fixed">Data.List</span>, which splits a list at some index and returns a tuple that has the first part as the first component and the second part as the second component.</p>
 <pre name="code" class="haskell:hs">
@@ -1013,7 +1013,7 @@ import Data.List
 
 main = do
     gen &lt;- getStdGen
-    let randomChars = randomRs ('a','z') gen
+    let randomChars = randomRs (&#39;a&#39;,&#39;z&#39;) gen
         (first20, rest) = splitAt 20 randomChars
         (second20, _) = splitAt 20 rest
     putStrLn first20
@@ -1025,9 +1025,9 @@ import System.Random
 
 main = do
     gen &lt;- getStdGen
-    putStrLn $ take 20 (randomRs ('a','z') gen)
-    gen' &lt;- newStdGen
-    putStr $ take 20 (randomRs ('a','z') gen')
+    putStrLn $ take 20 (randomRs (&#39;a&#39;,&#39;z&#39;) gen)
+    gen&#39; &lt;- newStdGen
+    putStr $ take 20 (randomRs (&#39;a&#39;,&#39;z&#39;) gen&#39;)
 </pre>
 <p>Not only do we get a new random generator when we bind <span class="fixed">newStdGen</span> to something, the global one gets updated as well, so if we do <span class="fixed">getStdGen</span> again and bind it to something, we’ll get a generator that’s not the same as <span class="fixed">gen</span>.</p>
 <p>Here’s a little program that will make the user guess which number it’s thinking of.</p>
@@ -1123,12 +1123,12 @@ Chunk "()*" (Chunk "+,-" (Chunk "./0" Empty))
 <pre name="code" class="haskell:hs">
 ghci&gt; B.cons 85 $ B.pack [80,81,82,84]
 Chunk "U" (Chunk "PQRT" Empty)
-ghci&gt; B.cons' 85 $ B.pack [80,81,82,84]
+ghci&gt; B.cons&#39; 85 $ B.pack [80,81,82,84]
 Chunk "UPQRT" Empty
 ghci&gt; foldr B.cons B.empty [50..60]
 Chunk "2" (Chunk "3" (Chunk "4" (Chunk "5" (Chunk "6" (Chunk "7" (Chunk "8" (Chunk "9" (Chunk ":" (Chunk ";" (Chunk "&lt;"
 Empty))))))))))
-ghci&gt; foldr B.cons' B.empty [50..60]
+ghci&gt; foldr B.cons&#39; B.empty [50..60]
 Chunk "23456789:;&lt;" Empty
 </pre>
 <p>As you can see, <span class="label function">empty</span> makes an empty bytestring. See the difference between <span class="fixed">cons</span> and <span class="fixed">cons'</span>? With the <span class="fixed">foldr</span>, we started with an empty bytestring and then went over the list of numbers from the right, adding each number to the beginning of the bytestring. When we used <span class="fixed">cons</span>, we ended up with one chunk for every byte, which kind of defeats the purpose.</p>
@@ -1194,7 +1194,7 @@ main = do (fileName:_) &lt;- getArgs
           if fileExists
               then do contents &lt;- readFile fileName
                       putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
-              else do putStrLn "The file doesn't exist!"
+              else do putStrLn "The file doesn&#39;t exist!"
 </pre>
 <p>We did <span class="fixed">fileExists &lt;- doesFileExist fileName</span> because <span class="fixed">doesFileExist</span> has a type of <span class="fixed">doesFileExist :: FilePath -&gt; IO Bool</span>, which means that it returns an I/O action that has as its result a boolean value which tells us if the file exists. We can’t just use <span class="fixed">doesFileExist</span> in an <i>if</i> expression directly.</p>
 <p>Another solution here would be to use exceptions. It’s perfectly acceptable to use them in this context. A file not existing is an exception that arises from I/O, so catching it in I/O is fine and dandy.</p>
@@ -1242,7 +1242,7 @@ toTry = do (fileName:_) &lt;- getArgs
 
 handler :: IOError -&gt; IO ()
 handler e
-    | isDoesNotExistError e = putStrLn "The file doesn't exist!"
+    | isDoesNotExistError e = putStrLn "The file doesn&#39;t exist!"
     | otherwise = ioError e
 </pre>
 <p>Everything stays the same except the handler, which we modified to only catch a certain group of I/O exceptions. Here we used two new functions from <span class="fixed">System.IO.Error</span> — <span class="label function">isDoesNotExistError</span> and <span class="label function">ioError</span>. <span class="fixed">isDoesNotExistError</span> is a predicate over <span class="fixed">IOError</span>s, which means that it’s a function that takes an <span class="fixed">IOError</span> and returns a <span class="fixed">True</span> or <span class="fixed">False</span>, meaning it has a type of <span class="fixed">isDoesNotExistError :: IOError -&gt; Bool</span>. We use it on the exception that gets passed to our handler to see if it’s an error caused by a file not existing. We use <a href="syntax-in-functions.html#guards-guards">guard</a> syntax here, but we could have also used an <i>if else</i>. If it’s not caused by a file not existing, we re-throw the exception that was passed by the handler with the <span class="fixed">ioError</span> function. It has a type of <span class="fixed">ioError :: IOException -&gt; IO a</span>, so it takes an <span class="fixed">IOError</span> and produces an I/O action that will throw it. The I/O action has a type of <span class="fixed">IO a</span>, because it never actually yields a result, so it can act as <span class="fixed">IO <i>anything</i></span>.</p>
@@ -1263,7 +1263,7 @@ handler e
 <pre name="code" class="haskell:hs">
 handler :: IOError -&gt; IO ()
 handler e
-    | isDoesNotExistError e = putStrLn "The file doesn't exist!"
+    | isDoesNotExistError e = putStrLn "The file doesn&#39;t exist!"
     | isFullError e = freeSomeSpace
     | isIllegalOperation e = notifyCops
     | otherwise = ioError e

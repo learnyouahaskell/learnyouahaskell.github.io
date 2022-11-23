@@ -39,14 +39,14 @@
 <p>A type is a kind of label that every expression has. It tells us in which category of things that expression fits. The expression <span class="fixed">True</span> is a boolean, <span class="fixed">"hello"</span> is a string, etc.</p>
 <p>Now we’ll use GHCI to examine the types of some expressions. We’ll do that by using the <span class="fixed">:t</span> command which, followed by any valid expression, tells us its type. Let’s give it a whirl.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; :t 'a'
-'a' :: Char
+ghci&gt; :t &#39;a&#39;
+&#39;a&#39; :: Char
 ghci&gt; :t True
 True :: Bool
 ghci&gt; :t "HELLO!"
 "HELLO!" :: [Char]
-ghci&gt; :t (True, 'a')
-(True, 'a') :: (Bool, Char)
+ghci&gt; :t (True, &#39;a&#39;)
+(True, &#39;a&#39;) :: (Bool, Char)
 ghci&gt; :t 4 == 5
 4 == 5 :: Bool
 </pre>
@@ -59,7 +59,7 @@ Functions also have types. When writing our own functions, we can choose to give
 </p>
 <pre name="code" class="haskell: hs">
 removeNonUppercase :: [Char] -&gt; [Char]
-removeNonUppercase st = [ c | c &lt;- st, c `elem` ['A'..'Z']]
+removeNonUppercase st = [ c | c &lt;- st, c `elem` [&#39;A&#39;..&#39;Z&#39;]]
 </pre>
 <p>
 <span class="fixed">removeNonUppercase</span> has a type of <span class="fixed">[Char] -&gt; [Char]</span>, meaning that it maps from a string to a string. That’s because it takes one string as a parameter and returns another as a result. The <span class="fixed">[Char]</span> type is synonymous with <span class="fixed">String</span> so it’s clearer if we write <span class="fixed">removeNonUppercase :: String -&gt; String</span>. We didn’t have to give this function a type declaration because the compiler can infer by itself that it’s a function from a string to a string but we did anyway. But how do we write out the type of a function that takes several parameters? Here’s a simple function that takes three integers and adds them together:
@@ -96,11 +96,11 @@ ghci&gt; circumference 4.0
 </pre>
 <p><span class="label type">Double</span> is a real floating point with double the precision!</p>
 <pre name="code" class="haskell: hs">
-circumference' :: Double -&gt; Double
-circumference' r = 2 * pi * r
+circumference&#39; :: Double -&gt; Double
+circumference&#39; r = 2 * pi * r
 </pre>
 <pre name="code" class="haskell: ghci">
-ghci&gt; circumference' 4.0
+ghci&gt; circumference&#39; 4.0
 25.132741228718345
 </pre>
 <p>
@@ -151,7 +151,7 @@ ghci&gt; 5 == 5
 True
 ghci&gt; 5 /= 5
 False
-ghci&gt; 'a' == 'a'
+ghci&gt; &#39;a&#39; == &#39;a&#39;
 True
 ghci&gt; "Ho Ho" == "Ho Ho"
 True
@@ -201,8 +201,8 @@ ghci&gt; read "[1,2,3,4]" ++ [3]
 <pre name="code" class="haskell: ghci">
 ghci&gt; read "4"
 &lt;interactive&gt;:1:0:
-    Ambiguous type variable `a' in the constraint:
-      `Read a' arising from a use of `read' at &lt;interactive&gt;:1:0-7
+    Ambiguous type variable `a&#39; in the constraint:
+      `Read a&#39; arising from a use of `read&#39; at &lt;interactive&gt;:1:0-7
     Probable fix: add a type signature that fixes these type variable(s)
 </pre>
 <p>What GHCI is telling us here is that it doesn’t know what we want in return. Notice that in the previous uses of <span class="fixed">read</span> we did something with the result afterwards. That way, GHCI could infer what kind of result we wanted out of our <span class="fixed">read</span>. If we used it as a boolean, it knew it had to return a <span class="fixed">Bool</span>. But now, it knows we want some type that is part of the <span class="fixed">Read</span> class, it just doesn’t know which one. Let’s take a look at the type signature of <span class="fixed">read</span>.</p>
@@ -222,27 +222,27 @@ ghci&gt; (read "5" :: Float) * 4
 20.0
 ghci&gt; read "[1,2,3,4]" :: [Int]
 [1,2,3,4]
-ghci&gt; read "(3, 'a')" :: (Int, Char)
-(3, 'a')
+ghci&gt; read "(3, &#39;a&#39;)" :: (Int, Char)
+(3, &#39;a&#39;)
 </pre>
 <p>Most expressions are such that the compiler can infer what their type is by itself. But sometimes, the compiler doesn’t know whether to return a value of type <span class="fixed">Int</span> or <span class="fixed">Float</span> for an expression like <span class="fixed">read "5"</span>. To see what the type is, Haskell would have to actually evaluate <span class="fixed">read "5"</span>. But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCI, evaluated). So we have to tell Haskell: "Hey, this expression should have this type, in case you don’t know!".</p>
 <p><span class="label class">Enum</span> members are sequentially ordered types — they can be enumerated. The main advantage of the <span class="fixed">Enum</span> typeclass is that we can use its types in list ranges. They also have defined successors and predecessors, which you can get with the <span class="fixed">succ</span> and <span class="fixed">pred</span> functions. Types in this class: <span class="fixed">()</span>, <span class="fixed">Bool</span>, <span class="fixed">Char</span>, <span class="fixed">Ordering</span>, <span class="fixed">Int</span>, <span class="fixed">Integer</span>, <span class="fixed">Float</span> and <span class="fixed">Double</span>.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; ['a'..'e']
+ghci&gt; [&#39;a&#39;..&#39;e&#39;]
 "abcde"
 ghci&gt; [LT .. GT]
 [LT,EQ,GT]
 ghci&gt; [3 .. 5]
 [3,4,5]
-ghci&gt; succ 'B'
-'C'
+ghci&gt; succ &#39;B&#39;
+&#39;C&#39;
 </pre>
 <p><span class="label class">Bounded</span> members have an upper and a lower bound.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; minBound :: Int
 -2147483648
 ghci&gt; maxBound :: Char
-'\1114111'
+&#39;\1114111&#39;
 ghci&gt; maxBound :: Bool
 True
 ghci&gt; minBound :: Bool
@@ -252,7 +252,7 @@ False
 <p>All tuples are also part of <span class="fixed">Bounded</span> if the components are also in it.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; maxBound :: (Bool, Int, Char)
-(True,2147483647,'\1114111')
+(True,2147483647,&#39;\1114111&#39;)
 </pre>
 <p><span class="label class">Num</span> is a numeric typeclass. Its members have the property of being able to act like numbers. Let’s examine the type of a number.</p>
 <pre name="code" class="haskell: ghci">

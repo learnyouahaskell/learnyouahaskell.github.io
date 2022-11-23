@@ -195,13 +195,13 @@ doubleSmallNumber x = if x &gt; 100
 Right here we introduced Haskell’s if statement. You’re probably familiar with if statements from other languages. The difference between Haskell’s if statement and if statements in imperative languages is that the else part is mandatory in Haskell. In imperative languages you can just skip a couple of steps if the condition isn’t satisfied but in Haskell every expression and function must return something. We could have also written that if statement in one line but I find this way more readable. Another thing about the if statement in Haskell is that it is an <i>expression</i>. An expression is basically a piece of code that returns a value. <span class="fixed">5</span> is an expression because it returns 5, <span class="fixed">4 + 8</span> is an expression, <span class="fixed">x + y</span> is an expression because it returns the sum of <span class="fixed">x</span> and <span class="fixed">y</span>. Because the else is mandatory, an if statement will always return something and that’s why it’s an expression. If we wanted to add one to every number that’s produced in our previous function, we could have written its body like this.
 </p>
 <pre name="code" class="haskell: hs">
-doubleSmallNumber' x = (if x &gt; 100 then x else x*2) + 1
+doubleSmallNumber&#39; x = (if x &gt; 100 then x else x*2) + 1
 </pre>
 <p>
 Had we omitted the parentheses, it would have added one only if <span class="fixed">x</span> wasn’t greater than 100. Note the <span class="fixed">'</span> at the end of the function name. That apostrophe doesn’t have any special meaning in Haskell’s syntax. It’s a valid character to use in a function name. We usually use <span class="fixed">'</span> to either denote a strict version of a function (one that isn’t lazy) or a slightly modified version of a function or a variable. Because <span class="fixed">'</span> is a valid character in functions, we can make a function like this.
 </p>
 <pre name="code" class="haskell: hs">
-conanO'Brien = "It's a-me, Conan O'Brien!" </pre>
+conanO&#39;Brien = "It&#39;s a-me, Conan O&#39;Brien!" </pre>
 <p>
 There are two noteworthy things here. The first is that in the function name we didn’t capitalize Conan’s name. That’s because functions can’t begin with uppercase letters. We’ll see why a bit later. The second thing is that this function doesn’t take any parameters. When a function doesn’t take any parameters, we usually say it’s a <i>definition</i> (or a <i>name</i>). Because we can’t change what names (and functions) mean once we’ve defined them, <span class="fixed">conanO'Brien</span> and the string <span class="fixed">"It's a-me, Conan O'Brien!"</span> can be used interchangeably.
 </p>
@@ -227,14 +227,14 @@ ghci&gt; [1,2,3,4] ++ [9,10,11,12]
 [1,2,3,4,9,10,11,12]
 ghci&gt; "hello" ++ " " ++ "world"
 "hello world"
-ghci&gt; ['w','o'] ++ ['o','t']
+ghci&gt; [&#39;w&#39;,&#39;o&#39;] ++ [&#39;o&#39;,&#39;t&#39;]
 "woot"
 </pre>
 <p>
 Watch out when repeatedly using the <span class="fixed">++</span> operator on long strings. When you put together two lists (even if you append a singleton list to a list, for instance: <span class="fixed">[1,2,3] ++ [4]</span>), internally, Haskell has to walk through the whole list on the left side of <span class="fixed">++</span>. That’s not a problem when dealing with lists that aren’t too big. But putting something at the end of a list that’s fifty million entries long is going to take a while. However, putting something at the beginning of a list using the <span class="fixed">:</span> operator (also called the cons operator) is instantaneous.
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; 'A':" SMALL CAT"
+ghci&gt; &#39;A&#39;:" SMALL CAT"
 "A SMALL CAT"
 ghci&gt; 5:[1,2,3,4,5]
 [5,1,2,3,4,5]
@@ -248,7 +248,7 @@ Notice how <span class="fixed">:</span> takes a number and a list of numbers or 
 <p>If you want to get an element out of a list by index, use <span class="fixed">!!</span>. The indices start at 0.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; "Steve Buscemi" !! 6
-'B'
+&#39;B&#39;
 ghci&gt; [9.4,33.2,96.2,11.2,23.25] !! 1
 33.2
 </pre>
@@ -371,9 +371,9 @@ What if we want a list of all numbers between 1 and 20? Sure, we could just type
 <pre name="code" class="haskell: ghci">
 ghci&gt; [1..20]
 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-ghci&gt; ['a'..'z']
+ghci&gt; [&#39;a&#39;..&#39;z&#39;]
 "abcdefghijklmnopqrstuvwxyz"
-ghci&gt; ['K'..'Z']
+ghci&gt; [&#39;K&#39;..&#39;Z&#39;]
 "KLMNOPQRSTUVWXYZ" </pre>
 <p>
 Ranges are cool because you can also specify a step. What if we want all even numbers between 1 and 20? Or every third number between 1 and 20?
@@ -455,11 +455,11 @@ ghci&gt; [adjective ++ " " ++ noun | adjective &lt;- adjectives, noun &lt;- noun
 "grouchy pope","scheming hobo","scheming frog","scheming pope"] </pre>
 <p>I know! Let’s write our own version of <span class="fixed">length</span>! We’ll call it <span class="fixed">length'</span>.</p>
 <pre name="code" class="haskell: hs">
-length' xs = sum [1 | _ &lt;- xs] </pre>
+length&#39; xs = sum [1 | _ &lt;- xs] </pre>
 <p><span class="fixed">_</span> means that we don’t care what we’ll draw from the list anyway so instead of writing a variable name that we’ll never use, we just write <span class="fixed">_</span>. This function replaces every element of a list with <span class="fixed">1</span> and then sums that up. This means that the resulting sum will be the length of our list.</p>
 <p>Just a friendly reminder: because strings are lists, we can use list comprehensions to process and produce strings. Here’s a function that takes a string and removes everything except uppercase letters from it.</p>
 <pre name="code" class="haskell: hs">
-removeNonUppercase st = [ c | c &lt;- st, c `elem` ['A'..'Z']] </pre>
+removeNonUppercase st = [ c | c &lt;- st, c `elem` [&#39;A&#39;..&#39;Z&#39;]] </pre>
 <p>
 Testing it out:
 </p>
@@ -481,7 +481,7 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 <p>Another key difference is that they don’t have to be homogenous. Unlike a list, a tuple can contain a combination of several types.</p>
 <p>Think about how we’d represent a two-dimensional vector in Haskell. One way would be to use a list. That would kind of work. So what if we wanted to put a couple of vectors in a list to represent points of a shape on a two-dimensional plane? We could do something like <span class="fixed">[[1,2],[8,11],[4,5]]</span>. The problem with that method is that we could also do stuff like <span class="fixed">[[1,2],[8,11,5],[4,5]]</span>, which Haskell has no problem with since it’s still a list of lists with numbers, but it kind of doesn’t make sense. But a tuple of size two (also called a pair) is its own type, which means that a list can’t have a couple of pairs in it and then a triple (a tuple of size three), so let’s use that instead. Instead of surrounding the vectors with square brackets, we use parentheses: <span class="fixed">[(1,2),(8,11),(4,5)]</span>. What if we tried to make a shape like <span class="fixed">[(1,2),(8,11,5),(4,5)]</span>? Well, we’d get this error:</p>
 <pre name="code" class="haskell: ghci">
-    • Couldn't match expected type ‘(a, b)’
+    • Couldn&#39;t match expected type ‘(a, b)’
                   with actual type ‘(a0, b0, c0)’
     • In the expression: (8, 11, 5)
       In the expression: [(1, 2), (8, 11, 5), (4, 5)]
@@ -531,8 +531,8 @@ ghci&gt; zip [1..] ["apple", "orange", "cherry", "mango"]
 ghci&gt; rightTriangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2] </pre>
 <p>We’re almost done. Now, we just modify the function by saying that we want the ones where the perimeter is 24.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; rightTriangles' = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
-ghci&gt; rightTriangles'
+ghci&gt; rightTriangles&#39; = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
+ghci&gt; rightTriangles&#39;
 [(6,8,10)]
 </pre>
 <p>And there’s our answer! This is a common pattern in functional programming. You take a starting set of solutions and then you apply transformations to those solutions and filter them until you get the right ones.</p>

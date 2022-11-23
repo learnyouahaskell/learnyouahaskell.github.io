@@ -55,9 +55,9 @@ The result of mapping something over an I/O action will be an I/O action, so rig
 </p><p>We can play around with it to gain some intuition. It’s pretty simple really. Check out this piece of code:</p>
 <pre name="code" class="haskell:hs">
 main = do line &lt;- getLine
-          let line' = reverse line
-          putStrLn $ "You said " ++ line' ++ " backwards!"
-          putStrLn $ "Yes, you really said" ++ line' ++ " backwards!"
+          let line&#39; = reverse line
+          putStrLn $ "You said " ++ line&#39; ++ " backwards!"
+          putStrLn $ "Yes, you really said" ++ line&#39; ++ " backwards!"
 </pre>
 <p>The user is prompted for a line and we give it back to the user, only reversed. Here’s how to rewrite this by using <span class="fixed">fmap</span>:</p>
 <pre name="code" class="haskell:hs">
@@ -74,7 +74,7 @@ main = do line &lt;- fmap reverse getLine
 import Data.Char
 import Data.List
 
-main = do line &lt;- fmap (intersperse '-' . reverse . map toUpper) getLine
+main = do line &lt;- fmap (intersperse &#39;-&#39; . reverse . map toUpper) getLine
           putStrLn line
 </pre>
 <pre name="code" class="plain">
@@ -225,8 +225,8 @@ CJust 0 "haha"
 <pre name="code" class="haskell:hs">
 ghci&gt; :t fmap (++) (Just "hey")
 fmap (++) (Just "hey") :: Maybe ([Char] -&gt; [Char])
-ghci&gt; :t fmap compare (Just 'a')
-fmap compare (Just 'a') :: Maybe (Char -&gt; Ordering)
+ghci&gt; :t fmap compare (Just &#39;a&#39;)
+fmap compare (Just &#39;a&#39;) :: Maybe (Char -&gt; Ordering)
 ghci&gt; :t fmap compare "A LIST OF CHARS"
 fmap compare "A LIST OF CHARS" :: [Char -&gt; Ordering]
 ghci&gt; :t fmap (\x y z -&gt; x + y / z) [3,4,5,6]
@@ -444,7 +444,7 @@ ghci&gt; getZipList $ (+) &lt;$&gt; ZipList [1,2,3] &lt;*&gt; ZipList [100,100..
 ghci&gt; getZipList $ max &lt;$&gt; ZipList [1,2,3,4,5,3] &lt;*&gt; ZipList [5,3,1,2]
 [5,3,3,4]
 ghci&gt; getZipList $ (,,) &lt;$&gt; ZipList "dog" &lt;*&gt; ZipList "cat" &lt;*&gt; ZipList "rat"
-[('d','c','r'),('o','a','a'),('g','t','t')]
+[(&#39;d&#39;,&#39;c&#39;,&#39;r&#39;),(&#39;o&#39;,&#39;a&#39;,&#39;a&#39;),(&#39;g&#39;,&#39;t&#39;,&#39;t&#39;)]
 </pre>
 <div class="hintbox">The <span class="fixed">(,,)</span> function is the same as <span class="fixed">\x y z -&gt; (x,y,z)</span>. Also, the <span class="fixed">(,)</span> function is the same as <span class="fixed">\x y -&gt; (x,y)</span>.</div>
 <p>Aside from <span class="fixed">zipWith</span>, the standard library has functions such as <span class="fixed">zipWith3</span>, <span class="fixed">zipWith4</span>, all the way up to 7. <span class="fixed">zipWith</span> takes a function that takes two parameters and zips two lists with it. <span class="fixed">zipWith3</span> takes a function that takes three parameters and zips three lists with it, and so on. By using zip lists with an applicative style, we don’t have to have a separate zip function for each number of lists that we want to zip together. We just use the applicative style to zip together an arbitrary amount of lists with a function, and that’s pretty cool.</p>
@@ -1833,12 +1833,12 @@ or a <span class="fixed">Nothing</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; getFirst $ First (Just 'a') `mappend` First (Just 'b')
-Just 'a'
-ghci&gt; getFirst $ First Nothing `mappend` First (Just 'b')
-Just 'b'
-ghci&gt; getFirst $ First (Just 'a') `mappend` First Nothing
-Just 'a'
+ghci&gt; getFirst $ First (Just &#39;a&#39;) `mappend` First (Just &#39;b&#39;)
+Just &#39;a&#39;
+ghci&gt; getFirst $ First Nothing `mappend` First (Just &#39;b&#39;)
+Just &#39;b&#39;
+ghci&gt; getFirst $ First (Just &#39;a&#39;) `mappend` First Nothing
+Just &#39;a&#39;
 </pre>
 
 <p>

@@ -539,8 +539,8 @@ ghci&gt; Right 20
 Right 20
 ghci&gt; Left "w00t"
 Left "w00t"
-ghci&gt; :t Right 'a'
-Right 'a' :: Either a Char
+ghci&gt; :t Right &#39;a&#39;
+Right &#39;a&#39; :: Either a Char
 ghci&gt; :t Left True
 Left True :: Either Bool b
 </pre>
@@ -560,7 +560,7 @@ type LockerMap = Map.Map Int (LockerState, Code)
 lockerLookup :: Int -&gt; LockerMap -&gt; Either String Code
 lockerLookup lockerNumber map =
     case Map.lookup lockerNumber map of
-        Nothing -&gt; Left $ "Locker number " ++ show lockerNumber ++ " doesn't exist!"
+        Nothing -&gt; Left $ "Locker number " ++ show lockerNumber ++ " doesn&#39;t exist!"
         Just (state, code) -&gt; if state /= Taken
                                 then Right code
                                 else Left $ "Locker " ++ show lockerNumber ++ " is already taken!"</pre>
@@ -583,7 +583,7 @@ Right "JAH3I"
 ghci&gt; lockerLookup 100 lockers
 Left "Locker 100 is already taken!"
 ghci&gt; lockerLookup 102 lockers
-Left "Locker number 102 doesn't exist!"
+Left "Locker number 102 doesn&#39;t exist!"
 ghci&gt; lockerLookup 110 lockers
 Left "Locker 110 is already taken!"
 ghci&gt; lockerLookup 105 lockers
@@ -950,7 +950,7 @@ data Either a b = Left a | Right b
 </pre>
 <p>Well, if we wanted to map one function over both of them, <span class="fixed">a</span> and <span class="fixed">b</span> would have to be the same type. I mean, if we tried to map a function that takes a string and returns a string and the <span class="fixed">b</span> was a string but the <span class="fixed">a</span> was a number, that wouldn’t really work out. Also, from seeing what <span class="fixed">fmap</span>’s type would be if it operated only on <span class="fixed">Either</span> values, we see that the first parameter has to remain the same while the second one can change and the first parameter is actualized by the <span class="fixed">Left</span> value constructor.</p>
 <p>This also goes nicely with our box analogy if we think of the <span class="fixed">Left</span> part as sort of an empty box with an error message written on the side telling us why it’s empty.</p>
-<p>Maps from <span class="fixed">Data.Map</span> can also be made a functor because they hold values (or not!). In the case of <span class="fixed">Map k v</span>, <span class="fixed">fmap</span> will map a function <span class="fixed">v -&gt; v'</span> over a map of type <span class="fixed">Map k v</span> and return a map of type <span class="fixed">Map k v'</span>. </p><div class="hintbox">Note, the <span class="fixed">'</span> has no special meaning in types just like it doesn’t have special meaning when naming values. It’s used to denote things that are similar, only slightly changed.</div>
+<p>Maps from <span class="fixed">Data.Map</span> can also be made a functor because they hold values (or not!). In the case of <span class="fixed">Map k v</span>, <span class="fixed">fmap</span> will map a function <span class="fixed">v -&gt; v'</span> over a map of type <span class="fixed">Map k v</span> and return a map of type <span class="fixed">Map k v'</span>. </p><div class="hintbox">Note, the <span class="fixed">&#39;</span> has no special meaning in types just like it doesn’t have special meaning when naming values. It’s used to denote things that are similar, only slightly changed.</div>
 <p>Try figuring out how <span class="fixed">Map k</span> is made an instance of <span class="fixed">Functor</span> by yourself!</p>
 <p>With the <span class="fixed">Functor</span> typeclass, we’ve seen how typeclasses can represent pretty cool higher-order concepts. We’ve also had some more practice with partially applying types and making instances. In one of the next chapters, we’ll also take a look at some laws that apply for functors.</p>
 <div class="hintbox"><em>Just one more thing!</em> Functors should obey some laws so that they may have some properties that we can depend on and not think about too much. If we use <span class="fixed">fmap (+1)</span> over the list <span class="fixed">[1,2,3,4]</span>, we expect the result to be <span class="fixed">[2,3,4,5]</span> and not its reverse, <span class="fixed">[5,4,3,2]</span>. If we use <span class="fixed">fmap (\a -&gt; a)</span> (the identity function, which just returns its parameter) over some list, we expect to get back the same list as a result. For example, if we gave the wrong functor instance to our <span class="fixed">Tree</span> type, using <span class="fixed">fmap</span> over a tree where the left subtree of a node only has elements that are smaller than the node and the right subtree only has nodes that are larger than the node might produce a tree where that’s not the case. We’ll go over the functor laws in more detail in one of the next chapters.</div>
@@ -1008,8 +1008,8 @@ data Frank a b  = Frank {frankField :: b a} deriving (Show)
 <pre name="code" class="haskell:hs">
 ghci&gt; :t Frank {frankField = Just "HAHA"}
 Frank {frankField = Just "HAHA"} :: Frank [Char] Maybe
-ghci&gt; :t Frank {frankField = Node 'a' EmptyTree EmptyTree}
-Frank {frankField = Node 'a' EmptyTree EmptyTree} :: Frank Char Tree
+ghci&gt; :t Frank {frankField = Node &#39;a&#39; EmptyTree EmptyTree}
+Frank {frankField = Node &#39;a&#39; EmptyTree EmptyTree} :: Frank Char Tree
 ghci&gt; :t Frank {frankField = "YES"}
 Frank {frankField = "YES"} :: Frank Char []
 </pre>
@@ -1020,8 +1020,8 @@ instance Tofu Frank where
     tofu x = Frank x
 </pre>
 <pre name="code" class="haskell:hs">
-ghci&gt; tofu (Just 'a') :: Frank Char Maybe
-Frank {frankField = Just 'a'}
+ghci&gt; tofu (Just &#39;a&#39;) :: Frank Char Maybe
+Frank {frankField = Just &#39;a&#39;}
 ghci&gt; tofu ["HELLO"] :: Frank [Char] []
 Frank {frankField = ["HELLO"]}
 </pre>

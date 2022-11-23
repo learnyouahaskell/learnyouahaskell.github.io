@@ -88,25 +88,25 @@ reader, for free!
 <pre name="code" class="haskell:hs">
 freeTree :: Tree Char
 freeTree =
-    Node 'P'
-        (Node 'O'
-            (Node 'L'
-                (Node 'N' Empty Empty)
-                (Node 'T' Empty Empty)
+    Node &#39;P&#39;
+        (Node &#39;O&#39;
+            (Node &#39;L&#39;
+                (Node &#39;N&#39; Empty Empty)
+                (Node &#39;T&#39; Empty Empty)
             )
-            (Node 'Y'
-                (Node 'S' Empty Empty)
-                (Node 'A' Empty Empty)
+            (Node &#39;Y&#39;
+                (Node &#39;S&#39; Empty Empty)
+                (Node &#39;A&#39; Empty Empty)
             )
         )
-        (Node 'L'
-            (Node 'W'
-                (Node 'C' Empty Empty)
-                (Node 'R' Empty Empty)
+        (Node &#39;L&#39;
+            (Node &#39;W&#39;
+                (Node &#39;C&#39; Empty Empty)
+                (Node &#39;R&#39; Empty Empty)
             )
-            (Node 'A'
-                (Node 'A' Empty Empty)
-                (Node 'C' Empty Empty)
+            (Node &#39;A&#39;
+                (Node &#39;A&#39; Empty Empty)
+                (Node &#39;C&#39; Empty Empty)
             )
         )
 </pre>
@@ -127,7 +127,7 @@ Here’s the code for this:
 
 <pre name="code" class="haskell:hs">
 changeToP :: Tree Char -&gt; Tree Char
-changeToP (Node x l (Node y (Node _ m n) r)) = Node x l (Node y (Node 'P' m n) r)
+changeToP (Node x l (Node y (Node _ m n) r)) = Node x l (Node y (Node &#39;P&#39; m n) r)
 </pre>
 
 <p>
@@ -157,7 +157,7 @@ type Directions = [Direction]
 changeToP :: Directions-&gt; Tree Char -&gt; Tree Char
 changeToP (L:ds) (Node x l r) = Node x (changeToP ds l) r
 changeToP (R:ds) (Node x l r) = Node x l (changeToP ds r)
-changeToP [] (Node _ l r) = Node 'P' l r
+changeToP [] (Node _ l r) = Node &#39;P&#39; l r
 </pre>
 
 <p>
@@ -195,7 +195,7 @@ change in our new tree sticks:
 <pre name="code" class="haskell:hs">
 ghci&gt; let newTree = changeToP [R,L] freeTree
 ghci&gt; elemAt [R,L] newTree
-'P'
+&#39;P&#39;
 </pre>
 
 <p>
@@ -277,7 +277,7 @@ It works the same way. Let’s use these functions to take our
 
 <pre name="code" class="haskell:hs">
 ghci&gt; goLeft (goRight (freeTree, []))
-(Node 'W' (Node 'C' Empty Empty) (Node 'R' Empty Empty),[L,R])
+(Node &#39;W&#39; (Node &#39;C&#39; Empty Empty) (Node &#39;R&#39; Empty Empty),[L,R])
 </pre>
 
 <img src="assets/images/zippers/almostzipper.png" alt="almostthere" class="left" width="399" height="224">
@@ -309,7 +309,7 @@ the above so that it’s more apparent that we’re first going right and then l
 
 <pre name="code" class="haskell:hs">
 ghci&gt; (freeTree, []) -: goRight -: goLeft
-(Node 'W' (Node 'C' Empty Empty) (Node 'R' Empty Empty),[L,R])
+(Node &#39;W&#39; (Node &#39;C&#39; Empty Empty) (Node &#39;R&#39; Empty Empty),[L,R])
 </pre>
 
 <h3>Going back up</h3>
@@ -490,7 +490,7 @@ further up or down. An example:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus = modify (\_ -&gt; 'P') (goRight (goLeft (freeTree,[])))
+ghci&gt; let newFocus = modify (\_ -&gt; &#39;P&#39;) (goRight (goLeft (freeTree,[])))
 </pre>
 
 <p>
@@ -500,7 +500,7 @@ We go left, then right and then modify the root element by replacing it with a
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus = (freeTree,[]) -: goLeft -: goRight -: modify (\_ -&gt; 'P')
+ghci&gt; let newFocus = (freeTree,[]) -: goLeft -: goRight -: modify (\_ -&gt; &#39;P&#39;)
 </pre>
 
 <p>
@@ -509,7 +509,7 @@ element with a mysterious <span class="fixed">'X'</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus2 = modify (\_ -&gt; 'X') (goUp newFocus)
+ghci&gt; let newFocus2 = modify (\_ -&gt; &#39;X&#39;) (goUp newFocus)
 </pre>
 
 <p>
@@ -517,7 +517,7 @@ Or if we wrote it with <span class="fixed">-:</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus2 = newFocus -: goUp -: modify (\_ -&gt; 'X')
+ghci&gt; let newFocus2 = newFocus -: goUp -: modify (\_ -&gt; &#39;X&#39;)
 </pre>
 
 <p>
@@ -549,7 +549,7 @@ attach a tree to the far left of our <span class="fixed">freeTree</span>:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; let farLeft = (freeTree,[]) -: goLeft -: goLeft -: goLeft -: goLeft
-ghci&gt; let newFocus = farLeft -: attach (Node 'Z' Empty Empty)
+ghci&gt; let newFocus = farLeft -: attach (Node &#39;Z&#39; Empty Empty)
 </pre>
 
 <p>
@@ -1067,8 +1067,8 @@ Cool, now if we try to take a step to the left of an empty tree, we get a
 <pre name="code" class="haskell:hs">
 ghci&gt; goLeft (Empty, [])
 Nothing
-ghci&gt; goLeft (Node 'A' Empty Empty, [])
-Just (Empty,[LeftCrumb 'A' Empty])
+ghci&gt; goLeft (Node &#39;A&#39; Empty Empty, [])
+Just (Empty,[LeftCrumb &#39;A&#39; Empty])
 </pre>
 
 <p>

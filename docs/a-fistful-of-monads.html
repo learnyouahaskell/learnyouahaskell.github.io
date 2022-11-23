@@ -1461,8 +1461,8 @@ non-determinism:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [1,2] &gt;&gt;= \n -&gt; ['a','b'] &gt;&gt;= \ch -&gt; return (n,ch)
-[(1,'a'),(1,'b'),(2,'a'),(2,'b')]
+ghci&gt; [1,2] &gt;&gt;= \n -&gt; [&#39;a&#39;,&#39;b&#39;] &gt;&gt;= \ch -&gt; return (n,ch)
+[(1,&#39;a&#39;),(1,&#39;b&#39;),(2,&#39;a&#39;),(2,&#39;b&#39;)]
 </pre>
 
 <img src="assets/images/a-fistful-of-monads/concatmap.png" alt="concatmap" class="left" width="399" height="340">
@@ -1502,7 +1502,7 @@ Here’s the previous expression rewritten in <span class="fixed">do</span> nota
 listOfTuples :: [(Int,Char)]
 listOfTuples = do
     n &lt;- [1,2]
-    ch &lt;- ['a','b']
+    ch &lt;- [&#39;a&#39;,&#39;b&#39;]
     return (n,ch)
 </pre>
 
@@ -1522,8 +1522,8 @@ something we’ve seen before. Check out the following piece of code:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [ (n,ch) | n &lt;- [1,2], ch &lt;- ['a','b'] ]
-[(1,'a'),(1,'b'),(2,'a'),(2,'b')]
+ghci&gt; [ (n,ch) | n &lt;- [1,2], ch &lt;- [&#39;a&#39;,&#39;b&#39;] ]
+[(1,&#39;a&#39;),(1,&#39;b&#39;),(2,&#39;a&#39;),(2,&#39;b&#39;)]
 </pre>
 
 <p>
@@ -1553,7 +1553,7 @@ list of numbers to search only for that numbers whose digits contain a
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [ x | x &lt;- [1..50], '7' `elem` show x ]
+ghci&gt; [ x | x &lt;- [1..50], &#39;7&#39; `elem` show x ]
 [7,17,27,37,47]
 </pre>
 
@@ -1623,7 +1623,7 @@ out non-deterministic computations. Observe:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [1..50] &gt;&gt;= (\x -&gt; guard ('7' `elem` show x) &gt;&gt; return x)
+ghci&gt; [1..50] &gt;&gt;= (\x -&gt; guard (&#39;7&#39; `elem` show x) &gt;&gt; return x)
 [7,17,27,37,47]
 </pre>
 
@@ -1662,7 +1662,7 @@ Here’s the previous example rewritten in <span class="fixed">do</span> notatio
 sevensOnly :: [Int]
 sevensOnly = do
     x &lt;- [1..50]
-    guard ('7' `elem` show x)
+    guard (&#39;7&#39; `elem` show x)
     return x
 </pre>
 
@@ -1673,7 +1673,7 @@ of empty tuples. Here’s this again in the form of a list comprehension:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [ x | x &lt;- [1..50], '7' `elem` show x ]
+ghci&gt; [ x | x &lt;- [1..50], &#39;7&#39; `elem` show x ]
 [7,17,27,37,47]
 </pre>
 
@@ -1714,11 +1714,11 @@ function that takes the knight’s position and returns all of its next moves:
 <pre name="code" class="haskell:hs">
 moveKnight :: KnightPos -&gt; [KnightPos]
 moveKnight (c,r) = do
-    (c',r') &lt;- [(c+2,r-1),(c+2,r+1),(c-2,r-1),(c-2,r+1)
+    (c&#39;,r&#39;) &lt;- [(c+2,r-1),(c+2,r+1),(c-2,r-1),(c-2,r+1)
                ,(c+1,r-2),(c+1,r+2),(c-1,r-2),(c-1,r+2)
                ]
-    guard (c' `elem` [1..8] &amp;&amp; r' `elem` [1..8])
-    return (c',r')
+    guard (c&#39; `elem` [1..8] &amp;&amp; r&#39; `elem` [1..8])
+    return (c&#39;,r&#39;)
 </pre>
 
 <p>

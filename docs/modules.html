@@ -76,7 +76,7 @@ import qualified Data.Map as M
 <p>The <span class="fixed">Data.List</span> module is all about lists, obviously. It provides some very useful functions for dealing with them. We’ve already met some of its functions (like <span class="fixed">map</span> and <span class="fixed">filter</span>) because the <span class="fixed">Prelude</span> module exports some functions from <span class="fixed">Data.List</span> for convenience. You don’t have to import <span class="fixed">Data.List</span> via a qualified import because it doesn’t clash with any <span class="fixed">Prelude</span> names except for those that <span class="fixed">Prelude</span> already steals from <span class="fixed">Data.List</span>. Let’s take a look at some of the functions that we haven’t met before.</p>
 <p><span class="label function">intersperse</span> takes an element and a list and then puts that element in between each pair of elements in the list. Here’s a demonstration:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; intersperse '.' "MONKEY"
+ghci&gt; intersperse &#39;.&#39; "MONKEY"
 "M.O.N.K.E.Y"
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]
@@ -136,9 +136,9 @@ ghci&gt; any (==4) [2,3,5,6,1,4]
 True
 ghci&gt; all (&gt;4) [6,9,10]
 True
-ghci&gt; all (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
+ghci&gt; all (`elem` [&#39;A&#39;..&#39;Z&#39;]) "HEYGUYSwhatsup"
 False
-ghci&gt; any (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
+ghci&gt; any (`elem` [&#39;A&#39;..&#39;Z&#39;]) "HEYGUYSwhatsup"
 True
 </pre>
 <p><span class="label function">iterate</span> takes a function and a starting value. It applies the function to the starting value, then it applies that function to the result, then it applies the function to that result again, etc. It returns all the results in the form of an infinite list.</p>
@@ -163,7 +163,7 @@ ghci&gt; let (a,b) = splitAt 3 "foobar" in b ++ a
 <pre name="code" class="haskell:ghci">
 ghci&gt; takeWhile (&gt;3) [6,5,4,3,2,1,2,3,4,5,4,3,2,1]
 [6,5,4]
-ghci&gt; takeWhile (/=' ') "This is a sentence"
+ghci&gt; takeWhile (/=&#39; &#39;) "This is a sentence"
 "This"
 </pre>
 <p>Say we wanted to know the sum of all third powers that are under 10,000. We can’t map <span class="fixed">(^3)</span> to <span class="fixed">[1..]</span>, apply a filter and then try to sum that up because filtering an infinite list never finishes. You may know that all the elements here are ascending but Haskell doesn’t. That’s why we can do this:</p>
@@ -174,7 +174,7 @@ ghci&gt; sum $ takeWhile (<10000) $ map (^3) [1..]
 <p>We apply <span class="fixed">(^3)</span> to an infinite list and then once an element that’s over 10,000 is encountered, the list is cut off. Now we can sum it up easily.</p>
 <p><span class="label function">dropWhile</span> is similar, only it drops all the elements while the predicate is true. Once predicate equates to <span class="fixed">False</span>, it returns the rest of the list. An extremely useful and lovely function!</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; dropWhile (/=' ') "This is a sentence"
+ghci&gt; dropWhile (/=&#39; &#39;) "This is a sentence"
 " is a sentence"
 ghci&gt; dropWhile (<3) [1,2,2,2,3,4,5,4,3,2,1]
 [3,4,5,4,3,2,1]
@@ -187,7 +187,7 @@ ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val < 1000) stock)
 </pre>
 <p><span class="label function">span</span> is kind of like <span class="fixed">takeWhile</span>, only it returns a pair of lists. The first list contains everything the resulting list from <span class="fixed">takeWhile</span> would contain if it were called with the same predicate and the same list. The second list contains the part of the list that would have been dropped.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; let (fw, rest) = span (/=' ') "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
+ghci&gt; let (fw, rest) = span (/=&#39; &#39;) "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
 "First word: This, the rest: is a sentence"
 </pre>
 <p>Whereas <span class="fixed">span</span> spans the list while the predicate is true, <span class="label function">break</span> breaks it when the predicate is first true. Doing <span class="fixed">break p</span> is the equivalent of doing <span class="fixed">span (not . p)</span>.  </p>
@@ -255,14 +255,14 @@ False
 <p><span class="label function">elem</span> and <span class="label function">notElem</span> check if an element is or isn’t inside a list. </p>
 <p><span class="label function">partition</span> takes a list and a predicate and returns a pair of lists. The first list in the result contains all the elements that satisfy the predicate, the second contains all the ones that don’t.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
+ghci&gt; partition (`elem` [&#39;A&#39;..&#39;Z&#39;]) "BOBsidneyMORGANeddy"
 ("BOBMORGAN","sidneyeddy")
 ghci&gt; partition (&gt;3) [1,3,5,6,3,2,1,0,3,7]
 ([5,6,7],[1,3,3,2,1,0,3])
 </pre>
 <p>It’s important to understand how this is different from <span class="fixed">span</span> and <span class="fixed">break</span>:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; span (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
+ghci&gt; span (`elem` [&#39;A&#39;..&#39;Z&#39;]) "BOBsidneyMORGANeddy"
 ("BOB","sidneyMORGANeddy")
 </pre>
 <p>While <span class="fixed">span</span> and <span class="fixed">break</span> are done once they encounter the first element that doesn’t and does satisfy the predicate, <span class="fixed">partition</span> goes through the whole list and splits it up according to the predicate.</p>
@@ -288,7 +288,7 @@ Nothing
 </pre>
 <p><span class="label function">elemIndices</span> is like <span class="fixed">elemIndex</span>, only it returns a list of indices, in case the element we’re looking for crops up in our list several times. Because we’re using a list to represent the indices, we don’t need a <span class="fixed">Maybe</span> type, because failure can be represented as the empty list, which is very much synonymous to <span class="fixed">Nothing</span>.  </p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; ' ' `elemIndices` "Where are the spaces?"
+ghci&gt; &#39; &#39; `elemIndices` "Where are the spaces?"
 [5,9,13]
 </pre>
 <p><span class="label function">findIndex</span> is like find, but it maybe returns the index of the first element that satisfies the predicate. <span class="label function">findIndices</span> returns the indices of all elements that satisfy the predicate in the form of a list.</p>
@@ -297,7 +297,7 @@ ghci&gt; findIndex (==4) [5,3,2,1,6,4]
 Just 5
 ghci&gt; findIndex (==7) [5,3,2,1,6,4]
 Nothing
-ghci&gt; findIndices (`elem` ['A'..'Z']) "Where Are The Caps?"
+ghci&gt; findIndices (`elem` [&#39;A&#39;..&#39;Z&#39;]) "Where Are The Caps?"
 [0,6,10,14]
 </pre>
 <p>We already covered <span class="fixed">zip</span> and <span class="fixed">zipWith</span>. We noted that they zip together two lists, either in a tuple or with a binary function (meaning such a function that takes two parameters). But what if we want to zip together three lists? Or zip three lists with a function that takes three parameters? Well, for that, we have <span class="label function">zip3</span>, <span class="label function">zip4</span>, etc. and <span class="label function">zipWith3</span>, <span class="label function">zipWith4</span>, etc. These variants go up to 7. While this may look like a hack, it works out pretty fine, because there aren’t many times when you want to zip 8 lists together. There’s also a very clever way for zipping infinite numbers of lists, but we’re not advanced enough to cover that just yet.</p>
@@ -337,11 +337,11 @@ ghci&gt; nub "Lots of words and stuff"
 </pre>
 <p><span class="label function">delete</span> takes an element and a list and deletes the first occurrence of that element in the list.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; delete 'h' "hey there ghang!"
+ghci&gt; delete &#39;h&#39; "hey there ghang!"
 "ey there ghang!"
-ghci&gt; delete 'h' . delete 'h' $ "hey there ghang!"
+ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; $ "hey there ghang!"
 "ey tere ghang!"
-ghci&gt; delete 'h' . delete 'h' . delete 'h' $ "hey there ghang!"
+ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; . delete &#39;h&#39; $ "hey there ghang!"
 "ey tere gang!"
 </pre>
 <p><span class="label function">\\</span> is the list difference function. It acts like a set difference, basically. For every element in the right-hand list, it removes a matching element in the left one.</p>
@@ -354,8 +354,8 @@ ghci&gt; "Im a big baby" \\ "big"
 <p>Doing <span class="fixed">[1..10] \\ [2,5,9]</span> is like doing <span class="fixed">delete 2 . delete 5 . delete 9 $ [1..10]</span>.</p>
 <p><span class="label function">union</span> also acts like a function on sets. It returns the union of two lists. It pretty much goes over every element in the second list and appends it to the first one if it isn’t already in yet. Watch out though, duplicates are removed from the second list!</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; "hey man" `union` "man what's up"
-"hey manwt'sup"
+ghci&gt; "hey man" `union` "man what&#39;s up"
+"hey manwt&#39;sup"
 ghci&gt; [1..7] `union` [5..10]
 [1,2,3,4,5,6,7,8,9,10]
 </pre>
@@ -376,7 +376,7 @@ ghci&gt; insert 4 [1,3,4,4,1]
 <pre name="code" class="haskell:ghci">
 ghci&gt; insert 4 [1,2,3,5,6,7]
 [1,2,3,4,5,6,7]
-ghci&gt; insert 'g' $ ['a'..'f'] ++ ['h'..'z']
+ghci&gt; insert &#39;g&#39; $ [&#39;a&#39;..&#39;f&#39;] ++ [&#39;h&#39;..&#39;z&#39;]
 "abcdefghijklmnopqrstuvwxyz"
 ghci&gt; insert 3 [1,2,4,3,2,1]
 [1,2,3,4,3,2,1]
@@ -456,15 +456,15 @@ ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks i
 <p>Ah.</p>
 <p>The <span class="fixed">Data.Char</span> also exports a datatype that’s kind of like <span class="fixed">Ordering</span>. The <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. It’s a sort of enumeration. It describes a few possible results that can arise from comparing two elements. The <span class="fixed">GeneralCategory</span> type is also an enumeration. It presents us with a few possible categories that a character can fall into. The main function for getting the general category of a character is <span class="fixed">generalCategory</span>. It has a type of <span class="fixed">generalCategory :: Char -&gt; GeneralCategory</span>. There are about 31 categories so we won’t list them all here, but let’s play around with the function.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; generalCategory ' '
+ghci&gt; generalCategory &#39; &#39;
 Space
-ghci&gt; generalCategory 'A'
+ghci&gt; generalCategory &#39;A&#39;
 UppercaseLetter
-ghci&gt; generalCategory 'a'
+ghci&gt; generalCategory &#39;a&#39;
 LowercaseLetter
-ghci&gt; generalCategory '.'
+ghci&gt; generalCategory &#39;.&#39;
 OtherPunctuation
-ghci&gt; generalCategory '9'
+ghci&gt; generalCategory &#39;9&#39;
 DecimalNumber
 ghci&gt; map generalCategory " \t\nA9?|"
 [Space,Control,Control,UppercaseLetter,DecimalNumber,OtherPunctuation,MathSymbol]
@@ -483,16 +483,16 @@ ghci&gt; map digitToInt "FF85AB"
 <p><span class="label function">intToDigit</span> is the inverse function of <span class="fixed">digitToInt</span>. It takes an <span class="fixed">Int</span> in the range of <span class="fixed">0..15</span> and converts it to a lower-case character.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; intToDigit 15
-'f'
+&#39;f&#39;
 ghci&gt; intToDigit 5
-'5'
+&#39;5&#39;
 </pre>
 <p>The <span class="label function">ord</span> and <span class="fixed">chr</span> functions convert characters to their corresponding numbers and vice versa:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; ord 'a'
+ghci&gt; ord &#39;a&#39;
 97
 ghci&gt; chr 97
-'a'
+&#39;a&#39;
 ghci&gt; map ord "abcdefgh"
 [97,98,99,100,101,102,103,104]
 </pre>
@@ -609,8 +609,8 @@ fromList [(3,100),(4,200),(5,600)]
 </pre>
 <p>We can implement our own <span class="fixed">fromList</span> by using the empty map, <span class="fixed">insert</span> and a fold. Watch:</p>
 <pre name="code" class="haskell:ghci">
-fromList' :: (Ord k) =&gt; [(k,v)] -&gt; Map.Map k v
-fromList' = foldr (\(k,v) acc -&gt; Map.insert k v acc) Map.empty
+fromList&#39; :: (Ord k) =&gt; [(k,v)] -&gt; Map.Map k v
+fromList&#39; = foldr (\(k,v) acc -&gt; Map.insert k v acc) Map.empty
 </pre>
 <p>It’s a pretty straightforward fold. We start of with an empty map and we fold it up from the right, inserting the key value pairs into the accumulator as we go along.</p>
 <p><span class="label function">null</span> checks if a map is empty.</p>
@@ -646,8 +646,8 @@ False
 <pre name="code" class="haskell:ghci">
 ghci&gt; Map.map (*100) $ Map.fromList [(1,1),(2,4),(3,9)]
 fromList [(1,100),(2,400),(3,900)]
-ghci&gt; Map.filter isUpper $ Map.fromList [(1,'a'),(2,'A'),(3,'b'),(4,'B')]
-fromList [(2,'A'),(4,'B')]
+ghci&gt; Map.filter isUpper $ Map.fromList [(1,&#39;a&#39;),(2,&#39;A&#39;),(3,&#39;b&#39;),(4,&#39;B&#39;)]
+fromList [(2,&#39;A&#39;),(4,&#39;B&#39;)]
 </pre>
 <p><span class="label function">toList</span> is the inverse of <span class="fixed">fromList</span>.</p>
 <pre name="code" class="haskell:ghci">
