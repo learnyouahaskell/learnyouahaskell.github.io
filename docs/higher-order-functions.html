@@ -105,10 +105,10 @@ applyTwice f x = f (f x)
 <pre name="code" class="haskell:hs">
 ghci&gt; applyTwice (+3) 10
 16
-ghci&gt; applyTwice (++ " HAHA") "HEY"
-"HEY HAHA HAHA"
-ghci&gt; applyTwice ("HAHA " ++) "HEY"
-"HAHA HAHA HEY"
+ghci&gt; applyTwice (++ &quot; HAHA&quot;) &quot;HEY&quot;
+&quot;HEY HAHA HAHA&quot;
+ghci&gt; applyTwice (&quot;HAHA &quot; ++) &quot;HEY&quot;
+&quot;HAHA HAHA HEY&quot;
 ghci&gt; applyTwice (multThree 2 2) 9
 144
 ghci&gt; applyTwice (3:) [1]
@@ -129,8 +129,8 @@ ghci&gt; zipWith&#39; (+) [4,2,5,6] [2,6,2,3]
 [6,8,7,9]
 ghci&gt; zipWith&#39; max [6,3,2,1] [7,3,1,5]
 [7,3,2,5]
-ghci&gt; zipWith&#39; (++) ["foo ", "bar ", "baz "] ["fighters", "hoppers", "aldrin"]
-["foo fighters","bar hoppers","baz aldrin"]
+ghci&gt; zipWith&#39; (++) [&quot;foo &quot;, &quot;bar &quot;, &quot;baz &quot;] [&quot;fighters&quot;, &quot;hoppers&quot;, &quot;aldrin&quot;]
+[&quot;foo fighters&quot;,&quot;bar hoppers&quot;,&quot;baz aldrin&quot;]
 ghci&gt; zipWith&#39; (*) (replicate 5 2) [1..]
 [2,4,6,8,10]
 ghci&gt; zipWith&#39; (zipWith&#39; (*)) [[1,2,3],[3,5,6],[2,3,4]] [[3,2,2],[3,4,5],[5,4,3]]
@@ -152,7 +152,7 @@ flip&#39; f y x = f x y
 </pre>
 <p>Here, we take advantage of the fact that functions are curried. When we call <span class="fixed">flip' f</span> without the parameters <span class="fixed">y</span> and <span class="fixed">x</span>, it will return an <span class="fixed">f</span> that takes those two parameters but calls them flipped. Even though flipped functions are usually passed to other functions, we can take advantage of currying when making higher-order functions by thinking ahead and writing what their end result would be if they were called fully applied.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; flip&#39; zip [1,2,3,4,5] "hello"
+ghci&gt; flip&#39; zip [1,2,3,4,5] &quot;hello&quot;
 [(&#39;h&#39;,1),(&#39;e&#39;,2),(&#39;l&#39;,3),(&#39;l&#39;,4),(&#39;o&#39;,5)]
 ghci&gt; zipWith (flip&#39; div) [2,2..] [10,8,6,4,2]
 [5,4,3,2,1]
@@ -168,8 +168,8 @@ map f (x:xs) = f x : map f xs
 <pre name="code" class="haskell:ghci">
 ghci&gt; map (+3) [1,5,3,1,6]
 [4,8,6,4,9]
-ghci&gt; map (++ "!") ["BIFF", "BANG", "POW"]
-["BIFF!","BANG!","POW!"]
+ghci&gt; map (++ &quot;!&quot;) [&quot;BIFF&quot;, &quot;BANG&quot;, &quot;POW&quot;]
+[&quot;BIFF!&quot;,&quot;BANG!&quot;,&quot;POW!&quot;]
 ghci&gt; map (replicate 3) [3..6]
 [[3,3,3],[4,4,4],[5,5,5],[6,6,6]]
 ghci&gt; map (map (^2)) [[1,2],[3,4,5,6],[7,8]]
@@ -196,10 +196,10 @@ ghci&gt; filter even [1..10]
 [2,4,6,8,10]
 ghci&gt; let notNull x = not (null x) in filter notNull [[1,2,3],[],[3,4,5],[2,2],[],[],[]]
 [[1,2,3],[3,4,5],[2,2]]
-ghci&gt; filter (`elem` [&#39;a&#39;..&#39;z&#39;]) "u LaUgH aT mE BeCaUsE I aM diFfeRent"
-"uagameasadifeent"
-ghci&gt; filter (`elem` [&#39;A&#39;..&#39;Z&#39;]) "i Laugh At you Because u R All The Same"
-"LABRATS"
+ghci&gt; filter (`elem` [&#39;a&#39;..&#39;z&#39;]) &quot;u LaUgH aT mE BeCaUsE I aM diFfeRent&quot;
+&quot;uagameasadifeent&quot;
+ghci&gt; filter (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;i Laugh At you Because u R All The Same&quot;
+&quot;LABRATS&quot;
 </pre>
 <p>All of this could also be achieved with list comprehensions by the use of predicates. There’s no set rule for when to use <span class="fixed">map</span> and <span class="fixed">filter</span> versus using list comprehension, you just have to decide what’s more readable depending on the code and the context. The <span class="fixed">filter</span> equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical <span class="fixed">&amp;&amp;</span> function. </p>
 <p>Remember our quicksort function from the <a href="recursion.html">previous chapter</a>? We used list comprehensions to filter out the list elements that are smaller than (or equal to) and larger than the pivot. We can achieve the same functionality in a more readable way by using <span class="fixed">filter</span>:</p>

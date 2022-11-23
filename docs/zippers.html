@@ -746,22 +746,22 @@ Here’s a folder with some files and sub-folders:
 <pre name="code" class="haskell:hs">
 myDisk :: FSItem
 myDisk =
-    Folder "root"
-        [ File "goat_yelling_like_man.wmv" "baaaaaa"
-        , File "pope_time.avi" "god bless"
-        , Folder "pics"
-            [ File "ape_throwing_up.jpg" "bleargh"
-            , File "watermelon_smash.gif" "smash!!"
-            , File "skull_man(scary).bmp" "Yikes!"
+    Folder &quot;root&quot;
+        [ File &quot;goat_yelling_like_man.wmv&quot; &quot;baaaaaa&quot;
+        , File &quot;pope_time.avi&quot; &quot;god bless&quot;
+        , Folder &quot;pics&quot;
+            [ File &quot;ape_throwing_up.jpg&quot; &quot;bleargh&quot;
+            , File &quot;watermelon_smash.gif&quot; &quot;smash!!&quot;
+            , File &quot;skull_man(scary).bmp&quot; &quot;Yikes!&quot;
             ]
-        , File "dijon_poupon.doc" "best mustard"
-        , Folder "programs"
-            [ File "fartwizard.exe" "10gotofart"
-            , File "owl_bandit.dmg" "mov eax, h00t"
-            , File "not_a_virus.exe" "really not a virus"
-            , Folder "source code"
-                [ File "best_hs_prog.hs" "main = print (fix error)"
-                , File "random.hs" "main = print 4"
+        , File &quot;dijon_poupon.doc&quot; &quot;best mustard&quot;
+        , Folder &quot;programs&quot;
+            [ File &quot;fartwizard.exe&quot; &quot;10gotofart&quot;
+            , File &quot;owl_bandit.dmg&quot; &quot;mov eax, h00t&quot;
+            , File &quot;not_a_virus.exe&quot; &quot;really not a virus&quot;
+            , Folder &quot;source code&quot;
+                [ File &quot;best_hs_prog.hs&quot; &quot;main = print (fix error)&quot;
+                , File &quot;random.hs&quot; &quot;main = print 4&quot;
                 ]
             ]
         ]
@@ -911,7 +911,7 @@ the file <span class="fixed">"skull_man(scary).bmp"</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus = (myDisk,[]) -: fsTo "pics" -: fsTo "skull_man(scary).bmp"
+ghci&gt; let newFocus = (myDisk,[]) -: fsTo &quot;pics&quot; -: fsTo &quot;skull_man(scary).bmp&quot;
 </pre>
 
 <p>
@@ -922,7 +922,7 @@ component of the zipper (the focus itself) and see if that’s really true:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; fst newFocus
-File "skull_man(scary).bmp" "Yikes!"
+File &quot;skull_man(scary).bmp&quot; &quot;Yikes!&quot;
 </pre>
 
 <p>
@@ -931,9 +931,9 @@ Let’s move up and then focus on its neighboring file
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus2 = newFocus -: fsUp -: fsTo "watermelon_smash.gif"
+ghci&gt; let newFocus2 = newFocus -: fsUp -: fsTo &quot;watermelon_smash.gif&quot;
 ghci&gt; fst newFocus2
-File "watermelon_smash.gif" "smash!!"
+File &quot;watermelon_smash.gif&quot; &quot;smash!!&quot;
 </pre>
 
 <h3>Manipulating our file system</h3>
@@ -955,7 +955,7 @@ Now we can rename our <span class="fixed">"pics"</span> folder to
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus = (myDisk,[]) -: fsTo "pics" -: fsRename "cspi" -: fsUp
+ghci&gt; let newFocus = (myDisk,[]) -: fsTo &quot;pics&quot; -: fsRename &quot;cspi&quot; -: fsUp
 </pre>
 
 <p>
@@ -984,7 +984,7 @@ back up to the root:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let newFocus = (myDisk,[]) -: fsTo "pics" -: fsNewFile (File "heh.jpg" "lol") -: fsUp
+ghci&gt; let newFocus = (myDisk,[]) -: fsTo &quot;pics&quot; -: fsNewFile (File &quot;heh.jpg&quot; &quot;lol&quot;) -: fsUp
 </pre>
 
 <p>

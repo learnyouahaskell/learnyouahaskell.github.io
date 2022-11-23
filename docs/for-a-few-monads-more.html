@@ -107,7 +107,7 @@ our <span class="fixed">Bool</span>:
 
 <pre name="code" class="haskell:hs">
 isBigGang :: Int -&gt; (Bool, String)
-isBigGang x = (x &gt; 9, "Compared gang size to 9.")
+isBigGang x = (x &gt; 9, &quot;Compared gang size to 9.&quot;)
 </pre>
 
 <p>
@@ -119,9 +119,9 @@ to our value now. Let’s give this a go:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; isBigGang 3
-(False,"Compared gang size to 9.")
+(False,&quot;Compared gang size to 9.&quot;)
 ghci&gt; isBigGang 30
-(True,"Compared gang size to 9.")
+(True,&quot;Compared gang size to 9.&quot;)
 </pre>
 
 <img src="assets/images/for-a-few-monads-more/tuco.png" alt="when you have to poop, poop, don’t talk" class="left" width="196" height="280">
@@ -192,10 +192,10 @@ Here’s <span class="fixed">applyLog</span> in action:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; (3, "Smallish gang.") `applyLog` isBigGang
-(False,"Smallish gang.Compared gang size to 9")
-ghci&gt; (30, "A freaking platoon.") `applyLog` isBigGang
-(True,"A freaking platoon.Compared gang size to 9")
+ghci&gt; (3, &quot;Smallish gang.&quot;) `applyLog` isBigGang
+(False,&quot;Smallish gang.Compared gang size to 9&quot;)
+ghci&gt; (30, &quot;A freaking platoon.&quot;) `applyLog` isBigGang
+(True,&quot;A freaking platoon.Compared gang size to 9&quot;)
 </pre>
 
 <p>
@@ -205,10 +205,10 @@ examples of using <span class="fixed">applyLog</span>:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; ("Tobin","Got outlaw name.") `applyLog` (\x -&gt; (length x, "Applied length."))
-(5,"Got outlaw name.Applied length.")
-ghci&gt; ("Bathcat","Got outlaw name.") `applyLog` (\x -&gt; (length x, "Applied length"))
-(7,"Got outlaw name.Applied length")
+ghci&gt; (&quot;Tobin&quot;,&quot;Got outlaw name.&quot;) `applyLog` (\x -&gt; (length x, &quot;Applied length.&quot;))
+(5,&quot;Got outlaw name.Applied length.&quot;)
+ghci&gt; (&quot;Bathcat&quot;,&quot;Got outlaw name.&quot;) `applyLog` (\x -&gt; (length x, &quot;Applied length&quot;))
+(7,&quot;Got outlaw name.Applied length&quot;)
 </pre>
 
 <p>
@@ -256,7 +256,7 @@ bytestrings, <span class="fixed">mappend</span> is for appending. Watch:
 ghci&gt; [1,2,3] `mappend` [4,5,6]
 [1,2,3,4,5,6]
 ghci&gt; B.pack [99,104,105] `mappend` B.pack [104,117,97,104,117,97]
-Chunk "chi" (Chunk "huahua" Empty)
+Chunk &quot;chi&quot; (Chunk &quot;huahua&quot; Empty)
 </pre>
 
 <p>
@@ -286,9 +286,9 @@ type Food = String
 type Price = Sum Int
 
 addDrink :: Food -&gt; (Food,Price)
-addDrink "beans" = ("milk", Sum 25)
-addDrink "jerky" = ("whiskey", Sum 99)
-addDrink _ = ("beer", Sum 30)
+addDrink &quot;beans&quot; = (&quot;milk&quot;, Sum 25)
+addDrink &quot;jerky&quot; = (&quot;whiskey&quot;, Sum 99)
+addDrink _ = (&quot;beer&quot;, Sum 30)
 </pre>
 
 <p>
@@ -316,12 +316,12 @@ this function is interesting:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; ("beans", Sum 10) `applyLog` addDrink
-("milk",Sum {getSum = 35})
-ghci&gt; ("jerky", Sum 25) `applyLog` addDrink
-("whiskey",Sum {getSum = 124})
-ghci&gt; ("dogmeat", Sum 5) `applyLog` addDrink
-("beer",Sum {getSum = 35})
+ghci&gt; (&quot;beans&quot;, Sum 10) `applyLog` addDrink
+(&quot;milk&quot;,Sum {getSum = 35})
+ghci&gt; (&quot;jerky&quot;, Sum 25) `applyLog` addDrink
+(&quot;whiskey&quot;,Sum {getSum = 124})
+ghci&gt; (&quot;dogmeat&quot;, Sum 5) `applyLog` addDrink
+(&quot;beer&quot;,Sum {getSum = 35})
 </pre>
 
 <p>
@@ -341,8 +341,8 @@ along with our drink and how much that will cost us. Let’s give it a shot:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; ("dogmeat", Sum 5) `applyLog` addDrink `applyLog` addDrink
-("beer",Sum {getSum = 65})
+ghci&gt; (&quot;dogmeat&quot;, Sum 5) `applyLog` addDrink `applyLog` addDrink
+(&quot;beer&quot;,Sum {getSum = 65})
 </pre>
 
 <p>
@@ -431,7 +431,7 @@ different monoid every time:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; runWriter (return 3 :: Writer String Int)
-(3,"")
+(3,&quot;&quot;)
 ghci&gt; runWriter (return 3 :: Writer (Sum Int) Int)
 (3,Sum {getSum = 0})
 ghci&gt; runWriter (return 3 :: Writer (Product Int) Int)
@@ -473,7 +473,7 @@ multiply two numbers:
 import Control.Monad.Writer
 
 logNumber :: Int -&gt; Writer [String] Int
-logNumber x = Writer (x, ["Got number: " ++ show x])
+logNumber x = Writer (x, [&quot;Got number: &quot; ++ show x])
 
 multWithLog :: Writer [String] Int
 multWithLog = do
@@ -498,7 +498,7 @@ see if we run this:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; runWriter multWithLog
-(15,["Got number: 3","Got number: 5"])
+(15,[&quot;Got number: 3&quot;,&quot;Got number: 5&quot;])
 </pre>
 
 <p>
@@ -520,7 +520,7 @@ multWithLog :: Writer [String] Int
 multWithLog = do
     a &lt;- logNumber 3
     b &lt;- logNumber 5
-    tell ["Gonna multiply these two"]
+    tell [&quot;Gonna multiply these two&quot;]
     return (a*b)
 </pre>
 
@@ -536,7 +536,7 @@ However, the log would be the same. Here is this in action:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; runWriter multWithLog
-(15,["Got number: 3","Got number: 5","Gonna multiply these two"])
+(15,[&quot;Got number: 3&quot;,&quot;Got number: 5&quot;,&quot;Gonna multiply these two&quot;])
 </pre>
 
 <h3>Adding logging to programs</h3>
@@ -598,10 +598,10 @@ import Control.Monad.Writer
 gcd&#39; :: Int -&gt; Int -&gt; Writer [String] Int
 gcd&#39; a b
     | b == 0 = do
-        tell ["Finished with " ++ show a]
+        tell [&quot;Finished with &quot; ++ show a]
         return a
     | otherwise = do
-        tell [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)]
+        tell [show a ++ &quot; mod &quot; ++ show b ++ &quot; = &quot; ++ show (a `mod` b)]
         gcd&#39; b (a `mod` b)
 </pre>
 
@@ -619,7 +619,7 @@ the result of the <span class="fixed">do</span> expression. Instead of this
 </p>
 
 <pre name="code" class="haskell:hs">
-Writer (a, ["Finished with " ++ show a])
+Writer (a, [&quot;Finished with &quot; ++ show a])
 </pre>
 
 <p>
@@ -725,11 +725,11 @@ import Control.Monad.Writer
 gcdReverse :: Int -&gt; Int -&gt; Writer [String] Int
 gcdReverse a b
     | b == 0 = do
-        tell ["Finished with " ++ show a]
+        tell [&quot;Finished with &quot; ++ show a]
         return a
     | otherwise = do
         result &lt;- gcdReverse b (a `mod` b)
-        tell [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)]
+        tell [show a ++ &quot; mod &quot; ++ show b ++ &quot; = &quot; ++ show (a `mod` b)]
         return result
 </pre>
 
@@ -793,7 +793,7 @@ to the following:
 </p>
 
 <pre name="code" class="haskell:hs">
-\xs -&gt; "dog" ++ ("meat" ++ xs)
+\xs -&gt; &quot;dog&quot; ++ (&quot;meat&quot; ++ xs)
 </pre>
 
 <p>
@@ -865,11 +865,11 @@ import Control.Monad.Writer
 gcd&#39; :: Int -&gt; Int -&gt; Writer (DiffList String) Int
 gcd&#39; a b
     | b == 0 = do
-        tell (toDiffList ["Finished with " ++ show a])
+        tell (toDiffList [&quot;Finished with &quot; ++ show a])
         return a
     | otherwise = do
         result &lt;- gcd&#39; b (a `mod` b)
-        tell (toDiffList [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)])
+        tell (toDiffList [show a ++ &quot; mod &quot; ++ show b ++ &quot; = &quot; ++ show (a `mod` b)])
         return result
 </pre>
 
@@ -909,7 +909,7 @@ in the log will actually be counted up:
 <pre name="code" class="haskell:hs">
 finalCountDown :: Int -&gt; Writer (DiffList String) ()
 finalCountDown 0 = do
-    tell (toDiffList ["0"])
+    tell (toDiffList [&quot;0&quot;])
 finalCountDown x = do
     finalCountDown (x-1)
     tell (toDiffList [show x])
@@ -944,7 +944,7 @@ However, if we change it to use normal lists instead of difference lists, like s
 <pre name="code" class="haskell:hs">
 finalCountDown :: Int -&gt; Writer [String] ()
 finalCountDown 0 = do
-    tell ["0"]
+    tell [&quot;0&quot;]
 finalCountDown x = do
     finalCountDown (x-1)
     tell [show x]
@@ -1672,8 +1672,8 @@ instance:
 <pre name="code" class="haskell:hs">
 ghci&gt; :t Right 4
 Right 4 :: (Num t) =&gt; Either a t
-ghci&gt; :t Left "out of cheese error"
-Left "out of cheese error" :: Either [Char] b
+ghci&gt; :t Left &quot;out of cheese error&quot;
+Left &quot;out of cheese error&quot; :: Either [Char] b
 </pre>
 
 <p>
@@ -1731,8 +1731,8 @@ function just returns the string that it got:
 <pre name="code" class="haskell:hs">
 ghci&gt; :t strMsg
 strMsg :: (Error a) =&gt; String -&gt; a
-ghci&gt; strMsg "boom!" :: String
-"boom!"
+ghci&gt; strMsg &quot;boom!&quot; :: String
+&quot;boom!&quot;
 </pre>
 
 <p>
@@ -1747,10 +1747,10 @@ Anyway, here are a few examples of usage:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Left "boom" &gt;&gt;= \x -&gt; return (x+1)
-Left "boom"
-ghci&gt; Right 100 &gt;&gt;= \x -&gt; Left "no way!"
-Left "no way!"
+ghci&gt; Left &quot;boom&quot; &gt;&gt;= \x -&gt; return (x+1)
+Left &quot;boom&quot;
+ghci&gt; Right 100 &gt;&gt;= \x -&gt; Left &quot;no way!&quot;
+Left &quot;no way!&quot;
 </pre>
 
 <p>
@@ -1880,10 +1880,10 @@ ghci&gt; liftM (*3) (Just 8)
 Just 24
 ghci&gt; fmap (*3) (Just 8)
 Just 24
-ghci&gt; runWriter $ liftM not $ Writer (True, "chickpeas")
-(False,"chickpeas")
-ghci&gt; runWriter $ fmap not $ Writer (True, "chickpeas")
-(False,"chickpeas")
+ghci&gt; runWriter $ liftM not $ Writer (True, &quot;chickpeas&quot;)
+(False,&quot;chickpeas&quot;)
+ghci&gt; runWriter $ fmap not $ Writer (True, &quot;chickpeas&quot;)
+(False,&quot;chickpeas&quot;)
 ghci&gt; runState (liftM (+100) pop) [1,2,3,4]
 (101,[2,3,4])
 ghci&gt; runState (fmap (+100) pop) [1,2,3,4]
@@ -2107,8 +2107,8 @@ whose result is a <span class="fixed">Writer</span> value itself, we have to
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; runWriter $ join (Writer (Writer (1,"aaa"),"bbb"))
-(1,"bbbaaa")
+ghci&gt; runWriter $ join (Writer (Writer (1,&quot;aaa&quot;),&quot;bbb&quot;))
+(1,&quot;bbbaaa&quot;)
 </pre>
 
 <p>
@@ -2128,10 +2128,10 @@ flattening <span class="fixed">Maybe</span> values:
 <pre name="code" class="haskell:hs">
 ghci&gt; join (Right (Right 9)) :: Either String Int
 Right 9
-ghci&gt; join (Right (Left "error")) :: Either String Int
-Left "error"
-ghci&gt; join (Left "error") :: Either String Int
-Left "error"
+ghci&gt; join (Right (Left &quot;error&quot;)) :: Either String Int
+Left &quot;error&quot;
+ghci&gt; join (Left &quot;error&quot;) :: Either String Int
+Left &quot;error&quot;
 </pre>
 
 
@@ -2276,10 +2276,10 @@ provides a log of what it did. Of course, we’ll be using the
 keepSmall :: Int -&gt; Writer [String] Bool
 keepSmall x
     | x &lt; 4 = do
-        tell ["Keeping " ++ show x]
+        tell [&quot;Keeping &quot; ++ show x]
         return True
     | otherwise = do
-        tell [show x ++ " is too large, throwing it away"]
+        tell [show x ++ &quot; is too large, throwing it away&quot;]
         return False
 </pre>
 
@@ -2507,9 +2507,9 @@ that item as the answer. This was the folding function:
 
 <pre name="code" class="haskell:hs">
 foldingFunction :: [Double] -&gt; String -&gt; [Double]
-foldingFunction (x:y:ys) "*" = (x * y):ys
-foldingFunction (x:y:ys) "+" = (x + y):ys
-foldingFunction (x:y:ys) "-" = (y - x):ys
+foldingFunction (x:y:ys) &quot;*&quot; = (x * y):ys
+foldingFunction (x:y:ys) &quot;+&quot; = (x + y):ys
+foldingFunction (x:y:ys) &quot;-&quot; = (y - x):ys
 foldingFunction xs numberString = read numberString:xs
 </pre>
 
@@ -2547,7 +2547,7 @@ for convenience. Here it is:
 
 <pre name="code" class="haskell:hs">
 readMaybe :: (Read a) =&gt; String -&gt; Maybe a
-readMaybe st = case reads st of [(x,"")] -&gt; Just x
+readMaybe st = case reads st of [(x,&quot;&quot;)] -&gt; Just x
                                 _ -&gt; Nothing
 </pre>
 
@@ -2556,9 +2556,9 @@ Testing it out:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; readMaybe "1" :: Maybe Int
+ghci&gt; readMaybe &quot;1&quot; :: Maybe Int
 Just 1
-ghci&gt; readMaybe "GO TO HELL" :: Maybe Int
+ghci&gt; readMaybe &quot;GO TO HELL&quot; :: Maybe Int
 Nothing
 </pre>
 
@@ -2569,9 +2569,9 @@ function that can fail:
 
 <pre name="code" class="haskell:hs">
 foldingFunction :: [Double] -&gt; String -&gt; Maybe [Double]
-foldingFunction (x:y:ys) "*" = return ((x * y):ys)
-foldingFunction (x:y:ys) "+" = return ((x + y):ys)
-foldingFunction (x:y:ys) "-" = return ((y - x):ys)
+foldingFunction (x:y:ys) &quot;*&quot; = return ((x * y):ys)
+foldingFunction (x:y:ys) &quot;+&quot; = return ((x + y):ys)
+foldingFunction (x:y:ys) &quot;-&quot; = return ((y - x):ys)
 foldingFunction xs numberString = liftM (:xs) (readMaybe numberString)
 </pre>
 
@@ -2590,15 +2590,15 @@ Let’s try out the folding function by itself:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; foldingFunction [3,2] "*"
+ghci&gt; foldingFunction [3,2] &quot;*&quot;
 Just [6.0]
-ghci&gt; foldingFunction [3,2] "-"
+ghci&gt; foldingFunction [3,2] &quot;-&quot;
 Just [-1.0]
-ghci&gt; foldingFunction [] "*"
+ghci&gt; foldingFunction [] &quot;*&quot;
 Nothing
-ghci&gt; foldingFunction [] "1"
+ghci&gt; foldingFunction [] &quot;1&quot;
 Just [1.0]
-ghci&gt; foldingFunction [] "1 wawawawa"
+ghci&gt; foldingFunction [] &quot;1 wawawawa&quot;
 Nothing
 </pre>
 
@@ -2639,13 +2639,13 @@ Let’s give it a shot:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; solveRPN "1 2 * 4 +"
+ghci&gt; solveRPN &quot;1 2 * 4 +&quot;
 Just 6.0
-ghci&gt; solveRPN "1 2 * 4 + 5 *"
+ghci&gt; solveRPN &quot;1 2 * 4 + 5 *&quot;
 Just 30.0
-ghci&gt; solveRPN "1 2 * 4"
+ghci&gt; solveRPN &quot;1 2 * 4&quot;
 Nothing
-ghci&gt; solveRPN "1 8 wharglbllargh"
+ghci&gt; solveRPN &quot;1 8 wharglbllargh&quot;
 Nothing
 </pre>
 

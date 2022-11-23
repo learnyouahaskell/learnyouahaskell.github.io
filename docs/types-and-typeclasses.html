@@ -43,8 +43,8 @@ ghci&gt; :t &#39;a&#39;
 &#39;a&#39; :: Char
 ghci&gt; :t True
 True :: Bool
-ghci&gt; :t "HELLO!"
-"HELLO!" :: [Char]
+ghci&gt; :t &quot;HELLO!&quot;
+&quot;HELLO!&quot; :: [Char]
 ghci&gt; :t (True, &#39;a&#39;)
 (True, &#39;a&#39;) :: (Bool, Char)
 ghci&gt; :t 4 == 5
@@ -153,7 +153,7 @@ ghci&gt; 5 /= 5
 False
 ghci&gt; &#39;a&#39; == &#39;a&#39;
 True
-ghci&gt; "Ho Ho" == "Ho Ho"
+ghci&gt; &quot;Ho Ho&quot; == &quot;Ho Ho&quot;
 True
 ghci&gt; 3.432 == 3.432
 True
@@ -168,9 +168,9 @@ ghci&gt; :t (&gt;)
 All the types we covered so far except for functions are part of <span class="fixed">Ord</span>. <span class="fixed">Ord</span> covers all the standard comparing functions such as <span class="fixed">&gt;</span>, <span class="fixed">&lt;</span>, <span class="fixed">&gt;=</span> and <span class="fixed">&lt;=</span>. The <span class="fixed">compare</span> function takes two <span class="fixed">Ord</span> members of the same type and returns an ordering. <span class="label type">Ordering</span> is a type that can be <span class="fixed">GT</span>, <span class="fixed">LT</span> or <span class="fixed">EQ</span>, meaning <i>greater than</i>, <i>lesser than</i> and <i>equal</i>, respectively.</p>
 <p>To be a member of <span class="fixed">Ord</span>, a type must first have membership in the prestigious and exclusive <span class="fixed">Eq</span> club.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; "Abrakadabra" &lt; "Zebra"
+ghci&gt; &quot;Abrakadabra&quot; &lt; &quot;Zebra&quot;
 True
-ghci&gt; "Abrakadabra" `compare` "Zebra"
+ghci&gt; &quot;Abrakadabra&quot; `compare` &quot;Zebra&quot;
 LT
 ghci&gt; 5 &gt;= 2
 True
@@ -180,26 +180,26 @@ GT
 <p>Members of <span class="label class">Show</span> can be presented as strings. All types covered so far except for functions are a part of <span class="fixed">Show</span>. The most used function that deals with the <span class="fixed">Show</span> typeclass is <span class="fixed">show</span>. It takes a value whose type is a member of <span class="fixed">Show</span> and presents it to us as a string.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; show 3
-"3"
+&quot;3&quot;
 ghci&gt; show 5.334
-"5.334"
+&quot;5.334&quot;
 ghci&gt; show True
-"True"
+&quot;True&quot;
 </pre>
 <p><span class="label class">Read</span> is sort of the opposite typeclass of <span class="fixed">Show</span>. The <span class="fixed">read</span> function takes a string and returns a type which is a member of <span class="fixed">Read</span>.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; read "True" || False
+ghci&gt; read &quot;True&quot; || False
 True
-ghci&gt; read "8.2" + 3.8
+ghci&gt; read &quot;8.2&quot; + 3.8
 12.0
-ghci&gt; read "5" - 2
+ghci&gt; read &quot;5&quot; - 2
 3
-ghci&gt; read "[1,2,3,4]" ++ [3]
+ghci&gt; read &quot;[1,2,3,4]&quot; ++ [3]
 [1,2,3,4,3]
 </pre>
 <p>So far so good. Again, all types covered so far are in this typeclass. But what happens if we try to do just <span class="fixed">read "4"</span>?</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; read "4"
+ghci&gt; read &quot;4&quot;
 &lt;interactive&gt;:1:0:
     Ambiguous type variable `a&#39; in the constraint:
       `Read a&#39; arising from a use of `read&#39; at &lt;interactive&gt;:1:0-7
@@ -214,22 +214,22 @@ read :: (Read a) =&gt; String -&gt; a
 See? It returns a type that’s part of <span class="fixed">Read</span> but if we don’t try to use it in some way later, it has no way of knowing which type. That’s why we can use explicit <em>type annotations</em>. Type annotations are a way of explicitly saying what the type of an expression should be. We do that by adding <span class="fixed">::</span> at the end of the expression and then specifying a type. Observe:
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; read "5" :: Int
+ghci&gt; read &quot;5&quot; :: Int
 5
-ghci&gt; read "5" :: Float
+ghci&gt; read &quot;5&quot; :: Float
 5.0
-ghci&gt; (read "5" :: Float) * 4
+ghci&gt; (read &quot;5&quot; :: Float) * 4
 20.0
-ghci&gt; read "[1,2,3,4]" :: [Int]
+ghci&gt; read &quot;[1,2,3,4]&quot; :: [Int]
 [1,2,3,4]
-ghci&gt; read "(3, &#39;a&#39;)" :: (Int, Char)
+ghci&gt; read &quot;(3, &#39;a&#39;)&quot; :: (Int, Char)
 (3, &#39;a&#39;)
 </pre>
 <p>Most expressions are such that the compiler can infer what their type is by itself. But sometimes, the compiler doesn’t know whether to return a value of type <span class="fixed">Int</span> or <span class="fixed">Float</span> for an expression like <span class="fixed">read "5"</span>. To see what the type is, Haskell would have to actually evaluate <span class="fixed">read "5"</span>. But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCI, evaluated). So we have to tell Haskell: "Hey, this expression should have this type, in case you don’t know!".</p>
 <p><span class="label class">Enum</span> members are sequentially ordered types — they can be enumerated. The main advantage of the <span class="fixed">Enum</span> typeclass is that we can use its types in list ranges. They also have defined successors and predecessors, which you can get with the <span class="fixed">succ</span> and <span class="fixed">pred</span> functions. Types in this class: <span class="fixed">()</span>, <span class="fixed">Bool</span>, <span class="fixed">Char</span>, <span class="fixed">Ordering</span>, <span class="fixed">Int</span>, <span class="fixed">Integer</span>, <span class="fixed">Float</span> and <span class="fixed">Double</span>.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; [&#39;a&#39;..&#39;e&#39;]
-"abcde"
+&quot;abcde&quot;
 ghci&gt; [LT .. GT]
 [LT,EQ,GT]
 ghci&gt; [3 .. 5]

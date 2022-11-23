@@ -56,14 +56,14 @@ The result of mapping something over an I/O action will be an I/O action, so rig
 <pre name="code" class="haskell:hs">
 main = do line &lt;- getLine
           let line&#39; = reverse line
-          putStrLn $ "You said " ++ line&#39; ++ " backwards!"
-          putStrLn $ "Yes, you really said" ++ line&#39; ++ " backwards!"
+          putStrLn $ &quot;You said &quot; ++ line&#39; ++ &quot; backwards!&quot;
+          putStrLn $ &quot;Yes, you really said&quot; ++ line&#39; ++ &quot; backwards!&quot;
 </pre>
 <p>The user is prompted for a line and we give it back to the user, only reversed. Here’s how to rewrite this by using <span class="fixed">fmap</span>:</p>
 <pre name="code" class="haskell:hs">
 main = do line &lt;- fmap reverse getLine
-          putStrLn $ "You said " ++ line ++ " backwards!"
-          putStrLn $ "Yes, you really said" ++ line ++ " backwards!"
+          putStrLn $ &quot;You said &quot; ++ line ++ &quot; backwards!&quot;
+          putStrLn $ &quot;Yes, you really said&quot; ++ line ++ &quot; backwards!&quot;
 </pre>
 <img src="assets/images/functors-applicative-functors-and-monoids/alien.png" alt="w00ooOoooOO" class="left" width="262" height="212">
 <p>Just like when we <span class="fixed">fmap</span> <span class="fixed">reverse</span> over <span class="fixed">Just "blah"</span> to get <span class="fixed">Just "halb"</span>, we can <span class="fixed">fmap</span> <span class="fixed">reverse</span> over <span class="fixed">getLine</span>. <span class="fixed">getLine</span> is an I/O action that has a type of <span class="fixed">IO String</span> and mapping <span class="fixed">reverse</span> over it gives us an I/O action that will go out into the real world and get a line and then apply <span class="fixed">reverse</span> to its result. Like we can apply a function to something that’s inside a <span class="fixed">Maybe</span> box, we can apply a function to what’s inside an <span class="fixed">IO</span> box, only it has to go out into the real world to get something. Then when we bind it to a name by using <span class="fixed">&lt;-</span>, the name will reflect the result that already has <span class="fixed">reverse</span> applied to it.</p>
@@ -112,7 +112,7 @@ ghci&gt; (*3) `fmap` (+100) $ 1
 ghci&gt; (*3) . (+100) $ 1
 303
 ghci&gt; fmap (show . (*3)) (*100) 1
-"300"
+&quot;300&quot;
 </pre>
 <p>We can call <span class="fixed">fmap</span> as an infix function so that the resemblance to <span class="fixed">.</span> is clear. In the second input line, we’re mapping <span class="fixed">(*3)</span> over <span class="fixed">(+100)</span>, which results in a function that will take an input, call <span class="fixed">(+100)</span> on that and then call <span class="fixed">(*3)</span> on that result. We call that function with <span class="fixed">1</span>.</p>
 <p>How does the box analogy hold here? Well, if you stretch it, it holds. When we use <span class="fixed">fmap (+3)</span> over <span class="fixed">Just 3</span>, it’s easy to imagine the <span class="fixed">Maybe</span> as a box that has some contents on which we apply the function <span class="fixed">(+3)</span>. But what about when we’re doing <span class="fixed">fmap (*3) (+100)</span>? Well, you can think of the function <span class="fixed">(+100)</span> as a box that contains its eventual result. Sort of like how an I/O action can be thought of as a box that will go out into the real world and fetch some result. Using <span class="fixed">fmap (*3)</span> on <span class="fixed">(+100)</span> will create another function that acts like <span class="fixed">(+100)</span>, only before producing a result, <span class="fixed">(*3)</span> will be applied to that result. Now we can see how <span class="fixed">fmap</span> acts just like <span class="fixed">.</span> for functions.</p>
@@ -136,12 +136,12 @@ ghci&gt; fmap (replicate 3) [1,2,3,4]
 [[1,1,1],[2,2,2],[3,3,3],[4,4,4]]
 ghci&gt; fmap (replicate 3) (Just 4)
 Just [4,4,4]
-ghci&gt; fmap (replicate 3) (Right "blah")
-Right ["blah","blah","blah"]
+ghci&gt; fmap (replicate 3) (Right &quot;blah&quot;)
+Right [&quot;blah&quot;,&quot;blah&quot;,&quot;blah&quot;]
 ghci&gt; fmap (replicate 3) Nothing
 Nothing
-ghci&gt; fmap (replicate 3) (Left "foo")
-Left "foo"
+ghci&gt; fmap (replicate 3) (Left &quot;foo&quot;)
+Left &quot;foo&quot;
 </pre>
 <p>Next up, we’re going to look at the <em>functor laws</em>. In order for something to be a functor, it should satisfy some laws. All functors are expected to exhibit certain kinds of functor-like properties and behaviors. They should reliably behave as things that can be mapped over. Calling <span class="fixed">fmap</span> on a functor should just map a function over the functor, nothing more. This behavior is described in the functor laws. There are two of them that all instances of <span class="fixed">Functor</span> should abide by. They aren’t enforced by Haskell automatically, so you have to test them out yourself.</p>
 <p><em>The first functor law states that if we map the <span class="fixed">id</span> function over a functor, the functor that we get back should be the same as the original functor.</em> If we write that a bit more formally, it means that <span class="label law">fmap id = id</span>. So essentially, this says that if we do <span class="fixed">fmap id</span> over a functor, it should be the same as just calling <span class="fixed">id</span> on the functor. Remember, <span class="fixed">id</span> is the identity function, which just returns its parameter unmodified. It can also be written as <span class="fixed">\x -&gt; x</span>. If we view the functor as something that can be mapped over, the <span class="label law">fmap id = id</span> law seems kind of trivial or obvious.</p>
@@ -181,12 +181,12 @@ data CMaybe a = CNothing | CJust Int a deriving (Show)
 <pre name="code" class="haskell:hs">
 ghci&gt; CNothing
 CNothing
-ghci&gt; CJust 0 "haha"
-CJust 0 "haha"
+ghci&gt; CJust 0 &quot;haha&quot;
+CJust 0 &quot;haha&quot;
 ghci&gt; :t CNothing
 CNothing :: CMaybe a
-ghci&gt; :t CJust 0 "haha"
-CJust 0 "haha" :: CMaybe [Char]
+ghci&gt; :t CJust 0 &quot;haha&quot;
+CJust 0 &quot;haha&quot; :: CMaybe [Char]
 ghci&gt; CJust 100 [1,2,3]
 CJust 100 [1,2,3]
 </pre>
@@ -198,19 +198,19 @@ instance Functor CMaybe where
 </pre>
 <p>This is kind of like the instance implementation for <span class="fixed">Maybe</span>, except that when we do <span class="fixed">fmap</span> over a value that doesn’t represent an empty box (a <span class="fixed">CJust</span> value), we don’t just apply the function to the contents, we also increase the counter by 1. Everything seems cool so far, we can even play with this a bit:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; fmap (++"ha") (CJust 0 "ho")
-CJust 1 "hoha"
-ghci&gt; fmap (++"he") (fmap (++"ha") (CJust 0 "ho"))
-CJust 2 "hohahe"
-ghci&gt; fmap (++"blah") CNothing
+ghci&gt; fmap (++&quot;ha&quot;) (CJust 0 &quot;ho&quot;)
+CJust 1 &quot;hoha&quot;
+ghci&gt; fmap (++&quot;he&quot;) (fmap (++&quot;ha&quot;) (CJust 0 &quot;ho&quot;))
+CJust 2 &quot;hohahe&quot;
+ghci&gt; fmap (++&quot;blah&quot;) CNothing
 CNothing
 </pre>
 <p>Does this obey the functor laws? In order to see that something doesn’t obey a law, it’s enough to find just one counter-example.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; fmap id (CJust 0 "haha")
-CJust 1 "haha"
-ghci&gt; id (CJust 0 "haha")
-CJust 0 "haha"
+ghci&gt; fmap id (CJust 0 &quot;haha&quot;)
+CJust 1 &quot;haha&quot;
+ghci&gt; id (CJust 0 &quot;haha&quot;)
+CJust 0 &quot;haha&quot;
 </pre>
 <p>Ah! We know that the first functor law states that if we map <span class="fixed">id</span> over a functor, it should be the same as just calling <span class="fixed">id</span> with the same functor, but as we’ve seen from this example, this is not true for our <span class="fixed">CMaybe</span> functor. Even though it’s part of the <span class="fixed">Functor</span> typeclass, it doesn’t obey the functor laws and is therefore not a functor. If someone used our <span class="fixed">CMaybe</span> type as a functor, they would expect it to obey the functor laws like a good functor. But <span class="fixed">CMaybe</span> fails at being a functor even though it pretends to be one, so using it as a functor might lead to some faulty code. When we use a functor, it shouldn’t matter if we first compose a few functions and then map them over the functor or if we just map each function over a functor in succession. But with <span class="fixed">CMaybe</span>, it matters, because it keeps track of how many times it’s been mapped over. Not cool! If we wanted <span class="fixed">CMaybe</span> to obey the functor laws, we’d have to make it so that the <span class="fixed">Int</span> field stays the same when we use <span class="fixed">fmap</span>.</p>
 <p>At first, the functor laws might seem a bit confusing and unnecessary, but then we see that if we know that a type obeys both laws, we can make certain assumptions about how it will act. If a type obeys the functor laws, we know that calling <span class="fixed">fmap</span> on a value of that type will only map the function over it, nothing more. This leads to code that is more abstract and extensible, because we can use laws to reason about behaviors that any functor should have and make functions that operate reliably on any functor.</p>
@@ -223,12 +223,12 @@ CJust 0 "haha"
 <p>As you know, functions in Haskell are curried by default, which means that a function that seems to take several parameters actually takes just one parameter and returns a function that takes the next parameter and so on. If a function is of type <span class="fixed">a -&gt; b -&gt; c</span>, we usually say that it takes two parameters and returns a <span class="fixed">c</span>, but actually it takes an <span class="fixed">a</span> and returns a function <span class="fixed">b -&gt; c</span>. That’s why we can call a function as <span class="fixed">f x y</span> or as <span class="fixed">(f x) y</span>. This mechanism is what enables us to partially apply functions by just calling them with too few parameters, which results in functions that we can then pass on to other functions.</p>
 <p>So far, when we were mapping functions over functors, we usually mapped functions that take only one parameter. But what happens when we map a function like <span class="fixed">*</span>, which takes two parameters, over a functor? Let’s take a look at a couple of concrete examples of this. If we have <span class="fixed">Just 3</span> and we do <span class="fixed">fmap (*) (Just 3)</span>, what do we get? From the instance implementation of <span class="fixed">Maybe</span> for <span class="fixed">Functor</span>, we know that if it’s a <span class="fixed">Just <i>something</i></span> value, it will apply the function to the <span class="fixed"><i>something</i></span> inside the <span class="fixed">Just</span>. Therefore, doing <span class="fixed">fmap (*) (Just 3)</span> results in <span class="fixed">Just ((*) 3)</span>, which can also be written as <span class="fixed">Just (* 3)</span> if we use sections. Interesting! We get a function wrapped in a <span class="fixed">Just</span>!</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; :t fmap (++) (Just "hey")
-fmap (++) (Just "hey") :: Maybe ([Char] -&gt; [Char])
+ghci&gt; :t fmap (++) (Just &quot;hey&quot;)
+fmap (++) (Just &quot;hey&quot;) :: Maybe ([Char] -&gt; [Char])
 ghci&gt; :t fmap compare (Just &#39;a&#39;)
 fmap compare (Just &#39;a&#39;) :: Maybe (Char -&gt; Ordering)
-ghci&gt; :t fmap compare "A LIST OF CHARS"
-fmap compare "A LIST OF CHARS" :: [Char -&gt; Ordering]
+ghci&gt; :t fmap compare &quot;A LIST OF CHARS&quot;
+fmap compare &quot;A LIST OF CHARS&quot; :: [Char -&gt; Ordering]
 ghci&gt; :t fmap (\x y z -&gt; x + y / z) [3,4,5,6]
 fmap (\x y z -&gt; x + y / z) [3,4,5,6] :: (Fractional a) =&gt; [a -&gt; a -&gt; a]
 </pre>
@@ -271,9 +271,9 @@ ghci&gt; pure (+3) &lt;*&gt; Just 10
 Just 13
 ghci&gt; pure (+3) &lt;*&gt; Just 9
 Just 12
-ghci&gt; Just (++"hahah") &lt;*&gt; Nothing
+ghci&gt; Just (++&quot;hahah&quot;) &lt;*&gt; Nothing
 Nothing
-ghci&gt; Nothing &lt;*&gt; Just "woot"
+ghci&gt; Nothing &lt;*&gt; Just &quot;woot&quot;
 Nothing
 </pre>
 <p>We see how doing <span class="fixed">pure (+3)</span> and <span class="fixed">Just (+3)</span> is the same in this case. Use <span class="fixed">pure</span> if you’re dealing with <span class="fixed">Maybe</span> values in an applicative context (i.e. using them with <span class="fixed">&lt;*&gt;</span>), otherwise stick to <span class="fixed">Just</span>. The first four input lines demonstrate how the function is extracted and then mapped, but in this case, they could have been achieved by just mapping unwrapped functions over functors. The last line is interesting, because we try to extract a function from a <span class="fixed">Nothing</span> and then map it over something, which of course results in a <span class="fixed">Nothing</span>.</p>
@@ -298,13 +298,13 @@ f &lt;$&gt; x = fmap f x
 <p>By using <span class="fixed">&lt;$&gt;</span>, the applicative style really shines, because now if we want to apply a function <span class="fixed">f</span> between three applicative functors, we can write <span class="fixed">f &lt;$&gt; x &lt;*&gt; y &lt;*&gt; z</span>. If the parameters weren’t applicative functors but normal values, we’d write <span class="fixed">f x y z</span>.</p>
 <p>Let’s take a closer look at how this works. We have a value of <span class="fixed">Just "johntra"</span> and a value of <span class="fixed">Just "volta"</span> and we want to join them into one <span class="fixed">String</span> inside a <span class="fixed">Maybe</span> functor. We do this:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; (++) &lt;$&gt; Just "johntra" &lt;*&gt; Just "volta"
-Just "johntravolta"
+ghci&gt; (++) &lt;$&gt; Just &quot;johntra&quot; &lt;*&gt; Just &quot;volta&quot;
+Just &quot;johntravolta&quot;
 </pre>
 <p>Before we see how this happens, compare the above line with this:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; (++) "johntra" "volta"
-"johntravolta"
+ghci&gt; (++) &quot;johntra&quot; &quot;volta&quot;
+&quot;johntravolta&quot;
 </pre>
 <p>Awesome! To use a normal function on applicative functors, just sprinkle some <span class="fixed">&lt;$&gt;</span> and <span class="fixed">&lt;*&gt;</span> about and the function will operate on applicatives and return an applicative. How cool is that?</p>
 <p>Anyway, when we do <span class="fixed">(++) &lt;$&gt; Just "johntra" &lt;*&gt; Just "volta"</span>, first <span class="fixed">(++)</span>, which has a type of <span class="fixed">(++) :: [a] -&gt; [a] -&gt; [a]</span> gets mapped over <span class="fixed">Just "johntra"</span>, resulting in a value that’s the same as <span class="fixed">Just ("johntra"++)</span> and has a type of <span class="fixed">Maybe ([Char] -&gt; [Char])</span>. Notice how the first parameter of <span class="fixed">(++)</span> got eaten up and how the <span class="fixed">a</span>s turned into <span class="fixed">Char</span>s. And now <span class="fixed">Just ("johntra"++) &lt;*&gt; Just "volta"</span> happens, which takes the function out of the <span class="fixed">Just</span> and maps it over <span class="fixed">Just "volta"</span>, resulting in <span class="fixed">Just "johntravolta"</span>. Had any of the two values been <span class="fixed">Nothing</span>, the result would have also been <span class="fixed">Nothing</span>.</p>
@@ -317,10 +317,10 @@ instance Applicative [] where
 </pre>
 <p>Earlier, we said that <span class="fixed">pure</span> takes a value and puts it in a default context. Or in other words, a minimal context that still yields that value. The minimal context for lists would be the empty list, <span class="fixed">[]</span>, but the empty list represents the lack of a value, so it can’t hold in itself the value that we used <span class="fixed">pure</span> on. That’s why <span class="fixed">pure</span> takes a value and puts it in a singleton list. Similarly, the minimal context for the <span class="fixed">Maybe</span> applicative functor would be a <span class="fixed">Nothing</span>, but it represents the lack of a value instead of a value, so <span class="fixed">pure</span> is implemented as <span class="fixed">Just</span> in the instance implementation for <span class="fixed">Maybe</span>.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; pure "Hey" :: [String]
-["Hey"]
-ghci&gt; pure "Hey" :: Maybe String
-Just "Hey"
+ghci&gt; pure &quot;Hey&quot; :: [String]
+[&quot;Hey&quot;]
+ghci&gt; pure &quot;Hey&quot; :: Maybe String
+Just &quot;Hey&quot;
 </pre>
 <p>What about <span class="fixed">&lt;*&gt;</span>? If we look at what <span class="fixed">&lt;*&gt;</span>’s type would be if it were limited only to lists, we get <span class="fixed">(&lt;*&gt;) :: [a -&gt; b] -&gt; [a] -&gt; [b]</span>. It’s implemented with a <a href="starting-out.html#im-a-list-comprehension">list comprehension</a>. <span class="fixed">&lt;*&gt;</span> has to somehow extract the function out of its left parameter and then map it over the right parameter. But the thing here is that the left list can have zero functions, one function, or several functions inside it. The right list can also hold several values. That’s why we use a list comprehension to draw from both lists. We apply every possible function from the left list to every possible value from the right list. The resulting list has every possible combination of applying a function from the left list to a value in the right one.</p>
 <pre name="code" class="haskell:hs">
@@ -335,8 +335,8 @@ ghci&gt; [(+),(*)] &lt;*&gt; [1,2] &lt;*&gt; [3,4]
 <p>Because <span class="fixed">&lt;*&gt;</span> is left-associative, <span class="fixed">[(+),(*)] &lt;*&gt; [1,2]</span> happens first, resulting in a list that’s the same as <span class="fixed">[(1+),(2+),(1*),(2*)]</span>, because every function on the left gets applied to every value on the right. Then, <span class="fixed">[(1+),(2+),(1*),(2*)] &lt;*&gt; [3,4]</span> happens, which produces the final result.</p>
 <p>Using the applicative style with lists is fun! Watch:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; (++) &lt;$&gt; ["ha","heh","hmm"] &lt;*&gt; ["?","!","."]
-["ha?","ha!","ha.","heh?","heh!","heh.","hmm?","hmm!","hmm."]
+ghci&gt; (++) &lt;$&gt; [&quot;ha&quot;,&quot;heh&quot;,&quot;hmm&quot;] &lt;*&gt; [&quot;?&quot;,&quot;!&quot;,&quot;.&quot;]
+[&quot;ha?&quot;,&quot;ha!&quot;,&quot;ha.&quot;,&quot;heh?&quot;,&quot;heh!&quot;,&quot;heh.&quot;,&quot;hmm?&quot;,&quot;hmm!&quot;,&quot;hmm.&quot;]
 </pre>
 <p>Again, see how we used a normal function that takes two strings between two applicative functors of strings just by inserting the appropriate applicative operators.</p>
 <p>You can view lists as non-deterministic computations. A value like <span class="fixed">100</span> or <span class="fixed">"what"</span> can be viewed as a deterministic computation that has only one result, whereas a list like <span class="fixed">[1,2,3]</span> can be viewed as a computation that can’t decide on which result it wants to have, so it presents us with all of the possible results. So when you do something like <span class="fixed">(+) &lt;$&gt; [1,2,3] &lt;*&gt; [4,5,6]</span>, you can think of it as adding together two non-deterministic computations with <span class="fixed">+</span>, only to produce another non-deterministic computation that’s even less sure about its result.</p>
@@ -388,7 +388,7 @@ myAction = (++) &lt;$&gt; getLine &lt;*&gt; getLine
 <pre name="code" class="haskell:hs">
 main = do
     a &lt;- (++) &lt;$&gt; getLine &lt;*&gt; getLine
-    putStrLn $ "The two lines concatenated turn out to be: " ++ a
+    putStrLn $ &quot;The two lines concatenated turn out to be: &quot; ++ a
 </pre>
 <p>If you ever find yourself binding some I/O actions to names and then calling some function on them and presenting that as the result by using <span class="fixed">return</span>, consider using the applicative style because it’s arguably a bit more concise and terse.</p>
 <p>Another instance of <span class="fixed">Applicative</span> is <span class="fixed">(-&gt;) r</span>, so functions. They are rarely used with the applicative style outside of code golf, but they’re still interesting as applicatives, so let’s take a look at how the function instance is implemented.</p>
@@ -400,12 +400,12 @@ instance Applicative ((-&gt;) r) where
 </pre>
 <p>When we wrap a value into an applicative functor with <span class="fixed">pure</span>, the result it yields always has to be that value. A minimal default context that still yields that value as a result. That’s why in the function instance implementation, <span class="fixed">pure</span> takes a value and creates a function that ignores its parameter and always returns that value. If we look at the type for <span class="fixed">pure</span>, but specialized for the <span class="fixed">(-&gt;) r</span> instance, it’s <span class="fixed">pure :: a -&gt; (r -&gt; a)</span>.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; (pure 3) "blah"
+ghci&gt; (pure 3) &quot;blah&quot;
 3
 </pre>
 <p>Because of currying, function application is left-associative, so we can omit the parentheses.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; pure 3 "blah"
+ghci&gt; pure 3 &quot;blah&quot;
 3
 </pre>
 <p>The instance implementation for <span class="fixed">&lt;*&gt;</span> is a bit cryptic, so it’s best if we just take a look at how to use functions as applicative functors in the applicative style.</p>
@@ -443,7 +443,7 @@ ghci&gt; getZipList $ (+) &lt;$&gt; ZipList [1,2,3] &lt;*&gt; ZipList [100,100..
 [101,102,103]
 ghci&gt; getZipList $ max &lt;$&gt; ZipList [1,2,3,4,5,3] &lt;*&gt; ZipList [5,3,1,2]
 [5,3,3,4]
-ghci&gt; getZipList $ (,,) &lt;$&gt; ZipList "dog" &lt;*&gt; ZipList "cat" &lt;*&gt; ZipList "rat"
+ghci&gt; getZipList $ (,,) &lt;$&gt; ZipList &quot;dog&quot; &lt;*&gt; ZipList &quot;cat&quot; &lt;*&gt; ZipList &quot;rat&quot;
 [(&#39;d&#39;,&#39;c&#39;,&#39;r&#39;),(&#39;o&#39;,&#39;a&#39;,&#39;a&#39;),(&#39;g&#39;,&#39;t&#39;,&#39;t&#39;)]
 </pre>
 <div class="hintbox">The <span class="fixed">(,,)</span> function is the same as <span class="fixed">\x y z -&gt; (x,y,z)</span>. Also, the <span class="fixed">(,)</span> function is the same as <span class="fixed">\x y -&gt; (x,y)</span>.</div>
@@ -543,7 +543,7 @@ ghci&gt; sequenceA [getLine, getLine, getLine]
 heyh
 ho
 woo
-["heyh","ho","woo"]
+[&quot;heyh&quot;,&quot;ho&quot;,&quot;woo&quot;]
 </pre>
 <p>Like normal functors, applicative functors come with a few laws. The most important one is the one that we already mentioned, namely that <span class="label law">pure f &lt;*&gt; x = fmap f x</span> holds. As an exercise, you can prove this law for some of the applicative functors that we’ve met in this chapter.The other functor laws are:</p>
 <ul>
@@ -697,11 +697,11 @@ Let’s give that a go:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; CharList "this will be shown!"
-CharList {getCharList = "this will be shown!"}
-ghci&gt; CharList "benny" == CharList "benny"
+ghci&gt; CharList &quot;this will be shown!&quot;
+CharList {getCharList = &quot;this will be shown!&quot;}
+ghci&gt; CharList &quot;benny&quot; == CharList &quot;benny&quot;
 True
-ghci&gt; CharList "benny" == CharList "oisters"
+ghci&gt; CharList &quot;benny&quot; == CharList &quot;oisters&quot;
 False
 </pre>
 
@@ -833,8 +833,8 @@ the first component:
 <pre name="code" class="haskell:hs">
 ghci&gt; getPair $ fmap (*100) (Pair (2,3))
 (200,3)
-ghci&gt; getPair $ fmap reverse (Pair ("london calling", 3))
-("gnillac nodnol",3)
+ghci&gt; getPair $ fmap reverse (Pair (&quot;london calling&quot;, 3))
+(&quot;gnillac nodnol&quot;,3)
 </pre>
 
 <h3>On newtype laziness</h3>
@@ -896,7 +896,7 @@ the <span class="fixed">CoolBool</span> was <span class="fixed">True</span> or
 
 <pre name="code" class="haskell:hs">
 helloMe :: CoolBool -&gt; String
-helloMe (CoolBool _) = "hello"
+helloMe (CoolBool _) = &quot;hello&quot;
 </pre>
 
 <p>
@@ -906,7 +906,7 @@ let’s throw it a curveball and apply it to <span class="fixed">undefined</span
 
 <pre name="code" class="haskell:hs">
 ghci&gt; helloMe undefined
-"*** Exception: Prelude.undefined
+&quot;*** Exception: Prelude.undefined
 </pre>
 
 <p>
@@ -939,7 +939,7 @@ value:
 
 <pre name="code" class="haskell:hs">
 ghci&gt; helloMe undefined
-"hello"
+&quot;hello&quot;
 </pre>
 
 <img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" alt="top of the mornin to ya!!!" class="right" width="184" height="230">
@@ -1139,10 +1139,10 @@ ghci&gt; (3 * 2) * (8 * 5)
 240
 ghci&gt; 3 * (2 * (8 * 5))
 240
-ghci&gt; "la" ++ ("di" ++ "da")
-"ladida"
-ghci&gt; ("la" ++ "di") ++ "da"
-"ladida"
+ghci&gt; &quot;la&quot; ++ (&quot;di&quot; ++ &quot;da&quot;)
+&quot;ladida&quot;
+ghci&gt; (&quot;la&quot; ++ &quot;di&quot;) ++ &quot;da&quot;
+&quot;ladida&quot;
 </pre>
 
 <p>
@@ -1291,14 +1291,14 @@ Giving this a test run, we encounter no surprises:
 <pre name="code" class="haskell:hs">
 ghci&gt; [1,2,3] `mappend` [4,5,6]
 [1,2,3,4,5,6]
-ghci&gt; ("one" `mappend` "two") `mappend` "tree"
-"onetwotree"
-ghci&gt; "one" `mappend` ("two" `mappend` "tree")
-"onetwotree"
-ghci&gt; "one" `mappend` "two" `mappend` "tree"
-"onetwotree"
-ghci&gt; "pang" `mappend` mempty
-"pang"
+ghci&gt; (&quot;one&quot; `mappend` &quot;two&quot;) `mappend` &quot;tree&quot;
+&quot;onetwotree&quot;
+ghci&gt; &quot;one&quot; `mappend` (&quot;two&quot; `mappend` &quot;tree&quot;)
+&quot;onetwotree&quot;
+ghci&gt; &quot;one&quot; `mappend` &quot;two&quot; `mappend` &quot;tree&quot;
+&quot;onetwotree&quot;
+ghci&gt; &quot;pang&quot; `mappend` mempty
+&quot;pang&quot;
 ghci&gt; mconcat [[1,2],[3,6],[9]]
 [1,2,3,6,9]
 ghci&gt; mempty :: [a]
@@ -1336,10 +1336,10 @@ they clearly aren’t:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; "one" `mappend` "two"
-"onetwo"
-ghci&gt; "two" `mappend` "one"
-"twoone"
+ghci&gt; &quot;one&quot; `mappend` &quot;two&quot;
+&quot;onetwo&quot;
+ghci&gt; &quot;two&quot; `mappend` &quot;one&quot;
+&quot;twoone&quot;
 </pre>
 
 <p>
@@ -1676,9 +1676,9 @@ We can try this out:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; lengthCompare "zen" "ants"
+ghci&gt; lengthCompare &quot;zen&quot; &quot;ants&quot;
 LT
-ghci&gt; lengthCompare "zen" "ant"
+ghci&gt; lengthCompare &quot;zen&quot; &quot;ant&quot;
 GT
 </pre>
 
@@ -1698,7 +1698,7 @@ lengthCompare :: String -&gt; String -&gt; Ordering
 lengthCompare x y = (length x `compare` length y) `mappend`
                     (vowels x `compare` vowels y) `mappend`
                     (x `compare` y)
-    where vowels = length . filter (`elem` "aeiou")
+    where vowels = length . filter (`elem` &quot;aeiou&quot;)
 </pre>
 
 <p>
@@ -1709,11 +1709,11 @@ to that.
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; lengthCompare "zen" "anna"
+ghci&gt; lengthCompare &quot;zen&quot; &quot;anna&quot;
 LT
-ghci&gt; lengthCompare "zen" "ana"
+ghci&gt; lengthCompare &quot;zen&quot; &quot;ana&quot;
 LT
-ghci&gt; lengthCompare "zen" "ann"
+ghci&gt; lengthCompare &quot;zen&quot; &quot;ann&quot;
 GT
 </pre>
 
@@ -1777,8 +1777,8 @@ instance of <span class="fixed">Monoid</span>.
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Nothing `mappend` Just "andy"
-Just "andy"
+ghci&gt; Nothing `mappend` Just &quot;andy&quot;
+Just &quot;andy&quot;
 ghci&gt; Just LT `mappend` Nothing
 Just LT
 ghci&gt; Just (Sum 3) `mappend` Just (Sum 4)
@@ -1867,8 +1867,8 @@ value is kept when <span class="fixed">mappend</span>ing and using
 <pre name="code" class="haskell:hs">
 ghci&gt; getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
 Just 10
-ghci&gt; getLast $ Last (Just "one") `mappend` Last (Just "two")
-Just "two"
+ghci&gt; getLast $ Last (Just &quot;one&quot;) `mappend` Last (Just &quot;two&quot;)
+Just &quot;two&quot;
 </pre>
 
 <h3>Using monoids to fold data structures</h3>

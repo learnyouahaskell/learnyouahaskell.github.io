@@ -76,15 +76,15 @@ import qualified Data.Map as M
 <p>The <span class="fixed">Data.List</span> module is all about lists, obviously. It provides some very useful functions for dealing with them. We’ve already met some of its functions (like <span class="fixed">map</span> and <span class="fixed">filter</span>) because the <span class="fixed">Prelude</span> module exports some functions from <span class="fixed">Data.List</span> for convenience. You don’t have to import <span class="fixed">Data.List</span> via a qualified import because it doesn’t clash with any <span class="fixed">Prelude</span> names except for those that <span class="fixed">Prelude</span> already steals from <span class="fixed">Data.List</span>. Let’s take a look at some of the functions that we haven’t met before.</p>
 <p><span class="label function">intersperse</span> takes an element and a list and then puts that element in between each pair of elements in the list. Here’s a demonstration:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; intersperse &#39;.&#39; "MONKEY"
-"M.O.N.K.E.Y"
+ghci&gt; intersperse &#39;.&#39; &quot;MONKEY&quot;
+&quot;M.O.N.K.E.Y&quot;
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]
 </pre>
 <p><span class="label function">intercalate</span> takes a list and a list of lists. It then inserts that list in between all those lists and then flattens the result.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; intercalate " " ["hey","there","folks"]
-"hey there folks"
+ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
+&quot;hey there folks&quot;
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
 </pre>
@@ -92,8 +92,8 @@ ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 <pre name="code" class="haskell:ghci">
 ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose ["hey","there","folks"]
-["htg","ehu","yey","rs","e"]
+ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
+[&quot;htg&quot;,&quot;ehu&quot;,&quot;yey&quot;,&quot;rs&quot;,&quot;e&quot;]
 </pre>
 <p>Say we have the polynomials <i>3x<sup>2</sup> + 5x + 9</i>, <i>10x<sup>3</sup> + 9</i> and <i>8x<sup>3</sup> + 5x<sup>2</sup> + x - 1</i> and we want to add them together. We can use the lists <span class="fixed">[0,3,5,9]</span>, <span class="fixed">[10,0,0,9]</span> and <span class="fixed">[8,5,1,-1]</span> to represent them in Haskell. Now, to add them, all we have to do is this:</p>
 <pre name="code" class="haskell:ghci">
@@ -105,8 +105,8 @@ ghci&gt; map sum $ transpose [[0,3,5,9],[10,0,0,9],[8,5,1,-1]]
 <p><span class="label function">foldl'</span> and <span class="label function">foldl1'</span> are stricter versions of their respective lazy incarnations. When using lazy folds on really big lists, you might often get a stack overflow error. The culprit for that is that due to the lazy nature of the folds, the accumulator value isn’t actually updated as the folding happens. What actually happens is that the accumulator kind of makes a promise that it will compute its value when asked to actually produce the result (also called a thunk). That happens for every intermediate accumulator and all those thunks overflow your stack. The strict folds aren’t lazy buggers and actually compute the intermediate values as they go along instead of filling up your stack with thunks. So if you ever get stack overflow errors when doing lazy folds, try switching to their strict versions.</p>
 <p><span class="label function">concat</span> flattens a list of lists into just a list of elements.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; concat ["foo","bar","car"]
-"foobarcar"
+ghci&gt; concat [&quot;foo&quot;,&quot;bar&quot;,&quot;car&quot;]
+&quot;foobarcar&quot;
 ghci&gt; concat [[3,4,5],[2,3,4],[2,1,1]]
 [3,4,5,2,3,4,2,1,1]
 </pre>
@@ -136,35 +136,35 @@ ghci&gt; any (==4) [2,3,5,6,1,4]
 True
 ghci&gt; all (&gt;4) [6,9,10]
 True
-ghci&gt; all (`elem` [&#39;A&#39;..&#39;Z&#39;]) "HEYGUYSwhatsup"
+ghci&gt; all (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;HEYGUYSwhatsup&quot;
 False
-ghci&gt; any (`elem` [&#39;A&#39;..&#39;Z&#39;]) "HEYGUYSwhatsup"
+ghci&gt; any (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;HEYGUYSwhatsup&quot;
 True
 </pre>
 <p><span class="label function">iterate</span> takes a function and a starting value. It applies the function to the starting value, then it applies that function to the result, then it applies the function to that result again, etc. It returns all the results in the form of an infinite list.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; take 10 $ iterate (*2) 1
 [1,2,4,8,16,32,64,128,256,512]
-ghci&gt; take 3 $ iterate (++ "haha") "haha"
-["haha","hahahaha","hahahahahaha"]
+ghci&gt; take 3 $ iterate (++ &quot;haha&quot;) &quot;haha&quot;
+[&quot;haha&quot;,&quot;hahahaha&quot;,&quot;hahahahahaha&quot;]
 </pre>
 <p><span class="label function">splitAt</span> takes a number and a list. It then splits the list at that many elements, returning the resulting two lists in a tuple.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; splitAt 3 "heyman"
-("hey","man")
-ghci&gt; splitAt 100 "heyman"
-("heyman","")
-ghci&gt; splitAt (-3) "heyman"
-("","heyman")
-ghci&gt; let (a,b) = splitAt 3 "foobar" in b ++ a
-"barfoo"
+ghci&gt; splitAt 3 &quot;heyman&quot;
+(&quot;hey&quot;,&quot;man&quot;)
+ghci&gt; splitAt 100 &quot;heyman&quot;
+(&quot;heyman&quot;,&quot;&quot;)
+ghci&gt; splitAt (-3) &quot;heyman&quot;
+(&quot;&quot;,&quot;heyman&quot;)
+ghci&gt; let (a,b) = splitAt 3 &quot;foobar&quot; in b ++ a
+&quot;barfoo&quot;
 </pre>
 <p><span class="label function">takeWhile</span> is a really useful little function. It takes elements from a list while the predicate holds and then when an element is encountered that doesn’t satisfy the predicate, it’s cut off. It turns out this is very useful.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; takeWhile (&gt;3) [6,5,4,3,2,1,2,3,4,5,4,3,2,1]
 [6,5,4]
-ghci&gt; takeWhile (/=&#39; &#39;) "This is a sentence"
-"This"
+ghci&gt; takeWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
+&quot;This&quot;
 </pre>
 <p>Say we wanted to know the sum of all third powers that are under 10,000. We can’t map <span class="fixed">(^3)</span> to <span class="fixed">[1..]</span>, apply a filter and then try to sum that up because filtering an infinite list never finishes. You may know that all the elements here are ascending but Haskell doesn’t. That’s why we can do this:</p>
 <pre name="code" class="haskell:ghci">
@@ -174,8 +174,8 @@ ghci&gt; sum $ takeWhile (<10000) $ map (^3) [1..]
 <p>We apply <span class="fixed">(^3)</span> to an infinite list and then once an element that’s over 10,000 is encountered, the list is cut off. Now we can sum it up easily.</p>
 <p><span class="label function">dropWhile</span> is similar, only it drops all the elements while the predicate is true. Once predicate equates to <span class="fixed">False</span>, it returns the rest of the list. An extremely useful and lovely function!</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; dropWhile (/=&#39; &#39;) "This is a sentence"
-" is a sentence"
+ghci&gt; dropWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
+&quot; is a sentence&quot;
 ghci&gt; dropWhile (<3) [1,2,2,2,3,4,5,4,3,2,1]
 [3,4,5,4,3,2,1]
 </pre>
@@ -187,8 +187,8 @@ ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val < 1000) stock)
 </pre>
 <p><span class="label function">span</span> is kind of like <span class="fixed">takeWhile</span>, only it returns a pair of lists. The first list contains everything the resulting list from <span class="fixed">takeWhile</span> would contain if it were called with the same predicate and the same list. The second list contains the part of the list that would have been dropped.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; let (fw, rest) = span (/=&#39; &#39;) "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
-"First word: This, the rest: is a sentence"
+ghci&gt; let (fw, rest) = span (/=&#39; &#39;) &quot;This is a sentence&quot; in &quot;First word:&quot; ++ fw ++ &quot;, the rest:&quot; ++ rest
+&quot;First word: This, the rest: is a sentence&quot;
 </pre>
 <p>Whereas <span class="fixed">span</span> spans the list while the predicate is true, <span class="label function">break</span> breaks it when the predicate is first true. Doing <span class="fixed">break p</span> is the equivalent of doing <span class="fixed">span (not . p)</span>.  </p>
 <pre name="code" class="haskell:ghci">
@@ -202,8 +202,8 @@ ghci&gt; span (/=4) [1,2,3,4,5,6,7]
 <pre name="code" class="haskell:ghci">
 ghci&gt; sort [8,5,3,2,1,6,4,2]
 [1,2,2,3,4,5,6,8]
-ghci&gt; sort "This will be sorted soon"
-"    Tbdeehiillnooorssstw"
+ghci&gt; sort &quot;This will be sorted soon&quot;
+&quot;    Tbdeehiillnooorssstw&quot;
 </pre>
 <p><span class="label function">group</span> takes a list and groups adjacent elements into sublists if they are equal.</p>
 <pre name="code" class="haskell:ghci">
@@ -217,12 +217,12 @@ ghci&gt; map (\l@(x:xs) -&gt; (x,length l)) . group . sort $ [1,1,1,1,2,2,2,2,3,
 </pre>
 <p><span class="label function">inits</span> and <span class="label function">tails</span> are like <span class="fixed">init</span> and <span class="fixed">tail</span>, only they recursively apply that to a list until there’s nothing left. Observe.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; inits "w00t"
-["","w","w0","w00","w00t"]
-ghci&gt; tails "w00t"
-["w00t","00t","0t","t",""]
-ghci&gt; let w = "w00t" in zip (inits w) (tails w)
-[("","w00t"),("w","00t"),("w0","0t"),("w00","t"),("w00t","")]
+ghci&gt; inits &quot;w00t&quot;
+[&quot;&quot;,&quot;w&quot;,&quot;w0&quot;,&quot;w00&quot;,&quot;w00t&quot;]
+ghci&gt; tails &quot;w00t&quot;
+[&quot;w00t&quot;,&quot;00t&quot;,&quot;0t&quot;,&quot;t&quot;,&quot;&quot;]
+ghci&gt; let w = &quot;w00t&quot; in zip (inits w) (tails w)
+[(&quot;&quot;,&quot;w00t&quot;),(&quot;w&quot;,&quot;00t&quot;),(&quot;w0&quot;,&quot;0t&quot;),(&quot;w00&quot;,&quot;t&quot;),(&quot;w00t&quot;,&quot;&quot;)]
 </pre>
 <p>Let’s use a fold to implement searching a list for a sublist.</p>
 <pre name="code" class="haskell:hs">
@@ -234,36 +234,36 @@ search needle haystack =
 <p>First we call <span class="fixed">tails</span> with the list in which we’re searching. Then we go over each tail and see if it starts with what we’re looking for.</p>
 <p>With that, we actually just made a function that behaves like <span class="label function">isInfixOf</span>. <span class="fixed">isInfixOf</span> searches for a sublist within a list and returns <span class="fixed">True</span> if the sublist we’re looking for is somewhere inside the target list.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; "cat" `isInfixOf` "im a cat burglar"
+ghci&gt; &quot;cat&quot; `isInfixOf` &quot;im a cat burglar&quot;
 True
-ghci&gt; "Cat" `isInfixOf` "im a cat burglar"
+ghci&gt; &quot;Cat&quot; `isInfixOf` &quot;im a cat burglar&quot;
 False
-ghci&gt; "cats" `isInfixOf` "im a cat burglar"
+ghci&gt; &quot;cats&quot; `isInfixOf` &quot;im a cat burglar&quot;
 False
 </pre>
 <p><span class="label function">isPrefixOf</span> and <span class="label function">isSuffixOf</span> search for a sublist at the beginning and at the end of a list, respectively.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; "hey" `isPrefixOf` "hey there!"
+ghci&gt; &quot;hey&quot; `isPrefixOf` &quot;hey there!&quot;
 True
-ghci&gt; "hey" `isPrefixOf` "oh hey there!"
+ghci&gt; &quot;hey&quot; `isPrefixOf` &quot;oh hey there!&quot;
 False
-ghci&gt; "there!" `isSuffixOf` "oh hey there!"
+ghci&gt; &quot;there!&quot; `isSuffixOf` &quot;oh hey there!&quot;
 True
-ghci&gt; "there!" `isSuffixOf` "oh hey there"
+ghci&gt; &quot;there!&quot; `isSuffixOf` &quot;oh hey there&quot;
 False
 </pre>
 <p><span class="label function">elem</span> and <span class="label function">notElem</span> check if an element is or isn’t inside a list. </p>
 <p><span class="label function">partition</span> takes a list and a predicate and returns a pair of lists. The first list in the result contains all the elements that satisfy the predicate, the second contains all the ones that don’t.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; partition (`elem` [&#39;A&#39;..&#39;Z&#39;]) "BOBsidneyMORGANeddy"
-("BOBMORGAN","sidneyeddy")
+ghci&gt; partition (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;BOBsidneyMORGANeddy&quot;
+(&quot;BOBMORGAN&quot;,&quot;sidneyeddy&quot;)
 ghci&gt; partition (&gt;3) [1,3,5,6,3,2,1,0,3,7]
 ([5,6,7],[1,3,3,2,1,0,3])
 </pre>
 <p>It’s important to understand how this is different from <span class="fixed">span</span> and <span class="fixed">break</span>:</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; span (`elem` [&#39;A&#39;..&#39;Z&#39;]) "BOBsidneyMORGANeddy"
-("BOB","sidneyMORGANeddy")
+ghci&gt; span (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;BOBsidneyMORGANeddy&quot;
+(&quot;BOB&quot;,&quot;sidneyMORGANeddy&quot;)
 </pre>
 <p>While <span class="fixed">span</span> and <span class="fixed">break</span> are done once they encounter the first element that doesn’t and does satisfy the predicate, <span class="fixed">partition</span> goes through the whole list and splits it up according to the predicate.</p>
 <p><span class="label function">find</span> takes a list and a predicate and returns the first element that satisfies the predicate. But it returns that element wrapped in a <span class="fixed">Maybe</span> value. We’ll be covering algebraic data types more in depth in the next chapter but for now, this is what you need to know: a <span class="fixed">Maybe</span> value can either be <span class="fixed">Just something</span> or <span class="fixed">Nothing</span>. Much like a list can be either an empty list or a list with some elements, a <span class="fixed">Maybe</span> value can be either no elements or a single element. And like the type of a list of, say, integers is <span class="fixed">[Int]</span>, the type of maybe having an integer is <span class="fixed">Maybe Int</span>. Anyway, let’s take our <span class="fixed">find</span> function for a spin.</p>
@@ -288,7 +288,7 @@ Nothing
 </pre>
 <p><span class="label function">elemIndices</span> is like <span class="fixed">elemIndex</span>, only it returns a list of indices, in case the element we’re looking for crops up in our list several times. Because we’re using a list to represent the indices, we don’t need a <span class="fixed">Maybe</span> type, because failure can be represented as the empty list, which is very much synonymous to <span class="fixed">Nothing</span>.  </p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; &#39; &#39; `elemIndices` "Where are the spaces?"
+ghci&gt; ' ' `elemIndices` &quot;Where are the spaces?&quot;
 [5,9,13]
 </pre>
 <p><span class="label function">findIndex</span> is like find, but it maybe returns the index of the first element that satisfies the predicate. <span class="label function">findIndices</span> returns the indices of all elements that satisfy the predicate in the form of a list.</p>
@@ -297,7 +297,7 @@ ghci&gt; findIndex (==4) [5,3,2,1,6,4]
 Just 5
 ghci&gt; findIndex (==7) [5,3,2,1,6,4]
 Nothing
-ghci&gt; findIndices (`elem` [&#39;A&#39;..&#39;Z&#39;]) "Where Are The Caps?"
+ghci&gt; findIndices (`elem` ['A'..'Z']) &quot;Where Are The Caps?&quot;
 [0,6,10,14]
 </pre>
 <p>We already covered <span class="fixed">zip</span> and <span class="fixed">zipWith</span>. We noted that they zip together two lists, either in a tuple or with a binary function (meaning such a function that takes two parameters). But what if we want to zip together three lists? Or zip three lists with a function that takes three parameters? Well, for that, we have <span class="label function">zip3</span>, <span class="label function">zip4</span>, etc. and <span class="label function">zipWith3</span>, <span class="label function">zipWith4</span>, etc. These variants go up to 7. While this may look like a hack, it works out pretty fine, because there aren’t many times when you want to zip 8 lists together. There’s also a very clever way for zipping infinite numbers of lists, but we’re not advanced enough to cover that just yet.</p>
@@ -310,52 +310,52 @@ ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 <p>Just like with normal zipping, lists that are longer than the shortest list that’s being zipped are cut down to size.</p>
 <p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string as separate element of a list.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; lines "first line\nsecond line\nthird line"
-["first line","second line","third line"]
+ghci&gt; lines &quot;first line\nsecond line\nthird line&quot;
+[&quot;first line&quot;,&quot;second line&quot;,&quot;third line&quot;]
 </pre>
 <p><span class="fixed">'\n'</span> is the character for a unix newline. Backslashes have special meaning in Haskell strings and characters.</p>
 <p><span class="label function">unlines</span> is the inverse function of <span class="fixed">lines</span>. It takes a list of strings and joins them together using a <span class="fixed">'\n'</span>.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; unlines ["first line", "second line", "third line"]
-"first line\nsecond line\nthird line\n"
+ghci&gt; unlines [&quot;first line&quot;, &quot;second line&quot;, &quot;third line&quot;]
+&quot;first line\nsecond line\nthird line\n&quot;
 </pre>
 <p><span class="label function">words</span> and <span class="label function">unwords</span> are for splitting a line of text into words or joining a list of words into a text. Very useful.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; words "hey these are the words in this sentence"
-["hey","these","are","the","words","in","this","sentence"]
-ghci&gt; words "hey these           are    the words in this\nsentence"
-["hey","these","are","the","words","in","this","sentence"]
-ghci&gt; unwords ["hey","there","mate"]
-"hey there mate"
+ghci&gt; words &quot;hey these are the words in this sentence&quot;
+[&quot;hey&quot;,&quot;these&quot;,&quot;are&quot;,&quot;the&quot;,&quot;words&quot;,&quot;in&quot;,&quot;this&quot;,&quot;sentence&quot;]
+ghci&gt; words &quot;hey these           are    the words in this\nsentence&quot;
+[&quot;hey&quot;,&quot;these&quot;,&quot;are&quot;,&quot;the&quot;,&quot;words&quot;,&quot;in&quot;,&quot;this&quot;,&quot;sentence&quot;]
+ghci&gt; unwords [&quot;hey&quot;,&quot;there&quot;,&quot;mate&quot;]
+&quot;hey there mate&quot;
 </pre>
 <p>We’ve already mentioned <span class="label function">nub</span>. It takes a list and weeds out the duplicate elements, returning a list whose every element is a unique snowflake! The function does have a kind of strange name. It turns out that "nub" means a small lump or essential part of something. In my opinion, they should use real words for function names instead of old-people words.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; nub [1,2,3,4,3,2,1,2,3,4,3,2,1]
 [1,2,3,4]
-ghci&gt; nub "Lots of words and stuff"
-"Lots fwrdanu"
+ghci&gt; nub &quot;Lots of words and stuff&quot;
+&quot;Lots fwrdanu&quot;
 </pre>
 <p><span class="label function">delete</span> takes an element and a list and deletes the first occurrence of that element in the list.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; delete &#39;h&#39; "hey there ghang!"
-"ey there ghang!"
-ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; $ "hey there ghang!"
-"ey tere ghang!"
-ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; . delete &#39;h&#39; $ "hey there ghang!"
-"ey tere gang!"
+ghci&gt; delete &#39;h&#39; &quot;hey there ghang!&quot;
+&quot;ey there ghang!&quot;
+ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; $ &quot;hey there ghang!&quot;
+&quot;ey tere ghang!&quot;
+ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; . delete &#39;h&#39; $ &quot;hey there ghang!&quot;
+&quot;ey tere gang!&quot;
 </pre>
 <p><span class="label function">\\</span> is the list difference function. It acts like a set difference, basically. For every element in the right-hand list, it removes a matching element in the left one.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; [1..10] \\ [2,5,9]
 [1,3,4,6,7,8,10]
-ghci&gt; "Im a big baby" \\ "big"
-"Im a  baby"
+ghci&gt; &quot;Im a big baby&quot; \\ &quot;big&quot;
+&quot;Im a  baby&quot;
 </pre>
 <p>Doing <span class="fixed">[1..10] \\ [2,5,9]</span> is like doing <span class="fixed">delete 2 . delete 5 . delete 9 $ [1..10]</span>.</p>
 <p><span class="label function">union</span> also acts like a function on sets. It returns the union of two lists. It pretty much goes over every element in the second list and appends it to the first one if it isn’t already in yet. Watch out though, duplicates are removed from the second list!</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; "hey man" `union` "man what&#39;s up"
-"hey manwt&#39;sup"
+ghci&gt; &quot;hey man&quot; `union` &quot;man what's up&quot;
+&quot;hey manwt'sup&quot;
 ghci&gt; [1..7] `union` [5..10]
 [1,2,3,4,5,6,7,8,9,10]
 </pre>
@@ -377,7 +377,7 @@ ghci&gt; insert 4 [1,3,4,4,1]
 ghci&gt; insert 4 [1,2,3,5,6,7]
 [1,2,3,4,5,6,7]
 ghci&gt; insert &#39;g&#39; $ [&#39;a&#39;..&#39;f&#39;] ++ [&#39;h&#39;..&#39;z&#39;]
-"abcdefghijklmnopqrstuvwxyz"
+&quot;abcdefghijklmnopqrstuvwxyz&quot;
 ghci&gt; insert 3 [1,2,4,3,2,1]
 [1,2,3,4,3,2,1]
 </pre>
@@ -434,24 +434,24 @@ ghci&gt; sortBy (compare `on` length) xs
 <p><span class="label function">isAsciiLower</span> checks whether a character is ASCII and lower-case.</p>
 <p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you’ll use this to filter out strings or something like that. For instance, let’s say we’re making a program that takes a username and the username can only be comprised of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; all isAlphaNum "bobby283"
+ghci&gt; all isAlphaNum &quot;bobby283&quot;
 True
-ghci&gt; all isAlphaNum "eddy the fish!"
+ghci&gt; all isAlphaNum &quot;eddy the fish!&quot;
 False
 </pre>
 <p>Kewl. In case you don’t remember, <span class="fixed">all</span> takes a predicate and a list and returns <span class="fixed">True</span> only if that predicate holds for every element in the list.</p>
 <p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; words "hey folks its me"
-["hey","folks","its","me"]
-ghci&gt; groupBy ((==) `on` isSpace) "hey folks its me"
-["hey"," ","folks"," ","its"," ","me"]
+ghci&gt; words &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]
+ghci&gt; groupBy ((==) `on` isSpace) &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot; &quot;,&quot;folks&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
 ghci&gt;
 </pre>
 <p>Hmmm, well, it kind of does what <span class="fixed">words</span> does but we’re left with elements of only spaces. Hmm, whatever shall we do? I know, let’s filter that sucker.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
-["hey","folks","its","me"]
+ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]
 </pre>
 <p>Ah.</p>
 <p>The <span class="fixed">Data.Char</span> also exports a datatype that’s kind of like <span class="fixed">Ordering</span>. The <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. It’s a sort of enumeration. It describes a few possible results that can arise from comparing two elements. The <span class="fixed">GeneralCategory</span> type is also an enumeration. It presents us with a few possible categories that a character can fall into. The main function for getting the general category of a character is <span class="fixed">generalCategory</span>. It has a type of <span class="fixed">generalCategory :: Char -&gt; GeneralCategory</span>. There are about 31 categories so we won’t list them all here, but let’s play around with the function.</p>
@@ -466,7 +466,7 @@ ghci&gt; generalCategory &#39;.&#39;
 OtherPunctuation
 ghci&gt; generalCategory &#39;9&#39;
 DecimalNumber
-ghci&gt; map generalCategory " \t\nA9?|"
+ghci&gt; map generalCategory &quot; \t\nA9?|&quot;
 [Space,Control,Control,UppercaseLetter,DecimalNumber,OtherPunctuation,MathSymbol]
 </pre>
 <p>Since the <span class="fixed">GeneralCategory</span> type is part of the <span class="fixed">Eq</span> typeclass, we can also test for stuff like <span class="fixed">generalCategory c == Space</span>.</p>
@@ -475,9 +475,9 @@ ghci&gt; map generalCategory " \t\nA9?|"
 <p><span class="label function">toTitle</span> converts a character to title-case. For most characters, title-case is the same as upper-case.</p>
 <p><span class="label function">digitToInt</span> converts a character to an <span class="fixed">Int</span>. To succeed, the character must be in the ranges <span class="fixed">'0'..'9'</span>, <span class="fixed">'a'..'f'</span> or <span class="fixed">'A'..'F'</span>.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; map digitToInt "34538"
+ghci&gt; map digitToInt &quot;34538&quot;
 [3,4,5,3,8]
-ghci&gt; map digitToInt "FF85AB"
+ghci&gt; map digitToInt &quot;FF85AB&quot;
 [15,15,8,5,10,11]
 </pre>
 <p><span class="label function">intToDigit</span> is the inverse function of <span class="fixed">digitToInt</span>. It takes an <span class="fixed">Int</span> in the range of <span class="fixed">0..15</span> and converts it to a lower-case character.</p>
@@ -493,7 +493,7 @@ ghci&gt; ord &#39;a&#39;
 97
 ghci&gt; chr 97
 &#39;a&#39;
-ghci&gt; map ord "abcdefgh"
+ghci&gt; map ord &quot;abcdefgh&quot;
 [97,98,99,100,101,102,103,104]
 </pre>
 <p>The difference between the <span class="fixed">ord</span> values of two characters is equal to how far apart they are in the Unicode table.</p><p>The Caesar cipher is a primitive method of encoding messages by shifting each character in them by a fixed number of positions in the alphabet. We can easily create a sort of Caesar cipher of our own, only we won’t constrict ourselves to the alphabet.</p>
@@ -506,14 +506,14 @@ encode shift msg =
 </pre>
 <p>Here, we first convert the string to a list of numbers. Then we add the shift amount to each number before converting the list of numbers back to characters. If you’re a composition cowboy, you could write the body of this function as <span class="fixed">map (chr . (+ shift) . ord) msg</span>. Let’s try encoding a few messages.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; encode 3 "Heeeeey"
-"Khhhhh|"
-ghci&gt; encode 4 "Heeeeey"
-"Liiiii}"
-ghci&gt; encode 1 "abcd"
-"bcde"
-ghci&gt; encode 5 "Marry Christmas! Ho ho ho!"
-"Rfww~%Hmwnxyrfx&amp;%Mt%mt%mt&amp;"
+ghci&gt; encode 3 &quot;Heeeeey&quot;
+&quot;Khhhhh|&quot;
+ghci&gt; encode 4 &quot;Heeeeey&quot;
+&quot;Liiiii}&quot;
+ghci&gt; encode 1 &quot;abcd&quot;
+&quot;bcde&quot;
+ghci&gt; encode 5 &quot;Marry Christmas! Ho ho ho!&quot;
+&quot;Rfww~%Hmwnxyrfx&amp;%Mt%mt%mt&amp;&quot;
 </pre>
 <p>That’s encoded alright. Decoding a message is basically just shifting it back by the number of places it was shifted by in the first place.</p>
 <pre name="code" class="haskell:hs">
@@ -521,24 +521,24 @@ decode :: Int -&gt; String -&gt; String
 decode shift msg = encode (negate shift) msg
 </pre>
 <pre name="code" class="haskell:ghci">
-ghci&gt; encode 3 "Im a little teapot"
-"Lp#d#olwwoh#whdsrw"
-ghci&gt; decode 3 "Lp#d#olwwoh#whdsrw"
-"Im a little teapot"
-ghci&gt; decode 5 . encode 5 $ "This is a sentence"
-"This is a sentence"
+ghci&gt; encode 3 &quot;Im a little teapot&quot;
+&quot;Lp#d#olwwoh#whdsrw&quot;
+ghci&gt; decode 3 &quot;Lp#d#olwwoh#whdsrw&quot;
+&quot;Im a little teapot&quot;
+ghci&gt; decode 5 . encode 5 $ &quot;This is a sentence&quot;
+&quot;This is a sentence&quot;
 </pre>
 <a name="data-map"></a><h2>Data.Map</h2>
 <p>Association lists (also called dictionaries) are lists that are used to store key-value pairs where ordering doesn’t matter. For instance, we might use an association list to store phone numbers, where phone numbers would be the values and people’s names would be the keys. We don’t care in which order they’re stored, we just want to get the right phone number for the right person.</p>
 <p>The most obvious way to represent association lists in Haskell would be by having a list of pairs. The first component in the pair would be the key, the second component the value. Here’s an example of an association list with phone numbers:</p>
 <pre name="code" class="haskell:hs">
 phoneBook =
-    [("amelia","555-2938")
-    ,("freya","452-2928")
-    ,("isabella","493-2928")
-    ,("neil","205-2928")
-    ,("roald","939-8282")
-    ,("tenzing","853-2492")
+    [(&quot;amelia&quot;,&quot;555-2938&quot;)
+    ,(&quot;freya&quot;,&quot;452-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
+    ,(&quot;neil&quot;,&quot;205-2928&quot;)
+    ,(&quot;roald&quot;,&quot;939-8282&quot;)
+    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
     ]
 </pre>
 <p>Despite this seemingly odd indentation, this is just a list of pairs of strings. The most common task when dealing with association lists is looking up some value by key. Let’s make a function that looks up some value given a key.</p>
@@ -562,11 +562,11 @@ findKey key = foldr (\(k,v) acc -&gt; if key == k then Just v else acc) Nothing
 </pre>
 <div class="hintbox"><em>Note:</em> It’s usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they’re easier to read and identify. Everyone knows it’s a fold when they see the <span class="fixed">foldr</span> call, but it takes some more thinking to read explicit recursion.</div>
 <pre name="code" class="haskell:ghci">
-ghci&gt; findKey "tenzing" phoneBook
-Just "853-2492"
-ghci&gt; findKey "amelia" phoneBook
-Just "555-2938"
-ghci&gt; findKey "christopher" phoneBook
+ghci&gt; findKey &quot;tenzing&quot; phoneBook
+Just &quot;853-2492&quot;
+ghci&gt; findKey &quot;amelia&quot; phoneBook
+Just &quot;555-2938&quot;
+ghci&gt; findKey &quot;christopher&quot; phoneBook
 Nothing
 </pre>
 <img src="assets/images/modules/legomap.png" alt="legomap" class="left" width="214" height="240">
@@ -580,8 +580,8 @@ import qualified Data.Map as Map
 <p>Let’s go ahead and see what <span class="fixed">Data.Map</span> has in store for us! Here’s the basic rundown of its functions.</p>
 <p>The <span class="label function">fromList</span> function takes an association list (in the form of a list) and returns a map with the same associations.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; Map.fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
-fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
+ghci&gt; Map.fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
+fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
 ghci&gt; Map.fromList [(1,2),(3,4),(3,2),(5,5)]
 fromList [(1,2),(3,2),(5,5)]
 </pre>
@@ -658,30 +658,30 @@ ghci&gt; Map.toList . Map.insert 9 2 $ Map.singleton 4 3
 <p><span class="label function">fromListWith</span> is a cool little function. It acts like <span class="fixed">fromList</span>, only it doesn’t discard duplicate keys but it uses a function supplied to it to decide what to do with them. Let’s say that a friend can have several numbers and we have an association list set up like this.</p>
 <pre name="code" class="haskell:hs">
 phoneBook =
-    [("amelia","555-2938")
-    ,("amelia","342-2492")
-    ,("freya","452-2928")
-    ,("isabella","493-2928")
-    ,("isabella","943-2929")
-    ,("isabella","827-9162")
-    ,("neil","205-2928")
-    ,("roald","939-8282")
-    ,("tenzing","853-2492")
-    ,("tenzing","555-2111")
+    [(&quot;amelia&quot;,&quot;555-2938&quot;)
+    ,(&quot;amelia&quot;,&quot;342-2492&quot;)
+    ,(&quot;freya&quot;,&quot;452-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;943-2929&quot;)
+    ,(&quot;isabella&quot;,&quot;827-9162&quot;)
+    ,(&quot;neil&quot;,&quot;205-2928&quot;)
+    ,(&quot;roald&quot;,&quot;939-8282&quot;)
+    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
+    ,(&quot;tenzing&quot;,&quot;555-2111&quot;)
     ]
 </pre>
 <p>Now if we just use <span class="fixed">fromList</span> to put that into a map, we’ll lose a few numbers! So here’s what we’ll do:</p>
 <pre name="code" class="haskell:hs">
 phoneBookToMap :: (Ord k) =&gt; [(k, String)] -&gt; Map.Map k String
-phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ ", " ++ number2) xs
+phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ &quot;, &quot; ++ number2) xs
 </pre>
 <pre name="code" class="haskell:hs">
-ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
-"827-9162, 943-2929, 493-2928"
-ghci&gt; Map.lookup "roald" $ phoneBookToMap phoneBook
-"939-8282"
-ghci&gt; Map.lookup "amelia" $ phoneBookToMap phoneBook
-"342-2492, 555-2938"
+ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
+&quot;827-9162, 943-2929, 493-2928&quot;
+ghci&gt; Map.lookup &quot;roald&quot; $ phoneBookToMap phoneBook
+&quot;939-8282&quot;
+ghci&gt; Map.lookup &quot;amelia&quot; $ phoneBookToMap phoneBook
+&quot;342-2492, 555-2938&quot;
 </pre>
 <p>If a duplicate key is found, the function we pass is used to combine the values of those keys into some other value. We could also first make all the values in the association list singleton lists and then we can use <span class="fixed">++</span> to combine the numbers.</p>
 <pre name="code" class="haskell:hs">
@@ -689,8 +689,8 @@ phoneBookToMap :: (Ord k) =&gt; [(k, a)] -&gt; Map.Map k [a]
 phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -&gt; (k,[v])) xs
 </pre>
 <pre name="code" class="haskell:ghci">
-ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
-["827-9162","943-2929","493-2928"]
+ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
+[&quot;827-9162&quot;,&quot;943-2929&quot;,&quot;493-2928&quot;]
 </pre>
 <p>Pretty neat! Another use case is if we’re making a map from an association list of numbers and when a duplicate key is found, we want the biggest value for the key to be kept.</p>
 <pre name="code" class="haskell:ghci">
@@ -719,8 +719,8 @@ import qualified Data.Set as Set
 <p>And then load the script via GHCI.</p>
 <p>Let’s say we have two pieces of text. We want to find out which characters were used in both of them.</p>
 <pre name="code" class="haskell:ghci">
-text1 = "I just had an anime dream. Anime... Reality... Are they so different?"
-text2 = "The old man left his garbage can out and now his trash is all over my lawn!"
+text1 = &quot;I just had an anime dream. Anime... Reality... Are they so different?&quot;
+text2 = &quot;The old man left his garbage can out and now his trash is all over my lawn!&quot;
 </pre>
 <p>
 The <span class="label function">fromList</span> function works much like you would expect. It takes a list and converts it into a set.</p>
@@ -728,26 +728,26 @@ The <span class="label function">fromList</span> function works much like you wo
 ghci&gt; let set1 = Set.fromList text1
 ghci&gt; let set2 = Set.fromList text2
 ghci&gt; set1
-fromList " .?AIRadefhijlmnorstuy"
+fromList &quot; .?AIRadefhijlmnorstuy&quot;
 ghci&gt; set2
-fromList " !Tabcdefghilmnorstuvwy"
+fromList &quot; !Tabcdefghilmnorstuvwy&quot;
 </pre>
 <p>As you can see, the items are ordered and each element is unique. Now let’s use the <span class="label function">intersection</span> function to see which elements they both share.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; Set.intersection set1 set2
-fromList " adefhilmnorstuy"
+fromList &quot; adefhilmnorstuy&quot;
 </pre>
 <p>We can use the <span class="label function">difference</span> function to see which letters are in the first set but aren’t in the second one and vice versa.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; Set.difference set1 set2
-fromList ".?AIRj"
+fromList &quot;.?AIRj&quot;
 ghci&gt; Set.difference set2 set1
-fromList "!Tbcgvw"
+fromList &quot;!Tbcgvw&quot;
 </pre>
 <p>Or we can see all the unique letters used in both sentences by using <span class="label function">union</span>.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; Set.union set1 set2
-fromList " !.?AIRTabcdefghijlmnorstuvwy"
+fromList &quot; !.?AIRTabcdefghijlmnorstuvwy&quot;
 </pre>
 <p>The <span class="label function">null</span>, <span class="label function">size</span>, <span class="label function">member</span>, <span class="label function">empty</span>, <span class="label function">singleton</span>, <span class="label function">insert</span> and <span class="label function">delete</span> functions all work like you’d expect them to.</p>
 <pre name="code" class="haskell:ghci">
@@ -787,10 +787,10 @@ fromList [3,4,5,6,7,8]
 <p>Sets are often used to weed a list of duplicates from a list by first making it into a set with <span class="fixed">fromList</span> and then converting it back to a list with <span class="label function">toList</span>. The <span class="fixed">Data.List</span> function <span class="fixed">nub</span> already does that, but weeding out duplicates for large lists is much faster if you cram them into a set and then convert them back to a list than using <span class="fixed">nub</span>. But using <span class="fixed">nub</span> only requires the type of the list’s elements to be part of the <span class="fixed">Eq</span> typeclass, whereas if you want to cram elements into a set, the type of the list has to be in <span class="fixed">Ord</span>.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; let setNub xs = Set.toList $ Set.fromList xs
-ghci&gt; setNub "HEY WHATS CRACKALACKIN"
-" ACEHIKLNRSTWY"
-ghci&gt; nub "HEY WHATS CRACKALACKIN"
-"HEY WATSCRKLIN"
+ghci&gt; setNub &quot;HEY WHATS CRACKALACKIN&quot;
+&quot; ACEHIKLNRSTWY&quot;
+ghci&gt; nub &quot;HEY WHATS CRACKALACKIN&quot;
+&quot;HEY WATSCRKLIN&quot;
 </pre>
 <p><span class="fixed">setNub</span> is generally faster than <span class="fixed">nub</span> on big lists but as you can see, <span class="fixed">nub</span> preserves the ordering of the list’s elements, while <span class="fixed">setNub</span> does not.</p>
 <a name="making-our-own-modules"></a><h2>Making our own modules</h2>

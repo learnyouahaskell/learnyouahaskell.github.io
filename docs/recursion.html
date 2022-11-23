@@ -42,7 +42,7 @@
 <p>Now let’s see how we’d define it recursively. We could first set up an edge condition and say that the maximum of a singleton list is equal to the only element in it. Then we can say that the maximum of a longer list is the head if the head is bigger than the maximum of the tail. If the maximum of the tail is bigger, well, then it’s the maximum of the tail. That’s it! Now let’s implement that in Haskell.</p>
 <pre name="code" class="haskell:hs">
 maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
-maximum&#39; [] = error "maximum of empty list"
+maximum&#39; [] = error &quot;maximum of empty list&quot;
 maximum&#39; [x] = x
 maximum&#39; (x:xs)
     | x &gt; maxTail = x
@@ -55,7 +55,7 @@ maximum&#39; (x:xs)
 <p>An even clearer way to write this function is to use <span class="fixed">max</span>. If you remember, <span class="fixed">max</span> is a function that takes two numbers and returns the bigger of them. Here’s how we could rewrite <span class="fixed">maximum'</span> by using <span class="fixed">max</span>:</p>
 <pre name="code" class="haskell:hs">
 maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
-maximum&#39; [] = error "maximum of empty list"
+maximum&#39; [] = error &quot;maximum of empty list&quot;
 maximum&#39; [x] = x
 maximum&#39; (x:xs) = max x (maximum&#39; xs)
 </pre>
@@ -127,8 +127,8 @@ quicksort (x:xs) =
 <pre name="code" class="haskell:ghci">
 ghci&gt; quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
 [1,2,2,3,3,4,4,5,6,7,8,9,10]
-ghci&gt; quicksort "the quick brown fox jumps over the lazy dog"
-"        abcdeeefghhijklmnoooopqrrsttuuvwxyz"
+ghci&gt; quicksort &quot;the quick brown fox jumps over the lazy dog&quot;
+&quot;        abcdeeefghhijklmnoooopqrrsttuuvwxyz&quot;
 </pre>
 <p>Booyah! That’s what I’m talking about! So if we have, say <span class="fixed">[5,1,9,4,6,7,3]</span> and we want to sort it, this algorithm will first take the head, which is <span class="fixed">5</span> and then put it in the middle of two lists that are smaller and bigger than it. So at one point, you’ll have <span class="fixed">[1,4,3] ++ [5] ++ [9,6,7]</span>. We know that once the list is sorted completely, the number <span class="fixed">5</span> will stay in the fourth place since there are 3 numbers lower than it and 3 numbers higher than it. Now, if we sort <span class="fixed">[1,4,3]</span> and <span class="fixed">[9,6,7]</span>, we have a sorted list! We sort the two lists using the same function. Eventually, we’ll break it up so much that we reach empty lists and an empty list is already sorted in a way, by virtue of being empty. Here’s an illustration:</p>
 <img src="assets/images/recursion/quicksort.png" alt="quicksort" class="center" width="799" height="332">

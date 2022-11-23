@@ -118,7 +118,7 @@ context was preserved. Observe:
 <pre name="code" class="haskell:hs">
 ghci&gt; (*) &lt;$&gt; Just 2 &lt;*&gt; Just 8
 Just 16
-ghci&gt; (++) &lt;$&gt; Just "klingon" &lt;*&gt; Nothing
+ghci&gt; (++) &lt;$&gt; Just &quot;klingon&quot; &lt;*&gt; Nothing
 Nothing
 ghci&gt; (-) &lt;$&gt; [3,4] &lt;*&gt; [1,2,3]
 [2,1,0,3,2,1]
@@ -210,9 +210,9 @@ Like this:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; fmap (++"!") (Just "wisdom")
-Just "wisdom!"
-ghci&gt; fmap (++"!") Nothing
+ghci&gt; fmap (++&quot;!&quot;) (Just &quot;wisdom&quot;)
+Just &quot;wisdom!&quot;
+ghci&gt; fmap (++&quot;!&quot;) Nothing
 Nothing
 </pre>
 
@@ -232,7 +232,7 @@ of thin air, so you have to propagate the failure:
 <pre name="code" class="haskell:hs">
 ghci&gt; Just (+3) &lt;*&gt; Just 3
 Just 6
-ghci&gt; Nothing &lt;*&gt; Just "greed"
+ghci&gt; Nothing &lt;*&gt; Just &quot;greed&quot;
 Nothing
 ghci&gt; Just ord &lt;*&gt; Nothing
 Nothing
@@ -318,11 +318,11 @@ the right:
 <pre name="code" class="haskell:hs">
 ghci&gt; Just 3 `applyMaybe` \x -&gt; Just (x+1)
 Just 4
-ghci&gt; Just "smile" `applyMaybe` \x -&gt; Just (x ++ " :)")
-Just "smile :)"
+ghci&gt; Just &quot;smile&quot; `applyMaybe` \x -&gt; Just (x ++ &quot; :)&quot;)
+Just &quot;smile :)&quot;
 ghci&gt; Nothing `applyMaybe` \x -&gt; Just (x+1)
 Nothing
-ghci&gt; Nothing `applyMaybe` \x -&gt; Just (x ++ " :)")
+ghci&gt; Nothing `applyMaybe` \x -&gt; Just (x ++ &quot; :)&quot;)
 Nothing
 </pre>
 
@@ -486,8 +486,8 @@ We can play around with <span class="fixed">Maybe</span> as a monad:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; return "WHAT" :: Maybe String
-Just "WHAT"
+ghci&gt; return &quot;WHAT&quot; :: Maybe String
+Just &quot;WHAT&quot;
 ghci&gt; Just 9 &gt;&gt;= \x -&gt; return (x*10)
 Just 90
 ghci&gt; Nothing &gt;&gt;= \x -&gt; return (x*10)
@@ -992,8 +992,8 @@ Consider this familiar example of monadic application:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just (show x ++ "!"))
-Just "3!"
+ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just (show x ++ &quot;!&quot;))
+Just &quot;3!&quot;
 </pre>
 
 <p>
@@ -1006,8 +1006,8 @@ inside that function? Check this out:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just "!" &gt;&gt;= (\y -&gt; Just (show x ++ y)))
-Just "3!"
+ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just &quot;!&quot; &gt;&gt;= (\y -&gt; Just (show x ++ y)))
+Just &quot;3!&quot;
 </pre>
 
 <p>
@@ -1020,8 +1020,8 @@ from the outer lambda. All this sort of reminds me of the following expression:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; let x = 3; y = "!" in show x ++ y
-"3!"
+ghci&gt; let x = 3; y = &quot;!&quot; in show x ++ y
+&quot;3!&quot;
 </pre>
 
 <p>
@@ -1031,11 +1031,11 @@ with a failure:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Nothing &gt;&gt;= (\x -&gt; Just "!" &gt;&gt;= (\y -&gt; Just (show x ++ y)))
+ghci&gt; Nothing &gt;&gt;= (\x -&gt; Just &quot;!&quot; &gt;&gt;= (\y -&gt; Just (show x ++ y)))
 Nothing
 ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Nothing &gt;&gt;= (\y -&gt; Just (show x ++ y)))
 Nothing
-ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just "!" &gt;&gt;= (\y -&gt; Nothing))
+ghci&gt; Just 3 &gt;&gt;= (\x -&gt; Just &quot;!&quot; &gt;&gt;= (\y -&gt; Nothing))
 Nothing
 </pre>
 
@@ -1059,7 +1059,7 @@ To further illustrate this point, let’s write this in a script and have each
 <pre name="code" class="haskell:hs">
 foo :: Maybe String
 foo = Just 3   &gt;&gt;= (\x -&gt;
-      Just "!" &gt;&gt;= (\y -&gt;
+      Just &quot;!&quot; &gt;&gt;= (\y -&gt;
       Just (show x ++ y)))
 </pre>
 
@@ -1073,7 +1073,7 @@ of code like this:
 foo :: Maybe String
 foo = do
     x &lt;- Just 3
-    y &lt;- Just "!"
+    y &lt;- Just &quot;!&quot;
     Just (show x ++ y)
 </pre>
 
@@ -1254,7 +1254,7 @@ expressions and function parameters. Here’s an example of pattern matching in 
 <pre name="code" class="haskell:hs">
 justH :: Maybe Char
 justH = do
-    (x:xs) &lt;- Just "hello"
+    (x:xs) &lt;- Just &quot;hello&quot;
     return x
 </pre>
 
@@ -1307,7 +1307,7 @@ bound to fail:
 <pre name="code" class="haskell:hs">
 wopwop :: Maybe Char
 wopwop = do
-    (x:xs) &lt;- Just ""
+    (x:xs) &lt;- Just &quot;&quot;
     return x
 </pre>
 
@@ -1439,7 +1439,7 @@ thrown away. Let’s play around with lists that fail:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; [] &gt;&gt;= \x -&gt; ["bad","mad","rad"]
+ghci&gt; [] &gt;&gt;= \x -&gt; [&quot;bad&quot;,&quot;mad&quot;,&quot;rad&quot;]
 []
 ghci&gt; [1,2,3] &gt;&gt;= \x -&gt; []
 []
@@ -1635,9 +1635,9 @@ see how <span class="fixed">guard</span> functions in conjunction with
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; guard (5 &gt; 2) &gt;&gt; return "cool" :: [String]
-["cool"]
-ghci&gt; guard (1 &gt; 2) &gt;&gt; return "cool" :: [String]
+ghci&gt; guard (5 &gt; 2) &gt;&gt; return &quot;cool&quot; :: [String]
+[&quot;cool&quot;]
+ghci&gt; guard (1 &gt; 2) &gt;&gt; return &quot;cool&quot; :: [String]
 []
 </pre>
 
@@ -1912,10 +1912,10 @@ function to that value:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; return "WoM" &gt;&gt;= (\x -&gt; [x,x,x])
-["WoM","WoM","WoM"]
-ghci&gt; (\x -&gt; [x,x,x]) "WoM"
-["WoM","WoM","WoM"]
+ghci&gt; return &quot;WoM&quot; &gt;&gt;= (\x -&gt; [x,x,x])
+[&quot;WoM&quot;,&quot;WoM&quot;,&quot;WoM&quot;]
+ghci&gt; (\x -&gt; [x,x,x]) &quot;WoM&quot;
+[&quot;WoM&quot;,&quot;WoM&quot;,&quot;WoM&quot;]
 </pre>
 
 <p>
@@ -1951,11 +1951,11 @@ non-determinism. Here’s a test run for a few monads:
 </p>
 
 <pre name="code" class="haskell:hs">
-ghci&gt; Just "move on up" &gt;&gt;= (\x -&gt; return x)
-Just "move on up"
+ghci&gt; Just &quot;move on up&quot; &gt;&gt;= (\x -&gt; return x)
+Just &quot;move on up&quot;
 ghci&gt; [1,2,3,4] &gt;&gt;= (\x -&gt; return x)
 [1,2,3,4]
-ghci&gt; putStrLn "Wah!" &gt;&gt;= (\x -&gt; return x)
+ghci&gt; putStrLn &quot;Wah!&quot; &gt;&gt;= (\x -&gt; return x)
 Wah!
 </pre>
 

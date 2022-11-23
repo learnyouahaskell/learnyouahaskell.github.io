@@ -96,15 +96,15 @@ ghci&gt; 5 /= 5
 False
 ghci&gt; 5 /= 4
 True
-ghci&gt; "hello" == "hello"
+ghci&gt; &quot;hello&quot; == &quot;hello&quot;
 True </pre>
 <p>
 What about doing <span class="fixed">5 + "llama"</span> or <span class="fixed">5 == True</span>? Well, if we try the first snippet, we get a big scary error message!
 </p>
 <pre name="code" class="haskell: ghci">
     • No instance for (Num String) arising from a use of ‘+’
-    • In the expression: 5 + "llama"
-      In an equation for ‘it’: it = 5 + "llama"
+    • In the expression: 5 + &quot;llama&quot;
+      In an equation for ‘it’: it = 5 + &quot;llama&quot;
 </pre>
 <p>
 Yikes! What GHCI is telling us here is that <span class="fixed">"llama"</span> is not a number and so it doesn’t know how to add it to 5. Even if it wasn’t <span class="fixed">"llama"</span> but <span class="fixed">"four"</span> or <span class="fixed">"4"</span>, Haskell still wouldn’t consider it to be a number. <span class="fixed">+</span> expects its left and right side to be numbers. If we tried to do <span class="fixed">True == 5</span>, GHCI would tell us that the types don’t match. Whereas <span class="fixed">+</span> works only on things that are considered numbers, <span class="fixed">==</span> works on any two things that can be compared. But the catch is that they both have to be the same type of thing. You can’t compare apples and oranges. We’ll take a closer look at types a bit later. Note: you can do <span class="fixed">5 + 4.0</span> because <span class="fixed">5</span> is sneaky and can act like an integer or a floating-point number. <span class="fixed">4.0</span> can’t act like an integer, so <span class="fixed">5</span> is the one that has to adapt.
@@ -201,7 +201,7 @@ doubleSmallNumber&#39; x = (if x &gt; 100 then x else x*2) + 1
 Had we omitted the parentheses, it would have added one only if <span class="fixed">x</span> wasn’t greater than 100. Note the <span class="fixed">'</span> at the end of the function name. That apostrophe doesn’t have any special meaning in Haskell’s syntax. It’s a valid character to use in a function name. We usually use <span class="fixed">'</span> to either denote a strict version of a function (one that isn’t lazy) or a slightly modified version of a function or a variable. Because <span class="fixed">'</span> is a valid character in functions, we can make a function like this.
 </p>
 <pre name="code" class="haskell: hs">
-conanO&#39;Brien = "It&#39;s a-me, Conan O&#39;Brien!" </pre>
+conanO&#39;Brien = &quot;It&#39;s a-me, Conan O&#39;Brien!&quot; </pre>
 <p>
 There are two noteworthy things here. The first is that in the function name we didn’t capitalize Conan’s name. That’s because functions can’t begin with uppercase letters. We’ll see why a bit later. The second thing is that this function doesn’t take any parameters. When a function doesn’t take any parameters, we usually say it’s a <i>definition</i> (or a <i>name</i>). Because we can’t change what names (and functions) mean once we’ve defined them, <span class="fixed">conanO'Brien</span> and the string <span class="fixed">"It's a-me, Conan O'Brien!"</span> can be used interchangeably.
 </p>
@@ -225,17 +225,17 @@ As you can see, lists are denoted by square brackets and the values in the lists
 <pre name="code" class="haskell: ghci">
 ghci&gt; [1,2,3,4] ++ [9,10,11,12]
 [1,2,3,4,9,10,11,12]
-ghci&gt; "hello" ++ " " ++ "world"
-"hello world"
+ghci&gt; &quot;hello&quot; ++ &quot; &quot; ++ &quot;world&quot;
+&quot;hello world&quot;
 ghci&gt; [&#39;w&#39;,&#39;o&#39;] ++ [&#39;o&#39;,&#39;t&#39;]
-"woot"
+&quot;woot&quot;
 </pre>
 <p>
 Watch out when repeatedly using the <span class="fixed">++</span> operator on long strings. When you put together two lists (even if you append a singleton list to a list, for instance: <span class="fixed">[1,2,3] ++ [4]</span>), internally, Haskell has to walk through the whole list on the left side of <span class="fixed">++</span>. That’s not a problem when dealing with lists that aren’t too big. But putting something at the end of a list that’s fifty million entries long is going to take a while. However, putting something at the beginning of a list using the <span class="fixed">:</span> operator (also called the cons operator) is instantaneous.
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; &#39;A&#39;:" SMALL CAT"
-"A SMALL CAT"
+ghci&gt; &#39;A&#39;:&quot; SMALL CAT&quot;
+&quot;A SMALL CAT&quot;
 ghci&gt; 5:[1,2,3,4,5]
 [5,1,2,3,4,5]
 </pre>
@@ -247,7 +247,7 @@ Notice how <span class="fixed">:</span> takes a number and a list of numbers or 
 <p class="hintbox"><em>Note:</em> <span class="fixed">[]</span>, <span class="fixed">[[]]</span> and<span class="fixed">[[],[],[]]</span> are all different things. The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.</p>
 <p>If you want to get an element out of a list by index, use <span class="fixed">!!</span>. The indices start at 0.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; "Steve Buscemi" !! 6
+ghci&gt; &quot;Steve Buscemi&quot; !! 6
 &#39;B&#39;
 ghci&gt; [9.4,33.2,96.2,11.2,23.25] !! 1
 33.2
@@ -372,9 +372,9 @@ What if we want a list of all numbers between 1 and 20? Sure, we could just type
 ghci&gt; [1..20]
 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 ghci&gt; [&#39;a&#39;..&#39;z&#39;]
-"abcdefghijklmnopqrstuvwxyz"
+&quot;abcdefghijklmnopqrstuvwxyz&quot;
 ghci&gt; [&#39;K&#39;..&#39;Z&#39;]
-"KLMNOPQRSTUVWXYZ" </pre>
+&quot;KLMNOPQRSTUVWXYZ&quot; </pre>
 <p>
 Ranges are cool because you can also specify a step. What if we want all even numbers between 1 and 20? Or every third number between 1 and 20?
 </p>
@@ -400,8 +400,8 @@ You can also use ranges to make infinite lists by just not specifying an upper l
 <pre name="code" class="haskell: ghci">
 ghci&gt; take 10 (cycle [1,2,3])
 [1,2,3,1,2,3,1,2,3,1]
-ghci&gt; take 12 (cycle "LOL ")
-"LOL LOL LOL " </pre>
+ghci&gt; take 12 (cycle &quot;LOL &quot;)
+&quot;LOL LOL LOL &quot; </pre>
 <p><span class="label function">repeat</span> takes an element and produces an infinite list of just that element. It’s like cycling a list with only one element.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; take 10 (repeat 5)
@@ -430,11 +430,11 @@ ghci&gt; [ x | x &lt;- [50..100], x `mod` 7 == 3]
 [52,59,66,73,80,87,94] </pre>
 <p>Success! Note that weeding out lists by predicates is also called <em>filtering</em>. We took a list of numbers and we filtered them by the predicate. Now for another example. Let’s say we want a comprehension that replaces each odd number greater than 10 with <span class="fixed">"BANG!"</span> and each odd number that’s less than 10 with <span class="fixed">"BOOM!"</span>. If a number isn’t odd, we throw it out of our list. For convenience, we’ll put that comprehension inside a function so we can easily reuse it.</p>
 <pre name="code" class="haskell: ghci">
-boomBangs xs = [ if x &lt; 10 then "BOOM!" else "BANG!" | x &lt;- xs, odd x] </pre>
+boomBangs xs = [ if x &lt; 10 then &quot;BOOM!&quot; else &quot;BANG!&quot; | x &lt;- xs, odd x] </pre>
 <p>The last part of the comprehension is the predicate. The function <span class="fixed">odd</span> returns <span class="fixed">True</span> on an odd number and <span class="fixed">False</span>  on an even one. The element is included in the list only if all the predicates evaluate to <span class="fixed">True</span>.</p>
 <pre name="code" class="haskell: hs">
 ghci&gt; boomBangs [7..13]
-["BOOM!","BOOM!","BANG!","BANG!"] </pre>
+[&quot;BOOM!&quot;,&quot;BOOM!&quot;,&quot;BANG!&quot;,&quot;BANG!&quot;] </pre>
 <p>We can include several predicates. If we wanted all numbers from 10 to 20 that are not 13, 15 or 19, we’d do:</p> <pre name="code" class="haskell: ghci">
 ghci&gt; [ x | x &lt;- [10..20], x /= 13, x /= 15, x /= 19]
 [10,11,12,14,16,17,18,20]</pre>
@@ -448,11 +448,11 @@ ghci&gt; [ x*y | x &lt;- [2,5,10], y &lt;- [8,10,11], x*y &gt; 50]
 [55,80,100,110] </pre>
 <p>How about a list comprehension that combines a list of adjectives and a list of nouns … for epic hilarity.</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; nouns = ["hobo","frog","pope"]
-ghci&gt; adjectives = ["lazy","grouchy","scheming"]
-ghci&gt; [adjective ++ " " ++ noun | adjective &lt;- adjectives, noun &lt;- nouns]
-["lazy hobo","lazy frog","lazy pope","grouchy hobo","grouchy frog",
-"grouchy pope","scheming hobo","scheming frog","scheming pope"] </pre>
+ghci&gt; nouns = [&quot;hobo&quot;,&quot;frog&quot;,&quot;pope&quot;]
+ghci&gt; adjectives = [&quot;lazy&quot;,&quot;grouchy&quot;,&quot;scheming&quot;]
+ghci&gt; [adjective ++ &quot; &quot; ++ noun | adjective &lt;- adjectives, noun &lt;- nouns]
+[&quot;lazy hobo&quot;,&quot;lazy frog&quot;,&quot;lazy pope&quot;,&quot;grouchy hobo&quot;,&quot;grouchy frog&quot;,
+&quot;grouchy pope&quot;,&quot;scheming hobo&quot;,&quot;scheming frog&quot;,&quot;scheming pope&quot;] </pre>
 <p>I know! Let’s write our own version of <span class="fixed">length</span>! We’ll call it <span class="fixed">length'</span>.</p>
 <pre name="code" class="haskell: hs">
 length&#39; xs = sum [1 | _ &lt;- xs] </pre>
@@ -464,10 +464,10 @@ removeNonUppercase st = [ c | c &lt;- st, c `elem` [&#39;A&#39;..&#39;Z&#39;]] <
 Testing it out:
 </p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; removeNonUppercase "Hahaha! Ahahaha!"
-"HA"
-ghci&gt; removeNonUppercase "IdontLIKEFROGS"
-"ILIKEFROGS" </pre>
+ghci&gt; removeNonUppercase &quot;Hahaha! Ahahaha!&quot;
+&quot;HA&quot;
+ghci&gt; removeNonUppercase &quot;IdontLIKEFROGS&quot;
+&quot;ILIKEFROGS&quot; </pre>
 <p>The predicate here does all the work. It says that the character will be included in the new list only if it’s an element of the list <span class="fixed">['A'..'Z']</span>. Nested list comprehensions are also possible if you’re operating on lists that contain lists. A list contains several lists of numbers. Let’s remove all odd numbers without flattening the list.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; let xxs = [[1,3,5,2,3,1,2,4,5],[1,2,3,4,5,6,7,8,9],[1,2,4,2,1,6,3,1,3,2,3,6]]
@@ -497,31 +497,31 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 <pre name="code" class="haskell: ghci">
 ghci&gt; fst (8,11)
 8
-ghci&gt; fst ("Wow", False)
-"Wow"</pre>
+ghci&gt; fst (&quot;Wow&quot;, False)
+&quot;Wow&quot;</pre>
 <p><span class="label function">snd</span> takes a pair and returns its second component. Surprise!</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; snd (8,11)
 11
-ghci&gt; snd ("Wow", False)
+ghci&gt; snd (&quot;Wow&quot;, False)
 False</pre>
 <div class="hintbox"><em>Note:</em> these functions operate only on pairs. They won’t work on triples, 4-tuples, 5-tuples, etc. We’ll go over extracting data from tuples in different ways a bit later.</div>
 <p>A cool function that produces a list of pairs: <span class="label function">zip</span>. It takes two lists and then zips them together into one list by joining the matching elements into pairs. It’s a really simple function but it has loads of uses. It’s especially useful for when you want to combine two lists in a way or traverse two lists simultaneously. Here’s a demonstration.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; zip [1,2,3,4,5] [5,5,5,5,5]
 [(1,5),(2,5),(3,5),(4,5),(5,5)]
-ghci&gt; zip [1 .. 5] ["one", "two", "three", "four", "five"]
-[(1,"one"),(2,"two"),(3,"three"),(4,"four"),(5,"five")]
+ghci&gt; zip [1 .. 5] [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;]
+[(1,&quot;one&quot;),(2,&quot;two&quot;),(3,&quot;three&quot;),(4,&quot;four&quot;),(5,&quot;five&quot;)]
 </pre>
 <p>It pairs up the elements and produces a new list. The first element goes with the first, the second with the second, etc. Notice that because pairs can have different types in them, <span class="fixed">zip</span> can take two lists that contain different types and zip them up. What happens if the lengths of the lists don’t match?</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; zip [5,3,2,6,2,7,2,5,4,6,6] ["im","a","turtle"]
-[(5,"im"),(3,"a"),(2,"turtle")]
+ghci&gt; zip [5,3,2,6,2,7,2,5,4,6,6] [&quot;im&quot;,&quot;a&quot;,&quot;turtle&quot;]
+[(5,&quot;im&quot;),(3,&quot;a&quot;),(2,&quot;turtle&quot;)]
 </pre>
 <p>The longer list simply gets cut off to match the length of the shorter one. Because Haskell is lazy, we can zip finite lists with infinite lists:</p>
 <pre name="code" class="haskell: ghci">
-ghci&gt; zip [1..] ["apple", "orange", "cherry", "mango"]
-[(1,"apple"),(2,"orange"),(3,"cherry"),(4,"mango")]
+ghci&gt; zip [1..] [&quot;apple&quot;, &quot;orange&quot;, &quot;cherry&quot;, &quot;mango&quot;]
+[(1,&quot;apple&quot;),(2,&quot;orange&quot;),(3,&quot;cherry&quot;),(4,&quot;mango&quot;)]
 </pre>
 <img src="assets/images/starting-out/pythag.png" alt="look at meee" class="center" width="350" height="315">
 <p>Here’s a problem that combines tuples and list comprehensions: which right triangle that has integers for all sides and all sides equal to or smaller than 10 has a perimeter of 24? First, let’s try generating all triangles with sides equal to or smaller than 10:</p>

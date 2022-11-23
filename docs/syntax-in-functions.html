@@ -38,17 +38,17 @@
 <p>When defining functions, you can define separate function bodies for different patterns. This leads to really neat code that’s simple and readable. You can pattern match on any data type — numbers, characters, lists, tuples, etc. Let’s make a really trivial function that checks if the number we supplied to it is a seven or not.</p>
 <pre name="code" class="haskell: hs">
 lucky :: (Integral a) =&gt; a -&gt; String
-lucky 7 = "LUCKY NUMBER SEVEN!"
-lucky x = "Sorry, you&#39;re out of luck, pal!" </pre>
+lucky 7 = &quot;LUCKY NUMBER SEVEN!&quot;
+lucky x = &quot;Sorry, you&#39;re out of luck, pal!&quot; </pre>
 <p>When you call <span class="fixed">lucky</span>, the patterns will be checked from top to bottom and when it conforms to a pattern, the corresponding function body will be used. The only way a number can conform to the first pattern here is if it is 7. If it’s not, it falls through to the second pattern, which matches anything and binds it to <span class="fixed">x</span>. This function could have also been implemented by using an if statement. But what if we wanted a function that says the numbers from 1 to 5 and says <span class="fixed">"Not between 1 and 5"</span> for any other number? Without pattern matching, we’d have to make a pretty convoluted if then else tree. However, with it:</p>
 <pre name="code" class="haskell: hs">
 sayMe :: (Integral a) =&gt; a -&gt; String
-sayMe 1 = "One!"
-sayMe 2 = "Two!"
-sayMe 3 = "Three!"
-sayMe 4 = "Four!"
-sayMe 5 = "Five!"
-sayMe x = "Not between 1 and 5"
+sayMe 1 = &quot;One!&quot;
+sayMe 2 = &quot;Two!&quot;
+sayMe 3 = &quot;Three!&quot;
+sayMe 4 = &quot;Four!&quot;
+sayMe 5 = &quot;Five!&quot;
+sayMe x = &quot;Not between 1 and 5&quot;
 </pre>
 <p>Note that if we moved the last pattern (the catch-all one) to the top, it would always say <span class="fixed">"Not between 1 and 5"</span>, because it would catch all the numbers and they wouldn’t have a chance to fall through and be checked for any other patterns.</p>
 <p>Remember the factorial function we implemented previously? We defined the factorial of a number <span class="fixed">n</span> as <span class="fixed">product [1..n]</span>. We can also define a factorial function <i>recursively</i>, the way it is usually defined in mathematics. We start by saying that the factorial of 0 is 1. Then we state that the factorial of any positive integer is that integer multiplied by the factorial of its predecessor. Here’s how that looks like translated in Haskell terms.</p>
@@ -64,18 +64,18 @@ Pattern matching can also fail. If we define a function like this:
 </p>
 <pre name="code" class="haskell: hs">
 charName :: Char -&gt; String
-charName &#39;a&#39; = "Albert"
-charName &#39;b&#39; = "Broseph"
-charName &#39;c&#39; = "Cecil"
+charName &#39;a&#39; = &quot;Albert&quot;
+charName &#39;b&#39; = &quot;Broseph&quot;
+charName &#39;c&#39; = &quot;Cecil&quot;
 </pre>
 <p>and then try to call it with an input that we didn’t expect, this is what happens:</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; charName &#39;a&#39;
-"Albert"
+&quot;Albert&quot;
 ghci&gt; charName &#39;b&#39;
-"Broseph"
+&quot;Broseph&quot;
 ghci&gt; charName &#39;h&#39;
-"*** Exception: tut.hs:(53,0)-(55,21): Non-exhaustive patterns in function charName
+&quot;*** Exception: tut.hs:(53,0)-(55,21): Non-exhaustive patterns in function charName
 </pre>
 <p>
 It complains that we have non-exhaustive patterns, and rightfully so. When making patterns, we should always include a catch-all pattern so that our program doesn’t crash if we get some unexpected input.
@@ -117,14 +117,14 @@ Should a pattern match fail, it will just move on to the next element.
 <p>Now that we know how to pattern match against list, let’s make our own implementation of the <span class="fixed">head</span> function.</p>
 <pre name="code" class="haskell: hs">
 head&#39; :: [a] -&gt; a
-head&#39; [] = error "Can&#39;t call head on an empty list, dummy!"
+head&#39; [] = error &quot;Can&#39;t call head on an empty list, dummy!&quot;
 head&#39; (x:_) = x
 </pre>
 <p>Checking if it works:</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; head&#39; [4,5,6]
 4
-ghci&gt; head&#39; "Hello"
+ghci&gt; head&#39; &quot;Hello&quot;
 &#39;H&#39;
 </pre>
 <p>
@@ -133,10 +133,10 @@ Nice! Notice that if you want to bind to several variables (even if one of them 
 <p>Let’s make a trivial function that tells us some of the first elements of the list in (in)convenient English form.</p>
 <pre name="code" class="haskell: hs">
 tell :: (Show a) =&gt; [a] -&gt; String
-tell [] = "The list is empty"
-tell (x:[]) = "The list has one element: " ++ show x
-tell (x:y:[]) = "The list has two elements: " ++ show x ++ " and " ++ show y
-tell (x:y:_) = "This list is long. The first two elements are: " ++ show x ++ " and " ++ show y
+tell [] = &quot;The list is empty&quot;
+tell (x:[]) = &quot;The list has one element: &quot; ++ show x
+tell (x:y:[]) = &quot;The list has two elements: &quot; ++ show x ++ &quot; and &quot; ++ show y
+tell (x:y:_) = &quot;This list is long. The first two elements are: &quot; ++ show x ++ &quot; and &quot; ++ show y
 </pre>
 <p>This function is safe because it takes care of the empty list, a singleton list, a list with two elements and a list with more than two elements. Note that <span class="fixed">(x:[])</span> and <span class="fixed">(x:y:[])</span> could be rewritten as <span class="fixed">[x]</span> and <span class="fixed">[x,y]</span> (because its syntactic sugar, we don’t need the parentheses). We can’t rewrite <span class="fixed">(x:y:_)</span> with square brackets because it matches any list of length 2 or more.</p>
 <p>We already implemented our own <span class="fixed">length</span> function using list comprehension. Now we’ll do it by using pattern matching and a little recursion:</p>
@@ -155,12 +155,12 @@ sum&#39; (x:xs) = x + sum&#39; xs
 <p>There’s also a thing called <i>as patterns</i>. Those are a handy way of breaking something up according to a pattern and binding it to names whilst still keeping a reference to the whole thing. You do that by putting a name and an <span class="fixed">@</span> in front of a pattern. For instance, the pattern <span class="fixed">xs@(x:y:ys)</span>. This pattern will match exactly the same thing as <span class="fixed">x:y:ys</span> but you can easily get the whole list via <span class="fixed">xs</span> instead of repeating yourself by typing out <span class="fixed">x:y:ys</span> in the function body again. Here’s a quick and dirty example:</p>
 <pre name="code" class="haskell:nogutter:nocontrols:hs">
 capital :: String -&gt; String
-capital "" = "Empty string, whoops!"
-capital all@(x:xs) = "The first letter of " ++ all ++ " is " ++ [x]
+capital &quot;&quot; = &quot;Empty string, whoops!&quot;
+capital all@(x:xs) = &quot;The first letter of &quot; ++ all ++ &quot; is &quot; ++ [x]
 </pre>
 <pre name="code" class="haskell:ghci">
-ghci&gt; capital "Dracula"
-"The first letter of Dracula is D"
+ghci&gt; capital &quot;Dracula&quot;
+&quot;The first letter of Dracula is D&quot;
 </pre>
 <p>Normally we use as patterns to avoid repeating ourselves when matching against a bigger pattern when we have to use the whole thing again in the function body.</p>
 <p>One more thing — you can’t use <span class="fixed">++</span> in pattern matches. If you tried to pattern match against <span class="fixed">(xs ++ ys)</span>, what would be in the first and what would be in the second list? It doesn’t make much sense. It would make sense to match stuff against <span class="fixed">(xs ++ [x,y,z])</span> or just <span class="fixed">(xs ++ [x])</span>, but because of the nature of lists, you can’t do that.</p>
@@ -173,9 +173,9 @@ ghci&gt; capital "Dracula"
 <pre name="code" class="haskell:hs">
 densityTell :: (RealFloat a) =&gt; a -&gt; String
 densityTell density
-    | density &lt; 1.2 = "Wow! You&#39;re going for a ride in the sky!"
-    | density &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
-    | otherwise   = "If it&#39;s sink or swim, you&#39;re going to sink."
+    | density &lt; 1.2 = &quot;Wow! You&#39;re going for a ride in the sky!&quot;
+    | density &lt;= 1000.0 = &quot;Have fun swimming, but watch out for sharks!&quot;
+    | otherwise   = &quot;If it&#39;s sink or swim, you&#39;re going to sink.&quot;
 </pre>
 <p>Guards are indicated by pipes that follow a function’s name and its parameters. Usually, they’re indented a bit to the right and lined up. A guard is basically a boolean expression. If it evaluates to <span class="fixed">True</span>, then the corresponding function body is used. If it evaluates to <span class="fixed">False</span>, checking drops through to the next guard and so on. If we call this function with <span class="fixed">24.3</span>, it will first check if that’s smaller than or equal to <span class="fixed">1.2</span>. Because it isn’t, it falls through to the next guard. The check is carried out with the second guard and because <span class="fixed">24.3</span> is less than <span class="fixed">1000.0</span>, the second string is returned.</p>
 <p>This is very reminiscent of a big if else tree in imperative languages, only this is far better and more readable. While big if else trees are usually frowned upon, sometimes a problem is defined in such a discrete way that you can’t get around them. Guards are a very nice alternative for this.</p>
@@ -184,14 +184,14 @@ densityTell density
 <pre name="code" class="haskell:hs">
 densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
 densityTell mass volume
-    | mass / volume &lt; 1.2 = "Wow! You&#39;re going for a ride in the sky!"
-    | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
-    | otherwise   = "If it&#39;s sink or swim, you&#39;re going to sink."
+    | mass / volume &lt; 1.2 = &quot;Wow! You&#39;re going for a ride in the sky!&quot;
+    | mass / volume &lt;= 1000.0 = &quot;Have fun swimming, but watch out for sharks!&quot;
+    | otherwise   = &quot;If it&#39;s sink or swim, you&#39;re going to sink.&quot;
 </pre>
 <p>Let’s see if cat food will float …</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; densityTell 400 1
-"Have fun swimming, but watch out for sharks!"
+&quot;Have fun swimming, but watch out for sharks!&quot;
 </pre>
 <p>Looks like it will! At least until it dissolves into the pool… Yuck!</p>
 <p>Note that there’s no <span class="fixed">=</span> right after the function name and its parameters, before the first guard. Many newbies get syntax errors because they sometimes put it there.</p>
@@ -226,26 +226,26 @@ GT
 <pre name="code" class="haskell:hs">
 densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
 densityTell mass volume
-    | mass / volume &lt; 1.2 = "Wow! You&#39;re going for a ride in the sky!"
-    | mass / volume &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
-    | otherwise   = "If it&#39;s sink or swim, you&#39;re going to sink."
+    | mass / volume &lt; 1.2 = &quot;Wow! You&#39;re going for a ride in the sky!&quot;
+    | mass / volume &lt;= 1000.0 = &quot;Have fun swimming, but watch out for sharks!&quot;
+    | otherwise   = &quot;If it&#39;s sink or swim, you&#39;re going to sink.&quot;
 </pre>
 <p>Notice that we repeat ourselves here two times. We repeat ourselves two times. Repeating yourself (two times) while programming is about as desirable as getting kicked inna head. Since we repeat the same expression twice, it would be ideal if we could calculate it once, bind it to a name and then use that name instead of the expression. Well, we can modify our function like this:</p>
 <pre name="code" class="haskell:hs">
 densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
 densityTell mass volume
-    | density &lt; 1.2 = "Wow! You&#39;re going for a ride in the sky!"
-    | density &lt;= 1000.0 = "Have fun swimming, but watch out for sharks!"
-    | otherwise   = "If it&#39;s sink or swim, you&#39;re going to sink."
+    | density &lt; 1.2 = &quot;Wow! You&#39;re going for a ride in the sky!&quot;
+    | density &lt;= 1000.0 = &quot;Have fun swimming, but watch out for sharks!&quot;
+    | otherwise   = &quot;If it&#39;s sink or swim, you&#39;re going to sink.&quot;
     where density = mass / volume
 </pre>
 <p>We put the keyword <span class="fixed">where</span> after the guards (usually it’s best to indent it as much as the pipes are indented) and then we define several names or functions. These names are visible across the guards and give us the advantage of not having to repeat ourselves. If we decide that we want to calculate density a bit differently, we only have to change it once. It also improves readability by giving names to things and can make our programs faster since stuff like our <span class="fixed">density</span> variable here is calculated only once. We could go a bit overboard and present our function like this:</p>
 <pre name="code" class="haskell:hs">
 densityTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String
 densityTell mass volume
-    | density &lt; air = "Wow! You&#39;re going for a ride in the sky!"
-    | density &lt;= water = "Have fun swimming, but watch out for sharks!"
-    | otherwise   = "If it&#39;s sink or swim, you&#39;re going to sink."
+    | density &lt; air = &quot;Wow! You&#39;re going for a ride in the sky!&quot;
+    | density &lt;= water = &quot;Have fun swimming, but watch out for sharks!&quot;
+    | otherwise   = &quot;If it&#39;s sink or swim, you&#39;re going to sink.&quot;
     where density = mass / volume
           air = 1.2
           water = 1000.0
@@ -261,7 +261,7 @@ densityTell mass volume
 <p>Let’s make another fairly trivial function where we get a first and a last name and give someone back their initials.</p>
 <pre name="code" class="haskell:hs">
 initials :: String -&gt; String -&gt; String
-initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
+initials firstname lastname = [f] ++ &quot;. &quot; ++ [l] ++ &quot;.&quot;
     where (f:_) = firstname
           (l:_) = lastname
 </pre>
@@ -289,8 +289,8 @@ cylinder r h =
 <p>The form is <span class="fixed">let &lt;bindings&gt; in &lt;expression&gt;</span>. The names that you define in the <i>let</i> part are accessible to the expression after the <i>in</i> part. As you can see, we could have also defined this with a <i>where</i> binding. Notice that the names are also aligned in a single column. So what’s the difference between the two? For now it just seems that <i>let</i> puts the bindings first and the expression that uses them later whereas <i>where</i> is the other way around.</p>
 <p>The difference is that <i>let</i> bindings are expressions themselves. <i>where</i> bindings are just syntactic constructs. Remember when we did the if statement and it was explained that an if else statement is an expression and you can cram it in almost anywhere?</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; [if 5 &gt; 3 then "Woo" else "Boo", if &#39;a&#39; &gt; &#39;b&#39; then "Foo" else "Bar"]
-["Woo", "Bar"]
+ghci&gt; [if 5 &gt; 3 then &quot;Woo&quot; else &quot;Boo&quot;, if &#39;a&#39; &gt; &#39;b&#39; then &quot;Foo&quot; else &quot;Bar&quot;]
+[&quot;Woo&quot;, &quot;Bar&quot;]
 ghci&gt; 4 * (if 10 &gt; 5 then 10 else 0) + 2
 42
 </pre>
@@ -306,8 +306,8 @@ ghci&gt; [let square x = x * x in (square 5, square 3, square 2)]
 </pre>
 <p>If we want to bind to several variables inline, we obviously can’t align them at columns. That’s why we can separate them with semicolons.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar = "there!" in foo ++ bar)
-(6000000,"Hey there!")
+ghci&gt; (let a = 100; b = 200; c = 300 in a*b*c, let foo=&quot;Hey &quot;; bar = &quot;there!&quot; in foo ++ bar)
+(6000000,&quot;Hey there!&quot;)
 </pre>
 <p>You don’t have to put a semicolon after the last binding but you can if you want. Like we said before, you can pattern match with <i>let</i> bindings. They’re very useful for quickly dismantling a tuple into components and binding them to names and such.</p>
 <pre name="code" class="haskell:ghci">
@@ -342,12 +342,12 @@ ghci&gt; boot
 <p>Haskell takes that concept and one-ups it. Like the name implies, case expressions are, well, expressions, much like if else expressions and <i>let</i> bindings. Not only can we evaluate expressions based on the possible cases of the value of a variable, we can also do pattern matching. Hmmm, taking a variable, pattern matching it, evaluating pieces of code based on its value, where have we heard this before? Oh yeah, pattern matching on parameters in function definitions! Well, that’s actually just syntactic sugar for case expressions. These two pieces of code do the same thing and are interchangeable:</p>
 <pre name="code" class="haskell:hs">
 head&#39; :: [a] -&gt; a
-head&#39; [] = error "No head for empty lists!"
+head&#39; [] = error &quot;No head for empty lists!&quot;
 head&#39; (x:_) = x
 </pre>
 <pre name="code" class="haskell:hs">
 head&#39; :: [a] -&gt; a
-head&#39; xs = case xs of [] -&gt; error "No head for empty lists!"
+head&#39; xs = case xs of [] -&gt; error &quot;No head for empty lists!&quot;
                       (x:_) -&gt; x
 </pre>
 <p>As you can see, the syntax for case expressions is pretty simple:</p>
@@ -361,17 +361,17 @@ case expression of pattern -&gt; result
 <p>Whereas pattern matching on function parameters can only be done when defining functions, case expressions can be used pretty much anywhere. For instance:</p>
 <pre name="code" class="haskell:hs">
 describeList :: [a] -&gt; String
-describeList xs = "The list is " ++ case xs of [] -&gt; "empty."
-                                               [x] -&gt; "a singleton list."
-                                               xs -&gt; "a longer list."
+describeList xs = &quot;The list is &quot; ++ case xs of [] -&gt; &quot;empty.&quot;
+                                               [x] -&gt; &quot;a singleton list.&quot;
+                                               xs -&gt; &quot;a longer list.&quot;
 </pre>
 <p>They are useful for pattern matching against something in the middle of an expression. Because pattern matching in function definitions is syntactic sugar for case expressions, we could have also defined this like so:</p>
 <pre name="code" class="haskell:hs">
 describeList :: [a] -&gt; String
-describeList xs = "The list is " ++ what xs
-    where what [] = "empty."
-          what [x] = "a singleton list."
-          what xs = "a longer list."
+describeList xs = &quot;The list is &quot; ++ what xs
+    where what [] = &quot;empty.&quot;
+          what [x] = &quot;a singleton list.&quot;
+          what xs = &quot;a longer list.&quot;
 </pre>
 
                 <div class="footdiv">

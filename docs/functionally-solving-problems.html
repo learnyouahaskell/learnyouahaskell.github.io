@@ -68,9 +68,9 @@ solveRPN = head . foldl foldingFunction [] . words
 <pre name="code" class="haskell:hs">
 solveRPN :: (Num a, Read a) =&gt; String -&gt; a
 solveRPN = head . foldl foldingFunction [] . words
-    where   foldingFunction (x:y:ys) "*" = (x * y):ys
-            foldingFunction (x:y:ys) "+" = (x + y):ys
-            foldingFunction (x:y:ys) "-" = (y - x):ys
+    where   foldingFunction (x:y:ys) &quot;*&quot; = (x * y):ys
+            foldingFunction (x:y:ys) &quot;+&quot; = (x + y):ys
+            foldingFunction (x:y:ys) &quot;-&quot; = (y - x):ys
             foldingFunction xs numberString = read numberString:xs
 </pre>
 <p>We laid this out as four patterns. The patterns will be tried from top to bottom. First the folding function will see if the current item is <span class="fixed">"*"</span>. If it is, then it will take a list like <span class="fixed">[3,4,9,3]</span> and call its first two elements <span class="fixed">x</span> and <span class="fixed">y</span> respectively. So in this case, <span class="fixed">x</span> would be <span class="fixed">3</span> and <span class="fixed">y</span> would be <span class="fixed">4</span>. <span class="fixed">ys</span> would be <span class="fixed">[9,3]</span>. It will return a list that’s just like <span class="fixed">ys</span>, only it has <span class="fixed">x</span> and <span class="fixed">y</span> multiplied as its head. So with this we pop the two topmost numbers off the stack, multiply them and push the result back on to the stack. If the item is not <span class="fixed">"*"</span>, the pattern matching will fall through and <span class="fixed">"+"</span> will be checked, and so on.</p>
@@ -79,17 +79,17 @@ solveRPN = head . foldl foldingFunction [] . words
 <p>For the list of items <span class="fixed">["2","3","+"]</span>, our function will start folding from the left. The intial stack will be <span class="fixed">[]</span>. It will call the folding function with <span class="fixed">[]</span> as the stack (accumulator) and <span class="fixed">"2"</span> as the item. Because that item is not an operator, it will be <span class="fixed">read</span> and the added to the beginning of <span class="fixed">[]</span>. So the new stack is now <span class="fixed">[2]</span> and the folding function will be called with <span class="fixed">[2]</span> as the stack and <span class="fixed">["3"]</span> as the item, producing a new stack of <span class="fixed">[3,2]</span>. Then, it’s called for the third time with <span class="fixed">[3,2]</span> as the stack and <span class="fixed">"+"</span> as the item. This causes these two numbers to be popped off the stack, added together and pushed back. The final stack is <span class="fixed">[5]</span>, which is the number that we return.</p>
 <p>Let’s play around with our function:</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; solveRPN "10 4 3 + 2 * -"
+ghci&gt; solveRPN &quot;10 4 3 + 2 * -&quot;
 -4
-ghci&gt; solveRPN "2 3 +"
+ghci&gt; solveRPN &quot;2 3 +&quot;
 5
-ghci&gt; solveRPN "90 34 12 33 55 66 + * - +"
+ghci&gt; solveRPN &quot;90 34 12 33 55 66 + * - +&quot;
 -3947
-ghci&gt; solveRPN "90 34 12 33 55 66 + * - + -"
+ghci&gt; solveRPN &quot;90 34 12 33 55 66 + * - + -&quot;
 4037
-ghci&gt; solveRPN "90 34 12 33 55 66 + * - + -"
+ghci&gt; solveRPN &quot;90 34 12 33 55 66 + * - + -&quot;
 4037
-ghci&gt; solveRPN "90 3 -"
+ghci&gt; solveRPN &quot;90 3 -&quot;
 87
 </pre>
 <p>Cool, it works! One nice thing about this function is that it can be easily modified to support various other operators. They don’t even have to be binary operators. For instance, we can make an operator <span class="fixed">"log"</span> that just pops one number off the stack and pushes back its logarithm. We can also make ternary operators that pop three numbers off the stack and push back a result or operators like <span class="fixed">"sum"</span> which pop off all the numbers and push back their sum. </p>
@@ -99,29 +99,29 @@ import Data.List
 
 solveRPN :: String -&gt; Float
 solveRPN = head . foldl foldingFunction [] . words
-    where   foldingFunction (x:y:ys) "*" = (x * y):ys
-            foldingFunction (x:y:ys) "+" = (x + y):ys
-            foldingFunction (x:y:ys) "-" = (y - x):ys
-            foldingFunction (x:y:ys) "/" = (y / x):ys
-            foldingFunction (x:y:ys) "^" = (y ** x):ys
-            foldingFunction (x:xs) "ln" = log x:xs
-            foldingFunction xs "sum" = [sum xs]
+    where   foldingFunction (x:y:ys) &quot;*&quot; = (x * y):ys
+            foldingFunction (x:y:ys) &quot;+&quot; = (x + y):ys
+            foldingFunction (x:y:ys) &quot;-&quot; = (y - x):ys
+            foldingFunction (x:y:ys) &quot;/&quot; = (y / x):ys
+            foldingFunction (x:y:ys) &quot;^&quot; = (y ** x):ys
+            foldingFunction (x:xs) &quot;ln&quot; = log x:xs
+            foldingFunction xs &quot;sum&quot; = [sum xs]
             foldingFunction xs numberString = read numberString:xs
 </pre>
 <p>Wow, great! <span class="fixed">/</span> is division of course and <span class="fixed">**</span> is floating point exponentiation. With the logarithm operator, we just pattern match against a single element and the rest of the stack because we only need one element to perform its natural logarithm. With the sum operator, we just return a stack that has only one element, which is the sum of the stack so far.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; solveRPN "2.7 ln"
+ghci&gt; solveRPN &quot;2.7 ln&quot;
 0.9932518
-ghci&gt; solveRPN "10 10 10 10 sum 4 /"
+ghci&gt; solveRPN &quot;10 10 10 10 sum 4 /&quot;
 10.0
-ghci&gt; solveRPN "10 10 10 10 10 sum 4 /"
+ghci&gt; solveRPN &quot;10 10 10 10 10 sum 4 /&quot;
 12.5
-ghci&gt; solveRPN "10 2 ^"
+ghci&gt; solveRPN &quot;10 2 ^&quot;
 100.0
 </pre>
 <p>Notice that we can include floating point numbers in our expression because <span class="fixed">read</span> knows how to read them.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; solveRPN "43.2425 0.5 ^"
+ghci&gt; solveRPN &quot;43.2425 0.5 ^&quot;
 6.575903
 </pre>
 <p>I think that making a function that can calculate arbitrary floating point RPN expressions and has the option to be easily extended in 10 lines is pretty awesome.</p>
@@ -264,8 +264,8 @@ main = do
         path = optimalPath roadSystem
         pathString = concat $ map (show . fst) path
         pathPrice = sum $ map snd path
-    putStrLn $ "The best path to take is: " ++ pathString
-    putStrLn $ "The price is: " ++ show pathPrice
+    putStrLn $ &quot;The best path to take is: &quot; ++ pathString
+    putStrLn $ &quot;The price is: &quot; ++ show pathPrice
 </pre>
 <p>First, we get all the contents from the standard input. Then, we call <span class="fixed">lines</span> with our contents to convert something like <span class="fixed">"50\n10\n30\n...</span> to <span class="fixed">["50","10","30"..</span> and then we map <span class="fixed">read</span> to that to convert it to a list of numbers. We call <span class="fixed">groupsOf 3</span> on it so that we turn it to a list of lists of length 3. We map the lambda <span class="fixed">(\[a,b,c] -&gt; Section a b c)</span> over that list of lists. As you can see, the lambda just takes a list of length 3 and turns it into a section. So <span class="fixed">roadSystem</span> is now our system of roads and it even has the correct type, namely <span class="fixed">RoadSystem</span> (or <span class="fixed">[Section]</span>). We call <span class="fixed">optimalPath</span> with that and then get the path and the price in a nice textual representation and print it out.</p>
 <p>We save the following text </p>
