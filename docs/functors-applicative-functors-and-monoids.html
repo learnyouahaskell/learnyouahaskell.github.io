@@ -233,7 +233,7 @@ ghci&gt; :t fmap (\x y z -&gt; x + y / z) [3,4,5,6]
 fmap (\x y z -&gt; x + y / z) [3,4,5,6] :: (Fractional a) =&gt; [a -&gt; a -&gt; a]
 </pre>
 <p>If we map <span class="fixed">compare</span>, which has a type of <span class="fixed">(Ord a) =&gt; a -&gt; a -&gt; Ordering</span> over a list of characters, we get a list of functions of type <span class="fixed">Char -&gt; Ordering</span>, because the function <span class="fixed">compare</span> gets partially applied with the characters in the list. It’s not a list of <span class="fixed">(Ord a) =&gt; a -&gt; Ordering</span> function, because the first <span class="fixed">a</span> that got applied was a <span class="fixed">Char</span> and so the second <span class="fixed">a</span> has to decide to be of type <span class="fixed">Char</span>.</p>
-<p>We see how by mapping "multi-parameter" functions over functors, we get functors that contain functions inside them. So now what can we do with them? Well for one, we can map functions that take these functions as parameters over them, because whatever is inside a functor will be given to the function that we’re mapping over it as a parameter.</p>
+<p>We see how by mapping “multi-parameter” functions over functors, we get functors that contain functions inside them. So now what can we do with them? Well for one, we can map functions that take these functions as parameters over them, because whatever is inside a functor will be given to the function that we’re mapping over it as a parameter.</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; let a = fmap (*) [1,2,3,4]
 ghci&gt; :t a
