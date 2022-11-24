@@ -4,7 +4,7 @@
 
 ## Can I put this tutorial on my site or change it or whatever? 
 
-Sure, it's licensed under a [creative commons](https://creativecommons.org/licenses/by-nc-sa/3.0/){rel=nofollow} license, so you can share and change this, as long as you do it with a smile on your face and for non-commercial purposes.
+Sure, it's licensed under a [creative commons](https://creativecommons.org/licenses/by-nc-sa/3.0/){rel=license} license, so you can share and change this, as long as you do it with a smile on your face and for non-commercial purposes.
 
 ## Do you recommend any other Haskell reading material? 
 
