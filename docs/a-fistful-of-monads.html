@@ -31,7 +31,7 @@
                                             </li>
                 </ul>
             </div>
-        <h1>A Fistful of Monads</h1>
+        <h1 id="a-fistful-of-monads">A Fistful of Monads</h1>
 
 <p>
 When we first talked about functors, we saw that they were a useful concept for
@@ -1682,7 +1682,7 @@ So filtering in list comprehensions is the same as using
 <span class="fixed">guard</span>.
 </p>
 
-<h3>A knight’s quest</h3>
+<h3 id="a-knights-quest">A knight’s quest</h3>
 <p>
 Here’s a problem that really lends itself to being solved with non-determinism.
 Say you have a chess board and only one knight piece on it. We want to find out
@@ -1864,7 +1864,7 @@ when we go about making our own monads, we’re going to have to manually check
 the if the laws hold. But don’t worry, they’re not complicated.
 </p>
 
-<h3>Left identity</h3>
+<h3 id="left-identity">Left identity</h3>
 
 <p>
 The first monad law states that if we take a value, put it in a default
@@ -1925,7 +1925,7 @@ just presents a value as its result. So it makes sense that this law holds for
 <span class="fixed">IO</span> as well.
 </p>
 
-<h3>Right identity</h3>
+<h3 id="right-identity">Right identity</h3>
 
 <p>
 The second law states that if we have a monadic value and we use
@@ -1983,7 +1983,7 @@ making normal values into monadic ones and it wouldn’t be good if the monadic
 value that it produced did a lot of other stuff.
 </p>
 
-<h3>Associativity</h3>
+<h3 id="associativity">Associativity</h3>
 
 <p>
 The final monad law says that when we have a chain of monadic function

@@ -29,7 +29,7 @@
                                             </li>
                 </ul>
             </div>
-        <h1>Zippers</h1>
+        <h1 id="zippers">Zippers</h1>
 
 <img src="assets/images/zippers/60sdude.png" alt="hi im chet" class="right" width="122" height="407">
 
@@ -312,7 +312,7 @@ ghci&gt; (freeTree, []) -: goRight -: goLeft
 (Node &#39;W&#39; (Node &#39;C&#39; Empty Empty) (Node &#39;R&#39; Empty Empty),[L,R])
 </pre>
 
-<h3>Going back up</h3>
+<h3 id="going-back-up">Going back up</h3>
 
 <p>
 What if we now want to go back up in our tree? From our breadcrumbs we know
@@ -468,7 +468,7 @@ zipper is more widely used to describe such a setup, so we’ll stick with
 <span class="fixed">Zipper</span>.
 </p>
 
-<h3>Manipulating trees under focus</h3>
+<h3 id="manipulating-trees-under-focus">Manipulating trees under focus</h3>
 
 <p>
 Now that we can move up and down, let’s make a function that
@@ -560,7 +560,7 @@ tree, it would be the same tree as <span class="fixed">freeTree</span> but with
 an additional <span class="fixed">'Z'</span> on its far left.
 </p>
 
-<h3>I’m going straight to the top, oh yeah, up where the air is fresh and clean!</h3>
+<h3 id="im-going-straight-to-the-top-oh-yeah-up-where-the-air-is-fresh-and-clean">I’m going straight to the top, oh yeah, up where the air is fresh and clean!</h3>
 
 <p>
 Making a function that walks all the way to the top of the tree, regardless of
@@ -771,7 +771,7 @@ myDisk =
 That’s actually what my disk contains right now.
 </p>
 
-<h3>A zipper for our file system</h3>
+<h3 id="a-zipper-for-our-file-system">A zipper for our file system</h3>
 
 <img src="assets/images/zippers/spongedisk.png" alt="spongedisk" class="right" width="243" height="271">
 
@@ -936,7 +936,7 @@ ghci&gt; fst newFocus2
 File &quot;watermelon_smash.gif&quot; &quot;smash!!&quot;
 </pre>
 
-<h3>Manipulating our file system</h3>
+<h3 id="manipulating-our-file-system">Manipulating our file system</h3>
 
 <p>
 Now that we know how to navigate our file system, manipulating it is easy.

@@ -31,7 +31,7 @@
                                             </li>
                 </ul>
             </div>
-        <h1>Functors, Applicative Functors and Monoids</h1>
+        <h1 id="functors-applicative-functors-and-monoids">Functors, Applicative Functors and Monoids</h1>
 <p>Haskell’s combination of purity, higher order functions, parameterized algebraic data types, and typeclasses allows us to implement polymorphism on a much higher level than possible in other languages. We don’t have to think about types belonging to a big hierarchy of types. Instead, we think about what the types can act like and then connect them with the appropriate typeclasses. An <span class="fixed">Int</span> can act like a lot of things. It can act like an equatable thing, like an ordered thing, like an enumerable thing, etc.</p>
 <p>Typeclasses are open, which means that we can define our own data type, think about what it can act like and connect it with the typeclasses that define its behaviors. Because of that and because of Haskell’s great type system that allows us to know a lot about a function just by knowing its type declaration, we can define typeclasses that define behavior that’s very general and abstract. We’ve met typeclasses that define operations for seeing if two things are equal or comparing two things by some ordering. Those are very abstract and elegant behaviors, but we just don’t think of them as anything very special because we’ve been dealing with them for most of our lives. We recently met functors, which are basically things that can be mapped over. That’s an example of a useful and yet still pretty abstract property that typeclasses can describe. In this chapter, we’ll take a closer look at functors, along with slightly stronger and more useful versions of functors called applicative functors. We’ll also take a look at monoids, which are sort of like socks.</p>
 <h2 id="functors-redux">Functors redux</h2>
@@ -735,7 +735,7 @@ and unwrapping, but you can also think of it as converting values from one type
 to the other.
 </p>
 
-<h3>Using newtype to make type class instances</h3>
+<h3 id="using-newtype-to-make-type-class-instances">Using newtype to make type class instances</h3>
 
 <p>
 Many times, we want to make our types instances of certain type classes, but the
@@ -837,7 +837,7 @@ ghci&gt; getPair $ fmap reverse (Pair (&quot;london calling&quot;, 3))
 (&quot;gnillac nodnol&quot;,3)
 </pre>
 
-<h3>On newtype laziness</h3>
+<h3 id="on-newtype-laziness">On newtype laziness</h3>
 
 <p>
 We mentioned that <i>newtype</i> is usually faster than <i>data</i>. The
@@ -967,7 +967,7 @@ something out of a box (like it is with <i>data</i>), it’s more about making a
 direct conversion from one type to another.
 </p>
 
-<h3><span class="fixed">type</span> vs. <span class="fixed">newtype</span> vs. <span class="fixed">data</span></h3>
+<h3 id="type-vs.-newtype-vs.-data"><span class="fixed">type</span> vs. <span class="fixed">newtype</span> vs. <span class="fixed">data</span></h3>
 
 <p>
 At this point, you may be a bit confused about what exactly the difference
@@ -1261,7 +1261,7 @@ monoid values into one doesn’t matter. Haskell doesn’t enforce these laws, s
 as the programmer have to be careful that our instances do indeed obey them.
 </p>
 
-<h3>Lists are monoids</h3>
+<h3 id="lists-are-monoids">Lists are monoids</h3>
 
 <p>
 Yes, lists are monoids! Like we’ve seen, the <span class="fixed">++</span>
@@ -1348,7 +1348,7 @@ And that’s okay. The fact that for multiplication <span class="fixed">3 * 5</s
 multiplication, but it doesn’t hold for all (and indeed, most) monoids.
 </p>
 
-<h3><span class="fixed">Product</span> and <span class="fixed">Sum</span></h3>
+<h3 id="product-and-sum"><span class="fixed">Product</span> and <span class="fixed">Sum</span></h3>
 
 <p>
 We already examined one way for numbers to be considered monoids. Just have the
@@ -1447,7 +1447,7 @@ ghci&gt; getSum . mconcat . map Sum $ [1,2,3]
 6
 </pre>
 
-<h3><span class="fixed">Any</span> and <span class="fixed">All</span></h3>
+<h3 id="any-and-all"><span class="fixed">Any</span> and <span class="fixed">All</span></h3>
 
 <p>
 Another type which can act like a monoid in two distinct but equally valid ways
@@ -1554,7 +1554,7 @@ which take lists of <span class="fixed">Bool</span>s and return
 if all of them are <span class="fixed">True</span>, respectively.
 </p>
 
-<h3>The <span class="fixed">Ordering</span> monoid</h3>
+<h3 id="the-ordering-monoid">The <span class="fixed">Ordering</span> monoid</h3>
 
 <p>
 Hey, remember the <span class="fixed">Ordering</span> type? It’s used as the
@@ -1734,7 +1734,7 @@ to easily compare things by many different criteria and put those criteria in an
 order themselves, ranging from the most important to the least.
 </p>
 
-<h3><span class="fixed">Maybe</span> the monoid</h3>
+<h3 id="maybe-the-monoid"><span class="fixed">Maybe</span> the monoid</h3>
 
 <p>
 Let’s take a look at the various ways that <span class="fixed">Maybe a</span>
@@ -1871,7 +1871,7 @@ ghci&gt; getLast $ Last (Just &quot;one&quot;) `mappend` Last (Just &quot;two&qu
 Just &quot;two&quot;
 </pre>
 
-<h3>Using monoids to fold data structures</h3>
+<h3 id="using-monoids-to-fold-data-structures">Using monoids to fold data structures</h3>
 
 <p>
 One of the more interesting ways to put monoids to work is to make them help us

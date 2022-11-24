@@ -31,7 +31,7 @@
                                             </li>
                 </ul>
             </div>
-        <h1>For a Few Monads More</h1>
+        <h1 id="for-a-few-monads-more">For a Few Monads More</h1>
 
 <img src="assets/images/for-a-few-monads-more/clint.png" alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java" class="right" width="189" height="400">
 
@@ -217,7 +217,7 @@ and not a tuple and how <span class="fixed">applyLog</span> takes care of
 appending the logs.
 </p>
 
-<h3>Monoids to the rescue</h3>
+<h3 id="monoids-to-the-rescue">Monoids to the rescue</h3>
 
 <div class="hintbox">
 Be sure you know what <a href="functors-applicative-functors-and-monoids.html#monoids">monoids</a> are at this point! Cheers.
@@ -353,7 +353,7 @@ And if we use <span class="fixed">applyLog</span> to feed that to
 <span class="fixed">("beer", Sum 65)</span>.
 </p>
 
-<h3>The Writer type</h3>
+<h3 id="the-writer-type">The Writer type</h3>
 
 <p>
 Now that we’ve seen that a value with an attached monoid acts like a monadic
@@ -455,7 +455,7 @@ for <span class="fixed">fail</span>, so if a pattern match fails in
 <span class="fixed">do</span> notation, <span class="fixed">error</span> is called.
 </p>
 
-<h3>Using do notation with Writer</h3>
+<h3 id="using-do-notation-with-writer">Using do notation with Writer</h3>
 
 <p>
 Now that we have a <span class="fixed">Monad</span> instance, we’re free to use
@@ -539,7 +539,7 @@ ghci&gt; runWriter multWithLog
 (15,[&quot;Got number: 3&quot;,&quot;Got number: 5&quot;,&quot;Gonna multiply these two&quot;])
 </pre>
 
-<h3>Adding logging to programs</h3>
+<h3 id="adding-logging-to-programs">Adding logging to programs</h3>
 
 <p>
 Euclid’s algorithm is an algorithm that takes two numbers and computes their
@@ -677,7 +677,7 @@ application to <span class="fixed">&gt;&gt;=</span> (or
 <span class="fixed">do</span> expressions if it increases readability).
 </p>
 
-<h3>Inefficient list construction</h3>
+<h3 id="inefficient-list-construction">Inefficient list construction</h3>
 
 <p>
 When using the <span class="fixed">Writer</span> monad, you have to be careful
@@ -754,7 +754,7 @@ It’s inefficient because it ends up associating the use of
 the left instead of to the right.
 </p>
 
-<h3>Difference lists</h3>
+<h3 id="difference-lists">Difference lists</h3>
 
 <img src="assets/images/for-a-few-monads-more/cactus.png" alt="cactuses" class="left" width="147" height="300">
 
@@ -897,7 +897,7 @@ to unwrap it from the <span class="fixed">newtype</span>, then apply
 finally print its entries to the screen.
 </p>
 
-<h3>Comparing Performance</h3>
+<h3 id="comparing-performance">Comparing Performance</h3>
 
 <p>
 To get a feel for just how much difference lists may improve your performance,
@@ -1223,7 +1223,7 @@ have to provide some initial state to actually get that result and that apart
 from getting a result we also get a new state.
 </p>
 
-<h3>Stacks and stones</h3>
+<h3 id="stacks-and-stones">Stacks and stones</h3>
 
 <p>
 Say we want to model operating a stack. You have a stack of things one on top
@@ -1323,7 +1323,7 @@ be able to take stateful computations like these and use them without having to 
 the state manually.
 </p>
 
-<h3>The State monad</h3>
+<h3 id="the-state-monad">The State monad</h3>
 
 <p>
 The <span class="fixed">Control.Monad.State</span> module provides a
@@ -1574,7 +1574,7 @@ different, we’d be using <span class="fixed">&gt;&gt;=</span> between two
 different monads.
 </p>
 
-<h3>Randomness and the state monad</h3>
+<h3 id="randomness-and-the-state-monad">Randomness and the state monad</h3>
 
 <p>
 At the beginning of this section, we saw how generating numbers can sometimes be
@@ -1819,7 +1819,7 @@ know, like <span class="fixed">filter</span> and <span class="fixed">foldl</span
 Let’s see what they are then!
 </p>
 
-<h3>liftM and friends</h3>
+<h3 id="liftm-and-friends">liftM and friends</h3>
 
 <img src="assets/images/for-a-few-monads-more/wolf.png" alt="im a cop too" class="right" width="394" height="222">
 
@@ -2044,7 +2044,7 @@ instances, so we examined the monadic equivalents of the functions that functors
 and applicative functors use.
 </p>
 
-<h3>The join function</h3>
+<h3 id="the-join-function">The join function</h3>
 
 <p>
 Here’s some food for thought: if the result of one monadic value is another
@@ -2210,7 +2210,7 @@ easier to figure out how we would flatten a nested monadic value than figuring
 out how to implement <span class="fixed">&gt;&gt;=</span>.
 </p>
 
-<h3>filterM</h3>
+<h3 id="filterm">filterM</h3>
 
 <p>
 The <span class="fixed">filter</span> function is pretty much the bread of
@@ -2383,7 +2383,7 @@ lists as non-deterministic values that don’t know what to be so they just deci
 to be everything at once, it’s a bit easier.
 </p>
 
-<h3>foldM</h3>
+<h3 id="foldm">foldM</h3>
 
 <p>
 The monadic counterpart to <span class="fixed">foldl</span> is
@@ -2466,7 +2466,7 @@ Excellent! Because one number in the list was greater than
 whatever you want as your fold goes along its way.
 </p>
 
-<h3>Making a safe RPN calculator</h3>
+<h3 id="making-a-safe-rpn-calculator">Making a safe RPN calculator</h3>
 
 <img src="assets/images/for-a-few-monads-more/miner.png" alt="i’ve found yellow!" class="left" width="280" height="396">
 
@@ -2656,7 +2656,7 @@ expression fails. The second failure happens because <span class="fixed">readMay
 returns a <span class="fixed">Nothing</span>.
 </p>
 
-<h3>Composing monadic functions</h3>
+<h3 id="composing-monadic-functions">Composing monadic functions</h3>
 
 <p>
 When we were learning about the monad laws, we said that the
