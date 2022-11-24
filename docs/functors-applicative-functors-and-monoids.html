@@ -420,7 +420,7 @@ ghci&gt; (+) &lt;$&gt; (+3) &lt;*&gt; (*100) $ 5
 ghci&gt; (\x y z -&gt; [x,y,z]) &lt;$&gt; (+3) &lt;*&gt; (*2) &lt;*&gt; (/2) $ 5
 [8.0,10.0,2.5]
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/jazzb.png" class="right" width="400px" height="230px" alt="SLAP">
+<img src="assets/images/functors-applicative-functors-and-monoids/jazzb.png" class="right" width="400" height="230" alt="SLAP">
 <p>Same here. We create a function that will call the function <span class="fixed">\x y z -&gt; [x,y,z]</span> with the eventual results from <span class="fixed">(+3)</span>, <span class="fixed">(*2)</span> and <span class="fixed">(/2)</span>. The <span class="fixed">5</span> gets fed to each of the three functions and then <span class="fixed">\x y z -&gt; [x, y, z]</span> gets called with those results.</p>
 <p>You can think of functions as boxes that contain their eventual results, so doing <span class="fixed">k &lt;$&gt; f &lt;*&gt; g</span> creates a function that will call <span class="fixed">k</span> with the eventual results from <span class="fixed">f</span> and <span class="fixed">g</span>. When we do something like <span class="fixed">(+) &lt;$&gt; Just 3 &lt;*&gt; Just 5</span>, we’re using <span class="fixed">+</span> on values that might or might not be there, which also results in a value that might or might not be there. When we do <span class="fixed">(+) &lt;$&gt; (+10) &lt;*&gt; (+5)</span>, we’re using <span class="fixed">+</span> on the future return values of <span class="fixed">(+10)</span> and <span class="fixed">(+5)</span> and the result is also something that will produce a value only when called with a parameter.</p>
 <p>We don’t often use functions as applicatives, but this is still really interesting. It’s not very important that you get how the <span class="fixed">(-&gt;) r</span> instance for <span class="fixed">Applicative</span> works, so don’t despair if you’re not getting this right now. Try playing with the applicative style and functions to build up an intuition for functions as applicatives.</p>
@@ -767,7 +767,7 @@ we look at <span class="fixed">fmap</span> like it only worked on
 fmap :: (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/krakatoa.png" class="right" width="322px" height="280px" alt="wow, very evil">
+<img src="assets/images/functors-applicative-functors-and-monoids/krakatoa.png" class="right" width="322" height="280" alt="wow, very evil">
 
 <p>
 Isn’t that just peachy? Now what if we wanted to make the tuple an instance of
