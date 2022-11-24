@@ -35,7 +35,7 @@
 <p>Haskell’s combination of purity, higher order functions, parameterized algebraic data types, and typeclasses allows us to implement polymorphism on a much higher level than possible in other languages. We don’t have to think about types belonging to a big hierarchy of types. Instead, we think about what the types can act like and then connect them with the appropriate typeclasses. An <span class="fixed">Int</span> can act like a lot of things. It can act like an equatable thing, like an ordered thing, like an enumerable thing, etc.</p>
 <p>Typeclasses are open, which means that we can define our own data type, think about what it can act like and connect it with the typeclasses that define its behaviors. Because of that and because of Haskell’s great type system that allows us to know a lot about a function just by knowing its type declaration, we can define typeclasses that define behavior that’s very general and abstract. We’ve met typeclasses that define operations for seeing if two things are equal or comparing two things by some ordering. Those are very abstract and elegant behaviors, but we just don’t think of them as anything very special because we’ve been dealing with them for most of our lives. We recently met functors, which are basically things that can be mapped over. That’s an example of a useful and yet still pretty abstract property that typeclasses can describe. In this chapter, we’ll take a closer look at functors, along with slightly stronger and more useful versions of functors called applicative functors. We’ll also take a look at monoids, which are sort of like socks.</p>
 <h2 id="functors-redux">Functors redux</h2>
-<img src="assets/images/functors-applicative-functors-and-monoids/frogtor.png" alt="frogs dont even need money" class="right" width="369" height="243">
+<img src="assets/images/functors-applicative-functors-and-monoids/frogtor.png" class="right" width="369" height="243" alt="frogs dont even need money">
 <p>We’ve already talked about functors in <a href="making-our-own-types-and-typeclasses.html#the-functor-typeclass">their own little section</a>. If you haven’t read it yet, you should probably give it a glance right now, or maybe later when you have more time. Or you can just pretend you read it.</p>
 <p>Still, here’s a quick refresher: Functors are things that can be mapped over, like lists, <span class="fixed">Maybe</span>s, trees, and such. In Haskell, they’re described by the typeclass <span class="fixed">Functor</span>, which has only one typeclass method, namely <span class="fixed">fmap</span>, which has a type of <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It says: give me a function that takes an <span class="fixed">a</span> and returns a <span class="fixed">b</span> and a box with an <span class="fixed">a</span> (or several of them) inside it and I’ll give you a box with a <span class="fixed">b</span> (or several of them) inside it. It kind of applies the function to the element inside the box.</p>
 <div class="hintbox"><em>A word of advice.</em> Many times the box analogy is used to help you get some intuition for how functors work, and later, we’ll probably use the same analogy for applicative functors and monads. It’s an okay analogy that helps people understand functors at first, just don’t take it too literally, because for some functors the box analogy has to be stretched really thin to still hold some truth. A more correct term for what a functor is would be <i>computational context</i>. The context might be that the computation can have a value or it might have failed (<span class="fixed">Maybe</span> and <span class="fixed">Either a</span>) or that there might be more values (lists), stuff like that.</div>
@@ -65,7 +65,7 @@ main = do line &lt;- fmap reverse getLine
           putStrLn $ &quot;You said &quot; ++ line ++ &quot; backwards!&quot;
           putStrLn $ &quot;Yes, you really said&quot; ++ line ++ &quot; backwards!&quot;
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/alien.png" alt="w00ooOoooOO" class="left" width="262" height="212">
+<img src="assets/images/functors-applicative-functors-and-monoids/alien.png" class="left" width="262" height="212" alt="w00ooOoooOO">
 <p>Just like when we <span class="fixed">fmap</span> <span class="fixed">reverse</span> over <span class="fixed">Just "blah"</span> to get <span class="fixed">Just "halb"</span>, we can <span class="fixed">fmap</span> <span class="fixed">reverse</span> over <span class="fixed">getLine</span>. <span class="fixed">getLine</span> is an I/O action that has a type of <span class="fixed">IO String</span> and mapping <span class="fixed">reverse</span> over it gives us an I/O action that will go out into the real world and get a line and then apply <span class="fixed">reverse</span> to its result. Like we can apply a function to something that’s inside a <span class="fixed">Maybe</span> box, we can apply a function to what’s inside an <span class="fixed">IO</span> box, only it has to go out into the real world to get something. Then when we bind it to a name by using <span class="fixed">&lt;-</span>, the name will reflect the result that already has <span class="fixed">reverse</span> applied to it.</p>
 <p>The I/O action <span class="fixed">fmap (++"!") getLine</span> behaves just like <span class="fixed">getLine</span>, only that its result always has <span class="fixed">"!"</span> appended to it!</p>
 <p>If we look at what <span class="fixed">fmap</span>’s type would be if it were limited to <span class="fixed">IO</span>, it would be <span class="fixed">fmap :: (a -&gt; b) -&gt; IO a -&gt; IO b</span>. <span class="fixed">fmap</span> takes a function and an I/O action and returns a new I/O action that’s like the old one, except that the function is applied to its contained result.</p>
@@ -117,7 +117,7 @@ ghci&gt; fmap (show . (*3)) (*100) 1
 <p>We can call <span class="fixed">fmap</span> as an infix function so that the resemblance to <span class="fixed">.</span> is clear. In the second input line, we’re mapping <span class="fixed">(*3)</span> over <span class="fixed">(+100)</span>, which results in a function that will take an input, call <span class="fixed">(+100)</span> on that and then call <span class="fixed">(*3)</span> on that result. We call that function with <span class="fixed">1</span>.</p>
 <p>How does the box analogy hold here? Well, if you stretch it, it holds. When we use <span class="fixed">fmap (+3)</span> over <span class="fixed">Just 3</span>, it’s easy to imagine the <span class="fixed">Maybe</span> as a box that has some contents on which we apply the function <span class="fixed">(+3)</span>. But what about when we’re doing <span class="fixed">fmap (*3) (+100)</span>? Well, you can think of the function <span class="fixed">(+100)</span> as a box that contains its eventual result. Sort of like how an I/O action can be thought of as a box that will go out into the real world and fetch some result. Using <span class="fixed">fmap (*3)</span> on <span class="fixed">(+100)</span> will create another function that acts like <span class="fixed">(+100)</span>, only before producing a result, <span class="fixed">(*3)</span> will be applied to that result. Now we can see how <span class="fixed">fmap</span> acts just like <span class="fixed">.</span> for functions.</p>
 <p>The fact that <span class="fixed">fmap</span> is function composition when used on functions isn’t so terribly useful right now, but at least it’s very interesting. It also bends our minds a bit and let us see how things that act more like computations than boxes (<span class="fixed">IO</span> and <span class="fixed">(-&gt;) r</span>) can be functors. The function being mapped over a computation results in the same computation but the result of that computation is modified with the function.</p>
-<img src="assets/images/functors-applicative-functors-and-monoids/lifter.png" alt="lifting a function is easier than lifting a million pounds" class="right" width="443" height="450">
+<img src="assets/images/functors-applicative-functors-and-monoids/lifter.png" class="right" width="443" height="450" alt="lifting a function is easier than lifting a million pounds">
 <p>Before we go on to the rules that <span class="fixed">fmap</span> should follow, let’s think about the type of <span class="fixed">fmap</span> once more. Its type is <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. We’re missing the class constraint <span class="fixed">(Functor f) =&gt;</span>, but we left it out here for brevity, because we’re talking about functors anyway so we know what the <span class="fixed">f</span> stands for. When we first learned about <a href="higher-order-functions.html#curried-functions">curried functions</a>, we said that all Haskell functions actually take one parameter. A function <span class="fixed">a -&gt; b -&gt; c</span> actually takes just one parameter of type <span class="fixed">a</span> and then returns a function <span class="fixed">b -&gt; c</span>, which takes one parameter and returns a <span class="fixed">c</span>. That’s how if we call a function with too few parameters (i.e. partially apply it), we get back a function that takes the number of parameters that we left out (if we’re thinking about functions as taking several parameters again). So <span class="fixed">a -&gt; b -&gt; c</span> can be written as <span class="fixed">a -&gt; (b -&gt; c)</span>, to make the currying more apparent.</p>
 <p>In the same vein, if we write <span class="fixed">fmap :: (a -&gt; b) -&gt; (f a -&gt; f b)</span>, we can think of <span class="fixed">fmap</span> not as a function that takes one function and a functor and returns a functor, but as a function that takes a function and returns a new function that’s just like the old one, only it takes a functor as a parameter and returns a functor as the result. It takes an <span class="fixed">a -&gt; b</span> function and returns a function <span class="fixed">f a -&gt; f b</span>. This is called <i>lifting</i> a function. Let’s play around with that idea by using GHCI’s <span class="fixed">:t</span> command:</p>
 <pre name="code" class="haskell:hs">
@@ -168,7 +168,7 @@ instance Functor Maybe where
 </pre>
 <p>We imagine that <span class="fixed">id</span> plays the role of the <span class="fixed">f</span> parameter in the implementation. We see that if wee <span class="fixed">fmap id</span> over <span class="fixed">Just x</span>, the result will be <span class="fixed">Just (id x)</span>, and because <span class="fixed">id</span> just returns its parameter, we can deduce that <span class="fixed">Just (id x)</span> equals <span class="fixed">Just x</span>. So now we know that if we map <span class="fixed">id</span> over a <span class="fixed">Maybe</span> value with a <span class="fixed">Just</span> value constructor, we get that same value back.</p>
 <p>Seeing that mapping <span class="fixed">id</span> over a <span class="fixed">Nothing</span> value returns the same value is trivial. So from these two equations in the implementation for <span class="fixed">fmap</span>, we see that the law <span class="fixed">fmap id = id</span> holds.</p>
-<img src="assets/images/functors-applicative-functors-and-monoids/justice.png" alt="justice is blind, but so is my dog" class="left" width="345" height="428">
+<img src="assets/images/functors-applicative-functors-and-monoids/justice.png" class="left" width="345" height="428" alt="justice is blind, but so is my dog">
 <p><em>The second law says that composing two functions and then mapping the resulting function over a functor should be the same as first mapping one function over the functor and then mapping the other one.</em> Formally written, that means that <span class="label law">fmap (f . g) = fmap f . fmap g</span>. Or to write it in another way, for any functor <i>F</i>, the following should hold: <span class="label law">fmap (f . g) F = fmap f (fmap g F)</span>.</p>
 <p>If we can show that some type obeys both functor laws, we can rely on it having the same fundamental behaviors as other functors when it comes to mapping. We can know that when we use <span class="fixed">fmap</span> on it, there won’t be anything other than mapping going on behind the scenes and that it will act like a thing that can be mapped over, i.e. a functor. You figure out how the second law holds for some type by looking at the implementation of <span class="fixed">fmap</span> for that type and then using the method that we used to check if <span class="fixed">Maybe</span> obeys the first law.</p>
 <p>If you want, we can check out how the second functor law holds for <span class="fixed">Maybe</span>. If we do <span class="fixed">fmap (f . g)</span> over <span class="fixed">Nothing</span>, we get <span class="fixed">Nothing</span>, because doing a <span class="fixed">fmap</span> with any function over <span class="fixed">Nothing</span> returns <span class="fixed">Nothing</span>. If we do <span class="fixed">fmap f (fmap g Nothing)</span>, we get <span class="fixed">Nothing</span>, for the same reason. OK, seeing how the second law holds for <span class="fixed">Maybe</span> if it’s a <span class="fixed">Nothing</span> value is pretty easy, almost trivial. </p><p>How about if it’s a <span class="fixed">Just <i>something</i></span> value? Well, if we do <span class="fixed">fmap (f . g) (Just x)</span>, we see from the implementation that it’s implemented as <span class="fixed">Just ((f . g) x)</span>, which is, of course, <span class="fixed">Just (f (g x))</span>. If we do <span class="fixed">fmap f (fmap g (Just x))</span>, we see from the implementation that <span class="fixed">fmap g (Just x)</span> is <span class="fixed">Just (g x)</span>. Ergo, <span class="fixed">fmap f (fmap g (Just x))</span> equals <span class="fixed">fmap f (Just (g x))</span> and from the implementation we see that this equals <span class="fixed">Just (f (g x))</span>.</p>
@@ -286,7 +286,7 @@ Nothing
 ghci&gt; pure (+) &lt;*&gt; Nothing &lt;*&gt; Just 5
 Nothing
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/whale.png" alt="whaale" class="right" width="214" height="177">
+<img src="assets/images/functors-applicative-functors-and-monoids/whale.png" class="right" width="214" height="177" alt="whaale">
 <p>What’s going on here? Let’s take a look, step by step. <span class="fixed">&lt;*&gt;</span> is left-associative, which means that <span class="fixed">pure (+) &lt;*&gt; Just 3 &lt;*&gt; Just 5</span> is the same as <span class="fixed">(pure (+) &lt;*&gt; Just 3) &lt;*&gt; Just 5</span>. First, the <span class="fixed">+</span> function is put in a functor, which is in this case a <span class="fixed">Maybe</span> value that contains the function. So at first, we have <span class="fixed">pure (+)</span>, which is <span class="fixed">Just (+)</span>. Next, <span class="fixed">Just (+) &lt;*&gt; Just 3</span> happens. The result of this is <span class="fixed">Just (3+)</span>. This is because of partial application. Only applying <span class="fixed">3</span> to the <span class="fixed">+</span> function results in a function that takes one parameter and adds 3 to it. Finally, <span class="fixed">Just (3+) &lt;*&gt; Just 5</span> is carried out, which results in a <span class="fixed">Just 8</span>. </p>
 <p>Isn’t this awesome?! Applicative functors and the applicative style of doing <span class="fixed">pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; ...</span> allow us to take a function that expects parameters that aren’t necessarily wrapped in functors and use that function to operate on several values that are in functor contexts. The function can take as many parameters as we want, because it’s always partially applied step by step between occurences of <span class="fixed">&lt;*&gt;</span>.</p>
 <p>This becomes even more handy and apparent if we consider the fact that <span class="fixed">pure f &lt;*&gt; x</span> equals <span class="fixed">fmap f x</span>. This is one of the applicative laws. We’ll take a closer look at them later, but for now, we can sort of intuitively see that this is so. Think about it, it makes sense. Like we said before, <span class="fixed">pure</span> puts a value in a default context. If we just put a function in a default context and then extract and apply it to a value inside another applicative functor, we did the same as just mapping that function over that applicative functor. Instead of writing <span class="fixed">pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; ...</span>, we can write <span class="fixed">fmap f x &lt;*&gt; y &lt;*&gt; ...</span>. This is why <span class="fixed">Control.Applicative</span> exports a function called <span class="fixed">&lt;$&gt;</span>, which is just <span class="fixed">fmap</span> as an infix operator. Here’s how it’s defined:</p>
@@ -365,7 +365,7 @@ instance Applicative IO where
         x &lt;- b
         return (f x)
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/knight.png" alt="ahahahah!" class="left" width="195" height="458">
+<img src="assets/images/functors-applicative-functors-and-monoids/knight.png" class="left" width="195" height="458" alt="ahahahah!">
 <p>Since <span class="fixed">pure</span> is all about putting a value in a minimal context that still holds it as its result, it makes sense that <span class="fixed">pure</span> is just <span class="fixed">return</span>, because <span class="fixed">return</span> does exactly that; it makes an I/O action that doesn’t do anything, it just yields some value as its result, but it doesn’t really do any I/O operations like printing to the terminal or reading from a file.</p>
 <p>If <span class="fixed">&lt;*&gt;</span> were specialized for <span class="fixed">IO</span> it would have a type of <span class="fixed">(&lt;*&gt;) :: IO (a -&gt; b) -&gt; IO a -&gt; IO b</span>. It would take an I/O action that yields a function as its result and another I/O action and create a new I/O action from those two that, when performed, first performs the first one to get the function and then performs the second one to get the value and then it would yield that function applied to the value as its result. We used <i>do</i> syntax to implement it here. Remember, <i>do</i> syntax is about taking several I/O actions and gluing them into one, which is exactly what we do here.</p>
 <p>With <span class="fixed">Maybe</span> and <span class="fixed">[]</span>, we could think of <span class="fixed">&lt;*&gt;</span> as simply extracting a function from its left parameter and then sort of applying it over the right one. With <span class="fixed">IO</span>, extracting is still in the game, but now we also have a notion of <i>sequencing</i>, because we’re taking two I/O actions and we’re sequencing, or gluing, them into one. We have to extract the function from the first I/O action, but to extract a result from an I/O action, it has to be performed.</p>
@@ -420,7 +420,7 @@ ghci&gt; (+) &lt;$&gt; (+3) &lt;*&gt; (*100) $ 5
 ghci&gt; (\x y z -&gt; [x,y,z]) &lt;$&gt; (+3) &lt;*&gt; (*2) &lt;*&gt; (/2) $ 5
 [8.0,10.0,2.5]
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/jazzb.png" alt="SLAP" class="right" width="400px" height="230px">
+<img src="assets/images/functors-applicative-functors-and-monoids/jazzb.png" class="right" width="400px" height="230px" alt="SLAP">
 <p>Same here. We create a function that will call the function <span class="fixed">\x y z -&gt; [x,y,z]</span> with the eventual results from <span class="fixed">(+3)</span>, <span class="fixed">(*2)</span> and <span class="fixed">(/2)</span>. The <span class="fixed">5</span> gets fed to each of the three functions and then <span class="fixed">\x y z -&gt; [x, y, z]</span> gets called with those results.</p>
 <p>You can think of functions as boxes that contain their eventual results, so doing <span class="fixed">k &lt;$&gt; f &lt;*&gt; g</span> creates a function that will call <span class="fixed">k</span> with the eventual results from <span class="fixed">f</span> and <span class="fixed">g</span>. When we do something like <span class="fixed">(+) &lt;$&gt; Just 3 &lt;*&gt; Just 5</span>, we’re using <span class="fixed">+</span> on values that might or might not be there, which also results in a value that might or might not be there. When we do <span class="fixed">(+) &lt;$&gt; (+10) &lt;*&gt; (+5)</span>, we’re using <span class="fixed">+</span> on the future return values of <span class="fixed">(+10)</span> and <span class="fixed">(+5)</span> and the result is also something that will produce a value only when called with a parameter.</p>
 <p>We don’t often use functions as applicatives, but this is still really interesting. It’s not very important that you get how the <span class="fixed">(-&gt;) r</span> instance for <span class="fixed">Applicative</span> works, so don’t despair if you’re not getting this right now. Try playing with the applicative style and functions to build up an intuition for functions as applicatives.</p>
@@ -556,7 +556,7 @@ woo
 <p>In conclusion, applicative functors aren’t just interesting, they’re also useful, because they allow us to combine different computations, such as I/O computations, non-deterministic computations, computations that might have failed, etc. by using the applicative style. Just by using <span class="fixed">&lt;$&gt;</span> and <span class="fixed">&lt;*&gt;</span> we can use normal functions to uniformly operate on any number of applicative functors and take advantage of the semantics of each one.</p>
 <h2 id="the-newtype-keyword">The newtype keyword</h2>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/maoi.png" alt="why_ so serious?" class="left" width="107" height="202">
+<img src="assets/images/functors-applicative-functors-and-monoids/maoi.png" class="left" width="107" height="202" alt="why_ so serious?">
 
 <p>
 So far, we’ve learned how to make our own algebraic data types by using the
@@ -767,7 +767,7 @@ we look at <span class="fixed">fmap</span> like it only worked on
 fmap :: (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/krakatoa.png" alt="wow, very evil" class="right" width="322px" height="280px">
+<img src="assets/images/functors-applicative-functors-and-monoids/krakatoa.png" class="right" width="322px" height="280px" alt="wow, very evil">
 
 <p>
 Isn’t that just peachy? Now what if we wanted to make the tuple an instance of
@@ -942,7 +942,7 @@ ghci&gt; helloMe undefined
 &quot;hello&quot;
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" alt="top of the mornin to ya!!!" class="right" width="184" height="230">
+<img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" class="right" width="184" height="230" alt="top of the mornin to ya!!!">
 
 <p>
 It worked! Hmmm, why is that? Well, like we’ve said, when we use <i>newtype</i>,
@@ -1064,8 +1064,8 @@ keyword.
 
 <h2 id="monoids">Monoids</h2>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/pirateship.png" alt="wow this is pretty much the gayest pirate ship
-ever" class="right" width="460" height="417">
+<img src="assets/images/functors-applicative-functors-and-monoids/pirateship.png" class="right" width="460" height="417" alt="wow this is pretty much the gayest pirate ship
+ever">
 
 <p>
 Type classes in Haskell are used to present an interface for types that have
@@ -1177,7 +1177,7 @@ class Monoid m where
     mconcat = foldr mappend mempty
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/balloondog.png" alt="woof dee do!!!" class="right" width="260" height="326">
+<img src="assets/images/functors-applicative-functors-and-monoids/balloondog.png" class="right" width="260" height="326" alt="woof dee do!!!">
 
 <p>
 The <span class="fixed">Monoid</span> type class is defined in
@@ -1305,7 +1305,7 @@ ghci&gt; mempty :: [a]
 []
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/smug.png" alt="smug as hell" class="left" width="157" height="144">
+<img src="assets/images/functors-applicative-functors-and-monoids/smug.png" class="left" width="157" height="144" alt="smug as hell">
 
 <p>
 Notice that in the last line, we had to write an explicit type annotation,
@@ -1589,7 +1589,7 @@ instance Monoid Ordering where
     GT `mappend` _ = GT
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/bear.png" alt="did anyone ORDER pizza?!?! I can’t BEAR these puns!" class="right" width="330" height="339">
+<img src="assets/images/functors-applicative-functors-and-monoids/bear.png" class="right" width="330" height="339" alt="did anyone ORDER pizza?!?! I can’t BEAR these puns!">
 
 <p>
 The instance is set up like this: when we <span class="fixed">mappend</span> two
@@ -2004,7 +2004,7 @@ instance F.Foldable Tree where
                              F.foldMap f r
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/accordion.png" alt="find the visual pun or whatever" class="right" width="366" height="280">
+<img src="assets/images/functors-applicative-functors-and-monoids/accordion.png" class="right" width="366" height="280" alt="find the visual pun or whatever">
 
 <p>
 We think like this: if we are provided with a function that takes an element of

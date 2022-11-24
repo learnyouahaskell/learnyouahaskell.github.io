@@ -47,7 +47,7 @@ monads, which are just beefed up applicative functors, much like
 applicative functors are only beefed up functors.
 </p>
 
-<img src="assets/images/a-fistful-of-monads/smugpig.png" alt="more cool than u" class="right" width="307" height="186">
+<img src="assets/images/a-fistful-of-monads/smugpig.png" class="right" width="307" height="186" alt="more cool than u">
 
 <p>
 When we started off with functors, we saw that it’s possible to map functions
@@ -168,7 +168,7 @@ three.
 
 <h2 id="getting-our-feet-wet-with-maybe">Getting our feet wet with Maybe</h2>
 
-<img src="assets/images/a-fistful-of-monads/buddha.png" alt="monads, grasshoppa" class="left" width="302" height="387">
+<img src="assets/images/a-fistful-of-monads/buddha.png" class="left" width="302" height="387" alt="monads, grasshoppa">
 
 <p>
 Now that we have a vague idea of what monads are about, let’s see if we can make
@@ -393,7 +393,7 @@ class Monad m where
     fail msg = error msg
 </pre>
 
-<img src="assets/images/a-fistful-of-monads/kid.png" alt="this is you on monads" class="right" width="363" height="451">
+<img src="assets/images/a-fistful-of-monads/kid.png" class="right" width="363" height="451" alt="this is you on monads">
 <p>
 Let’s start with the first line. It says <span class="fixed">class Monad m where</span>.
 But wait, didn’t we say that monads are just beefed up applicative functors? Shouldn’t
@@ -429,7 +429,7 @@ function execution or anything, it just takes a normal value and puts it in a
 context.
 </div>
 
-<img src="assets/images/a-fistful-of-monads/tur2.png" alt="hmmm yaes" class="left" width="169" height="145">
+<img src="assets/images/a-fistful-of-monads/tur2.png" class="left" width="169" height="145" alt="hmmm yaes">
 
 <p>
 The next function is <span class="fixed">&gt;&gt;=</span>, or bind. It’s like
@@ -515,7 +515,7 @@ the result of using <span class="fixed">&gt;&gt;=</span> will be <span class="fi
 
 <h2 id="walk-the-line">Walk the line</h2>
 
-<img src="assets/images/a-fistful-of-monads/pierre.png" alt="pierre" class="left" width="374" height="405">
+<img src="assets/images/a-fistful-of-monads/pierre.png" class="left" width="374" height="405" alt="pierre">
 
 <p>
 Now that we know how to feed a <span class="fixed">Maybe a</span> value to a
@@ -809,7 +809,7 @@ ghci&gt; return (0,0) &gt;&gt;= landLeft 1 &gt;&gt;= landRight 4 &gt;&gt;= landL
 Nothing
 </pre>
 
-<img src="assets/images/a-fistful-of-monads/banana.png" alt="iama banana" class="right" width="262" height="130">
+<img src="assets/images/a-fistful-of-monads/banana.png" class="right" width="262" height="130" alt="iama banana">
 
 <p>
 Awesome. The final result represents failure, which is what we expected. Let’s
@@ -940,7 +940,7 @@ routine = case landLeft 1 (0,0) of
             Just pole3 -&gt; landLeft 1 pole3
 </pre>
 
-<img src="assets/images/a-fistful-of-monads/centaur.png" alt="john joe glanton" class="right" width="297" height="331">
+<img src="assets/images/a-fistful-of-monads/centaur.png" class="right" width="297" height="331" alt="john joe glanton">
 
 <p>
 We land a bird on the left and then we examine the possibility of failure and
@@ -1077,7 +1077,7 @@ foo = do
     Just (show x ++ y)
 </pre>
 
-<img src="assets/images/a-fistful-of-monads/owld.png" alt="90s owl" class="right" width="269" height="348">
+<img src="assets/images/a-fistful-of-monads/owld.png" class="right" width="269" height="348" alt="90s owl">
 
 <p>
 It would seem as though we’ve gained the ability to temporarily extract things
@@ -1329,7 +1329,7 @@ monad instead of causing a program-wide failure, which is pretty neat.
 
 
 <h2 id="the-list-monad">The list monad</h2>
-<img src="assets/images/a-fistful-of-monads/deadcat.png" alt="dead cat" class="left" width="235" height="230">
+<img src="assets/images/a-fistful-of-monads/deadcat.png" class="left" width="235" height="230" alt="dead cat">
 <p>
 So far, we’ve seen how <span class="fixed">Maybe</span> values can be viewed as
 values with a failure context and how we can incorporate failure handling into
@@ -1465,7 +1465,7 @@ ghci&gt; [1,2] &gt;&gt;= \n -&gt; [&#39;a&#39;,&#39;b&#39;] &gt;&gt;= \ch -&gt; 
 [(1,&#39;a&#39;),(1,&#39;b&#39;),(2,&#39;a&#39;),(2,&#39;b&#39;)]
 </pre>
 
-<img src="assets/images/a-fistful-of-monads/concatmap.png" alt="concatmap" class="left" width="399" height="340">
+<img src="assets/images/a-fistful-of-monads/concatmap.png" class="left" width="399" height="340" alt="concatmap">
 
 <p>
 The list <span class="fixed">[1,2]</span> gets bound to
@@ -1692,7 +1692,7 @@ number will determine the column he’s in and the second number will determine
 the row.
 </p>
 
-<img src="assets/images/a-fistful-of-monads/chess.png" alt="hee haw im a horse" class="center" width="760" height="447">
+<img src="assets/images/a-fistful-of-monads/chess.png" class="center" width="760" height="447" alt="hee haw im a horse">
 
 <p>
 Let’s make a type synonym for the knight’s current position on the chess board:
@@ -1842,8 +1842,8 @@ instead of that number being hardcoded like it is now.
 
 <h2 id="monad-laws">Monad laws</h2>
 
-<img src="assets/images/a-fistful-of-monads/judgedog.png" alt="the court finds you guilty of peeing all over
-everything" class="right" width="343" height="170">
+<img src="assets/images/a-fistful-of-monads/judgedog.png" class="right" width="343" height="170" alt="the court finds you guilty of peeing all over
+everything">
 
 <p>
 Just like applicative functors, and functors before them, monads come with a few

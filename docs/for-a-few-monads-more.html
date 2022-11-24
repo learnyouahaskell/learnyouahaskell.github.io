@@ -33,7 +33,7 @@
             </div>
         <h1 id="for-a-few-monads-more">For a Few Monads More</h1>
 
-<img src="assets/images/for-a-few-monads-more/clint.png" alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java" class="right" width="189" height="400">
+<img src="assets/images/for-a-few-monads-more/clint.png" class="right" width="189" height="400" alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java">
 
 <p>
 We’ve seen how monads can be used to take values with contexts and apply them to
@@ -124,7 +124,7 @@ ghci&gt; isBigGang 30
 (True,&quot;Compared gang size to 9.&quot;)
 </pre>
 
-<img src="assets/images/for-a-few-monads-more/tuco.png" alt="when you have to poop, poop, don’t talk" class="left" width="196" height="280">
+<img src="assets/images/for-a-few-monads-more/tuco.png" class="left" width="196" height="280" alt="when you have to poop, poop, don’t talk">
 
 <p>
 So far so good. <span class="fixed">isBigGang</span> takes a normal value and
@@ -394,7 +394,7 @@ instance (Monoid w) =&gt; Monad (Writer w) where
 </pre>
 
 
-<img src="assets/images/for-a-few-monads-more/angeleyes.png" alt="when you have to poop, poop, don’t talk" class="right" width="383" height="248">
+<img src="assets/images/for-a-few-monads-more/angeleyes.png" class="right" width="383" height="248" alt="when you have to poop, poop, don’t talk">
 <p>
 First off, let’s examine <span class="fixed">&gt;&gt;=</span>. Its
 implementation is essentially the same as <span class="fixed">applyLog</span>,
@@ -756,7 +756,7 @@ the left instead of to the right.
 
 <h3 id="difference-lists">Difference lists</h3>
 
-<img src="assets/images/for-a-few-monads-more/cactus.png" alt="cactuses" class="left" width="147" height="300">
+<img src="assets/images/for-a-few-monads-more/cactus.png" class="left" width="147" height="300" alt="cactuses">
 
 <p>
 Because lists can sometimes be inefficient when repeatedly appended in this
@@ -976,7 +976,7 @@ Enjoy!
 
 <h2 id="reader">Reader? Ugh, not this joke again.</h2>
 
-<img src="assets/images/for-a-few-monads-more/revolver.png" alt="bang youre dead" class="left" width="280" height="106">
+<img src="assets/images/for-a-few-monads-more/revolver.png" class="left" width="280" height="106" alt="bang youre dead">
 
 <p>
 In the <a href="functors-applicative-functors-and-monoids.html">chapter about
@@ -1136,7 +1136,7 @@ implementation will make sure that it all works out.
 
 
 <h2 id="state">Tasteful stateful computations</h2>
-<img src="assets/images/for-a-few-monads-more/texas.png" alt="don’t jest with texas" class="left" width="244" height="230">
+<img src="assets/images/for-a-few-monads-more/texas.png" class="left" width="244" height="230" alt="don’t jest with texas">
 
 <p>
 Haskell is a pure language and because of that, our programs are made of
@@ -1366,7 +1366,7 @@ result of the stateful computation and the state is kept unchanged, because
 a certain value as the result and keeps the state unchanged.
 </p>
 
-<img src="assets/images/for-a-few-monads-more/badge.png" alt="im a cop" class="right" width="182" height="160">
+<img src="assets/images/for-a-few-monads-more/badge.png" class="right" width="182" height="160" alt="im a cop">
 
 <p>
 What about <span class="fixed">&gt;&gt;=</span>? Well, the result of feeding a
@@ -1821,7 +1821,7 @@ Let’s see what they are then!
 
 <h3 id="liftm-and-friends">liftM and friends</h3>
 
-<img src="assets/images/for-a-few-monads-more/wolf.png" alt="im a cop too" class="right" width="394" height="222">
+<img src="assets/images/for-a-few-monads-more/wolf.png" class="right" width="394" height="222" alt="im a cop too">
 
 <p>
 When we started our journey to the top of Monad Mountain, we first looked
@@ -2184,7 +2184,7 @@ joinedMaybes = do
     m
 </pre>
 
-<img src="assets/images/for-a-few-monads-more/tipi.png" alt="im a cop too as well also" class="right" width="253" height="379">
+<img src="assets/images/for-a-few-monads-more/tipi.png" class="right" width="253" height="379" alt="im a cop too as well also">
 
 <p>
 Perhaps the most interesting thing about <span class="fixed">join</span> is
@@ -2468,7 +2468,7 @@ whatever you want as your fold goes along its way.
 
 <h3 id="making-a-safe-rpn-calculator">Making a safe RPN calculator</h3>
 
-<img src="assets/images/for-a-few-monads-more/miner.png" alt="i’ve found yellow!" class="left" width="280" height="396">
+<img src="assets/images/for-a-few-monads-more/miner.png" class="left" width="280" height="396" alt="i’ve found yellow!">
 
 <p>
 When we were solving the problem of <a href="http://learnyouahaskell.com/reverse-polish-notation-calculator">implementing a RPN calculator</a>,
@@ -2771,7 +2771,7 @@ canReachIn x start end = end `elem` inMany x start
 
 
 <h2 id="making-monads">Making monads</h2>
-<img src="assets/images/for-a-few-monads-more/spearhead.png" alt="kewl" class="center" width="780" height="244">
+<img src="assets/images/for-a-few-monads-more/spearhead.png" class="center" width="780" height="244" alt="kewl">
 
 <p>
 In this section, we’re going to look at an example of how a type gets made,
@@ -2926,7 +2926,7 @@ are also equally likely to happen. Here’s a picture of a probability list that
 models this scenario:
 </p>
 
-<img src="assets/images/for-a-few-monads-more/prob.png" alt="probs" class="left" width="456" height="142">
+<img src="assets/images/for-a-few-monads-more/prob.png" class="left" width="456" height="142" alt="probs">
 
 <p>
 What are the chances for each of these letters to occur? If we were to draw this
@@ -2989,7 +2989,7 @@ instance Monad Prob where
     fail _ = Prob []
 </pre>
 
-<img src="assets/images/for-a-few-monads-more/ride.png" alt="ride em cowboy" class="right" width="177" height="406">
+<img src="assets/images/for-a-few-monads-more/ride.png" class="right" width="177" height="406" alt="ride em cowboy">
 
 <p>
 Because we already did all the hard work, the instance is very simple. We also
