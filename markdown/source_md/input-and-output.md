@@ -897,7 +897,7 @@ Same goes for writing to the terminal, it's kind of like writing to a file.
 We can call these two files `stdout` and `stdin`, meaning *standard output* and *standard input*, respectively.
 Keeping that in mind, we'll see that writing to and reading from files is very much like writing to the standard output and reading from the standard input.
 
-We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints it out to the terminal.
+We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1&nbsp;hit *Girlfriend*, and just prints it out to the terminal.
 Here's *girlfriend.txt*:
 
 ```{.plain}
