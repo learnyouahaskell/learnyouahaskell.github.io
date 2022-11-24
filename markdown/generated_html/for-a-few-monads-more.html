@@ -32,9 +32,9 @@
                 </ul>
             </div>
 <h1 id="for-a-few-monads-more">For a Few Monads More</h1>
-<p><img src="assets/images/for-a-few-monads-more/clint.png"
+<img src="assets/images/for-a-few-monads-more/clint.png"
 class="right" width="189" height="400"
-alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java" /></p>
+alt="there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java">
 <p>We’ve seen how monads can be used to take values with contexts and
 apply them to functions and how using <code>&gt;&gt;=</code> or
 <code>do</code> notation allows us to focus on the values themselves
@@ -86,9 +86,9 @@ added context to our value now. Let’s give this a go:</p>
 (False,&quot;Compared gang size to 9.&quot;)
 ghci&gt; isBigGang 30
 (True,&quot;Compared gang size to 9.&quot;)</code></pre>
-<p><img src="assets/images/for-a-few-monads-more/tuco.png" class="left"
+<img src="assets/images/for-a-few-monads-more/tuco.png" class="left"
 width="196" height="280"
-alt="when you have to poop, poop, don’t talk" /></p>
+alt="when you have to poop, poop, don’t talk">
 <p>So far so good. <code>isBigGang</code> takes a normal value and
 returns a value with a context. As we’ve just seen, feeding it a normal
 value is not a problem. Now what if we already have a value that has a
@@ -255,9 +255,9 @@ monoid value.</p>
 <pre class="haskell:hs"><code>instance (Monoid w) =&gt; Monad (Writer w) where
     return x = Writer (x, mempty)
     (Writer (x,v)) &gt;&gt;= f = let (Writer (y, v&#39;)) = f x in Writer (y, v `mappend` v&#39;)</code></pre>
-<p><img src="assets/images/for-a-few-monads-more/angeleyes.png"
+<img src="assets/images/for-a-few-monads-more/angeleyes.png"
 class="right" width="383" height="248"
-alt="when you have to poop, poop, don’t talk" /></p>
+alt="when you have to poop, poop, don’t talk">
 <p>First off, let’s examine <code>&gt;&gt;=</code>. Its implementation
 is essentially the same as <code>applyLog</code>, only now that our
 tuple is wrapped in the <code>Writer</code> <code>newtype</code>, we
@@ -492,8 +492,8 @@ Finished with 1
 <p>It’s inefficient because it ends up associating the use of
 <code>++</code> to the left instead of to the right.</p>
 <h3 id="difference-lists">Difference lists</h3>
-<p><img src="assets/images/for-a-few-monads-more/cactus.png"
-class="left" width="147" height="300" alt="cactuses" /></p>
+<img src="assets/images/for-a-few-monads-more/cactus.png"
+class="left" width="147" height="300" alt="cactuses">
 <p>Because lists can sometimes be inefficient when repeatedly appended
 in this manner, it’s best to use a data structure that always supports
 efficient appending. One such data structure is the difference list. A
@@ -617,8 +617,8 @@ lists take forever.</p>
 <p>Oh, by the way, the song Final Countdown by Europe is now stuck in
 your head. Enjoy!</p>
 <h2 id="reader">Reader? Ugh, not this joke again.</h2>
-<p><img src="assets/images/for-a-few-monads-more/revolver.png"
-class="left" width="280" height="106" alt="bang youre dead" /></p>
+<img src="assets/images/for-a-few-monads-more/revolver.png"
+class="left" width="280" height="106" alt="bang youre dead">
 <p>In the <a
 href="functors-applicative-functors-and-monoids.html">chapter about
 applicatives</a>, we saw that the function type, <code>(-&gt;) r</code>
@@ -725,8 +725,8 @@ thing, we can use the reader monad to sort of extract their future
 results and the <code>&gt;&gt;=</code> implementation will make sure
 that it all works out.</p>
 <h2 id="state">Tasteful stateful computations</h2>
-<p><img src="assets/images/for-a-few-monads-more/texas.png" class="left"
-width="244" height="230" alt="don’t jest with texas" /></p>
+<img src="assets/images/for-a-few-monads-more/texas.png" class="left"
+width="244" height="230" alt="don’t jest with texas">
 <p>Haskell is a pure language and because of that, our programs are made
 of functions that can’t change any global state or variables, they can
 only do some computations and return them results. This restriction
@@ -876,8 +876,8 @@ the result of the stateful computation and the state is kept unchanged,
 because <code>return</code> has to put a value in a minimal context. So
 <code>return</code> will make a stateful computation that presents a
 certain value as the result and keeps the state unchanged.</p>
-<p><img src="assets/images/for-a-few-monads-more/badge.png"
-class="right" width="182" height="160" alt="im a cop" /></p>
+<img src="assets/images/for-a-few-monads-more/badge.png"
+class="right" width="182" height="160" alt="im a cop">
 <p>What about <code>&gt;&gt;=</code>? Well, the result of feeding a
 stateful computation to a function with <code>&gt;&gt;=</code> has to be
 a stateful computation, right? So we start off with the
@@ -1146,8 +1146,8 @@ While some of them will be brand new, others will be monadic
 counterparts of functions that we already know, like <code>filter</code>
 and <code>foldl</code>. Let’s see what they are then!</p>
 <h3 id="liftm-and-friends">liftM and friends</h3>
-<p><img src="assets/images/for-a-few-monads-more/wolf.png" class="right"
-width="394" height="222" alt="im a cop too" /></p>
+<img src="assets/images/for-a-few-monads-more/wolf.png" class="right"
+width="394" height="222" alt="im a cop too">
 <p>When we started our journey to the top of Monad Mountain, we first
 looked at functors, which are for things that can be mapped over. Then,
 we learned about improved functors called applicative functors, which
@@ -1363,8 +1363,8 @@ was set in advance to <code>Just (Just 8)</code>:</p>
 joinedMaybes = do
     m &lt;- Just (Just 8)
     m</code></pre>
-<p><img src="assets/images/for-a-few-monads-more/tipi.png" class="right"
-width="253" height="379" alt="im a cop too as well also" /></p>
+<img src="assets/images/for-a-few-monads-more/tipi.png" class="right"
+width="253" height="379" alt="im a cop too as well also">
 <p>Perhaps the most interesting thing about <code>join</code> is that
 for every monad, feeding a monadic value to a function with
 <code>&gt;&gt;=</code> is the same thing as just mapping that function
@@ -1532,8 +1532,8 @@ Folding with a binary function that returns a <code>Writer</code> value
 is cool as well because then you log whatever you want as your fold goes
 along its way.</p>
 <h3 id="making-a-safe-rpn-calculator">Making a safe RPN calculator</h3>
-<p><img src="assets/images/for-a-few-monads-more/miner.png" class="left"
-width="280" height="396" alt="i’ve found yellow!" /></p>
+<img src="assets/images/for-a-few-monads-more/miner.png" class="left"
+width="280" height="396" alt="i’ve found yellow!">
 <p>When we were solving the problem of <a
 href="http://learnyouahaskell.com/reverse-polish-notation-calculator">implementing
 a RPN calculator</a>, we noted that it worked fine as long as the input
@@ -1717,8 +1717,8 @@ general as well:</p>
 <pre class="haskell:hs"><code>canReachIn :: Int -&gt; KnightPos -&gt; KnightPos -&gt; Bool
 canReachIn x start end = end `elem` inMany x start</code></pre>
 <h2 id="making-monads">Making monads</h2>
-<p><img src="assets/images/for-a-few-monads-more/spearhead.png"
-class="center" width="780" height="244" alt="kewl" /></p>
+<img src="assets/images/for-a-few-monads-more/spearhead.png"
+class="center" width="780" height="244" alt="kewl">
 <p>In this section, we’re going to look at an example of how a type gets
 made, identified as a monad and then given the appropriate
 <code>Monad</code> instance. We don’t usually set out to make a monad
@@ -1817,8 +1817,8 @@ chance that exactly one of <code>'c'</code> or <code>'d'</code> will
 happen. <code>'c'</code> and <code>'d'</code> are also equally likely to
 happen. Here’s a picture of a probability list that models this
 scenario:</p>
-<p><img src="assets/images/for-a-few-monads-more/prob.png" class="left"
-width="456" height="142" alt="probs" /></p>
+<img src="assets/images/for-a-few-monads-more/prob.png" class="left"
+width="456" height="142" alt="probs">
 <p>What are the chances for each of these letters to occur? If we were
 to draw this as just four boxes, each with a probability, what would
 those probabilities be? To find out, all we have to do is multiply each
@@ -1856,8 +1856,8 @@ instance!</p>
     return x = Prob [(x,1%1)]
     m &gt;&gt;= f = flatten (fmap f m)
     fail _ = Prob []</code></pre>
-<p><img src="assets/images/for-a-few-monads-more/ride.png" class="right"
-width="177" height="406" alt="ride em cowboy" /></p>
+<img src="assets/images/for-a-few-monads-more/ride.png" class="right"
+width="177" height="406" alt="ride em cowboy">
 <p>Because we already did all the hard work, the instance is very
 simple. We also defined the <code>fail</code> function, which is the
 same as it is for lists, so if there’s a pattern match failure in a

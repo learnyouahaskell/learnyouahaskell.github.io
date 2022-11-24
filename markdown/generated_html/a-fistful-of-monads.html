@@ -41,8 +41,8 @@ contexts.</p>
 <p>In this chapter, we’ll learn about monads, which are just beefed up
 applicative functors, much like applicative functors are only beefed up
 functors.</p>
-<p><img src="assets/images/a-fistful-of-monads/smugpig.png"
-class="right" width="307" height="186" alt="more cool than u" /></p>
+<img src="assets/images/a-fistful-of-monads/smugpig.png"
+class="right" width="307" height="186" alt="more cool than u">
 <p>When we started off with functors, we saw that it’s possible to map
 functions over various data types. We saw that for this purpose, the
 <code>Functor</code> type class was introduced and it had us asking the
@@ -119,8 +119,8 @@ functions and how to take into account their behavior, but you’ll see
 that it’s easy as one two three.</p>
 <h2 id="getting-our-feet-wet-with-maybe">Getting our feet wet with
 Maybe</h2>
-<p><img src="assets/images/a-fistful-of-monads/buddha.png" class="left"
-width="302" height="387" alt="monads, grasshoppa" /></p>
+<img src="assets/images/a-fistful-of-monads/buddha.png" class="left"
+width="302" height="387" alt="monads, grasshoppa">
 <p>Now that we have a vague idea of what monads are about, let’s see if
 we can make that idea a bit less vague.</p>
 <p>Much to no one’s surprise, <code>Maybe</code> is a monad, so let’s
@@ -264,8 +264,8 @@ would have thought? This is what the type class looks like:</p>
 
     fail :: String -&gt; m a
     fail msg = error msg</code></pre>
-<p><img src="assets/images/a-fistful-of-monads/kid.png" class="right"
-width="363" height="451" alt="this is you on monads" /></p>
+<img src="assets/images/a-fistful-of-monads/kid.png" class="right"
+width="363" height="451" alt="this is you on monads">
 <p>Let’s start with the first line. It says
 <code>class Monad m where</code>. But wait, didn’t we say that monads
 are just beefed up applicative functors? Shouldn’t there be a class
@@ -294,8 +294,8 @@ a value and wraps it in a <code>Just</code>.</p>
 function execution or anything, it just takes a normal value and puts it
 in a context.</p>
 </div>
-<p><img src="assets/images/a-fistful-of-monads/tur2.png" class="left"
-width="169" height="145" alt="hmmm yaes" /></p>
+<img src="assets/images/a-fistful-of-monads/tur2.png" class="left"
+width="169" height="145" alt="hmmm yaes">
 <p>The next function is <code>&gt;&gt;=</code>, or bind. It’s like
 function application, only instead of taking a normal value and feeding
 it to a normal function, it takes a monadic value (that is, a value with
@@ -348,8 +348,8 @@ pattern-matching. And we still didn’t lose the context of our
 result of using <code>&gt;&gt;=</code> will be <code>Nothing</code> as
 well.</p>
 <h2 id="walk-the-line">Walk the line</h2>
-<p><img src="assets/images/a-fistful-of-monads/pierre.png" class="left"
-width="374" height="405" alt="pierre" /></p>
+<img src="assets/images/a-fistful-of-monads/pierre.png" class="left"
+width="374" height="405" alt="pierre">
 <p>Now that we know how to feed a <code>Maybe a</code> value to a
 function of type <code>a -&gt; Maybe b</code> while taking into account
 the context of possible failure, let’s see how we can use
@@ -518,8 +518,8 @@ But let’s give that a go now by using monadic application
 (<code>&gt;&gt;=</code>) instead of normal application:</p>
 <pre class="haskell:hs"><code>ghci&gt; return (0,0) &gt;&gt;= landLeft 1 &gt;&gt;= landRight 4 &gt;&gt;= landLeft (-1) &gt;&gt;= landRight (-2)
 Nothing</code></pre>
-<p><img src="assets/images/a-fistful-of-monads/banana.png" class="right"
-width="262" height="130" alt="iama banana" /></p>
+<img src="assets/images/a-fistful-of-monads/banana.png" class="right"
+width="262" height="130" alt="iama banana">
 <p>Awesome. The final result represents failure, which is what we
 expected. Let’s see how this result was obtained. First,
 <code>return</code> puts <code>(0,0)</code> into a default context,
@@ -600,8 +600,8 @@ routine = case landLeft 1 (0,0) of
         Just pole2 -&gt; case landLeft 2 pole2 of
             Nothing -&gt; Nothing
             Just pole3 -&gt; landLeft 1 pole3</code></pre>
-<p><img src="assets/images/a-fistful-of-monads/centaur.png"
-class="right" width="297" height="331" alt="john joe glanton" /></p>
+<img src="assets/images/a-fistful-of-monads/centaur.png"
+class="right" width="297" height="331" alt="john joe glanton">
 <p>We land a bird on the left and then we examine the possibility of
 failure and the possibility of success. In the case of failure, we
 return a <code>Nothing</code>. In the case of success, we land birds on
@@ -684,8 +684,8 @@ foo = do
     x &lt;- Just 3
     y &lt;- Just &quot;!&quot;
     Just (show x ++ y)</code></pre>
-<p><img src="assets/images/a-fistful-of-monads/owld.png" class="right"
-width="269" height="348" alt="90s owl" /></p>
+<img src="assets/images/a-fistful-of-monads/owld.png" class="right"
+width="269" height="348" alt="90s owl">
 <p>It would seem as though we’ve gained the ability to temporarily
 extract things from <code>Maybe</code> values without having to check if
 the <code>Maybe</code> values are <code>Just</code> values or
@@ -841,8 +841,8 @@ Nothing</code></pre>
 of our monad instead of causing a program-wide failure, which is pretty
 neat.</p>
 <h2 id="the-list-monad">The list monad</h2>
-<p><img src="assets/images/a-fistful-of-monads/deadcat.png" class="left"
-width="235" height="230" alt="dead cat" /></p>
+<img src="assets/images/a-fistful-of-monads/deadcat.png" class="left"
+width="235" height="230" alt="dead cat">
 <p>So far, we’ve seen how <code>Maybe</code> values can be viewed as
 values with a failure context and how we can incorporate failure
 handling into our code by using <code>&gt;&gt;=</code> to feed them to
@@ -925,8 +925,8 @@ that goes in it, the result is a failure.</p>
 with <code>&gt;&gt;=</code>, propagating the non-determinism:</p>
 <pre class="haskell:hs"><code>ghci&gt; [1,2] &gt;&gt;= \n -&gt; [&#39;a&#39;,&#39;b&#39;] &gt;&gt;= \ch -&gt; return (n,ch)
 [(1,&#39;a&#39;),(1,&#39;b&#39;),(2,&#39;a&#39;),(2,&#39;b&#39;)]</code></pre>
-<p><img src="assets/images/a-fistful-of-monads/concatmap.png"
-class="left" width="399" height="340" alt="concatmap" /></p>
+<img src="assets/images/a-fistful-of-monads/concatmap.png"
+class="left" width="399" height="340" alt="concatmap">
 <p>The list <code>[1,2]</code> gets bound to <code>n</code> and
 <code>['a','b']</code> gets bound to <code>ch</code>. Then, we do
 <code>return (n,ch)</code> (or <code>[(n,ch)]</code>), which means
@@ -1061,8 +1061,8 @@ it. We want to find out if the knight can reach a certain position in
 three moves. We’ll just use a pair of numbers to represent the knight’s
 position on the chess board. The first number will determine the column
 he’s in and the second number will determine the row.</p>
-<p><img src="assets/images/a-fistful-of-monads/chess.png" class="center"
-width="760" height="447" alt="hee haw im a horse" /></p>
+<img src="assets/images/a-fistful-of-monads/chess.png" class="center"
+width="760" height="447" alt="hee haw im a horse">
 <p>Let’s make a type synonym for the knight’s current position on the
 chess board:</p>
 <pre class="haskell:hs"><code>type KnightPos = (Int,Int)</code></pre>
@@ -1144,9 +1144,9 @@ Later on, we’ll see how to modify this function so that we also pass it
 the number of moves to take instead of that number being hardcoded like
 it is now.</p>
 <h2 id="monad-laws">Monad laws</h2>
-<p><img src="assets/images/a-fistful-of-monads/judgedog.png"
+<img src="assets/images/a-fistful-of-monads/judgedog.png"
 class="right" width="343" height="170"
-alt="the court finds you guilty of peeing all over everything" /></p>
+alt="the court finds you guilty of peeing all over everything">
 <p>Just like applicative functors, and functors before them, monads come
 with a few laws that all monad instances must abide by. Just because
 something is made an instance of the <code>Monad</code> type class

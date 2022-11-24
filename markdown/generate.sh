@@ -54,7 +54,10 @@ do
         --metadata title="${title[$i]}$titlesuffix" \
         -V prev_title="$prev_title" -V prev_filename=$prev_filename \
         -V next_title="$next_title" -V next_filename=$next_filename \
-        -o generated_html/${filename[$i]}.html source_md/${filename[$i]}.md   
+        -o generated_html/${filename[$i]}.html source_md/${filename[$i]}.md
+
+   sed '/<p><img/ { N; N; N; s#<p>\(<img[^>]*\) /></p>#\1># }
+       s# />#>#' -i generated_html/${filename[$i]}.html
 done
 
 cat source_md/chapters_foot.md >>$chapterfile
@@ -63,6 +66,11 @@ pandoc -d config/pandoc-defaults.yml --template=config/template.html \
     -V title="Chapters" --metadata title="${title[$i]}$titlesuffix" \
     -o generated_html/chapters.html $chapterfile
 
+sed 's/<ol/<ol class="chapters"/' -i generated_html/chapters.html
+
 pandoc -d config/pandoc-defaults.yml --template=config/template.html \
     -V faq=true -V title="FAQ" --metadata title="${title[$i]}$titlesuffix" \
     -o generated_html/faq.html source_md/faq.md
+
+   sed '/<p><img/ { N; N; N; s#<p>\(<img[^>]*\) /></p>#\1># }
+       s# />#>#' -i generated_html/faq.html

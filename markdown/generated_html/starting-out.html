@@ -34,7 +34,7 @@
 <h1 style="margin-left:-3px" id="starting-out">Starting Out</h1>
 <h2 id="ready-set-go">Ready, set, go!</h2>
 <p><img src="assets/images/starting-out/startingout.png" class="right"
-width="214" height="187" alt="egg" /> Alright, let’s get started! If
+width="214" height="187" alt="egg"> Alright, let’s get started! If
 you’re the sort of horrible person who doesn’t read introductions to
 things and you skipped it, you might want to read the last section in
 the introduction anyway because it explains what you need to follow this
@@ -120,7 +120,7 @@ between them. This is what we call an <em>infix</em> function. Most
 functions that aren’t used with numbers are <em>prefix</em> functions.
 Let’s take a look at them.</p>
 <p><img src="assets/images/starting-out/ringring.png" class="right"
-width="160" height="161" alt="phoen" /> Functions are usually prefix, so
+width="160" height="161" alt="phoen"> Functions are usually prefix, so
 from now on we won’t explicitly state that a function is of the prefix
 form, we’ll just assume it. In most imperative languages, functions are
 called by writing the function name and then writing its parameters in
@@ -230,8 +230,8 @@ bigger than 100 are big enough as it is!</p>
 <pre class="haskell: hs"><code>doubleSmallNumber x = if x &gt; 100
                         then x
                         else x*2</code></pre>
-<p><img src="assets/images/starting-out/baby.png" class="left"
-width="140" height="211" alt="this is you" /></p>
+<img src="assets/images/starting-out/baby.png" class="left"
+width="140" height="211" alt="this is you">
 <p>Right here we introduced Haskell’s if statement. You’re probably
 familiar with if statements from other languages. The difference between
 Haskell’s if statement and if statements in imperative languages is that
@@ -270,7 +270,7 @@ names (and functions) mean once we’ve defined them,
 interchangeably.</p>
 <h2 id="an-intro-to-lists">An intro to lists</h2>
 <p><img src="assets/images/starting-out/list.png" class="left"
-width="150" height="103" alt="BUY A DOG" /> Much like shopping lists in
+width="150" height="103" alt="BUY A DOG"> Much like shopping lists in
 the real world, lists in Haskell are very useful. It’s the most used
 data structure and it can be used in a multitude of different ways to
 model and solve a whole bunch of problems. Lists are SO awesome. In this
@@ -384,8 +384,8 @@ everything except its last element.</p>
 <pre class="haskell: ghci"><code>ghci&gt; init [5,4,3,2,1]
 [5,4,3,2]</code></pre>
 <p>If we think of a list as a monster, here’s what’s what.</p>
-<p><img src="assets/images/starting-out/listmonster.png" class="center"
-width="580" height="290" alt="list monster" /></p>
+<img src="assets/images/starting-out/listmonster.png" class="center"
+width="580" height="290" alt="list monster">
 <p>But what happens if we try to get the head of an empty list?</p>
 <pre class="haskell: ghci"><code>ghci&gt; head []
 *** Exception: Prelude.head: empty list</code></pre>
@@ -463,7 +463,7 @@ look at more list functions <a
 href="modules.html#data-list">later</a>.</p>
 <h2 id="texas-ranges">Texas ranges</h2>
 <p><img src="assets/images/starting-out/cowboy.png" class="right"
-width="200" height="258" alt="draw" /> What if we want a list of all
+width="200" height="258" alt="draw"> What if we want a list of all
 numbers between 1 and 20? Sure, we could just type them all out but
 obviously that’s not a solution for gentlemen who demand excellence from
 their programming languages. Instead, we’ll use ranges. Ranges are a way
@@ -533,12 +533,12 @@ of the same element in a list. <code>replicate 3 10</code> returns
 <code>[10,10,10]</code>.</p>
 <h2 id="im-a-list-comprehension">I’m a list comprehension</h2>
 <p><img src="assets/images/starting-out/kermit.png" class="left"
-width="180" height="156" alt="frog" /> If you’ve ever taken a course in
+width="180" height="156" alt="frog"> If you’ve ever taken a course in
 mathematics, you’ve probably run into <em>set comprehensions</em>.
 They’re normally used for building more specific sets out of general
 sets. A basic comprehension for a set that contains the first ten even
 natural numbers is <img src="assets/images/starting-out/setnotation.png"
-alt="set notation" />. The part before the pipe is called the output
+alt="set notation">. The part before the pipe is called the output
 function, <code>x</code> is the variable, <code>N</code> is the input
 set and <code>x &lt;= 10</code> is the predicate. That means that the
 set contains the doubles of all natural numbers that satisfy the
@@ -638,8 +638,8 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 not in GHCI, it’s better to split longer list comprehensions across
 multiple lines, especially if they’re nested.</p>
 <h2 id="tuples">Tuples</h2>
-<p><img src="assets/images/starting-out/tuple.png" class="right"
-width="160" height="162" alt="tuples" /></p>
+<img src="assets/images/starting-out/tuple.png" class="right"
+width="160" height="162" alt="tuples">
 <p>In some ways, tuples are like lists — they are a way to store several
 values into a single value. However, there are a few fundamental
 differences. A list of numbers is a list of numbers. That’s its type and
@@ -733,8 +733,8 @@ shorter one. Because Haskell is lazy, we can zip finite lists with
 infinite lists:</p>
 <pre class="haskell: ghci"><code>ghci&gt; zip [1..] [&quot;apple&quot;, &quot;orange&quot;, &quot;cherry&quot;, &quot;mango&quot;]
 [(1,&quot;apple&quot;),(2,&quot;orange&quot;),(3,&quot;cherry&quot;),(4,&quot;mango&quot;)]</code></pre>
-<p><img src="assets/images/starting-out/pythag.png" class="center"
-width="350" height="315" alt="look at meee" /></p>
+<img src="assets/images/starting-out/pythag.png" class="center"
+width="350" height="315" alt="look at meee">
 <p>Here’s a problem that combines tuples and list comprehensions: which
 right triangle that has integers for all sides and all sides equal to or
 smaller than 10 has a perimeter of 24? First, let’s try generating all

@@ -54,9 +54,9 @@ to be capital cased.</p>
 <p>In a similar fashion, we can think of the <code>Int</code> type as
 being defined like this:</p>
 <pre class="haskell:hs"><code>data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647</code></pre>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/caveman.png"
-class="left" width="220" height="215" alt="caveman" /></p>
+class="left" width="220" height="215" alt="caveman">
 <p>The first and last value constructors are the minimum and maximum
 possible values of <code>Int</code>. It’s not actually defined like
 this, the ellipses are here because we omitted a heapload of numbers, so
@@ -216,9 +216,9 @@ type, we can use them to make values of our custom data types.</p>
 abstract in such a way that we hide their implementation. Also, whoever
 uses our module can’t pattern match against the value constructors.</p>
 <h2 id="record-syntax">Record syntax</h2>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/record.png"
-class="right" width="208" height="97" alt="record" /></p>
+class="right" width="208" height="97" alt="record">
 <p>OK, we’ve been tasked with creating a data type that describes a
 person. The info that we want to store about that person is: first name,
 last name, age, height, phone number, and favorite ice-cream flavor. I
@@ -319,9 +319,9 @@ If you’re familiar with templates in C++, you’ll see some parallels. To
 get a clear picture of what type parameters work like in action, let’s
 take a look at how a type we’ve already met is implemented.</p>
 <pre class="haskell:hs"><code>data Maybe a = Nothing | Just a</code></pre>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/yeti.png"
-class="left" width="209" height="260" alt="yeti" /></p>
+class="left" width="209" height="260" alt="yeti">
 <p>The <code>a</code> here is the type parameter. And because there’s a
 type parameter involved, we call <code>Maybe</code> a type constructor.
 Depending on what we want this data type to hold when it’s not
@@ -412,9 +412,9 @@ ghci&gt; :t Car &quot;Ford&quot; &quot;Mustang&quot; 1967
 Car &quot;Ford&quot; &quot;Mustang&quot; 1967 :: (Num t) =&gt; Car [Char] [Char] t
 ghci&gt; :t Car &quot;Ford&quot; &quot;Mustang&quot; &quot;nineteen sixty seven&quot;
 Car &quot;Ford&quot; &quot;Mustang&quot; &quot;nineteen sixty seven&quot; :: Car [Char] [Char] [Char]</code></pre>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/meekrat.png"
-class="right" width="150" height="267" alt="meekrat" /></p>
+class="right" width="150" height="267" alt="meekrat">
 <p>In real life though, we’d end up using
 <code>Car String String Int</code> most of the time and so it would seem
 that parameterizing the <code>Car</code> type isn’t really worth it. We
@@ -502,8 +502,8 @@ ghci&gt; Vector 4 9 5 `scalarMult` Vector 9.0 2.0 4.0
 ghci&gt; Vector 2 9 3 `vectMult` (Vector 4 9 5 `scalarMult` Vector 9 2 4)
 Vector 148 666 222</code></pre>
 <h2 id="derived-instances">Derived instances</h2>
-<p><img src="assets/images/making-our-own-types-and-typeclasses/gob.png"
-class="right" width="112" height="350" alt="gob" /></p>
+<img src="assets/images/making-our-own-types-and-typeclasses/gob.png"
+class="right" width="112" height="350" alt="gob">
 <p>In the <a
 href="types-and-typeclasses.html#typeclasses-101">Typeclasses 101</a>
 section, we explained the basics of typeclasses. We explained that a
@@ -710,9 +710,9 @@ some types different names so that they make more sense to someone
 reading our code and documentation. Here’s how the standard library
 defines <code>String</code> as a synonym for <code>[Char]</code>.</p>
 <pre class="haskell:hs"><code>type String = [Char]</code></pre>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/chicken.png"
-class="left" width="169" height="225" alt="chicken" /></p>
+class="left" width="169" height="225" alt="chicken">
 <p>We’ve introduced the <em>type</em> keyword. The keyword might be
 misleading to some, because we’re not actually making anything new (we
 did that with the <em>data</em> keyword), but we’re just making a
@@ -782,9 +782,9 @@ types</em> I mean like fully applied types like
 <code>Map Int String</code> or if we’re dealin’ with one of them
 polymorphic functions, <code>[a]</code> or
 <code>(Ord a) =&gt; Maybe a</code> and stuff. And like, sometimes me and
-my buddies say that <code>Maybe</code> is a type, but we don’t mean that,
-cause every idiot knows <code>Maybe</code> is a type constructor. When I
-apply an extra type to <code>Maybe</code>, like
+my buddies say that <code>Maybe</code> is a type, but we don’t mean
+that, cause every idiot knows <code>Maybe</code> is a type constructor.
+When I apply an extra type to <code>Maybe</code>, like
 <code>Maybe String</code>, then I have a concrete type. You know, values
 can only have types that are concrete types! So in conclusion, live
 fast, love hard and don’t let anybody else use your comb!</p>
@@ -920,9 +920,9 @@ Right &quot;QOTSA&quot;</code></pre>
 then we wouldn’t know why we couldn’t get the code. But now, we have
 information about the failure in our result type.</p>
 <h2 id="recursive-data-structures">Recursive data structures</h2>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/thefonz.png"
-class="right" width="168" height="301" alt="the fonz" /></p>
+class="right" width="168" height="301" alt="the fonz">
 <p>As we’ve seen, a constructor in an algebraic data type can have
 several (or none at all) fields and each field must be of some concrete
 type. With that in mind, we can make types whose constructors have
@@ -1023,9 +1023,9 @@ pattern matching works (only) on constructors, we can match for stuff
 like that, normal prefix constructors or stuff like <code>8</code> or
 <code>'a'</code>, which are basically constructors for the numeric and
 character types, respectively.</p>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/binarytree.png"
-class="left" width="323" height="225" alt="binary search tree" /></p>
+class="left" width="323" height="225" alt="binary search tree">
 <p>Now, we’re going to implement a <strong>binary search tree</strong>.
 If you’re not familiar with binary search trees from languages like C,
 here’s what they are: an element points to two elements, one on its left
@@ -1139,9 +1139,9 @@ powerful concept in Haskell. We can use them to make anything from
 boolean values and weekday enumerations to binary search trees and
 more!</p>
 <h2 id="typeclasses-102">Typeclasses 102</h2>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/trafficlight.png"
-class="right" width="175" height="480" alt="tweet" /></p>
+class="right" width="175" height="480" alt="tweet">
 <p>So far, we’ve learned about some of the standard Haskell typeclasses
 and we’ve seen which types are in them. We’ve also learned how to
 automatically make our own types instances of the standard typeclasses
@@ -1375,9 +1375,9 @@ that <code>Maybe</code> is an instance of. Also <code>:info</code> can
 show you the type declaration of a function. I think that’s pretty
 cool.</p>
 <h2 id="a-yes-no-typeclass">A yes-no typeclass</h2>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/yesno.png"
-class="left" width="201" height="111" alt="yesno" /></p>
+class="left" width="201" height="111" alt="yesno">
 <p>In JavaScript and some other weakly typed languages, you can put
 almost anything inside an if expression. For example, you can do all of
 the following: <code>if (0) alert("YEAH!") else alert("NO!")</code>,
@@ -1499,9 +1499,9 @@ Haskell. And you’re right, the list type is part of the
 than to see how it’s implemented? Let’s take a peek.</p>
 <pre class="haskell:hs"><code>class Functor f where
     fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code></pre>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/functor.png"
-class="right" width="220" height="441" alt="I AM FUNCTOOOOR!!!" /></p>
+class="right" width="220" height="441" alt="I AM FUNCTOOOOR!!!">
 <p>Alright. We see that it defines one function, <code>fmap</code>, and
 doesn’t provide any default implementation for it. The type of
 <code>fmap</code> is interesting. In the definitions of typeclasses so
@@ -1673,9 +1673,9 @@ might produce a tree where that’s not the case. We’ll go over the
 functor laws in more detail in one of the next chapters.</p>
 </div>
 <h2 id="kinds-and-some-type-foo">Kinds and some type-foo</h2>
-<p><img
+<img
 src="assets/images/making-our-own-types-and-typeclasses/typefoo.png"
-class="right" width="287" height="400" alt="TYPE FOO MASTER" /></p>
+class="right" width="287" height="400" alt="TYPE FOO MASTER">
 <p>Type constructors take other types as parameters to eventually
 produce concrete types. That kind of reminds me of functions, which take
 values as parameters to produce values. We’ve seen that type

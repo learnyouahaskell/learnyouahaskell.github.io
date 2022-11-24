@@ -33,8 +33,8 @@
             </div>
 <h1 id="types-and-typeclasses">Types and Typeclasses</h1>
 <h2 id="believe-the-type">Believe the type</h2>
-<p><img src="assets/images/types-and-typeclasses/cow.png" class="left"
-width="180" height="127" alt="moo" /></p>
+<img src="assets/images/types-and-typeclasses/cow.png" class="left"
+width="180" height="127" alt="moo">
 <p>Previously we mentioned that Haskell has a static type system. The
 type of every expression is known at compile time, which leads to safer
 code. If you write a program where you try to divide a boolean type with
@@ -67,7 +67,7 @@ ghci&gt; :t (True, &#39;a&#39;)
 ghci&gt; :t 4 == 5
 4 == 5 :: Bool</code></pre>
 <p><img src="assets/images/types-and-typeclasses/bomb.png" class="right"
-width="171" height="144" alt="bomb" /> Here we see that doing
+width="171" height="144" alt="bomb"> Here we see that doing
 <code>:t</code> on an expression prints out the expression followed by
 <code>::</code> and its type. <code>::</code> is read as “has type of”.
 Explicit types are always denoted with the first letter in capital case.
@@ -158,7 +158,7 @@ element, so what could it be? Let’s check!</p>
 <pre class="haskell: ghci"><code>ghci&gt; :t head
 head :: [a] -&gt; a</code></pre>
 <p><img src="assets/images/types-and-typeclasses/box.png" class="left"
-width="130" height="93" alt="box" /> Hmmm! What is this <code>a</code>?
+width="130" height="93" alt="box"> Hmmm! What is this <code>a</code>?
 Is it a type? Remember that we previously stated that types are written
 in capital case, so it can’t exactly be a type. Because it’s not in
 capital case it’s actually a <strong>type variable</strong>. That means
@@ -183,8 +183,8 @@ contains any two types. Note that just because <code>a</code> and
 different types. It just states that the first component’s type and the
 return value’s type are the same.</p>
 <h2 id="typeclasses-101">Typeclasses 101</h2>
-<p><img src="assets/images/types-and-typeclasses/classes.png"
-class="right" width="210" height="158" alt="class" /></p>
+<img src="assets/images/types-and-typeclasses/classes.png"
+class="right" width="210" height="158" alt="class">
 <p>A typeclass is a sort of interface that defines some behavior. If a
 type is a part of a typeclass, that means that it supports and
 implements the behavior the typeclass describes. A lot of people coming

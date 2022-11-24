@@ -30,8 +30,8 @@
                 </ul>
             </div>
 <h1 id="zippers">Zippers</h1>
-<p><img src="assets/images/zippers/60sdude.png" class="right"
-width="122" height="407" alt="hi im chet" /></p>
+<img src="assets/images/zippers/60sdude.png" class="right"
+width="122" height="407" alt="hi im chet">
 <p>While Haskell’s purity comes with a whole bunch of benefits, it makes
 us tackle some problems differently than we would in impure languages.
 Because of referential transparency, one value is as good as another in
@@ -87,8 +87,8 @@ freeTree =
             )
         )</code></pre>
 <p>And here’s this tree represented graphically:</p>
-<p><img src="assets/images/zippers/pollywantsa.png" class="center"
-width="780" height="504" alt="polly says her back hurts" /></p>
+<img src="assets/images/zippers/pollywantsa.png" class="center"
+width="780" height="504" alt="polly says her back hurts">
 <p>Notice that <code>W</code> in the tree there? Say we want to change
 it into a <code>P</code>. How would we go about doing that? Well, one
 way would be to pattern match on our tree until we find the element
@@ -157,8 +157,8 @@ to the bottom again! What a drag.</p>
 subtree, one that allows us to efficiently switch focus to subtrees that
 are nearby.</p>
 <h2 id="a-trail-of-breadcrumbs">A trail of breadcrumbs</h2>
-<p><img src="assets/images/zippers/bread.png" class="right" width="321"
-height="250" alt="whoop dee doo" /></p>
+<img src="assets/images/zippers/bread.png" class="right" width="321"
+height="250" alt="whoop dee doo">
 <p>Okay, so for focusing on a subtree, we want something better than
 just a list of directions that we always follow from the root of our
 tree. Would it help if we start at the root of the tree and move either
@@ -185,8 +185,8 @@ goRight (Node _ _ r, bs) = (r, R:bs)</code></pre>
 <code>freeTree</code> and go right and then left:</p>
 <pre class="haskell:hs"><code>ghci&gt; goLeft (goRight (freeTree, []))
 (Node &#39;W&#39; (Node &#39;C&#39; Empty Empty) (Node &#39;R&#39; Empty Empty),[L,R])</code></pre>
-<p><img src="assets/images/zippers/almostzipper.png" class="left"
-width="399" height="224" alt="almostthere" /></p>
+<img src="assets/images/zippers/almostzipper.png" class="left"
+width="399" height="224" alt="almostthere">
 <p>Okay, so now we have a tree that has <code>'W'</code> in its root and
 <code>'C'</code> in the root of its left subtree and <code>'R'</code> in
 the root of its right subtree. The breadcrumbs are <code>[L,R]</code>,
@@ -268,8 +268,8 @@ parent nodes and the paths that we didn’t visit. Here’s the
 <pre class="haskell:hs"><code>goUp :: (Tree a, Breadcrumbs a) -&gt; (Tree a, Breadcrumbs a)
 goUp (t, LeftCrumb x r:bs) = (Node x t r, bs)
 goUp (t, RightCrumb x l:bs) = (Node x l t, bs)</code></pre>
-<p><img src="assets/images/zippers/asstronaut.png" class="left"
-width="511" height="433" alt="asstronaut" /></p>
+<img src="assets/images/zippers/asstronaut.png" class="left"
+width="511" height="433" alt="asstronaut">
 <p>We’re focusing on the tree <code>t</code> and we check what the
 latest <code>Crumb</code> is. If it’s a <code>LeftCrumb</code>, then we
 construct a new tree where our tree <code>t</code> is the left subtree
@@ -368,8 +368,8 @@ element and only a single sub-list. When we <a
 href="making-our-own-types-and-typeclasses.html#recursive-data-structures">implemented
 our own lists</a>, we defined our data type like so:</p>
 <pre class="haskell:hs"><code>data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)</code></pre>
-<p><img src="assets/images/zippers/picard.png" class="right" width="355"
-height="380" alt="the best damn thing" /></p>
+<img src="assets/images/zippers/picard.png" class="right" width="355"
+height="380" alt="the best damn thing">
 <p>Contrast this with our definition of our binary tree and it’s easy to
 see how lists can be viewed as trees where each node has only one
 subtree.</p>
@@ -479,8 +479,8 @@ myDisk =
         ]</code></pre>
 <p>That’s actually what my disk contains right now.</p>
 <h3 id="a-zipper-for-our-file-system">A zipper for our file system</h3>
-<p><img src="assets/images/zippers/spongedisk.png" class="right"
-width="243" height="271" alt="spongedisk" /></p>
+<img src="assets/images/zippers/spongedisk.png" class="right"
+width="243" height="271" alt="spongedisk">
 <p>Now that we have a file system, all we need is a zipper so we can zip
 and zoom around it and add, modify and remove files as well as folders.
 Like with binary trees and lists, we’re going to be leaving breadcrumbs
@@ -540,8 +540,8 @@ nameIs name (File fileName _) = name == fileName</code></pre>
 focuses on the file with the given name. That file has to be in the
 current focused folder. This function doesn’t search all over the place,
 it just looks at the current folder.</p>
-<p><img src="assets/images/zippers/cool.png" class="left" width="205"
-height="197" alt="wow cool great" /></p>
+<img src="assets/images/zippers/cool.png" class="left" width="205"
+height="197" alt="wow cool great">
 <p>First we use <code>break</code> to break the list of items in a
 folder into those that precede the file that we’re searching for and
 those that come after it. If you remember, <code>break</code> takes a
@@ -617,8 +617,8 @@ function takes a zipper of a binary tree and moves the focus to its left
 subtree:</p>
 <pre class="haskell:hs"><code>goLeft :: Zipper a -&gt; Zipper a
 goLeft (Node x l r, bs) = (l, LeftCrumb x r:bs)</code></pre>
-<p><img src="assets/images/zippers/bigtree.png" class="right"
-width="247" height="367" alt="falling for you" /></p>
+<img src="assets/images/zippers/bigtree.png" class="right"
+width="247" height="367" alt="falling for you">
 <p>But what if the tree we’re stepping off from is an empty tree? That
 is, what if it’s not a <code>Node</code>, but an <code>Empty</code>? In
 this case, we’d get a runtime error because the pattern match would fail

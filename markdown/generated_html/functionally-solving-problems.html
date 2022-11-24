@@ -67,8 +67,8 @@ those two and then push the resulting number back onto the stack. When
 you reach the end of the expression, you should be left with a single
 number if the expression was well-formed and that number represents the
 result.</p>
-<p><img src="http://s3.amazonaws.com/lyah/rpn.png" class="center"
-width="626" height="224" alt="this expression" /></p>
+<img src="http://s3.amazonaws.com/lyah/rpn.png" class="center"
+width="626" height="224" alt="this expression">
 <p>Let’s go over the expression <code>10 4 3 + 2 * -</code> together!
 First we push <code>10</code> on to the stack and the stack is now
 <code>10</code>. The next item is <code>4</code>, so we push it to the
@@ -102,8 +102,8 @@ implementation and then write it down. In Haskell, a function’s type
 declaration tells us a whole lot about the function, due to the very
 strong type system.</p>
 </div>
-<p><img src="assets/images/functionally-solving-problems/calculator.png"
-class="left" width="220" height="190" alt="HA HA HA" /></p>
+<img src="assets/images/functionally-solving-problems/calculator.png"
+class="left" width="220" height="190" alt="HA HA HA">
 <p>Cool. When implementing a solution to a problem in Haskell, it’s also
 good to think back on how you did it by hand and maybe try to see if you
 can gain any insight from that. Here we see that we treated every number
@@ -285,8 +285,8 @@ time to travel from one crossroads to another. It’s up to you to find
 the optimal path to take so that you get to London as fast as you can!
 You start on the left side and can either cross to the other main road
 or go forward.</p>
-<p><img src="assets/images/functionally-solving-problems/roads.png"
-class="center" width="780" height="237" alt="Heathrow - London" /></p>
+<img src="assets/images/functionally-solving-problems/roads.png"
+class="center" width="780" height="237" alt="Heathrow - London">
 <p>As you can see in the picture, the shortest path from Heathrow to
 London in this case is to start on main road B, cross over, go forward
 on A, cross over again and then go forward twice on B. If we take this
@@ -337,9 +337,9 @@ say for certain that our solution is the optimal one, we can just sort
 of say that we’re pretty sure.</p>
 <p>That’s not a good solution then. Here’s a simplified picture of our
 road system:</p>
-<p><img
+<img
 src="assets/images/functionally-solving-problems/roads_simple.png"
-class="center" width="685" height="245" alt="roads" /></p>
+class="center" width="685" height="245" alt="roads">
 <p>Alright, can you figure out what the shortest path to the first
 crossroads (the first blue dot on A, marked <em>A1</em>) on road A is?
 That’s pretty trivial. We just see if it’s shorter to go directly
@@ -515,8 +515,8 @@ roadStep (pathA, pathB) (Section a b c) =
                         then (B,b):pathB
                         else (C,c):(A,a):pathA
     in  (newPathToA, newPathToB)</code></pre>
-<p><img src="assets/images/functionally-solving-problems/guycar.png"
-class="right" width="420" height="381" alt="this is you" /></p>
+<img src="assets/images/functionally-solving-problems/guycar.png"
+class="right" width="420" height="381" alt="this is you">
 <p>What’s going on here? First, calculate the optimal price on road A
 based on the best so far on A and we do the same for B. We do
 <code>sum $ map snd pathA</code>, so if <code>pathA</code> is something

@@ -59,10 +59,10 @@ closer look at functors, along with slightly stronger and more useful
 versions of functors called applicative functors. We’ll also take a look
 at monoids, which are sort of like socks.</p>
 <h2 id="functors-redux">Functors redux</h2>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/frogtor.png"
 class="right" width="369" height="243"
-alt="frogs dont even need money" /></p>
+alt="frogs dont even need money">
 <p>We’ve already talked about functors in <a
 href="making-our-own-types-and-typeclasses.html#the-functor-typeclass">their
 own little section</a>. If you haven’t read it yet, you should probably
@@ -154,9 +154,9 @@ reversed. Here’s how to rewrite this by using <code>fmap</code>:</p>
 <pre class="haskell:hs"><code>main = do line &lt;- fmap reverse getLine
           putStrLn $ &quot;You said &quot; ++ line ++ &quot; backwards!&quot;
           putStrLn $ &quot;Yes, you really said&quot; ++ line ++ &quot; backwards!&quot;</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/alien.png"
-class="left" width="262" height="212" alt="w00ooOoooOO" /></p>
+class="left" width="262" height="212" alt="w00ooOoooOO">
 <p>Just like when we <code>fmap</code> <code>reverse</code> over
 <code>Just "blah"</code> to get <code>Just "halb"</code>, we can
 <code>fmap</code> <code>reverse</code> over <code>getLine</code>.
@@ -298,10 +298,10 @@ that act more like computations than boxes (<code>IO</code> and
 <code>(-&gt;) r</code>) can be functors. The function being mapped over
 a computation results in the same computation but the result of that
 computation is modified with the function.</p>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/lifter.png"
 class="right" width="443" height="450"
-alt="lifting a function is easier than lifting a million pounds" /></p>
+alt="lifting a function is easier than lifting a million pounds">
 <p>Before we go on to the rules that <code>fmap</code> should follow,
 let’s think about the type of <code>fmap</code> once more. Its type is
 <code>fmap :: (a -&gt; b) -&gt; f a -&gt; f b</code>. We’re missing the
@@ -422,10 +422,10 @@ that if we map <code>id</code> over a <code>Maybe</code> value with a
 returns the same value is trivial. So from these two equations in the
 implementation for <code>fmap</code>, we see that the law
 <code>fmap id = id</code> holds.</p>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/justice.png"
 class="left" width="345" height="428"
-alt="justice is blind, but so is my dog" /></p>
+alt="justice is blind, but so is my dog">
 <p><strong>The second law says that composing two functions and then
 mapping the resulting function over a functor should be the same as
 first mapping one function over the functor and then mapping the other
@@ -576,10 +576,10 @@ function, only when we give it a number, it will be multiplied by three
 and then it will go through the attached transformation where it will be
 added to three. This is what happens with composition.</p>
 <h2 id="applicative-functors">Applicative functors</h2>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/present.png"
 class="right" width="302" height="284"
-alt="disregard this analogy" /></p>
+alt="disregard this analogy">
 <p>In this section, we’ll take a look at applicative functors, which are
 beefed up functors, represented in Haskell by the
 <code>Applicative</code> typeclass, found in the
@@ -756,9 +756,9 @@ ghci&gt; pure (+) &lt;*&gt; Just 3 &lt;*&gt; Nothing
 Nothing
 ghci&gt; pure (+) &lt;*&gt; Nothing &lt;*&gt; Just 5
 Nothing</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/whale.png"
-class="right" width="214" height="177" alt="whaale" /></p>
+class="right" width="214" height="177" alt="whaale">
 <p>What’s going on here? Let’s take a look, step by step.
 <code>&lt;*&gt;</code> is left-associative, which means that
 <code>pure (+) &lt;*&gt; Just 3 &lt;*&gt; Just 5</code> is the same as
@@ -940,9 +940,9 @@ implemented:</p>
         f &lt;- a
         x &lt;- b
         return (f x)</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/knight.png"
-class="left" width="195" height="458" alt="ahahahah!" /></p>
+class="left" width="195" height="458" alt="ahahahah!">
 <p>Since <code>pure</code> is all about putting a value in a minimal
 context that still holds it as its result, it makes sense that
 <code>pure</code> is just <code>return</code>, because
@@ -1055,9 +1055,9 @@ gets called with <code>8</code> and <code>500</code>, resulting in
 <code>508</code>.</p>
 <pre class="haskell:hs"><code>ghci&gt; (\x y z -&gt; [x,y,z]) &lt;$&gt; (+3) &lt;*&gt; (*2) &lt;*&gt; (/2) $ 5
 [8.0,10.0,2.5]</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/jazzb.png"
-class="right" width="400" height="230" alt="SLAP" /></p>
+class="right" width="400" height="230" alt="SLAP">
 <p>Same here. We create a function that will call the function
 <code>\x y z -&gt; [x,y,z]</code> with the eventual results from
 <code>(+3)</code>, <code>(*2)</code> and <code>(/2)</code>. The
@@ -1390,9 +1390,9 @@ using <code>&lt;$&gt;</code> and <code>&lt;*&gt;</code> we can use
 normal functions to uniformly operate on any number of applicative
 functors and take advantage of the semantics of each one.</p>
 <h2 id="the-newtype-keyword">The newtype keyword</h2>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/maoi.png"
-class="left" width="107" height="202" alt="why_ so serious?" /></p>
+class="left" width="107" height="202" alt="why_ so serious?">
 <p>So far, we’ve learned how to make our own algebraic data types by
 using the <strong>data</strong> keyword. We’ve also learned how to give
 existing types synonyms with the <strong>type</strong> keyword. In this
@@ -1510,9 +1510,9 @@ definition of the <code>Functor</code> type class and so if we look at
 <code>fmap</code> like it only worked on <code>Maybe</code>, it ends up
 behaving like:</p>
 <pre class="haskell:hs"><code>fmap :: (a -&gt; b) -&gt; Maybe a -&gt; Maybe b</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/krakatoa.png"
-class="right" width="322" height="280" alt="wow, very evil" /></p>
+class="right" width="322" height="280" alt="wow, very evil">
 <p>Isn’t that just peachy? Now what if we wanted to make the tuple an
 instance of <code>Functor</code> in such a way that when we
 <code>fmap</code> a function over a tuple, it gets applied to the first
@@ -1609,10 +1609,10 @@ the pattern matching syntax is the same if you use <em>newtype</em> or
 apply <code>helloMe</code> to an <code>undefined</code> value:</p>
 <pre class="haskell:hs"><code>ghci&gt; helloMe undefined
 &quot;hello&quot;</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/shamrock.png"
 class="right" width="184" height="230"
-alt="top of the mornin to ya!!!" /></p>
+alt="top of the mornin to ya!!!">
 <p>It worked! Hmmm, why is that? Well, like we’ve said, when we use
 <em>newtype</em>, Haskell can internally represent the values of the new
 type in the same way as the original values. It doesn’t have to add
@@ -1692,10 +1692,10 @@ of a type class, chances are you’re looking for a <em>newtype</em>. And
 if you want to make something completely new, odds are good that you’re
 looking for the <em>data</em> keyword.</p>
 <h2 id="monoids">Monoids</h2>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/pirateship.png"
 class="right" width="460" height="417"
-alt="wow this is pretty much the gayest pirate ship ever" /></p>
+alt="wow this is pretty much the gayest pirate ship ever">
 <p>Type classes in Haskell are used to present an interface for types
 that have some behavior in common. We started out with simple type
 classes like <code>Eq</code>, which is for types whose values can be
@@ -1770,9 +1770,9 @@ monoids. Let’s see how the type class is defined:</p>
     mappend :: m -&gt; m -&gt; m
     mconcat :: [m] -&gt; m
     mconcat = foldr mappend mempty</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/balloondog.png"
-class="right" width="260" height="326" alt="woof dee do!!!" /></p>
+class="right" width="260" height="326" alt="woof dee do!!!">
 <p>The <code>Monoid</code> type class is defined in
 <code>import Data.Monoid</code>. Let’s take some time and get properly
 acquainted with it.</p>
@@ -1860,9 +1860,9 @@ ghci&gt; mconcat [[1,2],[3,6],[9]]
 [1,2,3,6,9]
 ghci&gt; mempty :: [a]
 []</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/smug.png"
-class="left" width="157" height="144" alt="smug as hell" /></p>
+class="left" width="157" height="144" alt="smug as hell">
 <p>Notice that in the last line, we had to write an explicit type
 annotation, because if we just did <code>mempty</code>, GHCi wouldn’t
 know which instance to use, so we had to say we want the list instance.
@@ -2038,10 +2038,10 @@ as intuitive as the ones we’ve met so far and also quite useful:</p>
     LT `mappend` _ = LT
     EQ `mappend` y = y
     GT `mappend` _ = GT</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/bear.png"
 class="right" width="330" height="339"
-alt="did anyone ORDER pizza?!?! I can’t BEAR these puns!" /></p>
+alt="did anyone ORDER pizza?!?! I can’t BEAR these puns!">
 <p>The instance is set up like this: when we <code>mappend</code> two
 <code>Ordering</code> values, the one on the left is kept, unless the
 value on the left is <code>EQ</code>, in which case the right one is the
@@ -2298,10 +2298,10 @@ for free!</p>
     foldMap f (Node x l r) = F.foldMap f l `mappend`
                              f x           `mappend`
                              F.foldMap f r</code></pre>
-<p><img
+<img
 src="assets/images/functors-applicative-functors-and-monoids/accordion.png"
 class="right" width="366" height="280"
-alt="find the visual pun or whatever" /></p>
+alt="find the visual pun or whatever">
 <p>We think like this: if we are provided with a function that takes an
 element of our tree and returns a monoid value, how do we reduce our
 whole tree down to one single monoid value? When we were doing

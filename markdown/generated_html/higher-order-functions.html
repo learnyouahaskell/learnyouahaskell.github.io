@@ -33,8 +33,8 @@
             </div>
 <h1 style="margin-left:-3px" id="higher-order-functions">Higher Order
 Functions</h1>
-<p><img src="assets/images/higher-order-functions/sun.png" class="right"
-width="203" height="183" alt="sun" /></p>
+<img src="assets/images/higher-order-functions/sun.png" class="right"
+width="203" height="183" alt="sun">
 <p>Haskell functions can take functions as parameters and return
 functions as return values. A function that does either of those is
 called a higher order function. Higher order functions aren’t just a
@@ -62,8 +62,8 @@ following two calls are equivalent:</p>
 5
 ghci&gt; (max 4) 5
 5</code></pre>
-<p><img src="assets/images/higher-order-functions/curry.png"
-class="left" width="160" height="238" alt="haskell curry" /></p>
+<img src="assets/images/higher-order-functions/curry.png"
+class="left" width="160" height="238" alt="haskell curry">
 <p>Putting a space between two things is simply <strong>function
 application</strong>. The space is sort of like an operator and it has
 the highest precedence. Let’s examine the type of <code>max</code>. It’s
@@ -176,8 +176,8 @@ To illustrate this, we’re going to make a function that takes a function
 and then applies it twice to something!</p>
 <pre class="haskell:hs"><code>applyTwice :: (a -&gt; a) -&gt; a -&gt; a
 applyTwice f x = f (f x)</code></pre>
-<p><img src="assets/images/higher-order-functions/bonus.png"
-class="right" width="166" height="190" alt="rocktopus" /></p>
+<img src="assets/images/higher-order-functions/bonus.png"
+class="right" width="166" height="190" alt="rocktopus">
 <p>First of all, notice the type declaration. Before, we didn’t need
 parentheses because <code>-&gt;</code> is naturally right-associative.
 However, here, they’re mandatory. They indicate that the first parameter
@@ -373,8 +373,8 @@ quicksort (x:xs) =
     let smallerSorted = quicksort (filter (&lt;=x) xs)
         biggerSorted = quicksort (filter (&gt;x) xs)
     in  smallerSorted ++ [x] ++ biggerSorted</code></pre>
-<p><img src="assets/images/higher-order-functions/map.png" class="left"
-width="210" height="115" alt="map" /></p>
+<img src="assets/images/higher-order-functions/map.png" class="left"
+width="210" height="115" alt="map">
 <p>Mapping and filtering is the bread and butter of every functional
 programmer’s toolbox. Uh. It doesn’t matter if you do it with the
 <code>map</code> and <code>filter</code> functions or list
@@ -504,8 +504,8 @@ returns a function that’s equivalent to <code>(4*)</code>. And then, we
 just apply <code>5</code> to that function. So that’s like writing
 <code>(4*) 5</code> or just <code>4 * 5</code>.</p>
 <h2 id="lambdas">Lambdas</h2>
-<p><img src="assets/images/higher-order-functions/lambda.png"
-class="right" width="203" height="230" alt="lambda" /></p>
+<img src="assets/images/higher-order-functions/lambda.png"
+class="right" width="203" height="230" alt="lambda">
 <p>Lambdas are basically anonymous functions that are used because we
 need some functions only once. Normally, we make a lambda with the sole
 purpose of passing it to a higher-order function. To make a lambda, we
@@ -525,8 +525,8 @@ numLongChains = length (filter (\xs -&gt; length xs &gt; 15) (map chain [1..100]
 The expression <code>(\xs -&gt; length xs &gt; 15)</code> returns a
 function that tells us whether the length of the list passed to it is
 greater than 15.</p>
-<p><img src="assets/images/higher-order-functions/lamb.png" class="left"
-width="200" height="134" alt="lamb" /></p>
+<img src="assets/images/higher-order-functions/lamb.png" class="left"
+width="200" height="134" alt="lamb">
 <p>People who are not well acquainted with how currying and partial
 application works often use lambdas where they don’t need to. For
 instance, the expressions <code>map (+3) [1,6,3,2]</code> and
@@ -573,8 +573,8 @@ filter. So use lambdas in this way when you want to make it explicit
 that your function is mainly meant to be partially applied and passed on
 to a function as a parameter.</p>
 <h2 id="folds">Only folds and horses</h2>
-<p><img src="assets/images/higher-order-functions/origami.png"
-class="right" width="220" height="221" alt="folded bird" /></p>
+<img src="assets/images/higher-order-functions/origami.png"
+class="right" width="220" height="221" alt="folded bird">
 <p>Back when we were dealing with recursion, we noticed a theme
 throughout many of the recursive functions that operated on lists.
 Usually, we’d have an edge case for the empty list. We’d introduce the
@@ -605,8 +605,8 @@ sum&#39; xs = foldl (\acc x -&gt; acc + x) 0 xs</code></pre>
 <p>Testing, one two three:</p>
 <pre class="haskell:ghci"><code>ghci&gt; sum&#39; [3,5,2,1]
 11</code></pre>
-<p><img src="assets/images/higher-order-functions/foldl.png"
-class="left" width="172" height="348" alt="foldl" /></p>
+<img src="assets/images/higher-order-functions/foldl.png"
+class="left" width="172" height="348" alt="foldl">
 <p>Let’s take an in-depth look into how this fold happens.
 <code>\acc x -&gt; acc + x</code> is the binary function. <code>0</code>
 is the starting value and <code>xs</code> is the list to be folded up.
@@ -685,8 +685,8 @@ too. It would be
 the thing is that the <code>++</code> function is much more expensive
 than <code>:</code>, so we usually use right folds when we’re building
 up new lists from a list.</p>
-<p><img src="assets/images/higher-order-functions/washmachine.png"
-class="right" width="250" height="205" alt="fold this up!" /></p>
+<img src="assets/images/higher-order-functions/washmachine.png"
+class="right" width="250" height="205" alt="fold this up!">
 <p>If you reverse a list, you can do a right fold on it just like you
 would have done a left fold and vice versa. Sometimes you don’t even
 have to do that. The <code>sum</code> function can be implemented pretty
@@ -810,8 +810,8 @@ also called <em>function application</em>. First of all, let’s check out
 how it’s defined:</p>
 <pre class="haskell:hs"><code>($) :: (a -&gt; b) -&gt; a -&gt; b
 f $ x = f x</code></pre>
-<p><img src="assets/images/higher-order-functions/dollar.png"
-class="left" width="180" height="136" alt="dollar" /></p>
+<img src="assets/images/higher-order-functions/dollar.png"
+class="left" width="180" height="136" alt="dollar">
 <p>What the heck? What is this useless operator? It’s just function
 application! Well, almost, but not quite! Whereas normal function
 application (putting a space between two things) has a really high
@@ -849,7 +849,7 @@ functions.</p>
 <h2 id="composition">Function composition</h2>
 <p>In mathematics, function composition is defined like this: <img
 src="assets/images/higher-order-functions/composition.png"
-alt="(f . g)(x) = f(g(x))" />, meaning that composing two functions
+alt="(f . g)(x) = f(g(x))">, meaning that composing two functions
 produces a new function that, when called with a parameter, say,
 <em>x</em> is the equivalent of calling <em>g</em> with the parameter
 <em>x</em> and then calling the <em>f</em> with that result.</p>
@@ -858,8 +858,8 @@ function composition with the <code>.</code> function, which is defined
 like so:</p>
 <pre class="haskell:hs"><code>(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 f . g = \x -&gt; f (g x)</code></pre>
-<p><img src="assets/images/higher-order-functions/notes.png"
-class="left" width="230" height="198" alt="notes" /></p>
+<img src="assets/images/higher-order-functions/notes.png"
+class="left" width="230" height="198" alt="notes">
 <p>Mind the type declaration. <code>f</code> must take as its parameter
 a value that has the same type as <code>g</code>’s return value. So the
 resulting function takes a parameter of the same type that

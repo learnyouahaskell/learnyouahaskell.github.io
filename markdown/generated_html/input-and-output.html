@@ -32,8 +32,8 @@
                 </ul>
             </div>
 <h1 id="input-and-output">Input and Output</h1>
-<p><img src="assets/images/input-and-output/dognap.png" class="right"
-width="261" height="382" alt="poor dog" /></p>
+<img src="assets/images/input-and-output/dognap.png" class="right"
+width="261" height="382" alt="poor dog">
 <p>We’ve mentioned that Haskell is a purely functional language. Whereas
 in imperative languages you usually get things done by giving the
 computer a series of steps to execute, functional programming is more of
@@ -68,8 +68,8 @@ separated, we can still reason about our pure program and take advantage
 of all the things that purity offers, like laziness, robustness and
 modularity while efficiently communicating with the outside world.</p>
 <h2 id="hello-world">Hello, world!</h2>
-<p><img src="assets/images/input-and-output/helloworld.png" class="left"
-width="223" height="179" alt="HELLO!" /></p>
+<img src="assets/images/input-and-output/helloworld.png" class="left"
+width="223" height="179" alt="HELLO!">
 <p>Up until now, we’ve always loaded our functions into GHCI to test
 them out and play with them. We’ve also explored the standard library
 functions that way. But now, after eight or so chapters, we’re finally
@@ -152,8 +152,8 @@ line from the input and stores it into a variable called
 <code>getLine</code>.</p>
 <pre class="haskell:hs"><code>ghci&gt; :t getLine
 getLine :: IO String</code></pre>
-<p><img src="assets/images/input-and-output/luggage.png" class="left"
-width="204" height="200" alt="luggage" /></p>
+<img src="assets/images/input-and-output/luggage.png" class="left"
+width="204" height="200" alt="luggage">
 <p>Aha, o-kay. <code>getLine</code> is an I/O action that contains a
 result type of <code>String</code>. That makes sense, because it will
 wait for the user to input something at the terminal and then that
@@ -672,8 +672,8 @@ that takes a string and prints it to the screen. Think of it as a
 function that takes a string and returns an I/O action. That I/O action
 will, when performed, print beautiful poetry to your terminal.</p>
 <h2 id="files-and-streams">Files and streams</h2>
-<p><img src="assets/images/input-and-output/streams.png" class="right"
-width="464" height="322" alt="streams" /></p>
+<img src="assets/images/input-and-output/streams.png" class="right"
+width="464" height="322" alt="streams">
 <p><code>getChar</code> is an I/O action that reads a single character
 from the terminal. <code>getLine</code> is an I/O action that reads a
 line from the terminal. These two are pretty straightforward and most
@@ -968,8 +968,8 @@ synonym</a> for <code>String</code>, simply defined as:</p>
 <pre class="haskell:hs"><code>type FilePath = String</code></pre>
 <p><code>IOMode</code> is a type that’s defined like this:</p>
 <pre class="haskell:hs"><code>data IOMode = ReadMode | WriteMode | AppendMode | ReadWriteMode</code></pre>
-<p><img src="assets/images/input-and-output/file.png" class="left"
-width="232" height="340" alt="A FILE IN A CAKE!!!" /></p>
+<img src="assets/images/input-and-output/file.png" class="left"
+width="232" height="340" alt="A FILE IN A CAKE!!!">
 <p>Just like our type that represents the seven possible values for the
 days of the week, this type is an enumeration that represents what we
 want to do with our opened file. Very simple. Just note that this type
@@ -1048,8 +1048,8 @@ withFile&#39; path mode f = do
     result &lt;- f handle
     hClose handle
     return result</code></pre>
-<p><img src="assets/images/input-and-output/edd.png" class="right"
-width="246" height="360" alt="butter toast" /></p>
+<img src="assets/images/input-and-output/edd.png" class="right"
+width="246" height="360" alt="butter toast">
 <p>We know the result will be an I/O action so we can just start off
 with a <em>do</em>. First we open the file and get a handle from it.
 Then, we apply <code>handle</code> to our function to get back the I/O
@@ -1319,8 +1319,8 @@ Which one do you want to delete?
 $ cat todo.txt
 Take salad out of the oven</code></pre>
 <h2 id="command-line-arguments">Command line arguments</h2>
-<p><img src="assets/images/input-and-output/arguments.png" class="right"
-width="449" height="380" alt="COMMAND LINE ARGUMENTS!!! ARGH" /></p>
+<img src="assets/images/input-and-output/arguments.png" class="right"
+width="449" height="380" alt="COMMAND LINE ARGUMENTS!!! ARGH">
 <p>Dealing with command line arguments is pretty much a necessity if you
 want to make a script or application that runs on a terminal. Luckily,
 Haskell’s standard library has a nice way of getting command line
@@ -1540,8 +1540,8 @@ remove [fileName, numberString] = do
     hClose tempHandle
     removeFile fileName
     renameFile tempName fileName</code></pre>
-<p><img src="assets/images/input-and-output/salad.png" class="left"
-width="143" height="200" alt="fresh baked salad" /></p>
+<img src="assets/images/input-and-output/salad.png" class="left"
+width="143" height="200" alt="fresh baked salad">
 <p>To summarize our solution: we made a dispatch association that maps
 from commands to functions that take some command line arguments and
 return an I/O action. We see what the command is and based on that we
@@ -1587,9 +1587,9 @@ by making an I/O action that just reports there has been an error (say,
 input and if there is erroneous input, perform the error reporting I/O
 action. Another way is to use exceptions, which we will meet soon.</p>
 <h2 id="randomness">Randomness</h2>
-<p><img src="assets/images/input-and-output/random.png" class="right"
+<img src="assets/images/input-and-output/random.png" class="right"
 width="358" height="362"
-alt="this picture is the ultimate source of randomness and wackiness" /></p>
+alt="this picture is the ultimate source of randomness and wackiness">
 <p>Many times while programming, you need to get some random data. Maybe
 you’re making a game where a die needs to be thrown or you need to
 generate some test data to test out your program. There are a lot of
@@ -1860,8 +1860,8 @@ askForNumber gen = do
             then putStrLn &quot;You are correct!&quot;
             else putStrLn $ &quot;Sorry, it was &quot; ++ show randNumber
         askForNumber newGen</code></pre>
-<p><img src="assets/images/input-and-output/jackofdiamonds.png"
-class="left" width="313" height="280" alt="jack of diamonds" /></p>
+<img src="assets/images/input-and-output/jackofdiamonds.png"
+class="left" width="313" height="280" alt="jack of diamonds">
 <p>We make a function <code>askForNumber</code>, which takes a random
 number generator and returns an I/O action that will prompt the user for
 a number and tell him if he guessed it right. In that function, we first
@@ -1933,9 +1933,9 @@ Both approaches are valid but I like the first one more since it does
 less stuff in <code>main</code> and also provides us with a function
 that we can reuse easily.</p>
 <h2 id="bytestrings">Bytestrings</h2>
-<p><img src="assets/images/input-and-output/chainchomp.png"
+<img src="assets/images/input-and-output/chainchomp.png"
 class="right" width="306" height="390"
-alt="like normal string, only they byte … what a pedestrian pun this is" /></p>
+alt="like normal string, only they byte … what a pedestrian pun this is">
 <p>Lists are a cool and useful data structure. So far, we’ve used them
 pretty much everywhere. There are a multitude of functions that operate
 on them and Haskell’s laziness allows us to exchange the for and while
@@ -2121,8 +2121,8 @@ good performance boosts with very little effort on your part. I usually
 write programs by using normal strings and then convert them to use
 bytestrings if the performance is not satisfactory.</p>
 <h2 id="exceptions">Exceptions</h2>
-<p><img src="assets/images/input-and-output/timber.png" class="left"
-width="308" height="394" alt="timberr!!!!" /></p>
+<img src="assets/images/input-and-output/timber.png" class="left"
+width="308" height="394" alt="timberr!!!!">
 <p>All languages have procedures, functions, and pieces of code that
 might fail in some way. That’s just a fact of life. Different languages
 have different ways of handling those failures. In C, we usually use
@@ -2166,9 +2166,9 @@ have types of <code>(Integral a) =&gt; a -&gt; a -&gt; a</code> and
 *** Exception: divide by zero
 ghci&gt; head []
 *** Exception: Prelude.head: empty list</code></pre>
-<p><img src="assets/images/input-and-output/police.png" class="left"
+<img src="assets/images/input-and-output/police.png" class="left"
 width="241" height="328"
-alt="Stop right there, criminal scum! Nobody breaks the law on my watch! Now pay your fine or it’s off to jail." /></p>
+alt="Stop right there, criminal scum! Nobody breaks the law on my watch! Now pay your fine or it’s off to jail.">
 <p>Pure code can throw exceptions, but it they can only be caught in the
 I/O part of our code (when we’re inside a <em>do</em> block that goes
 into <code>main</code>). That’s because you don’t know when (or if)
@@ -2252,8 +2252,8 @@ throws an I/O exception, that exception gets passed to the handler,
 which then decides what to do. So the final result is an I/O action that
 will either act the same as the first parameter or it will do what the
 handler tells it if the first I/O action throws an exception.</p>
-<p><img src="assets/images/input-and-output/puppy.png" class="right"
-width="334" height="240" alt="non sequitor" /></p>
+<img src="assets/images/input-and-output/puppy.png" class="right"
+width="334" height="240" alt="non sequitor">
 <p>If you’re familiar with <em>try-catch</em> blocks in languages like
 Java or Python, the <code>catch</code> function is similar to them. The
 first parameter is the thing to try, kind of like the stuff in the

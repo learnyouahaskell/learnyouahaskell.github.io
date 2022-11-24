@@ -33,8 +33,8 @@
             </div>
 <h1 id="modules">Modules</h1>
 <h2 id="loading-modules">Loading modules</h2>
-<p><img src="assets/images/modules/modules.png" class="right"
-width="230" height="162" alt="modules" /></p>
+<img src="assets/images/modules/modules.png" class="right"
+width="230" height="162" alt="modules">
 <p>A Haskell module is a collection of related functions, types and
 typeclasses. A Haskell program is a collection of modules where the main
 module loads up the other modules and then uses the functions defined in
@@ -169,8 +169,8 @@ all we have to do is this:</p>
 <p>When we transpose these three lists, the third powers are then in the
 first row, the second powers in the second one and so on. Mapping
 <code>sum</code> to that produces our desired result.</p>
-<p><img src="assets/images/modules/legolists.png" class="left"
-width="230" height="212" alt="shopping lists" /></p>
+<img src="assets/images/modules/legolists.png" class="left"
+width="230" height="212" alt="shopping lists">
 <p><code class="label function">foldl'</code> and <code
 class="label function">foldl1'</code> are stricter versions of their
 respective lazy incarnations. When using lazy folds on really big lists,
@@ -638,8 +638,8 @@ do <code>(==) `on` something</code> and when you’re dealing with
 <em>By</em> functions that take an ordering function, you usually do
 <code>compare `on` something</code>.</p>
 <h2 id="data-char">Data.Char</h2>
-<p><img src="assets/images/modules/legochar.png" class="right"
-width="230" height="323" alt="lego char" /></p>
+<img src="assets/images/modules/legochar.png" class="right"
+width="230" height="323" alt="lego char">
 <p>The <code>Data.Char</code> module does what its name suggests. It
 exports functions that deal with characters. It’s also helpful when
 filtering and mapping over strings because they’re just lists of
@@ -873,8 +873,8 @@ ghci&gt; findKey &quot;amelia&quot; phoneBook
 Just &quot;555-2938&quot;
 ghci&gt; findKey &quot;christopher&quot; phoneBook
 Nothing</code></pre>
-<p><img src="assets/images/modules/legomap.png" class="left" width="214"
-height="240" alt="legomap" /></p>
+<img src="assets/images/modules/legomap.png" class="left" width="214"
+height="240" alt="legomap">
 <p>Works like a charm! If we have the friend’s phone number, we
 <code>Just</code> get the number, otherwise we get
 <code>Nothing</code>.</p>
@@ -984,8 +984,8 @@ equivalent of <code>map snd . Map.toList</code>.</p>
 <p><code class="label function">fromListWith</code> is a cool little
 function. It acts like <code>fromList</code>, only it doesn’t discard
 duplicate keys but it uses a function supplied to it to decide what to
-do with them. Let’s say that a friend can have several numbers and we have
-an association list set up like this.</p>
+do with them. Let’s say that a friend can have several numbers and we
+have an association list set up like this.</p>
 <pre class="haskell:hs"><code>phoneBook =
     [(&quot;amelia&quot;,&quot;555-2938&quot;)
     ,(&quot;amelia&quot;,&quot;342-2492&quot;)
@@ -1035,8 +1035,8 @@ fromList [(3,104),(5,103),(6,339)]</code></pre>
 see a complete list of functions in the <a
 href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
 <h2 id="data-set">Data.Set</h2>
-<p><img src="assets/images/modules/legosets.png" class="right"
-width="150" height="236" alt="legosets" /></p>
+<img src="assets/images/modules/legosets.png" class="right"
+width="150" height="236" alt="legosets">
 <p>The <code>Data.Set</code> module offers us, well, sets. Like sets
 from mathematics. Sets are kind of like a cross between lists and maps.
 All the elements in a set are unique. And because they’re internally
@@ -1138,8 +1138,8 @@ ghci&gt; nub &quot;HEY WHATS CRACKALACKIN&quot;
 lists but as you can see, <code>nub</code> preserves the ordering of the
 list’s elements, while <code>setNub</code> does not.</p>
 <h2 id="making-our-own-modules">Making our own modules</h2>
-<p><img src="assets/images/modules/making_modules.png" class="right"
-width="345" height="224" alt="making modules" /></p>
+<img src="assets/images/modules/making_modules.png" class="right"
+width="345" height="224" alt="making modules">
 <p>We’ve looked at some cool modules so far, but how do we make our own
 module? Almost every programming language enables you to split your code
 up into several files and Haskell is no different. When making programs,
