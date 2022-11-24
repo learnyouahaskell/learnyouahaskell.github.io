@@ -34,7 +34,7 @@
         <h1 style="margin-left:-3px">Higher Order Functions</h1>
 <img src="assets/images/higher-order-functions/sun.png" alt="sun" class="right" width="203" height="183">
 <p>Haskell functions can take functions as parameters and return functions as return values. A function that does either of those is called a higher order function. Higher order functions aren’t just a part of the Haskell experience, they pretty much are the Haskell experience. It turns out that if you want to define computations by defining what stuff <i>is</i> instead of defining steps that change some state and maybe looping them, higher order functions are indispensable. They’re a really powerful way of solving problems and thinking about programs.</p>
-<a name="curried-functions"></a><h2>Curried functions</h2>
+<h2 id="curried-functions">Curried functions</h2>
 <p>Every function in Haskell officially only takes one parameter. So how is it possible that we defined and used several functions that take more than one parameter so far? Well, it’s a clever trick! All the functions that accepted <i>several parameters</i> so far have been <em>curried functions</em>. What does that mean? You’ll understand it best on an example. Let’s take our good friend, the <span class="fixed">max</span> function. It looks like it takes two parameters and returns the one that’s bigger. Doing <span class="fixed">max 4 5</span> first creates a function that takes a parameter and returns either <span class="fixed">4</span> or that parameter, depending on which is bigger. Then, <span class="fixed">5</span> is applied to that function and that function produces our desired result. That sounds like a mouthful but it’s actually a really cool concept. The following two calls are equivalent:</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; max 4 5
@@ -92,7 +92,7 @@ ghci&gt; multThree 3 4
     In a &#39;do&#39; expression: print it
 </pre>
 <p>GHCI is telling us that the expression produced a function of type <span class="fixed">a -&gt; a</span> but it doesn’t know how to print it to the screen. Functions aren’t instances of the <span class="fixed">Show</span> typeclass, so we can’t get a neat string representation of a function. When we do, say, <span class="fixed">1 + 1</span> at the GHCI prompt, it first calculates that to <span class="fixed">2</span> and then calls <span class="fixed">show</span> on <span class="fixed">2</span> to get a textual representation of that number. And the textual representation of <span class="fixed">2</span> is just the string <span class="fixed">"2"</span>, which then gets printed to our screen.</p>
-<a name="higher-orderism"></a><h2>Some higher-orderism is in order</h2>
+<h2 id="higher-orderism">Some higher-orderism is in order</h2>
 <p>Functions can take functions as parameters and also return functions. To illustrate this, we’re going to make a function that takes a function and then applies it twice to something!</p>
 <pre name="code" class="haskell:hs">
 applyTwice :: (a -&gt; a) -&gt; a -&gt; a
@@ -157,7 +157,7 @@ ghci&gt; flip&#39; zip [1,2,3,4,5] &quot;hello&quot;
 ghci&gt; zipWith (flip&#39; div) [2,2..] [10,8,6,4,2]
 [5,4,3,2,1]
 </pre>
-<a name="maps-and-filters"></a><h2>Maps and filters</h2>
+<h2 id="maps-and-filters">Maps and filters</h2>
 <p><span class="function label">map</span> takes a function and a list and applies that function to every element in the list, producing a new list. Let’s see what its type signature is and how it’s defined.</p>
 <pre name="code" class="haskell:hs">
 map :: (a -&gt; b) -&gt; [a] -&gt; [b]
@@ -264,7 +264,7 @@ ghci&gt; (listOfFuns !! 4) 5
 20
 </pre>
 <p>Getting the element with the index <span class="fixed">4</span> from our list returns a function that’s equivalent to <span class="fixed">(4*)</span>. And then, we just apply <span class="fixed">5</span> to that function. So that’s like writing <span class="fixed">(4*) 5</span> or just <span class="fixed">4 * 5</span>.</p>
-<a name="lambdas"></a><h2>Lambdas</h2>
+<h2 id="lambdas">Lambdas</h2>
 <img src="assets/images/higher-order-functions/lambda.png" alt="lambda" class="right" width="203" height="230">
 <p>Lambdas are basically anonymous functions that are used because we need some functions only once. Normally, we make a lambda with the sole purpose of passing it to a higher-order function. To make a lambda, we write a <span class="fixed">\</span> (because it kind of looks like the greek letter lambda if you squint hard enough) and then we write the parameters, separated by spaces. After that comes a <span class="fixed">-&gt;</span> and then the function body. We usually surround them by parentheses, because otherwise they extend all the way to the right.</p>
 <p>If you look about 5 inches up, you’ll see that we used a <i>where</i> binding in our <span class="fixed">numLongChains</span> function to make the <span class="fixed">isLong</span> function for the sole purpose of passing it to <span class="fixed">filter</span>. Well, instead of doing that, we can use a lambda:</p>
@@ -301,7 +301,7 @@ flip&#39; :: (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
 flip&#39; f = \x y -&gt; f y x
 </pre>
 <p>Even though that’s the same as writing <span class="fixed">flip' f x y = f y x</span>, we make it obvious that this will be used for producing a new function most of the time. The most common use case with <span class="fixed">flip</span> is calling it with just the function parameter and then passing the resulting function on to a map or a filter. So use lambdas in this way when you want to make it explicit that your function is mainly meant to be partially applied and passed on to a function as a parameter.</p>
-<a name="folds"></a><h2>Only folds and horses</h2>
+<h2 id="folds">Only folds and horses</h2>
 <img src="assets/images/higher-order-functions/origami.png" alt="folded bird" class="right" width="220" height="221">
 <p>Back when we were dealing with recursion, we noticed a theme throughout many of the recursive functions that operated on lists. Usually, we’d have an edge case for the empty list. We’d introduce the <span class="fixed">x:xs</span> pattern and then we’d do some action that involves a single element and the rest of the list. It turns out this is a very common pattern, so a couple of very useful functions were introduced to encapsulate it. These functions are called folds. They’re sort of like the <span class="fixed">map</span> function, only they reduce the list to some single value. </p>
 <p>A fold takes a binary function, a starting value (I like to call it the accumulator) and a list to fold up. The binary function itself takes two parameters. The binary function is called with the accumulator and the first (or last) element and produces a new accumulator. Then, the binary function is called again with the new accumulator and the now new first (or last) element, and so on. Once we’ve walked over the whole list, only the accumulator remains, which is what we’ve reduced the list to.</p>
@@ -390,7 +390,7 @@ ghci&gt; sum (map sqrt [1..130])
 993.6486803921487
 </pre>
 <p>We use <span class="fixed">takeWhile</span> here instead of <span class="fixed">filter</span> because <span class="fixed">filter</span> doesn’t work on infinite lists. Even though we know the list is ascending, <span class="fixed">filter</span> doesn’t, so we use <span class="fixed">takeWhile</span> to cut the scanlist off at the first occurrence of a sum greater than 1000.</p>
-<a name="function-application"></a><h2>Function application with $</h2>
+<h2 id="function-application">Function application with $</h2>
 <p>Alright, next up, we’ll take a look at the <span class="fixed">$</span> function, also called <i>function application</i>. First of all, let’s check out how it’s defined:</p>
 <pre name="code" class="haskell:hs">
 ($) :: (a -&gt; b) -&gt; a -&gt; b
@@ -405,7 +405,7 @@ f $ x = f x
 ghci&gt; map ($ 3) [(4+), (10*), (^2), sqrt]
 [7.0,30.0,9.0,1.7320508075688772]
 </pre>
-<a name="composition"></a><h2>Function composition</h2>
+<h2 id="composition">Function composition</h2>
 <p>In mathematics, function composition is defined like this: <img src="assets/images/higher-order-functions/composition.png" alt=" (f . g)(x) = f(g(x))">, meaning that composing two functions produces a new function that, when called with a parameter, say, <i>x</i> is the equivalent of calling <i>g</i> with the parameter <i>x</i> and then calling the <i>f</i> with that result.</p>
 <p>In Haskell, function composition is pretty much the same thing. We do function composition with the <span class="fixed">.</span> function, which is defined like so:</p>
 <pre name="code" class="haskell:hs">

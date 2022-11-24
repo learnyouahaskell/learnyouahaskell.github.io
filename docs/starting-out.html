@@ -32,7 +32,7 @@
                 </ul>
             </div>
         <h1 style="margin-left:-3px">Starting Out</h1>
-<a name="ready-set-go"></a><h2>Ready, set, go!</h2>
+<h2 id="ready-set-go">Ready, set, go!</h2>
 <p>
 <img src="assets/images/starting-out/startingout.png" class="right" alt="egg" width="214" height="187">
 Alright, let’s get started! If you’re the sort of horrible person who doesn’t read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we’re going to load functions. The first thing we’re going to do is run ghc’s interactive mode and call some function to get a very basic feel for Haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
@@ -142,7 +142,7 @@ However, if we wanted to get the successor of the product of numbers 9 and 10, w
 </p>
 <p>If a function takes two parameters, we can also call it as an infix function by surrounding it with backticks. For instance, the <span class="fixed">div</span> function takes two integers and does integral division between them. Doing <span class="fixed">div 92 10</span> results in a 9. But when we call it like that, there may be some confusion as to which number is doing the division and which one is being divided. So we can call it as an infix function by doing <span class="fixed">92 `div` 10</span> and suddenly it’s much clearer. </p>
 <p>Lots of people who come from imperative languages tend to stick to the notion that parentheses should denote function application. For example, in C, you use parentheses to call functions like <span class="fixed">foo()</span>, <span class="fixed">bar(1)</span> or <span class="fixed">baz(3, "haha")</span>. Like we said, spaces are used for function application in Haskell. So those functions in Haskell would be <span class="fixed">foo</span>, <span class="fixed">bar 1</span> and <span class="fixed">baz 3 "haha"</span>. So if you see something like <span class="fixed">bar (bar 3)</span>, it doesn’t mean that <span class="fixed">bar</span> is called with <span class="fixed">bar</span> and <span class="fixed">3</span> as parameters. It means that we first call the function <span class="fixed">bar</span> with <span class="fixed">3</span> as the parameter to get some number and then we call <span class="fixed">bar</span> again with that number. In C, that would be something like <span class="fixed">bar(bar(3))</span>.</p>
-<a name="babys-first-functions"></a><h2>Baby’s first functions</h2>
+<h2 id="babys-first-functions">Baby’s first functions</h2>
 <p>
 In the previous section we got a basic feel for calling functions. Now let’s try making our own! Open up your favorite text editor and punch in this function that takes a number and multiplies it by two.
 </p>
@@ -205,7 +205,7 @@ conanO&#39;Brien = &quot;It&#39;s a-me, Conan O&#39;Brien!&quot; </pre>
 <p>
 There are two noteworthy things here. The first is that in the function name we didn’t capitalize Conan’s name. That’s because functions can’t begin with uppercase letters. We’ll see why a bit later. The second thing is that this function doesn’t take any parameters. When a function doesn’t take any parameters, we usually say it’s a <i>definition</i> (or a <i>name</i>). Because we can’t change what names (and functions) mean once we’ve defined them, <span class="fixed">conanO'Brien</span> and the string <span class="fixed">"It's a-me, Conan O'Brien!"</span> can be used interchangeably.
 </p>
-<a name="an-intro-to-lists"></a><h2>An intro to lists</h2>
+<h2 id="an-intro-to-lists">An intro to lists</h2>
 <p>
 <img src="assets/images/starting-out/list.png" alt="BUY A DOG" class="left" width="150" height="103">
 Much like shopping lists in the real world, lists in Haskell are very useful. It’s the most used data structure and it can be used in a multitude of different ways to model and solve a whole bunch of problems. Lists are SO awesome. In this section we’ll look at the basics of lists, strings (which are lists) and list comprehensions.
@@ -362,7 +362,7 @@ ghci&gt; 10 `elem` [3,4,5,6]
 False
 </pre>
 <p>Those were a few basic functions that operate on lists. We’ll take a look at more list functions <a href="modules.html#data-list">later</a>.</p>
-<a name="texas-ranges"></a><h2>Texas ranges</h2>
+<h2 id="texas-ranges">Texas ranges</h2>
 <p>
 <img src="assets/images/starting-out/cowboy.png" alt="draw" class="right" width="200" height="258">
 What if we want a list of all numbers between 1 and 20? Sure, we could just type them all out but obviously that’s not a solution for gentlemen who demand excellence from their programming languages. Instead, we’ll use ranges. Ranges are a way of making lists that are arithmetic sequences of elements that can be enumerated. Numbers can be enumerated. One, two, three, four, etc. Characters can also be enumerated. The alphabet is an enumeration of characters from A to Z. Names can’t be enumerated. What comes after “John”? I don’t know.
@@ -408,7 +408,7 @@ ghci&gt; take 10 (repeat 5)
 [5,5,5,5,5,5,5,5,5,5]
 </pre>
 <p>Although it’s simpler to just use the <span class="label function">replicate</span> function if you want some number of the same element in a list. <span class="fixed">replicate 3 10</span> returns <span class="fixed">[10,10,10]</span>.</p>
-<a name="im-a-list-comprehension"></a><h2>I’m a list comprehension</h2>
+<h2 id="im-a-list-comprehension">I’m a list comprehension</h2>
 <p>
 <img src="assets/images/starting-out/kermit.png" alt="frog" class="left" width="180" height="156">
 If you’ve ever taken a course in mathematics, you’ve probably run into <i>set comprehensions</i>. They’re normally used for building more specific sets out of general sets. A basic comprehension for a set that contains the first ten even natural numbers is <img src="assets/images/starting-out/setnotation.png" alt="set notation">. The part before the pipe is called the output function, <span class="fixed">x</span> is the variable, <span class="fixed">N</span> is the input set and <span class="fixed">x &lt;= 10</span> is the predicate. That means that the set contains the doubles of all natural numbers that satisfy the predicate.
@@ -475,7 +475,7 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 [[2,2,4],[2,4,6,8],[2,4,2,6,2,6]]
 </pre>
 <p>You can write list comprehensions across several lines. So if you’re not in GHCI, it’s better to split longer list comprehensions across multiple lines, especially if they’re nested.</p>
-<a name="tuples"></a><h2>Tuples</h2>
+<h2 id="tuples">Tuples</h2>
 <img src="assets/images/starting-out/tuple.png" alt="tuples" class="right" width="160" height="162">
 <p>In some ways, tuples are like lists — they are a way to store several values into a single value. However, there are a few fundamental differences. A list of numbers is a list of numbers. That’s its type and it doesn’t matter if it has only one number in it or an infinite amount of numbers. Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components. They are denoted with parentheses and their components are separated by commas.</p>
 <p>Another key difference is that they don’t have to be homogenous. Unlike a list, a tuple can contain a combination of several types.</p>

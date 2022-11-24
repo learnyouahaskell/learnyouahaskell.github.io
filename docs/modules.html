@@ -32,7 +32,7 @@
                 </ul>
             </div>
         <h1>Modules</h1>
-<a name="loading-modules"></a><h2>Loading modules</h2>
+<h2 id="loading-modules">Loading modules</h2>
 <img src="assets/images/modules/modules.png" alt="modules" class="right" width="230" height="162">
 <p>A Haskell module is a collection of related functions, types and typeclasses. A Haskell program is a collection of modules where the main module loads up the other modules and then uses the functions defined in them to do something. Having code split up into several modules has quite a lot of advantages. If a module is generic enough, the functions it exports can be used in a multitude of different programs. If your own code is separated into self-contained modules which don’t rely on each other too much (we also say they are loosely coupled), you can reuse them later on. It makes the whole deal of writing code more manageable by having it split into several parts, each of which has some sort of purpose.</p>
 <p>The Haskell standard library is split into modules, each of them contains functions and types that are somehow related and serve some common purpose. There’s a module for manipulating lists, a module for concurrent programming, a module for dealing with complex numbers, etc. All the functions, types and typeclasses that we’ve dealt with so far were part of the <span class="fixed">Prelude</span> module, which is imported by default. In this chapter, we’re going to examine a few useful modules and the functions that they have. But first, we’re going to see how to import modules.</p>
@@ -72,7 +72,7 @@ import qualified Data.Map as M
 <p>Now, to reference <span class="fixed">Data.Map</span>’s <span class="fixed">filter</span> function, we just use <span class="fixed">M.filter</span>.</p>
 <p>Use <a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/">this handy reference</a> to see which modules are in the standard library. A great way to pick up new Haskell knowledge is to just click through the standard library reference and explore the modules and their functions. You can also view the Haskell source code for each module. Reading the source code of some modules is a really good way to learn Haskell and get a solid feel for it.</p>
 <p>To search for functions or to find out where they’re located, use <a href="https://hoogle.haskell.org/">Hoogle</a>. It’s a really awesome Haskell search engine, you can search by name, module name or even type signature.</p>
-<a name="data-list"></a><h2>Data.List</h2>
+<h2 id="data-list">Data.List</h2>
 <p>The <span class="fixed">Data.List</span> module is all about lists, obviously. It provides some very useful functions for dealing with them. We’ve already met some of its functions (like <span class="fixed">map</span> and <span class="fixed">filter</span>) because the <span class="fixed">Prelude</span> module exports some functions from <span class="fixed">Data.List</span> for convenience. You don’t have to import <span class="fixed">Data.List</span> via a qualified import because it doesn’t clash with any <span class="fixed">Prelude</span> names except for those that <span class="fixed">Prelude</span> already steals from <span class="fixed">Data.List</span>. Let’s take a look at some of the functions that we haven’t met before.</p>
 <p><span class="label function">intersperse</span> takes an element and a list and then puts that element in between each pair of elements in the list. Here’s a demonstration:</p>
 <pre name="code" class="haskell:ghci">
@@ -408,7 +408,7 @@ ghci&gt; sortBy (compare `on` length) xs
 [[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]
 </pre>
 <p>Awesome! <span class="fixed">compare `on` length</span> … man, that reads almost like real English! If you’re not sure how exactly the <span class="fixed">on</span> works here, <span class="fixed">compare `on` length</span> is the equivalent of <span class="fixed">\x y -&gt; length x `compare` length y</span>. When you’re dealing with <i>By</i> functions that take an equality function, you usually do <span class="fixed">(==) `on` something</span> and when you’re dealing with <i>By</i> functions that take an ordering function, you usually do <span class="fixed">compare `on` something</span>.</p>
-<a name="data-char"></a><h2>Data.Char</h2>
+<h2 id="data-char">Data.Char</h2>
 <img src="assets/images/modules/legochar.png" alt="lego char" class="right" width="230" height="323">
 <p>The <span class="fixed">Data.Char</span> module does what its name suggests. It exports functions that deal with characters. It’s also helpful when filtering and mapping over strings because they’re just lists of characters.</p>
 <p><span class="fixed">Data.Char</span> exports a bunch of predicates over characters. That is, functions that take a character and tell us whether some assumption about it is true or false. Here’s what they are:</p>
@@ -528,7 +528,7 @@ ghci&gt; decode 3 &quot;Lp#d#olwwoh#whdsrw&quot;
 ghci&gt; decode 5 . encode 5 $ &quot;This is a sentence&quot;
 &quot;This is a sentence&quot;
 </pre>
-<a name="data-map"></a><h2>Data.Map</h2>
+<h2 id="data-map">Data.Map</h2>
 <p>Association lists (also called dictionaries) are lists that are used to store key-value pairs where ordering doesn’t matter. For instance, we might use an association list to store phone numbers, where phone numbers would be the values and people’s names would be the keys. We don’t care in which order they’re stored, we just want to get the right phone number for the right person.</p>
 <p>The most obvious way to represent association lists in Haskell would be by having a list of pairs. The first component in the pair would be the key, the second component the value. Here’s an example of an association list with phone numbers:</p>
 <pre name="code" class="haskell:hs">
@@ -708,7 +708,7 @@ ghci&gt; Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)]
 fromList [(3,104),(5,103),(6,339)]
 </pre>
 <p>These were just a few functions from <span class="fixed">Data.Map</span>. You can see a complete list of functions in the <a href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
-<a name="data-set"></a><h2>Data.Set</h2>
+<h2 id="data-set">Data.Set</h2>
 <img src="assets/images/modules/legosets.png" alt="legosets" class="right" width="150" height="236">
 <p>The <span class="fixed">Data.Set</span> module offers us, well, sets. Like sets from mathematics. Sets are kind of like a cross between lists and maps. All the elements in a set are unique. And because they’re internally implemented with trees (much like maps in <span class="fixed">Data.Map</span>), they’re ordered. Checking for membership, inserting, deleting, etc. is much faster than doing the same thing with lists. The most common operation when dealing with sets are inserting into a set, checking for membership and converting a set to a list.</p>
 <p>Because the names in <span class="fixed">Data.Set</span> clash with a lot of <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> names, we do a qualified import.</p>
@@ -793,7 +793,7 @@ ghci&gt; nub &quot;HEY WHATS CRACKALACKIN&quot;
 &quot;HEY WATSCRKLIN&quot;
 </pre>
 <p><span class="fixed">setNub</span> is generally faster than <span class="fixed">nub</span> on big lists but as you can see, <span class="fixed">nub</span> preserves the ordering of the list’s elements, while <span class="fixed">setNub</span> does not.</p>
-<a name="making-our-own-modules"></a><h2>Making our own modules</h2>
+<h2 id="making-our-own-modules">Making our own modules</h2>
 <img src="assets/images/modules/making_modules.png" alt="making modules" class="right" width="345" height="224">
 <p>We’ve looked at some cool modules so far, but how do we make our own module? Almost every programming language enables you to split your code up into several files and Haskell is no different. When making programs, it’s good practice to take functions and types that work towards a similar purpose and put them in a module. That way, you can easily reuse those functions in other programs by just importing your module.</p>
 <p>Let’s see how we can make our own modules by making a little module that provides some functions for calculating the volume and area of a few geometrical objects. We’ll start by creating a file called <span class="fixed">Geometry.hs</span>.</p>

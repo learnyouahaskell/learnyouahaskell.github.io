@@ -32,7 +32,7 @@
                 </ul>
             </div>
         <h1>Types and Typeclasses</h1>
-<a name="believe-the-type"></a><h2>Believe the type</h2>
+<h2 id="believe-the-type">Believe the type</h2>
 <img src="assets/images/types-and-typeclasses/cow.png" alt="moo" class="left" width="180" height="127">
 <p>Previously we mentioned that Haskell has a static type system. The type of every expression is known at compile time, which leads to safer code. If you write a program where you try to divide a boolean type with some number, it won’t even compile. That’s good because it’s better to catch such errors at compile time instead of having your program crash. Everything in Haskell has a type, so the compiler can reason quite a lot about your program before compiling it.</p>
 <p>Unlike Java or Pascal, Haskell has type inference. If we write a number, we don’t have to tell Haskell it’s a number. It can <i>infer</i> that on its own, so we don’t have to explicitly write out the types of our functions and expressions to get things done. We covered some of the basics of Haskell with only a very superficial glance at types. However, understanding the type system is a very important part of learning Haskell.</p>
@@ -110,7 +110,7 @@ ghci&gt; circumference&#39; 4.0
 <span class="label type">Char</span> represents a character. It’s denoted by single quotes. A list of characters is a string.
 </p>
 <p>Tuples are types but they are dependent on their length as well as the types of their components, so there is theoretically an infinite number of tuple types, which is too many to cover in this tutorial. Note that the empty tuple <span class="label type">()</span> is also a type which can only have a single value: <span class="fixed">()</span></p>
-<a name="type-variables"></a><h2>Type variables</h2>
+<h2 id="type-variables">Type variables</h2>
 <p>
 What do you think is the type of the <span class="fixed">head</span> function? Because <span class="fixed">head</span> takes a list of any type and returns the first element, so what could it be? Let’s check!
 </p>
@@ -131,7 +131,7 @@ fst :: (a, b) -&gt; a
 <p>
 We see that <span class="fixed">fst</span> takes a tuple which contains two types and returns an element which is of the same type as the pair’s first component. That’s why we can use <span class="fixed">fst</span> on a pair that contains any two types. Note that just because <span class="fixed">a</span> and <span class="fixed">b</span> are different type variables, they don’t have to be different types. It just states that the first component’s type and the return value’s type are the same.
 </p>
-<a name="typeclasses-101"></a><h2>Typeclasses 101</h2>
+<h2 id="typeclasses-101">Typeclasses 101</h2>
 <img src="assets/images/types-and-typeclasses/classes.png" alt="class" class="right" width="210" height="158">
 <p>A typeclass is a sort of interface that defines some behavior. If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes. A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object oriented languages. Well, they’re not. You can think of them kind of as Java interfaces, only better.
 </p>
