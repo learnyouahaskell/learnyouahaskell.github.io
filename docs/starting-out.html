@@ -244,7 +244,7 @@ Notice how <span class="fixed">:</span> takes a number and a list of numbers or 
 <p>
 <span class="fixed">[1,2,3]</span> is actually just syntactic sugar for <span class="fixed">1:2:3:[]</span>. <span class="fixed">[]</span> is an empty list. If we prepend <span class="fixed">3</span> to it, it becomes <span class="fixed">[3]</span>. If we prepend <span class="fixed">2</span> to that, it becomes <span class="fixed">[2,3]</span>, and so on.
 </p>
-<div class="hintbox"><strong>Note:</strong> <span class="fixed">[]</span>, <span class="fixed">[[]]</span> and<span class="fixed">[[],[],[]]</span> are all different things. The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.</div>
+<div class="hintbox"><p><strong>Note:</strong> <span class="fixed">[]</span>, <span class="fixed">[[]]</span> and<span class="fixed">[[],[],[]]</span> are all different things. The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.</p></div>
 <p>If you want to get an element out of a list by index, use <span class="fixed">!!</span>. The indices start at 0.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; &quot;Steve Buscemi&quot; !! 6
@@ -505,7 +505,7 @@ ghci&gt; snd (8,11)
 11
 ghci&gt; snd (&quot;Wow&quot;, False)
 False</pre>
-<div class="hintbox"><strong>Note:</strong> these functions operate only on pairs. They won’t work on triples, 4-tuples, 5-tuples, etc. We’ll go over extracting data from tuples in different ways a bit later.</div>
+<div class="hintbox"><p><strong>Note:</strong> these functions operate only on pairs. They won’t work on triples, 4-tuples, 5-tuples, etc. We’ll go over extracting data from tuples in different ways a bit later.</p></div>
 <p>A cool function that produces a list of pairs: <span class="label function">zip</span>. It takes two lists and then zips them together into one list by joining the matching elements into pairs. It’s a really simple function but it has loads of uses. It’s especially useful for when you want to combine two lists in a way or traverse two lists simultaneously. Here’s a demonstration.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; zip [1,2,3,4,5] [5,5,5,5,5]

@@ -219,9 +219,9 @@ appending the logs.
 
 <h3 id="monoids-to-the-rescue">Monoids to the rescue</h3>
 
-<div class="hintbox">
+<div class="hintbox"><p>
 Be sure you know what <a href="functors-applicative-functors-and-monoids.html#monoids">monoids</a> are at this point! Cheers.
-</div>
+</p></div>
 
 <p>
 Right now, <span class="fixed">applyLog</span> takes values of type
@@ -1203,7 +1203,7 @@ s -&gt; (a,s)
 <span class="fixed">a</span> the result of the stateful computations.
 </p>
 
-<div class="hintbox">
+<div class="hintbox"><p>
 Assignment in most other languages could be thought of as a stateful
 computation. For instance, when we do <span class="fixed">x = 5</span> in an
 imperative language, it will usually assign the value
@@ -1213,7 +1213,7 @@ at that functionally, you could look at it as a function that takes a state
 (that is, all the variables that have been assigned previously) and returns a
 result (in this case <span class="fixed">5</span>) and a new state, which would
 be all the previous variable mappings plus the newly assigned variable.
-</div>
+</p></div>
 
 <p>
 This stateful computation, a function that takes a state

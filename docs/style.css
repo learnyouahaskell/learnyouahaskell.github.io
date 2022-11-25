@@ -80,6 +80,9 @@ pre.code {
     margin-bottom:25px;
     background-image:url(https://s3.amazonaws.com/lyah/note.jpg);
 }
+.hintbox > p {
+    margin-bottom:0px;
+}
 .label {
     white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;

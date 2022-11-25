@@ -560,7 +560,7 @@ findKey key ((k,v):xs) = if key == k
 findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v
 findKey key = foldr (\(k,v) acc -&gt; if key == k then Just v else acc) Nothing
 </pre>
-<div class="hintbox"><strong>Note:</strong> It’s usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they’re easier to read and identify. Everyone knows it’s a fold when they see the <span class="fixed">foldr</span> call, but it takes some more thinking to read explicit recursion.</div>
+<div class="hintbox"><p><strong>Note:</strong> It’s usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they’re easier to read and identify. Everyone knows it’s a fold when they see the <span class="fixed">foldr</span> call, but it takes some more thinking to read explicit recursion.</p></div>
 <pre name="code" class="haskell:ghci">
 ghci&gt; findKey &quot;tenzing&quot; phoneBook
 Just &quot;853-2492&quot;

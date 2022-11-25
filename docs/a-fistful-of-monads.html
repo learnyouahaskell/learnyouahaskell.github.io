@@ -181,12 +181,12 @@ explore it a bit more and see if we can combine it with what we know about
 monads.
 </p>
 
-<div class="hintbox">
+<div class="hintbox"><p>
 Make sure you understand <a href="functors-applicative-functors-and-monoids.html#applicative-functors">applicatives</a> at this point. It’s good if you have a
 feel for how the various <span class="fixed">Applicative</span> instances work
 and what kind of computations they represent, because monads are nothing more
 than taking our existing applicative knowledge and upgrading it.
-</div>
+</p></div>
 
 <p>
 A value of type <span class="fixed">Maybe a</span> represents a value of type
@@ -422,12 +422,12 @@ a bogus I/O action that does nothing but yield that value.  For
 <span class="fixed">Just</span>.
 </p>
 
-<div class="hintbox">
+<div class="hintbox"><p>
 Just a reminder: <span class="fixed">return</span> is nothing like the
 <span class="fixed">return</span> that’s in most other languages. It doesn’t end
 function execution or anything, it just takes a normal value and puts it in a
 context.
-</div>
+</p></div>
 
 <img src="assets/images/a-fistful-of-monads/tur2.png" class="left" width="169" height="145" alt="hmmm yaes">
 
@@ -1487,11 +1487,11 @@ in <span class="fixed">Maybe</span> or resulting in more non-determinism for
 lists) but it does present something as its result.
 </p>
 
-<div class="hintbox">
+<div class="hintbox"><p>
 When you have non-deterministic values interacting, you can view their
 computation as a tree where every possible result in a list represents a
 separate branch.
-</div>
+</p></div>
 
 <p>
 Here’s the previous expression rewritten in <span class="fixed">do</span> notation:
