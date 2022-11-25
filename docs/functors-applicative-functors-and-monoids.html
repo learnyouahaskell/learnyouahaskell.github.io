@@ -38,10 +38,10 @@
 <img src="assets/images/functors-applicative-functors-and-monoids/frogtor.png" class="right" width="369" height="243" alt="frogs dont even need money">
 <p>We’ve already talked about functors in <a href="making-our-own-types-and-typeclasses.html#the-functor-typeclass">their own little section</a>. If you haven’t read it yet, you should probably give it a glance right now, or maybe later when you have more time. Or you can just pretend you read it.</p>
 <p>Still, here’s a quick refresher: Functors are things that can be mapped over, like lists, <span class="fixed">Maybe</span>s, trees, and such. In Haskell, they’re described by the typeclass <span class="fixed">Functor</span>, which has only one typeclass method, namely <span class="fixed">fmap</span>, which has a type of <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It says: give me a function that takes an <span class="fixed">a</span> and returns a <span class="fixed">b</span> and a box with an <span class="fixed">a</span> (or several of them) inside it and I’ll give you a box with a <span class="fixed">b</span> (or several of them) inside it. It kind of applies the function to the element inside the box.</p>
-<div class="hintbox"><strong>A word of advice.</strong> Many times the box analogy is used to help you get some intuition for how functors work, and later, we’ll probably use the same analogy for applicative functors and monads. It’s an okay analogy that helps people understand functors at first, just don’t take it too literally, because for some functors the box analogy has to be stretched really thin to still hold some truth. A more correct term for what a functor is would be <i>computational context</i>. The context might be that the computation can have a value or it might have failed (<span class="fixed">Maybe</span> and <span class="fixed">Either a</span>) or that there might be more values (lists), stuff like that.</div>
+<div class="hintbox"><strong>A word of advice.</strong> Many times the box analogy is used to help you get some intuition for how functors work, and later, we’ll probably use the same analogy for applicative functors and monads. It’s an okay analogy that helps people understand functors at first, just don’t take it too literally, because for some functors the box analogy has to be stretched really thin to still hold some truth. A more correct term for what a functor is would be <em>computational context</em>. The context might be that the computation can have a value or it might have failed (<span class="fixed">Maybe</span> and <span class="fixed">Either a</span>) or that there might be more values (lists), stuff like that.</div>
 <p>If we want to make a type constructor an instance of <span class="fixed">Functor</span>, it has to have a kind of <span class="fixed">* -&gt; *</span>, which means that it has to take exactly one concrete type as a type parameter. For example, <span class="fixed">Maybe</span> can be made an instance because it takes one type parameter to produce a concrete type, like <span class="fixed">Maybe Int</span> or <span class="fixed">Maybe String</span>. If a type constructor takes two parameters, like <span class="fixed">Either</span>, we have to partially apply the type constructor until it only takes one type parameter. So we can’t write <span class="fixed">instance Functor Either where</span>, but we can write <span class="fixed">instance Functor (Either a) where</span> and then if we imagine that <span class="fixed">fmap</span> is only for <span class="fixed">Either a</span>, it would have a type declaration of <span class="fixed">fmap :: (b -&gt; c) -&gt; Either a b -&gt; Either a c</span>. As you can see, the <span class="fixed">Either a</span> part is fixed, because <span class="fixed">Either a</span> takes only one type parameter, whereas just <span class="fixed">Either</span> takes two so <span class="fixed">fmap :: (b -&gt; c) -&gt; Either b -&gt; Either c</span> wouldn’t really make sense.</p>
 <p>We’ve learned by now how a lot of types (well, type constructors really) are instances of <span class="fixed">Functor</span>, like <span class="fixed">[]</span>, <span class="fixed">Maybe</span>, <span class="fixed">Either a</span> and a <span class="fixed">Tree</span> type that we made on our own. We saw how we can map functions over them for great good. In this section, we’ll take a look at two more instances of functor, namely <span class="fixed">IO</span> and <span class="fixed">(-&gt;) r</span>.</p>
-<p>If some value has a type of, say, <span class="fixed">IO String</span>, that means that it’s an I/O action that, when performed, will go out into the real world and get some string for us, which it will yield as a result. We can use <span class="fixed">&lt;-</span> in <i>do</i> syntax to bind that result to a name. We mentioned that I/O actions are like boxes with little feet that go out and fetch some value from the outside world for us. We can inspect what they fetched, but after inspecting, we have to wrap the value back in <span class="fixed">IO</span>. By thinking about this box with little feet analogy, we can see how <span class="fixed">IO</span> acts like a functor.</p>
+<p>If some value has a type of, say, <span class="fixed">IO String</span>, that means that it’s an I/O action that, when performed, will go out into the real world and get some string for us, which it will yield as a result. We can use <span class="fixed">&lt;-</span> in <em>do</em> syntax to bind that result to a name. We mentioned that I/O actions are like boxes with little feet that go out and fetch some value from the outside world for us. We can inspect what they fetched, but after inspecting, we have to wrap the value back in <span class="fixed">IO</span>. By thinking about this box with little feet analogy, we can see how <span class="fixed">IO</span> acts like a functor.</p>
 <p>
 Let’s see how <span class="fixed">IO</span> is an instance of <span class="fixed">Functor</span>. When we <span class="fixed">fmap</span> a function over an I/O action, we want to get back an I/O action that does the same thing, but has our function applied over its result value.</p>
 <pre name="code" class="haskell:hs">
@@ -51,7 +51,7 @@ instance Functor IO where
         return (f result)
 </pre>
 <p>
-The result of mapping something over an I/O action will be an I/O action, so right off the bat we use <i>do</i> syntax to glue two actions and make a new one. In the implementation for <span class="fixed">fmap</span>, we make a new I/O action that first performs the original I/O action and calls its result <span class="fixed">result</span>. Then, we do <span class="fixed">return (f result)</span>. <span class="fixed">return</span> is, as you know, a function that makes an I/O action that doesn’t do anything but only presents something as its result. The action that a <i>do</i> block produces will always have the result value of its last action. That’s why we use return to make an I/O action that doesn’t really do anything, it just presents <span class="fixed">f result</span> as the result of the new I/O action.
+The result of mapping something over an I/O action will be an I/O action, so right off the bat we use <em>do</em> syntax to glue two actions and make a new one. In the implementation for <span class="fixed">fmap</span>, we make a new I/O action that first performs the original I/O action and calls its result <span class="fixed">result</span>. Then, we do <span class="fixed">return (f result)</span>. <span class="fixed">return</span> is, as you know, a function that makes an I/O action that doesn’t do anything but only presents something as its result. The action that a <em>do</em> block produces will always have the result value of its last action. That’s why we use return to make an I/O action that doesn’t really do anything, it just presents <span class="fixed">f result</span> as the result of the new I/O action.
 </p><p>We can play around with it to gain some intuition. It’s pretty simple really. Check out this piece of code:</p>
 <pre name="code" class="haskell:hs">
 main = do line &lt;- getLine
@@ -119,7 +119,7 @@ ghci&gt; fmap (show . (*3)) (*100) 1
 <p>The fact that <span class="fixed">fmap</span> is function composition when used on functions isn’t so terribly useful right now, but at least it’s very interesting. It also bends our minds a bit and let us see how things that act more like computations than boxes (<span class="fixed">IO</span> and <span class="fixed">(-&gt;) r</span>) can be functors. The function being mapped over a computation results in the same computation but the result of that computation is modified with the function.</p>
 <img src="assets/images/functors-applicative-functors-and-monoids/lifter.png" class="right" width="443" height="450" alt="lifting a function is easier than lifting a million pounds">
 <p>Before we go on to the rules that <span class="fixed">fmap</span> should follow, let’s think about the type of <span class="fixed">fmap</span> once more. Its type is <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. We’re missing the class constraint <span class="fixed">(Functor f) =&gt;</span>, but we left it out here for brevity, because we’re talking about functors anyway so we know what the <span class="fixed">f</span> stands for. When we first learned about <a href="higher-order-functions.html#curried-functions">curried functions</a>, we said that all Haskell functions actually take one parameter. A function <span class="fixed">a -&gt; b -&gt; c</span> actually takes just one parameter of type <span class="fixed">a</span> and then returns a function <span class="fixed">b -&gt; c</span>, which takes one parameter and returns a <span class="fixed">c</span>. That’s how if we call a function with too few parameters (i.e. partially apply it), we get back a function that takes the number of parameters that we left out (if we’re thinking about functions as taking several parameters again). So <span class="fixed">a -&gt; b -&gt; c</span> can be written as <span class="fixed">a -&gt; (b -&gt; c)</span>, to make the currying more apparent.</p>
-<p>In the same vein, if we write <span class="fixed">fmap :: (a -&gt; b) -&gt; (f a -&gt; f b)</span>, we can think of <span class="fixed">fmap</span> not as a function that takes one function and a functor and returns a functor, but as a function that takes a function and returns a new function that’s just like the old one, only it takes a functor as a parameter and returns a functor as the result. It takes an <span class="fixed">a -&gt; b</span> function and returns a function <span class="fixed">f a -&gt; f b</span>. This is called <i>lifting</i> a function. Let’s play around with that idea by using GHCI’s <span class="fixed">:t</span> command:</p>
+<p>In the same vein, if we write <span class="fixed">fmap :: (a -&gt; b) -&gt; (f a -&gt; f b)</span>, we can think of <span class="fixed">fmap</span> not as a function that takes one function and a functor and returns a functor, but as a function that takes a function and returns a new function that’s just like the old one, only it takes a functor as a parameter and returns a functor as the result. It takes an <span class="fixed">a -&gt; b</span> function and returns a function <span class="fixed">f a -&gt; f b</span>. This is called <em>lifting</em> a function. Let’s play around with that idea by using GHCI’s <span class="fixed">:t</span> command:</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; :t fmap (*2)
 fmap (*2) :: (Num a, Functor f) =&gt; f a -&gt; f a
@@ -127,7 +127,7 @@ ghci&gt; :t fmap (replicate 3)
 fmap (replicate 3) :: (Functor f) =&gt; f a -&gt; f [a]
 </pre>
 <p>The expression <span class="fixed">fmap (*2)</span> is a function that takes a functor <span class="fixed">f</span> over numbers and returns a functor over numbers. That functor can be a list, a <span class="fixed">Maybe </span>, an <span class="fixed">Either String</span>, whatever. The expression <span class="fixed">fmap (replicate 3)</span> will take a functor over any type and return a functor over a list of elements of that type.</p>
-<div class="hintbox">When we say <i>a functor over numbers</i>, you can think of that as <i>a functor that has numbers in it</i>. The former is a bit fancier and more technically correct, but the latter is usually easier to get.</div>
+<div class="hintbox">When we say <em>a functor over numbers</em>, you can think of that as <em>a functor that has numbers in it</em>. The former is a bit fancier and more technically correct, but the latter is usually easier to get.</div>
 <p>This is even more apparent if we partially apply, say, <span class="fixed">fmap (++"!")</span> and then bind it to a name in GHCI.</p>
 <p>You can think of <span class="fixed">fmap</span> as either a function that takes a function and a functor and then maps that function over the functor, or you can think of it as a function that takes a function and lifts that function so that it operates on functors. Both views are correct and in Haskell, equivalent.</p>
 <p>The type <span class="fixed">fmap (replicate 3) :: (Functor f) =&gt; f a -&gt; f [a]</span> means that the function will work on any functor. What exactly it will do depends on which functor we use it on. If we use <span class="fixed">fmap (replicate 3)</span> on a list, the list’s implementation for <span class="fixed">fmap</span> will be chosen, which is just <span class="fixed">map</span>. If we use it on a <span class="fixed">Maybe a</span>, it’ll apply <span class="fixed">replicate 3</span> to the value inside the <span class="fixed">Just</span>, or if it’s <span class="fixed">Nothing</span>, then it stays <span class="fixed">Nothing</span>.</p>
@@ -169,15 +169,15 @@ instance Functor Maybe where
 <p>We imagine that <span class="fixed">id</span> plays the role of the <span class="fixed">f</span> parameter in the implementation. We see that if wee <span class="fixed">fmap id</span> over <span class="fixed">Just x</span>, the result will be <span class="fixed">Just (id x)</span>, and because <span class="fixed">id</span> just returns its parameter, we can deduce that <span class="fixed">Just (id x)</span> equals <span class="fixed">Just x</span>. So now we know that if we map <span class="fixed">id</span> over a <span class="fixed">Maybe</span> value with a <span class="fixed">Just</span> value constructor, we get that same value back.</p>
 <p>Seeing that mapping <span class="fixed">id</span> over a <span class="fixed">Nothing</span> value returns the same value is trivial. So from these two equations in the implementation for <span class="fixed">fmap</span>, we see that the law <span class="fixed">fmap id = id</span> holds.</p>
 <img src="assets/images/functors-applicative-functors-and-monoids/justice.png" class="left" width="345" height="428" alt="justice is blind, but so is my dog">
-<p><strong>The second law says that composing two functions and then mapping the resulting function over a functor should be the same as first mapping one function over the functor and then mapping the other one.</strong> Formally written, that means that <span class="label law">fmap (f . g) = fmap f . fmap g</span>. Or to write it in another way, for any functor <i>F</i>, the following should hold: <span class="label law">fmap (f . g) F = fmap f (fmap g F)</span>.</p>
+<p><strong>The second law says that composing two functions and then mapping the resulting function over a functor should be the same as first mapping one function over the functor and then mapping the other one.</strong> Formally written, that means that <span class="label law">fmap (f . g) = fmap f . fmap g</span>. Or to write it in another way, for any functor <em>F</em>, the following should hold: <span class="label law">fmap (f . g) F = fmap f (fmap g F)</span>.</p>
 <p>If we can show that some type obeys both functor laws, we can rely on it having the same fundamental behaviors as other functors when it comes to mapping. We can know that when we use <span class="fixed">fmap</span> on it, there won’t be anything other than mapping going on behind the scenes and that it will act like a thing that can be mapped over, i.e. a functor. You figure out how the second law holds for some type by looking at the implementation of <span class="fixed">fmap</span> for that type and then using the method that we used to check if <span class="fixed">Maybe</span> obeys the first law.</p>
-<p>If you want, we can check out how the second functor law holds for <span class="fixed">Maybe</span>. If we do <span class="fixed">fmap (f . g)</span> over <span class="fixed">Nothing</span>, we get <span class="fixed">Nothing</span>, because doing a <span class="fixed">fmap</span> with any function over <span class="fixed">Nothing</span> returns <span class="fixed">Nothing</span>. If we do <span class="fixed">fmap f (fmap g Nothing)</span>, we get <span class="fixed">Nothing</span>, for the same reason. OK, seeing how the second law holds for <span class="fixed">Maybe</span> if it’s a <span class="fixed">Nothing</span> value is pretty easy, almost trivial. </p><p>How about if it’s a <span class="fixed">Just <i>something</i></span> value? Well, if we do <span class="fixed">fmap (f . g) (Just x)</span>, we see from the implementation that it’s implemented as <span class="fixed">Just ((f . g) x)</span>, which is, of course, <span class="fixed">Just (f (g x))</span>. If we do <span class="fixed">fmap f (fmap g (Just x))</span>, we see from the implementation that <span class="fixed">fmap g (Just x)</span> is <span class="fixed">Just (g x)</span>. Ergo, <span class="fixed">fmap f (fmap g (Just x))</span> equals <span class="fixed">fmap f (Just (g x))</span> and from the implementation we see that this equals <span class="fixed">Just (f (g x))</span>.</p>
+<p>If you want, we can check out how the second functor law holds for <span class="fixed">Maybe</span>. If we do <span class="fixed">fmap (f . g)</span> over <span class="fixed">Nothing</span>, we get <span class="fixed">Nothing</span>, because doing a <span class="fixed">fmap</span> with any function over <span class="fixed">Nothing</span> returns <span class="fixed">Nothing</span>. If we do <span class="fixed">fmap f (fmap g Nothing)</span>, we get <span class="fixed">Nothing</span>, for the same reason. OK, seeing how the second law holds for <span class="fixed">Maybe</span> if it’s a <span class="fixed">Nothing</span> value is pretty easy, almost trivial. </p><p>How about if it’s a <span class="fixed">Just <em>something</em></span> value? Well, if we do <span class="fixed">fmap (f . g) (Just x)</span>, we see from the implementation that it’s implemented as <span class="fixed">Just ((f . g) x)</span>, which is, of course, <span class="fixed">Just (f (g x))</span>. If we do <span class="fixed">fmap f (fmap g (Just x))</span>, we see from the implementation that <span class="fixed">fmap g (Just x)</span> is <span class="fixed">Just (g x)</span>. Ergo, <span class="fixed">fmap f (fmap g (Just x))</span> equals <span class="fixed">fmap f (Just (g x))</span> and from the implementation we see that this equals <span class="fixed">Just (f (g x))</span>.</p>
 <p>If you’re a bit confused by this proof, don’t worry. Be sure that you understand how <a href="higher-order-functions.html#composition">function composition</a> works. Many times, you can intuitively see how these laws hold because the types act like containers or functions. You can also just try them on a bunch of different values of a type and be able to say with some certainty that a type does indeed obey the laws.</p>
 <p>Let’s take a look at a pathological example of a type constructor being an instance of the <span class="fixed">Functor</span> typeclass but not really being a functor, because it doesn’t satisfy the laws. Let’s say that we have a type:</p>
 <pre name="code" class="haskell:hs">
 data CMaybe a = CNothing | CJust Int a deriving (Show)
 </pre>
-<p>The C here stands for <i>counter</i>. It’s a data type that looks much like <span class="fixed">Maybe a</span>, only the <span class="fixed">Just</span> part holds two fields instead of one. The first field in the <span class="fixed">CJust</span> value constructor will always have a type of <span class="fixed">Int</span>, and it will be some sort of counter and the second field is of type <span class="fixed">a</span>, which comes from the type parameter and its type will, of course, depend on the concrete type that we choose for <span class="fixed">CMaybe a</span>. Let’s play with our new type to get some intuition for it.</p>
+<p>The C here stands for <em>counter</em>. It’s a data type that looks much like <span class="fixed">Maybe a</span>, only the <span class="fixed">Just</span> part holds two fields instead of one. The first field in the <span class="fixed">CJust</span> value constructor will always have a type of <span class="fixed">Int</span>, and it will be some sort of counter and the second field is of type <span class="fixed">a</span>, which comes from the type parameter and its type will, of course, depend on the concrete type that we choose for <span class="fixed">CMaybe a</span>. Let’s play with our new type to get some intuition for it.</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; CNothing
 CNothing
@@ -221,7 +221,7 @@ CJust 0 &quot;haha&quot;
 <img src="assets/images/functors-applicative-functors-and-monoids/present.png" class="right" width="302" height="284" alt="disregard this analogy">
 <p>In this section, we’ll take a look at applicative functors, which are beefed up functors, represented in Haskell by the <span class="fixed">Applicative</span> typeclass, found in the <span class="fixed">Control.Applicative</span> module.</p>
 <p>As you know, functions in Haskell are curried by default, which means that a function that seems to take several parameters actually takes just one parameter and returns a function that takes the next parameter and so on. If a function is of type <span class="fixed">a -&gt; b -&gt; c</span>, we usually say that it takes two parameters and returns a <span class="fixed">c</span>, but actually it takes an <span class="fixed">a</span> and returns a function <span class="fixed">b -&gt; c</span>. That’s why we can call a function as <span class="fixed">f x y</span> or as <span class="fixed">(f x) y</span>. This mechanism is what enables us to partially apply functions by just calling them with too few parameters, which results in functions that we can then pass on to other functions.</p>
-<p>So far, when we were mapping functions over functors, we usually mapped functions that take only one parameter. But what happens when we map a function like <span class="fixed">*</span>, which takes two parameters, over a functor? Let’s take a look at a couple of concrete examples of this. If we have <span class="fixed">Just 3</span> and we do <span class="fixed">fmap (*) (Just 3)</span>, what do we get? From the instance implementation of <span class="fixed">Maybe</span> for <span class="fixed">Functor</span>, we know that if it’s a <span class="fixed">Just <i>something</i></span> value, it will apply the function to the <span class="fixed"><i>something</i></span> inside the <span class="fixed">Just</span>. Therefore, doing <span class="fixed">fmap (*) (Just 3)</span> results in <span class="fixed">Just ((*) 3)</span>, which can also be written as <span class="fixed">Just (* 3)</span> if we use sections. Interesting! We get a function wrapped in a <span class="fixed">Just</span>!</p>
+<p>So far, when we were mapping functions over functors, we usually mapped functions that take only one parameter. But what happens when we map a function like <span class="fixed">*</span>, which takes two parameters, over a functor? Let’s take a look at a couple of concrete examples of this. If we have <span class="fixed">Just 3</span> and we do <span class="fixed">fmap (*) (Just 3)</span>, what do we get? From the instance implementation of <span class="fixed">Maybe</span> for <span class="fixed">Functor</span>, we know that if it’s a <span class="fixed">Just <em>something</em></span> value, it will apply the function to the <span class="fixed"><em>something</em></span> inside the <span class="fixed">Just</span>. Therefore, doing <span class="fixed">fmap (*) (Just 3)</span> results in <span class="fixed">Just ((*) 3)</span>, which can also be written as <span class="fixed">Just (* 3)</span> if we use sections. Interesting! We get a function wrapped in a <span class="fixed">Just</span>!</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; :t fmap (++) (Just &quot;hey&quot;)
 fmap (++) (Just &quot;hey&quot;) :: Maybe ([Char] -&gt; [Char])
@@ -249,9 +249,9 @@ class (Functor f) =&gt; Applicative f where
     (&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b
 </pre>
 <p>This simple three line class definition tells us a lot! Let’s start at the first line. It starts the definition of the <span class="fixed">Applicative</span> class and it also introduces a class constraint. It says that if we want to make a type constructor part of the <span class="fixed">Applicative</span> typeclass, it has to be in <span class="fixed">Functor</span> first. That’s why if we know that if a type constructor is part of the <span class="fixed">Applicative</span> typeclass, it’s also in <span class="fixed">Functor</span>, so we can use <span class="fixed">fmap</span> on it.</p>
-<p>The first method it defines is called <span class="fixed">pure</span>. Its type declaration is <span class="fixed">pure :: a -&gt; f a</span>. <span class="fixed">f</span> plays the role of our applicative functor instance here. Because Haskell has a very good type system and because everything a function can do is take some parameters and return some value, we can tell a lot from a type declaration and this is no exception. <span class="fixed">pure</span> should take a value of any type and return an applicative functor with that value inside it. When we say <i>inside it</i>, we’re using the box analogy again, even though we’ve seen that it doesn’t always stand up to scrutiny. But the <span class="fixed">a -&gt; f a</span> type declaration is still pretty descriptive. We take a value and we wrap it in an applicative functor that has that value as the result inside it.</p>
+<p>The first method it defines is called <span class="fixed">pure</span>. Its type declaration is <span class="fixed">pure :: a -&gt; f a</span>. <span class="fixed">f</span> plays the role of our applicative functor instance here. Because Haskell has a very good type system and because everything a function can do is take some parameters and return some value, we can tell a lot from a type declaration and this is no exception. <span class="fixed">pure</span> should take a value of any type and return an applicative functor with that value inside it. When we say <em>inside it</em>, we’re using the box analogy again, even though we’ve seen that it doesn’t always stand up to scrutiny. But the <span class="fixed">a -&gt; f a</span> type declaration is still pretty descriptive. We take a value and we wrap it in an applicative functor that has that value as the result inside it.</p>
 <p>A better way of thinking about <span class="fixed">pure</span> would be to say that it takes a value and puts it in some sort of default (or pure) context—a minimal context that still yields that value.</p>
-<p>The <span class="fixed">&lt;*&gt;</span> function is really interesting. It has a type declaration of <span class="fixed">f (a -&gt; b) -&gt; f a -&gt; f b</span>. Does this remind you of anything? Of course, <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It’s a sort of a beefed up <span class="fixed">fmap</span>. Whereas <span class="fixed">fmap</span> takes a function and a functor and applies the function inside the functor, <span class="fixed">&lt;*&gt;</span> takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one. When I say <i>extract</i>, I actually sort of mean <i>run</i> and then extract, maybe even <i>sequence</i>. We’ll see why soon.</p>
+<p>The <span class="fixed">&lt;*&gt;</span> function is really interesting. It has a type declaration of <span class="fixed">f (a -&gt; b) -&gt; f a -&gt; f b</span>. Does this remind you of anything? Of course, <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It’s a sort of a beefed up <span class="fixed">fmap</span>. Whereas <span class="fixed">fmap</span> takes a function and a functor and applies the function inside the functor, <span class="fixed">&lt;*&gt;</span> takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one. When I say <em>extract</em>, I actually sort of mean <em>run</em> and then extract, maybe even <em>sequence</em>. We’ll see why soon.</p>
 <p>Let’s take a look at the <span class="fixed">Applicative</span> instance implementation for <span class="fixed">Maybe</span>.</p>
 <pre name="code" class="haskell:hs">
 instance Applicative Maybe where
@@ -367,8 +367,8 @@ instance Applicative IO where
 </pre>
 <img src="assets/images/functors-applicative-functors-and-monoids/knight.png" class="left" width="195" height="458" alt="ahahahah!">
 <p>Since <span class="fixed">pure</span> is all about putting a value in a minimal context that still holds it as its result, it makes sense that <span class="fixed">pure</span> is just <span class="fixed">return</span>, because <span class="fixed">return</span> does exactly that; it makes an I/O action that doesn’t do anything, it just yields some value as its result, but it doesn’t really do any I/O operations like printing to the terminal or reading from a file.</p>
-<p>If <span class="fixed">&lt;*&gt;</span> were specialized for <span class="fixed">IO</span> it would have a type of <span class="fixed">(&lt;*&gt;) :: IO (a -&gt; b) -&gt; IO a -&gt; IO b</span>. It would take an I/O action that yields a function as its result and another I/O action and create a new I/O action from those two that, when performed, first performs the first one to get the function and then performs the second one to get the value and then it would yield that function applied to the value as its result. We used <i>do</i> syntax to implement it here. Remember, <i>do</i> syntax is about taking several I/O actions and gluing them into one, which is exactly what we do here.</p>
-<p>With <span class="fixed">Maybe</span> and <span class="fixed">[]</span>, we could think of <span class="fixed">&lt;*&gt;</span> as simply extracting a function from its left parameter and then sort of applying it over the right one. With <span class="fixed">IO</span>, extracting is still in the game, but now we also have a notion of <i>sequencing</i>, because we’re taking two I/O actions and we’re sequencing, or gluing, them into one. We have to extract the function from the first I/O action, but to extract a result from an I/O action, it has to be performed.</p>
+<p>If <span class="fixed">&lt;*&gt;</span> were specialized for <span class="fixed">IO</span> it would have a type of <span class="fixed">(&lt;*&gt;) :: IO (a -&gt; b) -&gt; IO a -&gt; IO b</span>. It would take an I/O action that yields a function as its result and another I/O action and create a new I/O action from those two that, when performed, first performs the first one to get the function and then performs the second one to get the value and then it would yield that function applied to the value as its result. We used <em>do</em> syntax to implement it here. Remember, <em>do</em> syntax is about taking several I/O actions and gluing them into one, which is exactly what we do here.</p>
+<p>With <span class="fixed">Maybe</span> and <span class="fixed">[]</span>, we could think of <span class="fixed">&lt;*&gt;</span> as simply extracting a function from its left parameter and then sort of applying it over the right one. With <span class="fixed">IO</span>, extracting is still in the game, but now we also have a notion of <em>sequencing</em>, because we’re taking two I/O actions and we’re sequencing, or gluing, them into one. We have to extract the function from the first I/O action, but to extract a result from an I/O action, it has to be performed.</p>
 <p>Consider this:</p>
 <pre name="code" class="haskell:hs">
 myAction :: IO String
@@ -603,7 +603,7 @@ ghci&gt; getZipList $ ZipList [(+1),(*100),(*5)] &lt;*&gt; ZipList [1,2,3]
 </pre>
 
 <p>
-So, what does this have to do with this <i>newtype</i> keyword? Well, think
+So, what does this have to do with this <em>newtype</em> keyword? Well, think
 about how we might write the data declaration for our
 <span class="fixed">ZipList a</span> type. One way would be to do it like so:
 </p>
@@ -624,13 +624,13 @@ data ZipList a = ZipList { getZipList :: [a] }
 
 <p>
 This looks fine and would actually work pretty well. We had two ways of making
-an existing type an instance of a type class, so we used the <i>data</i>
+an existing type an instance of a type class, so we used the <em>data</em>
 keyword to just wrap that type into another type and made the other type an
 instance in the second way.
 </p>
 
 <p>
-The <i>newtype</i> keyword in Haskell is made exactly for
+The <em>newtype</em> keyword in Haskell is made exactly for
 these cases when we want to just take one type and wrap it in something to
 present it as another type. In the actual libraries, <span class="fixed">ZipList
 a</span> is defined like this:
@@ -641,10 +641,10 @@ newtype ZipList a = ZipList { getZipList :: [a] }
 </pre>
 
 <p>
-Instead of the <i>data</i> keyword, the <i>newtype</i> keyword is used. Now why is that? Well for one,
-<i>newtype</i> is faster. If you use the <i>data</i> keyword
+Instead of the <em>data</em> keyword, the <em>newtype</em> keyword is used. Now why is that? Well for one,
+<em>newtype</em> is faster. If you use the <em>data</em> keyword
 to wrap a type, there’s some overhead to all that wrapping and unwrapping when
-your program is running. But if you use <i>newtype</i>, Haskell knows that
+your program is running. But if you use <em>newtype</em>, Haskell knows that
 you’re just using it to wrap an existing type into a new type (hence the name),
 because you want it to be the same internally but have a different type. With
 that in mind, Haskell can get rid of the wrapping and unwrapping once it
@@ -652,10 +652,10 @@ resolves which value is of what type.
 </p>
 
 <p>
-So why not just use <i>newtype</i> all the time instead of <i>data</i> then?
+So why not just use <em>newtype</em> all the time instead of <em>data</em> then?
 Well, when you make a new type from an existing type by using the
-<i>newtype</i> keyword, you can only have one value constructor and that value
-constructor can only have one field. But with <i>data</i>, you can make data
+<em>newtype</em> keyword, you can only have one value constructor and that value
+constructor can only have one field. But with <em>data</em>, you can make data
 types that have several value constructors and each constructor can have zero or
 more fields:
 </p>
@@ -669,13 +669,13 @@ data PlayerCharacter = PlayerCharacter Race Profession
 </pre>
 
 <p>
-When using <i>newtype</i>, you’re restricted to just one constructor with one
+When using <em>newtype</em>, you’re restricted to just one constructor with one
 field.
 </p>
 
 <p>
-We can also use the <i>deriving</i> keyword with <i>newtype</i> just like we
-would with <i>data</i>. We can derive instances for
+We can also use the <em>deriving</em> keyword with <em>newtype</em> just like we
+would with <em>data</em>. We can derive instances for
 <span class="fixed">Eq</span>,
 <span class="fixed">Ord</span>,
 <span class="fixed">Enum</span>,
@@ -684,7 +684,7 @@ would with <i>data</i>. We can derive instances for
 <span class="fixed">Read</span>.
 If we derive the instance for a type class, the type that we’re wrapping
 has to be in that type class to begin with. It makes sense, because
-<i>newtype</i> just wraps an existing type. So now if we do the following, we
+<em>newtype</em> just wraps an existing type. So now if we do the following, we
 can print and equate values of our new type:
 </p>
 
@@ -706,7 +706,7 @@ False
 </pre>
 
 <p>
-In this particular <i>newtype</i>, the value constructor has the following type:
+In this particular <em>newtype</em>, the value constructor has the following type:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -720,7 +720,7 @@ and returns a
 <span class="fixed">CharList</span> value. From the above examples where we used
 the <span class="fixed">CharList</span> value constructor, we see that really is
 the case. Conversely, the <span class="fixed">getCharList</span> function, which
-was generated for us because we used record syntax in our <i>newtype</i>, has
+was generated for us because we used record syntax in our <em>newtype</em>, has
 this type:
 </p>
 
@@ -782,7 +782,7 @@ seems like there’s
 no way to do something like that with <span class="fixed">(a,b)</span> so that
 the type parameter <span class="fixed">a</span> ends up being the one that
 changes when we use <span class="fixed">fmap</span>. To get  around this, we
-can <i>newtype</i> our tuple in such a way that the second type parameter
+can <em>newtype</em> our tuple in such a way that the second type parameter
 represents the type of the first component in the tuple:
 </p>
 
@@ -801,7 +801,7 @@ instance Functor (Pair c) where
 </pre>
 
 <p>
-As you can see, we can pattern match on types defined with <i>newtype</i>. We
+As you can see, we can pattern match on types defined with <em>newtype</em>. We
 pattern match to get the underlying tuple, then we apply the function <span class="fixed">f</span>
 to the first component in the tuple and then we use the <span class="fixed">Pair</span>
 value constructor to convert the tuple back to our <span class="fixed">Pair b a</span>.
@@ -840,12 +840,12 @@ ghci&gt; getPair $ fmap reverse (Pair (&quot;london calling&quot;, 3))
 <h3 id="on-newtype-laziness">On newtype laziness</h3>
 
 <p>
-We mentioned that <i>newtype</i> is usually faster than <i>data</i>. The
-only thing that can be done with <i>newtype</i> is turning an existing type
+We mentioned that <em>newtype</em> is usually faster than <em>data</em>. The
+only thing that can be done with <em>newtype</em> is turning an existing type
 into a new type, so internally, Haskell can represent the values of types
-defined with <i>newtype</i> just like the original ones, only it has to keep in
+defined with <em>newtype</em> just like the original ones, only it has to keep in
 mind that their types are now distinct. This fact means that not only is
-<i>newtype</i> faster, it’s also lazier. Let’s take a look at what this means.
+<em>newtype</em> faster, it’s also lazier. Let’s take a look at what this means.
 </p>
 
 <p>
@@ -886,7 +886,7 @@ data CoolBool = CoolBool { getCoolBool :: Bool }
 
 <p>
 It’s your run-of-the-mill algebraic data type that was defined with the
-<i>data</i> keyword. It has one value constructor, which has one field whose
+<em>data</em> keyword. It has one value constructor, which has one field whose
 type is <span class="fixed">Bool</span>. Let’s make a function that pattern
 matches on a <span class="fixed">CoolBool</span> and returns the value
 <span class="fixed">"hello"</span> regardless of whether the <span class="fixed">Bool</span> inside
@@ -911,7 +911,7 @@ ghci&gt; helloMe undefined
 
 <p>
 Yikes! An exception! Now why did this exception happen? Types defined with
-the <i>data</i> keyword can have multiple value constructors (even though
+the <em>data</em> keyword can have multiple value constructors (even though
 <span class="fixed">CoolBool</span> only has one). So in order to see if the
 value given to our function conforms to the <span class="fixed">(CoolBool _)</span>
 pattern, Haskell has to evaluate the value just enough to see which value
@@ -921,8 +921,8 @@ thrown.
 </p>
 
 <p>
-Instead of using the <i>data</i> keyword for <span class="fixed">CoolBool</span>,
-let’s try using <i>newtype</i>:
+Instead of using the <em>data</em> keyword for <span class="fixed">CoolBool</span>,
+let’s try using <em>newtype</em>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -931,8 +931,8 @@ newtype CoolBool = CoolBool { getCoolBool :: Bool }
 
 <p>
 We don’t have to change our <span class="fixed">helloMe</span> function, because
-the pattern matching syntax is the same if you use <i>newtype</i> or
-<i>data</i> to define your type. Let’s do the same thing here and apply
+the pattern matching syntax is the same if you use <em>newtype</em> or
+<em>data</em> to define your type. Let’s do the same thing here and apply
 <span class="fixed">helloMe</span> to an <span class="fixed">undefined</span>
 value:
 </p>
@@ -945,25 +945,25 @@ ghci&gt; helloMe undefined
 <img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" class="right" width="184" height="230" alt="top of the mornin to ya!!!">
 
 <p>
-It worked! Hmmm, why is that? Well, like we’ve said, when we use <i>newtype</i>,
+It worked! Hmmm, why is that? Well, like we’ve said, when we use <em>newtype</em>,
 Haskell can internally represent the values of the new type in the same way as the original
 values. It doesn’t have to add another box around them, it just has to be aware
 of the values being of different types. And because Haskell knows that types
-made with the <i>newtype</i> keyword can only have one constructor, it doesn’t
+made with the <em>newtype</em> keyword can only have one constructor, it doesn’t
 have to evaluate the value passed to the function to make sure that it conforms
-to the <span class="fixed">(CoolBool _)</span> pattern because <i>newtype</i>
+to the <span class="fixed">(CoolBool _)</span> pattern because <em>newtype</em>
 types can only have one possible value constructor and one field!
 </p>
 
 <p>
 This difference in behavior may seem trivial, but it’s actually pretty
 important because it helps us realize that even though types defined with
-<i>data</i> and <i>newtype</i> behave similarly from the programmer’s point of
+<em>data</em> and <em>newtype</em> behave similarly from the programmer’s point of
 view because they both have value constructors and fields, they are actually two
-different mechanisms. Whereas <i>data</i> can be used to make your own types
-from scratch, <i>newtype</i> is for making a completely new type out of an
-existing type. Pattern matching on <i>newtype</i> values isn’t like taking
-something out of a box (like it is with <i>data</i>), it’s more about making a
+different mechanisms. Whereas <em>data</em> can be used to make your own types
+from scratch, <em>newtype</em> is for making a completely new type out of an
+existing type. Pattern matching on <em>newtype</em> values isn’t like taking
+something out of a box (like it is with <em>data</em>), it’s more about making a
 direct conversion from one type to another.
 </p>
 
@@ -971,7 +971,7 @@ direct conversion from one type to another.
 
 <p>
 At this point, you may be a bit confused about what exactly the difference
-between <i>type</i>, <i>data</i> and <i>newtype</i> is, so let’s refresh our
+between <em>type</em>, <em>data</em> and <em>newtype</em> is, so let’s refresh our
 memory a bit.
 </p>
 
@@ -1012,8 +1012,8 @@ functions were easier to read.
 <p>
 The <strong>newtype</strong> keyword is for taking existing types and wrapping them in
 new types, mostly so that it’s easier to make them instances of certain type
-classes. When we use <i>newtype</i> to wrap an existing type, the type that we
-get is separate from the original type. If we make the following <i>newtype</i>:
+classes. When we use <em>newtype</em> to wrap an existing type, the type that we
+get is separate from the original type. If we make the following <em>newtype</em>:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1032,18 +1032,18 @@ lists, <span class="fixed">++</span> them and then convert that back to a <span 
 </p>
 
 <p>
-When we use record syntax in our <i>newtype</i> declarations, we get functions
+When we use record syntax in our <em>newtype</em> declarations, we get functions
 for converting between the new type and the original type: namely the value
-constructor of our <i>newtype</i> and the function for extracting the value
+constructor of our <em>newtype</em> and the function for extracting the value
 in its field. The new type also isn’t automatically made an instance of the
 type classes that the original type belongs to, so we have to derive or
 manually write them.
 </p>
 
 <p>
-In practice, you can think of <i>newtype</i> declarations as <i>data</i> declarations
+In practice, you can think of <em>newtype</em> declarations as <em>data</em> declarations
 that can only have one constructor and one field. If you catch yourself writing
-such a <i>data</i> declaration, consider using <i>newtype</i>.
+such a <em>data</em> declaration, consider using <em>newtype</em>.
 </p>
 
 <p>
@@ -1057,8 +1057,8 @@ lists and <span class="fixed">Maybe</span>-like types to trees.
 If you just want your type signatures to look cleaner and be more
 descriptive, you probably want type synonyms. If you want to take an existing
 type and wrap it in a new type in order to make it an instance of a type class,
-chances are you’re looking for a <i>newtype</i>. And if you want to make
-something completely new, odds are good that you’re looking for the <i>data</i>
+chances are you’re looking for a <em>newtype</em>. And if you want to make
+something completely new, odds are good that you’re looking for the <em>data</em>
 keyword.
 </p>
 
@@ -1145,7 +1145,7 @@ ghci&gt; (&quot;la&quot; ++ &quot;di&quot;) ++ &quot;da&quot;
 </pre>
 
 <p>
-We call this property <i>associativity</i>. <span class="fixed">*</span> is
+We call this property <em>associativity</em>. <span class="fixed">*</span> is
 associative, and so is <span class="fixed">++</span>, but
 <span class="fixed">-</span>, for example, is not. The expressions
 <span class="fixed">(5 - 3) - 4</span> and <span class="fixed">5 - (3 - 4)</span>
@@ -1154,7 +1154,7 @@ result in different numbers.
 
 <p>
 By noticing and writing down these properties, we have chanced upon
-<i>monoids</i>! A monoid
+<em>monoids</em>! A monoid
 is when you have an associative binary function and a value which acts as an
 identity with respect to that function. When something acts as an identity with
 respect to a function, it means that when called with that function and some
@@ -1374,7 +1374,7 @@ number. And addition is also associative, so we get no problems there. So now
 that there are two equally valid ways for numbers to be monoids, which way do
 choose? Well, we don’t have to. Remember, when there are several ways for some
 type to be an instance of the same type class, we can wrap that type in a
-<i>newtype</i> and then make the new type an instance of the
+<em>newtype</em> and then make the new type an instance of the
 type class in a different way. We can have our cake and eat it too.
 </p>
 
@@ -1390,7 +1390,7 @@ newtype Product a =  Product { getProduct :: a }
 </pre>
 
 <p>
-Simple, just a <i>newtype</i> wrapper with one type parameter along with some
+Simple, just a <em>newtype</em> wrapper with one type parameter along with some
 derived instances. Its instance for <span class="fixed">Monoid</span> goes a
 little something like this:
 </p>
@@ -1410,7 +1410,7 @@ see, there’s a <span class="fixed">Num a</span> class constraint. So this mean
 <span class="fixed">Product a</span> is an instance of <span class="fixed">Monoid</span> for all
 <span class="fixed">a</span>’s that are already an instance of <span class="fixed">Num</span>.
 To use <span class="fixed">Producta a</span> as a monoid, we have to do some
-<i>newtype</i> wrapping and unwrapping:
+<em>newtype</em> wrapping and unwrapping:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1450,16 +1450,16 @@ ghci&gt; getSum . mconcat . map Sum $ [1,2,3]
 
 <p>
 Another type which can act like a monoid in two distinct but equally valid ways
-is <span class="fixed">Bool</span>. The first way is to have the <i>or</i>
+is <span class="fixed">Bool</span>. The first way is to have the <em>or</em>
 function <span class="fixed">||</span> act as the binary function along with
-<span class="fixed">False</span> as the identity value. The way <i>or</i> works
+<span class="fixed">False</span> as the identity value. The way <em>or</em> works
 in logic is that if any of its two parameters is <span class="fixed">True</span>,
 it returns <span class="fixed">True</span>, otherwise it returns
 <span class="fixed">False</span>. So if we use <span class="fixed">False</span>
 as the identity value, it will return <span class="fixed">False</span> when
-<i>or</i>-ed with <span class="fixed">False</span> and <span class="fixed">True</span>
-when <i>or</i>-ed with <span class="fixed">True</span>. The <span class="fixed">Any</span>
-<i>newtype</i> constructor is an instance of <span class="fixed">Monoid</span>
+<em>or</em>-ed with <span class="fixed">False</span> and <span class="fixed">True</span>
+when <em>or</em>-ed with <span class="fixed">True</span>. The <span class="fixed">Any</span>
+<em>newtype</em> constructor is an instance of <span class="fixed">Monoid</span>
 in this fashion. It’s defined like this:
 </p>
 
@@ -1481,7 +1481,7 @@ instance Monoid Any where
 <p>
 The reason it’s called <span class="fixed">Any</span> is because
 <span class="fixed">x `mappend` y</span> will be <span class="fixed">True</span>
-if <i>any</i> one of those two is <span class="fixed">True</span>. Even
+if <em>any</em> one of those two is <span class="fixed">True</span>. Even
 if three or more <span class="fixed">Any</span> wrapped <span class="fixed">Bool</span>s
 are <span class="fixed">mappend</span>ed together, the result will hold
 <span class="fixed">True</span> if any of them are <span class="fixed">True</span>:
@@ -1502,8 +1502,8 @@ False
 The other way for <span class="fixed">Bool</span> to be an instance of
 <span class="fixed">Monoid</span> is to kind of do the opposite: have <span class="fixed">&amp;&amp;</span>
 be the binary function and then make <span class="fixed">True</span>
-the identity value. Logical <i>and</i> will return <span class="fixed">True</span> only
-if both of its parameters are <span class="fixed">True</span>. This is the <i>newtype</i>
+the identity value. Logical <em>and</em> will return <span class="fixed">True</span> only
+if both of its parameters are <span class="fixed">True</span>. This is the <em>newtype</em>
 declaration, nothing fancy:
 </p>
 
@@ -1525,7 +1525,7 @@ instance Monoid All where
 <p>
 When we <span class="fixed">mappend</span> values of the
 <span class="fixed">All</span> type, the result will be
-<span class="fixed">True</span> only if <i>all</i> the values
+<span class="fixed">True</span> only if <em>all</em> the values
 used in the <span class="fixed">mappend</span> operations are
 <span class="fixed">True</span>:
 </p>
@@ -1543,7 +1543,7 @@ False
 
 <p>
 Just like with multiplication and addition, we usually explicitly state the
-binary functions instead of wrapping them in <i>newtype</i>s and then using
+binary functions instead of wrapping them in <em>newtype</em>s and then using
 <span class="fixed">mappend</span> and <span class="fixed">mempty</span>.
 <span class="fixed">mconcat</span> seems useful for <span class="fixed">Any</span>
 and <span class="fixed">All</span>, but usually it’s easier to use the
@@ -1559,7 +1559,7 @@ if all of them are <span class="fixed">True</span>, respectively.
 Hey, remember the <span class="fixed">Ordering</span> type? It’s used as the
 result when comparing things and it can have three values: <span class="fixed">LT</span>,
 <span class="fixed">EQ</span> and <span class="fixed">GT</span>, which stand for
-<i>less than</i>, <i>equal</i> and <i>greater than</i> respectively:
+<em>less than</em>, <em>equal</em> and <em>greater than</em> respectively:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1811,7 +1811,7 @@ newtype First a = First { getFirst :: Maybe a }
 
 <p>
 We take a <span class="fixed">Maybe a</span> and we wrap it with a
-<i>newtype</i>. The <span class="fixed">Monoid</span> instance is as follows:
+<em>newtype</em>. The <span class="fixed">Monoid</span> instance is as follows:
 </p>
 
 <pre name="code" class="haskell:hs">
@@ -1824,7 +1824,7 @@ instance Monoid (First a) where
 <p>
 Just like we said. <span class="fixed">mempty</span> is just a
 <span class="fixed">Nothing</span> wrapped with the <span class="fixed">First</span>
-<i>newtype</i> constructor. If <span class="fixed">mappend</span>’s first
+<em>newtype</em> constructor. If <span class="fixed">mappend</span>’s first
 parameter is a <span class="fixed">Just</span> value, we ignore the second one.
 If the first one is a <span class="fixed">Nothing</span>, then we present the
 second parameter as a result, regardless of whether it’s a <span class="fixed">Just</span>

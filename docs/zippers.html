@@ -47,7 +47,7 @@ in our tree we want to change. We have to know where it is in our tree. In
 impure languages, we could just note where in our memory the five is located and
 change that. But in Haskell, one five is as good as another, so we can’t
 discriminate based on where in our memory they are. We also can’t really
-<i>change</i> anything; when we say that we change a tree, we actually
+<em>change</em> anything; when we say that we change a tree, we actually
 mean that we take a tree and return a new one that’s similar to the original
 tree, but slightly different.
 </p>
@@ -200,7 +200,7 @@ ghci&gt; elemAt [R,L] newTree
 
 <p>
 Nice, this seems to work. In these functions, the list of directions acts as a
-sort of <i>focus</i>, because it pinpoints one exact subtree from our tree.
+sort of <em>focus</em>, because it pinpoints one exact subtree from our tree.
 A direction list of <span class="fixed">[R]</span> focuses on the subtree
 that’s right of the root, for example. An empty direction list focuses on the
 main tree itself.
@@ -363,7 +363,7 @@ information than just the direction that we took.
 <p>
 In essence, every breadcrumb is now like a tree node with a hole in it. When we
 move deeper into a tree, the breadcrumb carries all the information that the
-node that we moved away from carried <i>except</i> the subtree that we chose to
+node that we moved away from carried <em>except</em> the subtree that we chose to
 focus on. It also has to note where the hole is. In the case of a
 <span class="fixed">LeftCrumb</span>, we know that we moved left, so the
 subtree that’s missing is the left one.
