@@ -58,7 +58,7 @@ img.center {
     margin:10px auto 25px auto;
     display:block;
 }
-pre.code {
+pre > code {
     color:white;
     /*background-color:#522812;*/
     background-color:black;
@@ -105,7 +105,7 @@ pre.code {
     background-color:#99DDcc;
     color:black;
 }
-.fixed {
+:not(pre) > code:not(.label, .function, .type, .class, .law) {
     white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;
     background-color:#ddd;
