@@ -35,7 +35,7 @@ p {
 a:hover {
     text-decoration:none;
 }
-em {
+strong {
     font-style:normal;
     font-weight:bold;
 }

@@ -120,7 +120,7 @@ head :: [a] -&gt; a
 </pre>
 <p>
 <img src="assets/images/types-and-typeclasses/box.png" class="left" width="130" height="93" alt="box">
-Hmmm! What is this <span class="fixed">a</span>? Is it a type? Remember that we previously stated that types are written in capital case, so it can’t exactly be a type. Because it’s not in capital case it’s actually a <em>type variable</em>. That means that <span class="fixed">a</span> can be of any type. This is much like generics in other languages, only in Haskell it’s much more powerful because it allows us to easily write very general functions if they don’t use any specific behavior of the types in them. Functions that have type variables are called <em>polymorphic functions</em>. The type declaration of <span class="fixed">head</span> states that it takes a list of any type and returns one element of that type.
+Hmmm! What is this <span class="fixed">a</span>? Is it a type? Remember that we previously stated that types are written in capital case, so it can’t exactly be a type. Because it’s not in capital case it’s actually a <strong>type variable</strong>. That means that <span class="fixed">a</span> can be of any type. This is much like generics in other languages, only in Haskell it’s much more powerful because it allows us to easily write very general functions if they don’t use any specific behavior of the types in them. Functions that have type variables are called <strong>polymorphic functions</strong>. The type declaration of <span class="fixed">head</span> states that it takes a list of any type and returns one element of that type.
 </p>
 <p>Although type variables can have names longer than one character, we usually give them names of a, b, c, d …</p>
 <p>Remember <span class="fixed">fst</span>? It returns the first component of a pair. Let’s examine its type.</p>
@@ -140,8 +140,8 @@ We see that <span class="fixed">fst</span> takes a tuple which contains two type
 ghci&gt; :t (==)
 (==) :: (Eq a) =&gt; a -&gt; a -&gt; Bool
 </pre>
-<div class="hintbox"><em>Note</em>: the equality operator, <span class="fixed">==</span> is a function. So are <span class="fixed">+</span>, <span class="fixed">*</span>, <span class="fixed">-</span>, <span class="fixed">/</span> and pretty much all operators. If a function is comprised only of special characters, it’s considered an infix function by default. If we want to examine its type, pass it to another function or call it as a prefix function, we have to surround it in parentheses.</div>
-<p>Interesting. We see a new thing here, the <span class="fixed">=&gt;</span> symbol. Everything before the <span class="fixed">=&gt;</span> symbol is called a <em>class constraint</em>. We can read the previous type declaration like this: the equality function takes any two values that are of the same type and returns a <span class="fixed">Bool</span>. The type of those two values must be a member of the <span class="fixed">Eq</span> class (this was the class constraint).</p>
+<div class="hintbox"><strong>Note</strong>: the equality operator, <span class="fixed">==</span> is a function. So are <span class="fixed">+</span>, <span class="fixed">*</span>, <span class="fixed">-</span>, <span class="fixed">/</span> and pretty much all operators. If a function is comprised only of special characters, it’s considered an infix function by default. If we want to examine its type, pass it to another function or call it as a prefix function, we have to surround it in parentheses.</div>
+<p>Interesting. We see a new thing here, the <span class="fixed">=&gt;</span> symbol. Everything before the <span class="fixed">=&gt;</span> symbol is called a <strong>class constraint</strong>. We can read the previous type declaration like this: the equality function takes any two values that are of the same type and returns a <span class="fixed">Bool</span>. The type of those two values must be a member of the <span class="fixed">Eq</span> class (this was the class constraint).</p>
 <p>The <span class="fixed">Eq</span> typeclass provides an interface for testing for equality. Any type where it makes sense to test for equality between two values of that type should be a member of the <span class="fixed">Eq</span> class. All standard Haskell types except for IO (the type for dealing with input and output) and functions are a part of the <span class="fixed">Eq</span> typeclass.</p>
 <p>The <span class="fixed">elem</span> function has a type of <span class="fixed">(Eq a) =&gt; a -&gt; [a] -&gt; Bool</span> because it uses <span class="fixed">==</span> over a list to check whether some value we’re looking for is in it.</p>
 <p>Some basic typeclasses:</p>
@@ -211,7 +211,7 @@ ghci&gt; :t read
 read :: (Read a) =&gt; String -&gt; a
 </pre>
 <p>
-See? It returns a type that’s part of <span class="fixed">Read</span> but if we don’t try to use it in some way later, it has no way of knowing which type. That’s why we can use explicit <em>type annotations</em>. Type annotations are a way of explicitly saying what the type of an expression should be. We do that by adding <span class="fixed">::</span> at the end of the expression and then specifying a type. Observe:
+See? It returns a type that’s part of <span class="fixed">Read</span> but if we don’t try to use it in some way later, it has no way of knowing which type. That’s why we can use explicit <strong>type annotations</strong>. Type annotations are a way of explicitly saying what the type of an expression should be. We do that by adding <span class="fixed">::</span> at the end of the expression and then specifying a type. Observe:
 </p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; read &quot;5&quot; :: Int
