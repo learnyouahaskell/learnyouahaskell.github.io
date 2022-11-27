@@ -31,115 +31,321 @@
                                             </li>
                 </ul>
             </div>
-        <h1 style="margin-left:-2px" id="recursion">Recursion</h1>
+<h1 style="margin-left:-2px" id="recursion">Recursion</h1>
 <h2 id="hello-recursion">Hello recursion!</h2>
-<img src="assets/images/recursion/recursion.png" class="left" width="250" height="179" alt="SOVIET RUSSIA">
-<p>We mention recursion briefly in the previous chapter. In this chapter, we’ll take a closer look at recursion, why it’s important to Haskell and how we can work out very concise and elegant solutions to problems by thinking recursively. </p>
-<p>If you still don’t know what recursion is, read this sentence. Haha! Just kidding! Recursion is actually a way of defining functions in which the function is applied inside its own definition. Definitions in mathematics are often given recursively. For instance, the fibonacci sequence is defined recursively. First, we define the first two fibonacci numbers non-recursively. We say that <em>F(0) = 0</em> and <em>F(1) = 1</em>, meaning that the 0th and 1st fibonacci numbers are 0 and 1, respectively. Then we say that for any other natural number, that fibonacci number is the sum of the previous two fibonacci numbers. So <em>F(n) = F(n-1) + F(n-2)</em>. That way, <em>F(3)</em> is <em>F(2) + F(1)</em>, which is <em>(F(1) + F(0)) + F(1)</em>. Because we’ve now come down to only non-recursively defined fibonacci numbers, we can safely say that <em>F(3)</em> is 2. Having an element or two in a recursion definition defined non-recursively (like <em>F(0)</em> and <em>F(1)</em> here) is also called the <strong>edge condition</strong> and is important if you want your recursive function to terminate. If we hadn’t defined <em>F(0)</em> and <em>F(1)</em> non recursively, you’d never get a solution any number because you’d reach 0 and then you’d go into negative numbers. All of a sudden, you’d be saying that <em>F(-2000)</em> is <em>F(-2001) + F(-2002)</em> and there still wouldn’t be an end in sight!</p>
-<p>Recursion is important to Haskell because unlike imperative languages, you do computations in Haskell by declaring what something <em>is</em> instead of declaring <em>how</em> you get it. That’s why there are no while loops or for loops in Haskell and instead we many times have to use recursion to declare what something is.</p>
+<img src="assets/images/recursion/recursion.png" class="left"
+width="250" height="179" alt="SOVIET RUSSIA">
+<p>We mention recursion briefly in the previous chapter. In this
+chapter, we’ll take a closer look at recursion, why it’s important to
+Haskell and how we can work out very concise and elegant solutions to
+problems by thinking recursively.</p>
+<p>If you still don’t know what recursion is, read this sentence. Haha!
+Just kidding! Recursion is actually a way of defining functions in which
+the function is applied inside its own definition. Definitions in
+mathematics are often given recursively. For instance, the fibonacci
+sequence is defined recursively. First, we define the first two
+fibonacci numbers non-recursively. We say that <em>F(0) = 0</em> and
+<em>F(1) = 1</em>, meaning that the 0th and 1st fibonacci numbers are 0
+and 1, respectively. Then we say that for any other natural number, that
+fibonacci number is the sum of the previous two fibonacci numbers. So
+<em>F(n) = F(n-1) + F(n-2)</em>. That way, <em>F(3)</em> is <em>F(2) +
+F(1)</em>, which is <em>(F(1) + F(0)) + F(1)</em>. Because we’ve now
+come down to only non-recursively defined fibonacci numbers, we can
+safely say that <em>F(3)</em> is 2. Having an element or two in a
+recursion definition defined non-recursively (like <em>F(0)</em> and
+<em>F(1)</em> here) is also called the <strong>edge condition</strong>
+and is important if you want your recursive function to terminate. If we
+hadn’t defined <em>F(0)</em> and <em>F(1)</em> non recursively, you’d
+never get a solution any number because you’d reach 0 and then you’d go
+into negative numbers. All of a sudden, you’d be saying that
+<em>F(-2000)</em> is <em>F(-2001) + F(-2002)</em> and there still
+wouldn’t be an end in sight!</p>
+<p>Recursion is important to Haskell because unlike imperative
+languages, you do computations in Haskell by declaring what something
+<em>is</em> instead of declaring <em>how</em> you get it. That’s why
+there are no while loops or for loops in Haskell and instead we many
+times have to use recursion to declare what something is.</p>
 <h2 id="maximum-awesome">Maximum awesome</h2>
-<p>The <code>maximum</code> function takes a list of things that can be ordered (e.g. instances of the <code>Ord</code> typeclass) and returns the biggest of them. Think about how you’d implement that in an imperative fashion. You’d probably set up a variable to hold the maximum value so far and then you’d loop through the elements of a list and if an element is bigger than then the current maximum value, you’d replace it with that element. The maximum value that remains at the end is the result. Whew! That’s quite a lot of words to describe such a simple algorithm!</p>
-<p>Now let’s see how we’d define it recursively. We could first set up an edge condition and say that the maximum of a singleton list is equal to the only element in it. Then we can say that the maximum of a longer list is the head if the head is bigger than the maximum of the tail. If the maximum of the tail is bigger, well, then it’s the maximum of the tail. That’s it! Now let’s implement that in Haskell.</p>
-<pre class="haskell:hs"><code>
-maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
+<p>The <code>maximum</code> function takes a list of things that can be
+ordered (e.g. instances of the <code>Ord</code> typeclass) and returns
+the biggest of them. Think about how you’d implement that in an
+imperative fashion. You’d probably set up a variable to hold the maximum
+value so far and then you’d loop through the elements of a list and if
+an element is bigger than then the current maximum value, you’d replace
+it with that element. The maximum value that remains at the end is the
+result. Whew! That’s quite a lot of words to describe such a simple
+algorithm!</p>
+<p>Now let’s see how we’d define it recursively. We could first set up
+an edge condition and say that the maximum of a singleton list is equal
+to the only element in it. Then we can say that the maximum of a longer
+list is the head if the head is bigger than the maximum of the tail. If
+the maximum of the tail is bigger, well, then it’s the maximum of the
+tail. That’s it! Now let’s implement that in Haskell.</p>
+<pre class="haskell:hs"><code>maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
 maximum&#39; [] = error &quot;maximum of empty list&quot;
 maximum&#39; [x] = x
 maximum&#39; (x:xs)
     | x &gt; maxTail = x
     | otherwise = maxTail
-    where maxTail = maximum&#39; xs
-</code></pre>
-<p>As you can see, pattern matching goes great with recursion! Most imperative languages don’t have pattern matching so you have to make a lot of if else statements to test for edge conditions. Here, we simply put them out as patterns. So the first edge condition says that if the list is empty, crash! Makes sense because what’s the maximum of an empty list? I don’t know. The second pattern also lays out an edge condition. It says that if it’s the singleton list, just give back the only element.</p>
-<p>Now the third pattern is where the action happens. We use pattern matching to split a list into a head and a tail. This is a very common idiom when doing recursion with lists, so get used to it. We use a <em>where</em> binding to define <code>maxTail</code> as the maximum of the rest of the list. Then we check if the head is greater than the maximum of the rest of the list. If it is, we return the head. Otherwise, we return the maximum of the rest of the list.</p>
-<p>Let’s take an example list of numbers and check out how this would work on them: <code>[2,5,1]</code>. If we call <code>maximum'</code> on that, the first two patterns won’t match. The third one will and the list is split into <code>2</code> and <code>[5,1]</code>. The <em>where</em> clause wants to know the maximum of <code>[5,1]</code>, so we follow that route. It matches the third pattern again and <code>[5,1]</code> is split into <code>5</code> and <code>[1]</code>. Again, the <code>where</code> clause wants to know the maximum of <code>[1]</code>. Because that’s the edge condition, it returns <code>1</code>. Finally! So going up one step, comparing <code>5</code> to the maximum of <code>[1]</code> (which is <code>1</code>), we obviously get back <code>5</code>. So now we know that the maximum of <code>[5,1]</code> is <code>5</code>. We go up one step again where we had <code>2</code> and <code>[5,1]</code>. Comparing <code>2</code> with the maximum of <code>[5,1]</code>, which is <code>5</code>, we choose <code>5</code>.</p>
-<p>An even clearer way to write this function is to use <code>max</code>. If you remember, <code>max</code> is a function that takes two numbers and returns the bigger of them. Here’s how we could rewrite <code>maximum'</code> by using <code>max</code>:</p>
-<pre class="haskell:hs"><code>
-maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
+    where maxTail = maximum&#39; xs</code></pre>
+<p>As you can see, pattern matching goes great with recursion! Most
+imperative languages don’t have pattern matching so you have to make a
+lot of if else statements to test for edge conditions. Here, we simply
+put them out as patterns. So the first edge condition says that if the
+list is empty, crash! Makes sense because what’s the maximum of an empty
+list? I don’t know. The second pattern also lays out an edge condition.
+It says that if it’s the singleton list, just give back the only
+element.</p>
+<p>Now the third pattern is where the action happens. We use pattern
+matching to split a list into a head and a tail. This is a very common
+idiom when doing recursion with lists, so get used to it. We use a
+<em>where</em> binding to define <code>maxTail</code> as the maximum of
+the rest of the list. Then we check if the head is greater than the
+maximum of the rest of the list. If it is, we return the head.
+Otherwise, we return the maximum of the rest of the list.</p>
+<p>Let’s take an example list of numbers and check out how this would
+work on them: <code>[2,5,1]</code>. If we call <code>maximum'</code> on
+that, the first two patterns won’t match. The third one will and the
+list is split into <code>2</code> and <code>[5,1]</code>. The
+<em>where</em> clause wants to know the maximum of <code>[5,1]</code>,
+so we follow that route. It matches the third pattern again and
+<code>[5,1]</code> is split into <code>5</code> and <code>[1]</code>.
+Again, the <code>where</code> clause wants to know the maximum of
+<code>[1]</code>. Because that’s the edge condition, it returns
+<code>1</code>. Finally! So going up one step, comparing <code>5</code>
+to the maximum of <code>[1]</code> (which is <code>1</code>), we
+obviously get back <code>5</code>. So now we know that the maximum of
+<code>[5,1]</code> is <code>5</code>. We go up one step again where we
+had <code>2</code> and <code>[5,1]</code>. Comparing <code>2</code> with
+the maximum of <code>[5,1]</code>, which is <code>5</code>, we choose
+<code>5</code>.</p>
+<p>An even clearer way to write this function is to use
+<code>max</code>. If you remember, <code>max</code> is a function that
+takes two numbers and returns the bigger of them. Here’s how we could
+rewrite <code>maximum'</code> by using <code>max</code>:</p>
+<pre class="haskell:hs"><code>maximum&#39; :: (Ord a) =&gt; [a] -&gt; a
 maximum&#39; [] = error &quot;maximum of empty list&quot;
 maximum&#39; [x] = x
-maximum&#39; (x:xs) = max x (maximum&#39; xs)
-</code></pre>
-<p>How’s that for elegant! In essence, the maximum of a list is the max of the first element and the maximum of the tail.</p>
-<img src="assets/images/recursion/maxs.png" class="center" width="651" height="267" alt="max">
-<h2 id="a-few-more-recursive-functions">A few more recursive functions</h2>
-<p>Now that we know how to generally think recursively, let’s implement a few functions using recursion. First off, we’ll implement <code>replicate</code>. <code>replicate</code> takes an <code>Int</code> and some element and returns a list that has several repetitions of the same element. For instance, <code>replicate 3 5</code> returns <code>[5,5,5]</code>. Let’s think about the edge condition. My guess is that the edge condition is 0 or less. If we try to replicate something zero times, it should return an empty list. Also for negative numbers, because it doesn’t really make sense.</p>
-<pre class="haskell:hs"><code>
-replicate&#39; :: (Num i, Ord i) =&gt; i -&gt; a -&gt; [a]
+maximum&#39; (x:xs) = max x (maximum&#39; xs)</code></pre>
+<p>How’s that for elegant! In essence, the maximum of a list is the max
+of the first element and the maximum of the tail.</p>
+<img src="assets/images/recursion/maxs.png" class="center"
+width="651" height="267" alt="max">
+<h2 id="a-few-more-recursive-functions">A few more recursive
+functions</h2>
+<p>Now that we know how to generally think recursively, let’s implement
+a few functions using recursion. First off, we’ll implement
+<code>replicate</code>. <code>replicate</code> takes an <code>Int</code>
+and some element and returns a list that has several repetitions of the
+same element. For instance, <code>replicate 3 5</code> returns
+<code>[5,5,5]</code>. Let’s think about the edge condition. My guess is
+that the edge condition is 0 or less. If we try to replicate something
+zero times, it should return an empty list. Also for negative numbers,
+because it doesn’t really make sense.</p>
+<pre class="haskell:hs"><code>replicate&#39; :: (Num i, Ord i) =&gt; i -&gt; a -&gt; [a]
 replicate&#39; n x
     | n &lt;= 0    = []
-    | otherwise = x:replicate&#39; (n-1) x
-</code></pre>
-<p>We used guards here instead of patterns because we’re testing for a boolean condition. If <code>n</code> is less than or equal to 0, return an empty list. Otherwise return a list that has <code>x</code> as the first element and then <code>x</code> replicated n-1 times as the tail. Eventually, the <code>(n-1)</code> part will cause our function to reach the edge condition.</p>
-<div class="hintbox"><p><strong>Note:</strong> <code>Num</code> is not a subclass of <code>Ord</code>. This is because not every number type has an ordering, e.g. complex numbers aren’t ordered. So that’s why we have to specify both the <code>Num</code> and <code>Ord</code> class constraints when doing addition or subtraction and also comparison.</p></div>
-<p>Next up, we’ll implement <code>take</code>. It takes a certain number of elements from a list. For instance, <code>take 3 [5,4,3,2,1]</code> will return <code>[5,4,3]</code>. If we try to take 0 or less elements from a list, we get an empty list. Also if we try to take anything from an empty list, we get an empty list. Notice that those are two edge conditions right there. So let’s write that out:</p>
-<pre class="haskell:hs"><code>
-take&#39; :: (Num i, Ord i) =&gt; i -&gt; [a] -&gt; [a]
+    | otherwise = x:replicate&#39; (n-1) x</code></pre>
+<p>We used guards here instead of patterns because we’re testing for a
+boolean condition. If <code>n</code> is less than or equal to 0, return
+an empty list. Otherwise return a list that has <code>x</code> as the
+first element and then <code>x</code> replicated n-1 times as the tail.
+Eventually, the <code>(n-1)</code> part will cause our function to reach
+the edge condition.</p>
+<div class="hintbox">
+<p><strong>Note:</strong> <code>Num</code> is not a subclass of
+<code>Ord</code>. This is because not every number type has an ordering,
+e.g. complex numbers aren’t ordered. So that’s why we have to specify
+both the <code>Num</code> and <code>Ord</code> class constraints when
+doing addition or subtraction and also comparison.</p>
+</div>
+<p>Next up, we’ll implement <code>take</code>. It takes a certain number
+of elements from a list. For instance, <code>take 3 [5,4,3,2,1]</code>
+will return <code>[5,4,3]</code>. If we try to take 0 or less elements
+from a list, we get an empty list. Also if we try to take anything from
+an empty list, we get an empty list. Notice that those are two edge
+conditions right there. So let’s write that out:</p>
+<pre class="haskell:hs"><code>take&#39; :: (Num i, Ord i) =&gt; i -&gt; [a] -&gt; [a]
 take&#39; n _
     | n &lt;= 0   = []
 take&#39; _ []     = []
-take&#39; n (x:xs) = x : take&#39; (n-1) xs
-</code></pre>
-<img src="assets/images/recursion/painter.png" class="right" width="350" height="276" alt="painter">
-<p>The first pattern specifies that if we try to take a 0 or negative number of elements, we get an empty list. Notice that we’re using <code>_</code> to match the list because we don’t really care what it is in this case. Also notice that we use a guard, but without an <code>otherwise</code> part. That means that if <code>n</code> turns out to be more than 0, the matching will fall through to the next pattern. The second pattern indicates that if we try to take anything from an empty list, we get an empty list. The third pattern breaks the list into a head and a tail. And then we state that taking <code>n</code> elements from a list equals a list that has <code>x</code> as the head and then a list that takes <code>n-1</code> elements from the tail as a tail. Try using a piece of paper to write down how the evaluation would look like if we try to take, say, 3 from <code>[4,3,2,1]</code>.</p>
-<p><code>reverse</code> simply reverses a list. Think about the edge condition. What is it? Come on … it’s the empty list! An empty list reversed equals the empty list itself. O-kay. What about the rest of it? Well, you could say that if we split a list to a head and a tail, the reversed list is equal to the reversed tail and then the head at the end.</p>
-<pre class="haskell:hs"><code>
-reverse&#39; :: [a] -&gt; [a]
+take&#39; n (x:xs) = x : take&#39; (n-1) xs</code></pre>
+<img src="assets/images/recursion/painter.png" class="right"
+width="350" height="276" alt="painter">
+<p>The first pattern specifies that if we try to take a 0 or negative
+number of elements, we get an empty list. Notice that we’re using
+<code>_</code> to match the list because we don’t really care what it is
+in this case. Also notice that we use a guard, but without an
+<code>otherwise</code> part. That means that if <code>n</code> turns out
+to be more than 0, the matching will fall through to the next pattern.
+The second pattern indicates that if we try to take anything from an
+empty list, we get an empty list. The third pattern breaks the list into
+a head and a tail. And then we state that taking <code>n</code> elements
+from a list equals a list that has <code>x</code> as the head and then a
+list that takes <code>n-1</code> elements from the tail as a tail. Try
+using a piece of paper to write down how the evaluation would look like
+if we try to take, say, 3 from <code>[4,3,2,1]</code>.</p>
+<p><code>reverse</code> simply reverses a list. Think about the edge
+condition. What is it? Come on … it’s the empty list! An empty list
+reversed equals the empty list itself. O-kay. What about the rest of it?
+Well, you could say that if we split a list to a head and a tail, the
+reversed list is equal to the reversed tail and then the head at the
+end.</p>
+<pre class="haskell:hs"><code>reverse&#39; :: [a] -&gt; [a]
 reverse&#39; [] = []
-reverse&#39; (x:xs) = reverse&#39; xs ++ [x]
-</code></pre>
+reverse&#39; (x:xs) = reverse&#39; xs ++ [x]</code></pre>
 <p>There we go!</p>
-<p>Because Haskell supports infinite lists, our recursion doesn’t really have to have an edge condition. But if it doesn’t have it, it will either keep churning at something infinitely or produce an infinite data structure, like an infinite list. The good thing about infinite lists though is that we can cut them where we want. <code>repeat</code> takes an element and returns an infinite list that just has that element. A recursive implementation of that is really easy, watch.</p>
-<pre class="haskell:hs"><code>
-repeat&#39; :: a -&gt; [a]
-repeat&#39; x = x:repeat&#39; x
-</code></pre>
-<p>Calling <code>repeat 3</code> will give us a list that starts with <code>3</code> and then has an infinite amount of 3’s as a tail. So calling <code>repeat 3</code> would evaluate like <code>3:repeat 3</code>, which is <code>3:(3:repeat 3)</code>, which is <code>3:(3:(3:repeat 3))</code>, etc. <code>repeat 3</code> will never finish evaluating, whereas <code>take 5 (repeat 3)</code> will give us a list of five 3’s. So essentially it’s like doing <code>replicate 5 3</code>.</p>
-<p><code>zip</code> takes two lists and zips them together. <code>zip [1,2,3] [2,3]</code> returns <code>[(1,2),(2,3)]</code>, because it truncates the longer list to match the length of the shorter one. How about if we zip something with an empty list? Well, we get an empty list back then. So there’s our edge condition. However, <code>zip</code> takes two lists as parameters, so there are actually two edge conditions.</p>
-<pre class="haskell:hs"><code>
-zip&#39; :: [a] -&gt; [b] -&gt; [(a,b)]
+<p>Because Haskell supports infinite lists, our recursion doesn’t really
+have to have an edge condition. But if it doesn’t have it, it will
+either keep churning at something infinitely or produce an infinite data
+structure, like an infinite list. The good thing about infinite lists
+though is that we can cut them where we want. <code>repeat</code> takes
+an element and returns an infinite list that just has that element. A
+recursive implementation of that is really easy, watch.</p>
+<pre class="haskell:hs"><code>repeat&#39; :: a -&gt; [a]
+repeat&#39; x = x:repeat&#39; x</code></pre>
+<p>Calling <code>repeat 3</code> will give us a list that starts with
+<code>3</code> and then has an infinite amount of 3’s as a tail. So
+calling <code>repeat 3</code> would evaluate like
+<code>3:repeat 3</code>, which is <code>3:(3:repeat 3)</code>, which is
+<code>3:(3:(3:repeat 3))</code>, etc. <code>repeat 3</code> will never
+finish evaluating, whereas <code>take 5 (repeat 3)</code> will give us a
+list of five 3’s. So essentially it’s like doing
+<code>replicate 5 3</code>.</p>
+<p><code>zip</code> takes two lists and zips them together.
+<code>zip [1,2,3] [2,3]</code> returns <code>[(1,2),(2,3)]</code>,
+because it truncates the longer list to match the length of the shorter
+one. How about if we zip something with an empty list? Well, we get an
+empty list back then. So there’s our edge condition. However,
+<code>zip</code> takes two lists as parameters, so there are actually
+two edge conditions.</p>
+<pre class="haskell:hs"><code>zip&#39; :: [a] -&gt; [b] -&gt; [(a,b)]
 zip&#39; _ [] = []
 zip&#39; [] _ = []
-zip&#39; (x:xs) (y:ys) = (x,y):zip&#39; xs ys
-</code></pre>
-<p>First two patterns say that if the first list or second list is empty, we get an empty list. The third one says that two lists zipped are equal to pairing up their heads and then tacking on the zipped tails. Zipping <code>[1,2,3]</code> and <code>['a','b']</code> will eventually try to zip <code>[3]</code> with <code>[]</code>. The edge condition patterns kick in and so the result is <code>(1,'a'):(2,'b'):[]</code>, which is exactly the same as <code>[(1,'a'),(2,'b')]</code>.</p>
-<p>Let’s implement one more standard library function — <code>elem</code>. It takes an element and a list and sees if that element is in the list. The edge condition, as is most of the times with lists, is the empty list. We know that an empty list contains no elements, so it certainly doesn’t have the droids we’re looking for.</p>
-<pre class="haskell:hs"><code>
-elem&#39; :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
+zip&#39; (x:xs) (y:ys) = (x,y):zip&#39; xs ys</code></pre>
+<p>First two patterns say that if the first list or second list is
+empty, we get an empty list. The third one says that two lists zipped
+are equal to pairing up their heads and then tacking on the zipped
+tails. Zipping <code>[1,2,3]</code> and <code>['a','b']</code> will
+eventually try to zip <code>[3]</code> with <code>[]</code>. The edge
+condition patterns kick in and so the result is
+<code>(1,'a'):(2,'b'):[]</code>, which is exactly the same as
+<code>[(1,'a'),(2,'b')]</code>.</p>
+<p>Let’s implement one more standard library function —
+<code>elem</code>. It takes an element and a list and sees if that
+element is in the list. The edge condition, as is most of the times with
+lists, is the empty list. We know that an empty list contains no
+elements, so it certainly doesn’t have the droids we’re looking for.</p>
+<pre class="haskell:hs"><code>elem&#39; :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
 elem&#39; a [] = False
 elem&#39; a (x:xs)
     | a == x    = True
-    | otherwise = a `elem&#39;` xs
-</code></pre>
-<p>Pretty simple and expected. If the head isn’t the element then we check the tail. If we reach an empty list, the result is <code>False</code>.</p>
+    | otherwise = a `elem&#39;` xs</code></pre>
+<p>Pretty simple and expected. If the head isn’t the element then we
+check the tail. If we reach an empty list, the result is
+<code>False</code>.</p>
 <h2 id="quick-sort">Quick, sort!</h2>
-<p>We have a list of items that can be sorted. Their type is an instance of the <code>Ord</code> typeclass. And now, we want to sort them! There’s a very cool algorithm for sorting called quicksort. It’s a very clever way of sorting items. While it takes upwards of 10 lines to implement quicksort in imperative languages, the implementation is much shorter and elegant in Haskell. Quicksort has become a sort of poster child for Haskell. Therefore, let’s implement it here, even though implementing quicksort in Haskell is considered really cheesy because everyone does it to showcase how elegant Haskell is.</p>
-<img src="assets/images/recursion/quickman.png" class="left" width="180" height="235" alt="quickman">
-<p>So, the type signature is going to be <code>quicksort :: (Ord a) =&gt; [a] -&gt; [a]</code>. No surprises there. The edge condition? Empty list, as is expected. A sorted empty list is an empty list. Now here comes the main algorithm: <strong>a sorted list is a list that has all the values smaller than (or equal to) the head of the list in front (and those values are sorted), then comes the head of the list in the middle and then come all the values that are bigger than the head (they’re also sorted).</strong> Notice that we said <em>sorted</em> two times in this definition, so we’ll probably have to make the recursive call twice! Also notice that we defined it using the verb <em>is</em> to define the algorithm instead of saying <em>do this, do that, then do that …</em>. That’s the beauty of functional programming! How are we going to filter the list so that we get only the elements smaller than the head of our list and only elements that are bigger? List comprehensions. So, let’s dive in and define this function.</p>
-<pre class="haskell:hs"><code>
-quicksort :: (Ord a) =&gt; [a] -&gt; [a]
+<p>We have a list of items that can be sorted. Their type is an instance
+of the <code>Ord</code> typeclass. And now, we want to sort them!
+There’s a very cool algorithm for sorting called quicksort. It’s a very
+clever way of sorting items. While it takes upwards of 10 lines to
+implement quicksort in imperative languages, the implementation is much
+shorter and elegant in Haskell. Quicksort has become a sort of poster
+child for Haskell. Therefore, let’s implement it here, even though
+implementing quicksort in Haskell is considered really cheesy because
+everyone does it to showcase how elegant Haskell is.</p>
+<img src="assets/images/recursion/quickman.png" class="left"
+width="180" height="235" alt="quickman">
+<p>So, the type signature is going to be
+<code>quicksort :: (Ord a) =&gt; [a] -&gt; [a]</code>. No surprises
+there. The edge condition? Empty list, as is expected. A sorted empty
+list is an empty list. Now here comes the main algorithm: <strong>a
+sorted list is a list that has all the values smaller than (or equal to)
+the head of the list in front (and those values are sorted), then comes
+the head of the list in the middle and then come all the values that are
+bigger than the head (they’re also sorted).</strong> Notice that we said
+<em>sorted</em> two times in this definition, so we’ll probably have to
+make the recursive call twice! Also notice that we defined it using the
+verb <em>is</em> to define the algorithm instead of saying <em>do this,
+do that, then do that …</em>. That’s the beauty of functional
+programming! How are we going to filter the list so that we get only the
+elements smaller than the head of our list and only elements that are
+bigger? List comprehensions. So, let’s dive in and define this
+function.</p>
+<pre class="haskell:hs"><code>quicksort :: (Ord a) =&gt; [a] -&gt; [a]
 quicksort [] = []
 quicksort (x:xs) =
     let smallerSorted = quicksort [a | a &lt;- xs, a &lt;= x]
         biggerSorted = quicksort [a | a &lt;- xs, a &gt; x]
-    in  smallerSorted ++ [x] ++ biggerSorted
-</code></pre>
-<p>Let’s give it a small test run to see if it appears to behave correctly.</p>
-<pre class="haskell:ghci"><code>
-ghci&gt; quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
+    in  smallerSorted ++ [x] ++ biggerSorted</code></pre>
+<p>Let’s give it a small test run to see if it appears to behave
+correctly.</p>
+<pre class="haskell:ghci"><code>ghci&gt; quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
 [1,2,2,3,3,4,4,5,6,7,8,9,10]
 ghci&gt; quicksort &quot;the quick brown fox jumps over the lazy dog&quot;
-&quot;        abcdeeefghhijklmnoooopqrrsttuuvwxyz&quot;
-</code></pre>
-<p>Booyah! That’s what I’m talking about! So if we have, say <code>[5,1,9,4,6,7,3]</code> and we want to sort it, this algorithm will first take the head, which is <code>5</code> and then put it in the middle of two lists that are smaller and bigger than it. So at one point, you’ll have <code>[1,4,3] ++ [5] ++ [9,6,7]</code>. We know that once the list is sorted completely, the number <code>5</code> will stay in the fourth place since there are 3 numbers lower than it and 3 numbers higher than it. Now, if we sort <code>[1,4,3]</code> and <code>[9,6,7]</code>, we have a sorted list! We sort the two lists using the same function. Eventually, we’ll break it up so much that we reach empty lists and an empty list is already sorted in a way, by virtue of being empty. Here’s an illustration:</p>
-<img src="assets/images/recursion/quicksort.png" class="center" width="799" height="332" alt="quicksort">
-<p>An element that is in place and won’t move anymore is represented in <code style="color:#FF6600;font-weight:bold;">orange</code>. If you read them from left to right, you’ll see the sorted list. Although we chose to compare all the elements to the heads, we could have used any element to compare against. In quicksort, an element that you compare against is called a pivot. They’re in <code style="color:#009900;font-weight:bold">green</code> here. We chose the head because it’s easy to get by pattern matching. The elements that are smaller than the pivot are <code style="color:#0f0;font-weight:bold">light green</code> and elements larger than the pivot are <code style="color:#030;font-weight:bold">dark green</code>. The yellowish gradient thing represents an application of quicksort.</p>
+&quot;        abcdeeefghhijklmnoooopqrrsttuuvwxyz&quot;</code></pre>
+<p>Booyah! That’s what I’m talking about! So if we have, say
+<code>[5,1,9,4,6,7,3]</code> and we want to sort it, this algorithm will
+first take the head, which is <code>5</code> and then put it in the
+middle of two lists that are smaller and bigger than it. So at one
+point, you’ll have <code>[1,4,3] ++ [5] ++ [9,6,7]</code>. We know that
+once the list is sorted completely, the number <code>5</code> will stay
+in the fourth place since there are 3 numbers lower than it and 3
+numbers higher than it. Now, if we sort <code>[1,4,3]</code> and
+<code>[9,6,7]</code>, we have a sorted list! We sort the two lists using
+the same function. Eventually, we’ll break it up so much that we reach
+empty lists and an empty list is already sorted in a way, by virtue of
+being empty. Here’s an illustration:</p>
+<img src="assets/images/recursion/quicksort.png" class="center"
+width="799" height="332" alt="quicksort">
+<p>An element that is in place and won’t move anymore is represented in
+<code style="color:#FF6600;font-weight:bold;">orange</code>. If you read
+them from left to right, you’ll see the sorted list. Although we chose
+to compare all the elements to the heads, we could have used any element
+to compare against. In quicksort, an element that you compare against is
+called a pivot. They’re in <code
+style="color:#009900;font-weight:bold">green</code> here. We chose the
+head because it’s easy to get by pattern matching. The elements that are
+smaller than the pivot are <code
+style="color:#0f0;font-weight:bold">light green</code> and elements
+larger than the pivot are <code
+style="color:#030;font-weight:bold">dark green</code>. The yellowish
+gradient thing represents an application of quicksort.</p>
 <h2 id="thinking-recursively">Thinking recursively</h2>
-<p>We did quite a bit of recursion so far and as you’ve probably noticed, there’s a pattern here. Usually you define an edge case and then you define a function that does something between some element and the function applied to the rest. It doesn’t matter if it’s a list, a tree or any other data structure. A sum is the first element of a list plus the sum of the rest of the list. A product of a list is the first element of the list times the product of the rest of the list. The length of a list is one plus the length of the tail of the list. Ekcetera, ekcetera …</p>
-<img src="assets/images/recursion/brain.png" class="left" width="250" height="219" alt="brain">
-<p>Of course, these also have edge cases. Usually the edge case is some scenario where a recursive application doesn’t make sense. When dealing with lists, the edge case is most often the empty list. If you’re dealing with trees, the edge case is usually a node that doesn’t have any children.</p>
-<p>It’s similar when you’re dealing with numbers recursively. Usually it has to do with some number and the function applied to that number modified. We did the factorial function earlier and it’s the product of a number and the factorial of that number minus one. Such a recursive application doesn’t make sense with zero, because factorials are defined only for positive integers. Often the edge case value turns out to be an identity. The identity for multiplication is 1 because if you multiply something by 1, you get that something back. Also when doing sums of lists, we define the sum of an empty list as 0 and 0 is the identity for addition. In quicksort, the edge case is the empty list and the identity is also the empty list, because if you add an empty list to a list, you just get the original list back.</p>
-<p>So when trying to think of a recursive way to solve a problem, try to think of when a recursive solution doesn’t apply and see if you can use that as an edge case, think about identities and think about whether you’ll break apart the parameters of the function (for instance, lists are usually broken into a head and a tail via pattern matching) and on which part you’ll use the recursive call.</p>
-
+<p>We did quite a bit of recursion so far and as you’ve probably
+noticed, there’s a pattern here. Usually you define an edge case and
+then you define a function that does something between some element and
+the function applied to the rest. It doesn’t matter if it’s a list, a
+tree or any other data structure. A sum is the first element of a list
+plus the sum of the rest of the list. A product of a list is the first
+element of the list times the product of the rest of the list. The
+length of a list is one plus the length of the tail of the list.
+Ekcetera, ekcetera …</p>
+<img src="assets/images/recursion/brain.png" class="left" width="250"
+height="219" alt="brain">
+<p>Of course, these also have edge cases. Usually the edge case is some
+scenario where a recursive application doesn’t make sense. When dealing
+with lists, the edge case is most often the empty list. If you’re
+dealing with trees, the edge case is usually a node that doesn’t have
+any children.</p>
+<p>It’s similar when you’re dealing with numbers recursively. Usually it
+has to do with some number and the function applied to that number
+modified. We did the factorial function earlier and it’s the product of
+a number and the factorial of that number minus one. Such a recursive
+application doesn’t make sense with zero, because factorials are defined
+only for positive integers. Often the edge case value turns out to be an
+identity. The identity for multiplication is 1 because if you multiply
+something by 1, you get that something back. Also when doing sums of
+lists, we define the sum of an empty list as 0 and 0 is the identity for
+addition. In quicksort, the edge case is the empty list and the identity
+is also the empty list, because if you add an empty list to a list, you
+just get the original list back.</p>
+<p>So when trying to think of a recursive way to solve a problem, try to
+think of when a recursive solution doesn’t apply and see if you can use
+that as an edge case, think about identities and think about whether
+you’ll break apart the parameters of the function (for instance, lists
+are usually broken into a head and a tail via pattern matching) and on
+which part you’ll use the recursive call.</p>
                 <div class="footdiv">
                 <ul>
                     <li style="text-align:left">
