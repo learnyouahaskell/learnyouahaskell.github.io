@@ -676,7 +676,7 @@ The same thing happens here.
 To get the result from a function, we have to apply it to something, which is why we do `(h w)` here to get the result from the function and then we apply `f` to that.
 `f` returns a monadic value, which is a function in our case, so we apply it to `w` as well.
 
-If don't get how `>>=` works at this point, don't worry, because with examples we'll see how this is a really simple monad.
+If you don't understand how `>>=` works at this point, don't worry, because with examples we'll see how this is a really simple monad.
 Here's a `do` expression that utilizes this monad:
 
 ```{.haskell:hs}
