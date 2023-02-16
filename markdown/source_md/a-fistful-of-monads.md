@@ -766,7 +766,7 @@ When matching on a pattern in a function fails, the next pattern is matched.
 If the matching falls through all the patterns for a given function, an error is thrown and our program crashes.
 On the other hand, failed pattern matching in `let` expressions results in an error being produced right away, because the mechanism of falling through patterns isn't present in `let` expressions.
 When pattern matching fails in a `do` expression, the `fail` function is called.
-It's part of the `MonadFail` type class and it enables failed pattern matching to result in a failure in the context of the current monad instead of making our program crash.
+It's part of the `MonadFail` type class and it enables failed pattern matching to result in a failure in the context of the current monad, instead of making our program crash.
 
 ```{.haskell:hs}
 class Monad m => MonadFail m where
