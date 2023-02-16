@@ -251,7 +251,7 @@ instance Monad Maybe where
     Just x >>= f  = f x
 ```
 
-Both `return` and `(>>)` have _default implementations_, so we omit them in instances.
+Both `return` and `(>>)` have _default implementations_, so we can omit them in instances.
 `return` is the same as `pure`, it wraps a value in `Just`.
 
 The `>>=` function is the same as our `applyMaybe`.
