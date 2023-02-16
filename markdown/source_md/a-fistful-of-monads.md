@@ -218,7 +218,7 @@ class Applicative m => Monad m where
 ![this is you on monads](assets/images/a-fistful-of-monads/kid.png){.right width=363 height=451}
 
 Let's start with the first line.
-It says `class Applicative => Monad m where` which means that if we want to create an instance of Monad for some time, we must have an instance of Applicative for that type.
+It says `class Applicative => Monad m where`, which means that if we want to create an instance of `Monad` for some type, we must also have an instance of `Applicative` for that type.
 
 The first function that the `Monad` type class defines is `return`.
 It's the same as `pure`, only with a different name.
