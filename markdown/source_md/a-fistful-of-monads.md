@@ -966,7 +966,7 @@ instance Alternative [] where
     (<|>) = (++)
 ```
 
-For lists `empty` represents a non-deterministic computation that has no results at all --- a failed computation.
+For lists, `empty` represents a non-deterministic computation that has no results at all --- a failed computation.
 `(<|>)` joins two non-deterministic values into one.
 The `guard` function is defined like this:
 
