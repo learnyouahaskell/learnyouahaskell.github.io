@@ -948,7 +948,7 @@ ghci> [ x | x <- [1..50], '7' `elem` show x ]
 We apply `show` to `x` to turn our number into a string and then we check if the character `'7'` is part of that string.
 Pretty clever.
 To see how filtering in list comprehensions translates to the list monad, we have to check out the `guard` function and the `Alternative` type class.
-The `Alternative` type class is for Applicatives that can also act as monoids.
+The `Alternative` type class is for applicative functors that can also act as monoids.
 Here's its definition:
 
 ```{.haskell:hs}
