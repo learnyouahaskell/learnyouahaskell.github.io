@@ -83,7 +83,7 @@ hello there
 E-R-E-H-T- -O-L-L-E-H
 </pre>
 <p>As you probably know, <span class="fixed">intersperse '-' . reverse . map toUpper</span> is a function that takes a string, maps <span class="fixed">toUpper</span> over it, the applies <span class="fixed">reverse</span> to that result and then applies <span class="fixed">intersperse '-'</span> to that result. It's like writing <span class="fixed">(\xs -&gt; intersperse '-' (reverse (map toUpper xs)))</span>, only prettier.</p>
-<p>Another instance of <span class="fixed">Functor</span> that we've been dealing with all along but didn't know was a <span class="fixed">Functor</span> is <span class="fixed">(-&gt;) r</span>. You're probably slightly confused now, since what the heck does <span class="fixed">(-&gt;) r</span> mean? The function type <span class="fixed">r -&gt; a</span> can be rewritten as <span class="fixed">(-&gt;) r a</span>, much like we can write <span class="fixed">2 + 3</span> as <span class="fixed">(+) 2 3</span>. When we look at it as <span class="fixed">(-&gt;) r a</span>, we can see  <span class="fixed">(-&gt;)</span> in a slighty different light, because we see that it's just a type constructor that takes two type parameters, just like <span class="fixed">Either</span>. But remember, we said that a type constructor has to take exactly one type parameter so that it can be made an instance of <span class="fixed">Functor</span>. That's why we can't make <span class="fixed">(-&gt;)</span> an instance of <span class="fixed">Functor</span>, but if we partially apply it to <span class="fixed">(-&gt;) r</span>, it doesn't pose any problems. If the syntax allowed for type constructors to be partially applied with sections (like we can partially apply <span class="fixed">+</span> by doing <span class="fixed">(2+)</span>, which is the same as <span class="fixed">(+) 2</span>), you could write <span class="fixed">(-&gt;) r</span> as <span class="fixed">(r -&gt;)</span>. How are functions functors? Well, let's take a look at the implementation, which lies in <span class="fixed">Control.Monad.Instances</span></p>
+<p>Another instance of <span class="fixed">Functor</span> that we've been dealing with all along but didn't know was a <span class="fixed">Functor</span> is <span class="fixed">(-&gt;) r</span>. You're probably slightly confused now, since what the heck does <span class="fixed">(-&gt;) r</span> mean? The function type <span class="fixed">r -&gt; a</span> can be rewritten as <span class="fixed">(-&gt;) r a</span>, much like we can write <span class="fixed">2 + 3</span> as <span class="fixed">(+) 2 3</span>. When we look at it as <span class="fixed">(-&gt;) r a</span>, we can see  <span class="fixed">(-&gt;)</span> in a slightly different light, because we see that it's just a type constructor that takes two type parameters, just like <span class="fixed">Either</span>. But remember, we said that a type constructor has to take exactly one type parameter so that it can be made an instance of <span class="fixed">Functor</span>. That's why we can't make <span class="fixed">(-&gt;)</span> an instance of <span class="fixed">Functor</span>, but if we partially apply it to <span class="fixed">(-&gt;) r</span>, it doesn't pose any problems. If the syntax allowed for type constructors to be partially applied with sections (like we can partially apply <span class="fixed">+</span> by doing <span class="fixed">(2+)</span>, which is the same as <span class="fixed">(+) 2</span>), you could write <span class="fixed">(-&gt;) r</span> as <span class="fixed">(r -&gt;)</span>. How are functions functors? Well, let's take a look at the implementation, which lies in <span class="fixed">Control.Monad.Instances</span></p>
 <div class="hintbox">We usually mark functions that take anything and return anything as <span class="fixed">a -&gt; b</span>. <span class="fixed">r -&gt; a</span> is the same thing, we just used different letters for the type variables.</div>
 <pre name="code" class="haskell:hs">
 instance Functor ((-&gt;) r) where
@@ -190,7 +190,7 @@ CJust 0 "haha" :: CMaybe [Char]
 ghci&gt; CJust 100 [1,2,3]
 CJust 100 [1,2,3]
 </pre>
-<p>If we use the <span class="fixed">CNothing</span> constructor, there are no fields, and if we use the <span class="fixed">CJust</span> constructor, the first field is an integer and the second field can be any type. Let's make this an instance of <span class="fixed">Functor</span> so that everytime we use <span class="fixed">fmap</span>, the function gets applied to the second field, whereas the first field gets increased by 1.</p>
+<p>If we use the <span class="fixed">CNothing</span> constructor, there are no fields, and if we use the <span class="fixed">CJust</span> constructor, the first field is an integer and the second field can be any type. Let's make this an instance of <span class="fixed">Functor</span> so that every time we use <span class="fixed">fmap</span>, the function gets applied to the second field, whereas the first field gets increased by 1.</p>
 <pre name="code" class="haskell:hs">
 instance Functor CMaybe where
     fmap f CNothing = CNothing
@@ -309,7 +309,7 @@ ghci&gt; (++) "johntra" "volta"
 <p>Awesome! To use a normal function on applicative functors, just sprinkle some <span class="fixed">&lt;$&gt;</span> and <span class="fixed">&lt;*&gt;</span> about and the function will operate on applicatives and return an applicative. How cool is that?</p>
 <p>Anyway, when we do <span class="fixed">(++) &lt;$&gt; Just "johntra" &lt;*&gt; Just "volta"</span>, first <span class="fixed">(++)</span>, which has a type of <span class="fixed">(++) :: [a] -&gt; [a] -&gt; [a]</span> gets mapped over <span class="fixed">Just "johntra"</span>, resulting in a value that's the same as <span class="fixed">Just ("johntra"++)</span> and has a type of <span class="fixed">Maybe ([Char] -&gt; [Char])</span>. Notice how the first parameter of <span class="fixed">(++)</span> got eaten up and how the <span class="fixed">a</span>s turned into <span class="fixed">Char</span>s. And now <span class="fixed">Just ("johntra"++) &lt;*&gt; Just "volta"</span> happens, which takes the function out of the <span class="fixed">Just</span> and maps it over <span class="fixed">Just "volta"</span>, resulting in <span class="fixed">Just "johntravolta"</span>. Had any of the two values been <span class="fixed">Nothing</span>, the result would have also been <span class="fixed">Nothing</span>.</p>
 <p>So far, we've only used <span class="fixed">Maybe</span> in our examples and you might be thinking that applicative functors are all about <span class="fixed">Maybe</span>. There are loads of other instances of <span class="fixed">Applicative</span>, so let's go and meet them!</p>
-<p>Lists (actually the list type constructor, <span class="fixed">[]</span>) are applicative functors. What a suprise! Here's how <span class="fixed">[]</span> is an instance of <span class="fixed">Applicative</span>:</p>
+<p>Lists (actually the list type constructor, <span class="fixed">[]</span>) are applicative functors. What a surprise! Here's how <span class="fixed">[]</span> is an instance of <span class="fixed">Applicative</span>:</p>
 <pre name="code" class="haskell:hs">
 instance Applicative [] where
     pure x = [x]
@@ -844,16 +844,16 @@ We mentioned that <i>newtype</i> is usually faster than <i>data</i>. The
 only thing that can be done with <i>newtype</i> is turning an existing type
 into a new type, so internally, Haskell can represent the values of types
 defined with <i>newtype</i> just like the original ones, only it has to keep in
-mind that the their types are now distinct. This fact means that not only is
+mind that their types are now distinct. This fact means that not only is
 <i>newtype</i> faster, it's also lazier. Let's take a look at what this means.
 </p>
 
 <p>
 Like we've said before, Haskell is lazy by default, which means that only
 when we try to actually print the results of our functions will any computation
-take place. Furthemore, only those computations that are necessary for our
+take place. Furthermore, only those computations that are necessary for our
 function to tell us the result will get carried out. The <span class="fixed">undefined</span>
-value in Haskell represents an erronous computation. If we try to evaluate it
+value in Haskell represents an erroneous computation. If we try to evaluate it
 (that is, force Haskell to actually compute it) by printing it to
 the terminal, Haskell will throw a hissy fit (technically referred to as an
 exception):
@@ -1886,7 +1886,7 @@ Because there are so many data structures that work nicely with folds, the
 <span class="label class">Foldable</span> type class was introduced. Much like
 <span class="fixed">Functor</span> is for things that can be mapped over,
 <span class="fixed">Foldable</span> is for things that can be folded up! It can
-be found in <span class="fixed">Data.Foldable</span> and because it export
+be found in <span class="fixed">Data.Foldable</span> and because it exports
 functions whose names clash with the ones from the <span class="fixed">Prelude</span>,
 it's best imported qualified (and served with basil):
 </p>
@@ -1964,7 +1964,7 @@ holds one value and also two other trees. After defining it, we made it an
 instance of <span class="fixed">Functor</span> and with that we gained the
 ability to <span class="fixed">fmap</span> functions over it. Now, we're going
 to make it an instance of <span class="fixed">Foldable</span> so that we get the
-abilty to fold it up. One way to make a type constructor an instance of
+ability to fold it up. One way to make a type constructor an instance of
 <span class="fixed">Foldable</span> is to just directly implement <span class="fixed">foldr</span> for it.
 But another, often much easier way, is to implement the <span class="fixed">foldMap</span> function,
 which is also a part of the <span class="fixed">Foldable</span> type class. The
@@ -2011,26 +2011,26 @@ We think like this: if we are provided with a function that takes an element of
 our tree and returns a monoid value, how do we reduce our whole tree down to one
 single monoid value? When we were doing <span class="fixed">fmap</span> over our tree,
 we applied the function that we were mapping to a node and then we recursively
-mapped the function over the left sub-tree as well as the right one. Here, we're
+mapped the function over the left subtree as well as the right one. Here, we're
 tasked with not only mapping a function, but with also joining up the results
 into a single monoid value by using <span class="fixed">mappend</span>. First we
 consider the case of the empty tree &mdash; a sad and lonely tree that has no
-values or sub-trees. It doesn't hold any value that we can give to our monoid-making
+values or subtrees. It doesn't hold any value that we can give to our monoid-making
 function, so we just say that if our tree is empty, the monoid value it becomes
 is <span class="fixed">mempty</span>.
 </p>
 
 <p>
 The case of a non-empty node is a bit more interesting. It contains two
-sub-trees as well as a value. In this case, we recursively <span class="fixed">foldMap</span> the
+subtrees as well as a value. In this case, we recursively <span class="fixed">foldMap</span> the
 same function <span class="fixed">f</span> over the left and the right
-sub-trees. Remember, our <span class="fixed">foldMap</span> results in a single
+subtrees. Remember, our <span class="fixed">foldMap</span> results in a single
 monoid value. We also apply our function <span class="fixed">f</span> to the
-value in the node. Now we have three monoid values (two from our sub-trees and
+value in the node. Now we have three monoid values (two from our subtrees and
 one from applying <span class="fixed">f</span> to the value in the node) and we
 just have to bang them together into a single value. For this purpose we use
-<span class="fixed">mappend</span>, and naturally the left sub-tree comes first,
-then the node value and then the right sub-tree.
+<span class="fixed">mappend</span>, and naturally the left subtree comes first,
+then the node value and then the right subtree.
 </p>
 
 <p>
