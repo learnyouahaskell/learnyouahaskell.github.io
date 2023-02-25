@@ -96,7 +96,7 @@ ghci&gt; &quot;hello&quot; == &quot;hello&quot;
 True</code></pre>
 <p>What about doing <code>5 + "llama"</code> or <code>5 == True</code>?
 Well, if we try the first snippet, we get a big scary error message!</p>
-<pre class="haskell: ghci"><code>• No instance for (Num [Char]) arising from a use of ‘+’
+<pre class="haskell: ghci"><code>• No instance for (Num String) arising from a use of ‘+’
     • In the expression: 5 + &quot;llama&quot;
       In an equation for ‘it’: it = 5 + &quot;llama&quot;</code></pre>
 <p>Yikes! What GHCI is telling us here is that <code>"llama"</code> is

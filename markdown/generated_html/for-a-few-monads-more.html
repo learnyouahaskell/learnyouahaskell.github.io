@@ -680,9 +680,10 @@ we do <code>(h w)</code> here to get the result from the function and
 then we apply <code>f</code> to that. <code>f</code> returns a monadic
 value, which is a function in our case, so we apply it to <code>w</code>
 as well.</p>
-<p>If don’t get how <code>&gt;&gt;=</code> works at this point, don’t
-worry, because with examples we’ll see how this is a really simple
-monad. Here’s a <code>do</code> expression that utilizes this monad:</p>
+<p>If you don’t understand how <code>&gt;&gt;=</code> works at this
+point, don’t worry, because with examples we’ll see how this is a really
+simple monad. Here’s a <code>do</code> expression that utilizes this
+monad:</p>
 <pre class="haskell:hs"><code>import Control.Monad.Instances
 
 addStuff :: Int -&gt; Int
