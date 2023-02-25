@@ -228,7 +228,7 @@ If we reach an empty list, the result is `False`.
 We have a list of items that can be sorted.
 Their type is an instance of the `Ord` typeclass.
 And now, we want to sort them!
-There's a very cool algoritm for sorting called quicksort.
+There's a very cool algorithm for sorting called quicksort.
 It's a very clever way of sorting items.
 While it takes upwards of 10 lines to implement quicksort in imperative languages, the implementation is much shorter and elegant in Haskell.
 Quicksort has become a sort of poster child for Haskell.

@@ -206,7 +206,7 @@ what the heck does <code>(-&gt;) r</code> mean? The function type
 <code>r -&gt; a</code> can be rewritten as <code>(-&gt;) r a</code>,
 much like we can write <code>2 + 3</code> as <code>(+) 2 3</code>. When
 we look at it as <code>(-&gt;) r a</code>, we can see
-<code>(-&gt;)</code> in a slighty different light, because we see that
+<code>(-&gt;)</code> in a slightly different light, because we see that
 it’s just a type constructor that takes two type parameters, just like
 <code>Either</code>. But remember, we said that a type constructor has
 to take exactly one type parameter so that it can be made an instance of
@@ -493,7 +493,7 @@ CJust 100 [1,2,3]</code></pre>
 <p>If we use the <code>CNothing</code> constructor, there are no fields,
 and if we use the <code>CJust</code> constructor, the first field is an
 integer and the second field can be any type. Let’s make this an
-instance of <code>Functor</code> so that everytime we use
+instance of <code>Functor</code> so that every time we use
 <code>fmap</code>, the function gets applied to the second field,
 whereas the first field gets increased by 1.</p>
 <pre class="haskell:hs"><code>instance Functor CMaybe where
@@ -844,7 +844,7 @@ might be thinking that applicative functors are all about
 <code>Maybe</code>. There are loads of other instances of
 <code>Applicative</code>, so let’s go and meet them!</p>
 <p>Lists (actually the list type constructor, <code>[]</code>) are
-applicative functors. What a suprise! Here’s how <code>[]</code> is an
+applicative functors. What a surprise! Here’s how <code>[]</code> is an
 instance of <code>Applicative</code>:</p>
 <pre class="haskell:hs"><code>instance Applicative [] where
     pure x = [x]
@@ -1557,14 +1557,14 @@ ghci&gt; getPair $ fmap reverse (Pair (&quot;london calling&quot;, 3))
 <em>data</em>. The only thing that can be done with <em>newtype</em> is
 turning an existing type into a new type, so internally, Haskell can
 represent the values of types defined with <em>newtype</em> just like
-the original ones, only it has to keep in mind that the their types are
-now distinct. This fact means that not only is <em>newtype</em> faster,
-it’s also lazier. Let’s take a look at what this means.</p>
+the original ones, only it has to keep in mind that the types are now
+distinct. This fact means that not only is <em>newtype</em> faster, it’s
+also lazier. Let’s take a look at what this means.</p>
 <p>Like we’ve said before, Haskell is lazy by default, which means that
 only when we try to actually print the results of our functions will any
-computation take place. Furthemore, only those computations that are
+computation take place. Furthermore, only those computations that are
 necessary for our function to tell us the result will get carried out.
-The <code>undefined</code> value in Haskell represents an erronous
+The <code>undefined</code> value in Haskell represents an erroneous
 computation. If we try to evaluate it (that is, force Haskell to
 actually compute it) by printing it to the terminal, Haskell will throw
 a hissy fit (technically referred to as an exception):</p>
@@ -2227,7 +2227,7 @@ structure. Trees especially lend themselves well to folding.</p>
 folds, the <code class="label class">Foldable</code> type class was
 introduced. Much like <code>Functor</code> is for things that can be
 mapped over, <code>Foldable</code> is for things that can be folded up!
-It can be found in <code>Data.Foldable</code> and because it export
+It can be found in <code>Data.Foldable</code> and because it exports
 functions whose names clash with the ones from the <code>Prelude</code>,
 it’s best imported qualified (and served with basil):</p>
 <pre class="haskell:hs"><code>import qualified Foldable as F</code></pre>
@@ -2307,23 +2307,23 @@ element of our tree and returns a monoid value, how do we reduce our
 whole tree down to one single monoid value? When we were doing
 <code>fmap</code> over our tree, we applied the function that we were
 mapping to a node and then we recursively mapped the function over the
-left sub-tree as well as the right one. Here, we’re tasked with not only
+left subtree as well as the right one. Here, we’re tasked with not only
 mapping a function, but with also joining up the results into a single
 monoid value by using <code>mappend</code>. First we consider the case
 of the empty tree — a sad and lonely tree that has no values or
-sub-trees. It doesn’t hold any value that we can give to our
+subtrees. It doesn’t hold any value that we can give to our
 monoid-making function, so we just say that if our tree is empty, the
 monoid value it becomes is <code>mempty</code>.</p>
 <p>The case of a non-empty node is a bit more interesting. It contains
-two sub-trees as well as a value. In this case, we recursively
+two subtrees as well as a value. In this case, we recursively
 <code>foldMap</code> the same function <code>f</code> over the left and
-the right sub-trees. Remember, our <code>foldMap</code> results in a
+the right subtrees. Remember, our <code>foldMap</code> results in a
 single monoid value. We also apply our function <code>f</code> to the
 value in the node. Now we have three monoid values (two from our
-sub-trees and one from applying <code>f</code> to the value in the node)
+subtrees and one from applying <code>f</code> to the value in the node)
 and we just have to bang them together into a single value. For this
-purpose we use <code>mappend</code>, and naturally the left sub-tree
-comes first, then the node value and then the right sub-tree.</p>
+purpose we use <code>mappend</code>, and naturally the left subtree
+comes first, then the node value and then the right subtree.</p>
 <p>Notice that we didn’t have to provide the function that takes a value
 and returns a monoid value. We receive that function as a parameter to
 <code>foldMap</code> and all we have to decide is where to apply that

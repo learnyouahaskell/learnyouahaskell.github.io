@@ -33,7 +33,7 @@ And sure enough, we're going to do the good old `"hello, world"` schtick.
 ::: {.hintbox}
 **Hey!**
 For the purposes of this chapter, I'm going to assume you're using a unix-y environment for learning Haskell.
-If you're in Windows, I'd suggest you download [Cygwin](https://www.cygwin.com/), which is a Linux-like environment for Windows, A.K.A. just what you need.
+If you're on Windows, I'd suggest you download [Cygwin](https://www.cygwin.com/), which is a Linux-like environment for Windows, A.K.A. just what you need.
 :::
 
 So, for starters, punch in the following in your favorite text editor:
@@ -897,7 +897,7 @@ Same goes for writing to the terminal, it's kind of like writing to a file.
 We can call these two files `stdout` and `stdin`, meaning *standard output* and *standard input*, respectively.
 Keeping that in mind, we'll see that writing to and reading from files is very much like writing to the standard output and reading from the standard input.
 
-We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints out out to the terminal.
+We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints out to the terminal.
 Here's *girlfriend.txt*:
 
 ```{.plain}
@@ -1209,7 +1209,7 @@ Let's say they want to delete number 1, which is `Dust the dog`, so they punch i
 `numberString` is now `"1"` and because we want a number, not a string, we run `read` on that to get `1` and bind that to `number`.
 
 Remember the `delete` and `!!` functions from `Data.List`.
-`!!` returns an element from a list with some index and `delete` deletes the first occurence of an element in a list and returns a new list without that occurence.
+`!!` returns an element from a list with some index and `delete` deletes the first occurrence of an element in a list and returns a new list without that occurrence.
 `(todoTasks !! number)` (number is now `1`) returns `"Dust the dog"`.
 We bind `todoTasks` without the first occurence of `"Dust the dog"` to `newTodoItems` and then join that into a single string with `unlines` before writing it to the temporary file that we opened.
 The old file is now unchanged and the temporary file contains all the lines that the old one does, except the one we deleted.
@@ -1491,7 +1491,7 @@ Another cool thing about this is that it's easy to add extra functionality.
 Just add an entry in the dispatch association list and implement the corresponding function and you're laughing!
 As an exercise, you can try implementing a `bump` function that will take a file and a task number and return an I/O action that bumps that task to the top of the to-do list.
 
-You could make this program fail a bit more gracefully in case of bad input (for example, if someone runs `todo UP YOURS HAHAHAHA`) by making an I/O action that just reports there has been an error (say, `errorExit :: IO ()`) and then check for possible erronous input and if there is erronous input, perform the error reporting I/O action.
+You could make this program fail a bit more gracefully in case of bad input (for example, if someone runs `todo UP YOURS HAHAHAHA`) by making an I/O action that just reports there has been an error (say, `errorExit :: IO ()`) and then check for possible erroneous input and if there is erroneous input, perform the error reporting I/O action.
 Another way is to use exceptions, which we will meet soon.
 
 ## Randomness {#randomness}
@@ -1688,7 +1688,7 @@ Then we return the head and the rest of the list joined and the final generator 
 
 What if we want a random value in some sort of range?
 All the random integers so far were outrageously big or small.
-What if we want to to throw a die?
+What if we want to throw a die?
 Well, we use `randomR`{.label .function} for that purpose.
 It has a type of `randomR :: (RandomGen g, Random a) :: (a, a) -> g -> (a, g)`, meaning that it's kind of like `random`, only it takes as its first parameter a pair of values that set the lower and upper bounds and the final value produced will be within those bounds.
 
@@ -1714,7 +1714,7 @@ We haven't done anything concerning I/O so far.
 Well, so far we've always made our random number generator manually by making it with some arbitrary integer.
 The problem is, if we do that in our real programs, they will always return the same random numbers, which is no good for us.
 That's why `System.Random` offers the `getStdGen`{.label .function} I/O action, which has a type of `IO StdGen`.
-When your program starts, it asks the system for a good random number generator and stores that in a so called global generator.
+When your program starts, it asks the system for a good random number generator and stores that in a so-called global generator.
 `getStdGen` fetches you that global random generator when you bind it to something.
 
 Here's a simple program that generates a random string.
@@ -1822,7 +1822,7 @@ We use `read` on `numberString` to convert it to a number, so `number` is now `7
 ::: {.hintbox}
 **Excuse me!**
 If the user gives us some input here that `read` can't read (like `"haha"`), our program will crash with an ugly error message.
-If you don't want your program to crash on erronous input, use `reads`{.label .function}, which returns an empty list when it fails to read a string.
+If you don't want your program to crash on erroneous input, use `reads`{.label .function}, which returns an empty list when it fails to read a string.
 When it succeeds, it returns a singleton list with a tuple that has our desired value as one component and a string with what it didn't consume as the other.
 :::
 
@@ -1883,7 +1883,7 @@ We can just open a file and read it as a string, even though it will only be acc
 However, processing files as strings has one drawback: it tends to be slow.
 As you know, `String` is a type synonym for `[Char]`.
 `Char`s don't have a fixed size, because it takes several bytes to represent a character from, say, Unicode.
-Furthemore, lists are really lazy.
+Furthermore, lists are really lazy.
 If you have a list like `[1,2,3,4]`, it will be evaluated only when completely necessary.
 So the whole list is sort of a promise of a list.
 Remember that `[1,2,3,4]` is syntactic sugar for `1:2:3:4:[]`.
@@ -1945,7 +1945,7 @@ ghci> B.pack [98..120]
 Chunk "bcdefghijklmnopqrstuvwx" Empty
 ```
 
-As you can see, you usually don't have to worry about the `Word8` too much, because the type system can makes the numbers choose that type.
+As you can see, you usually don't have to worry about the `Word8` too much, because the type system can make the numbers choose that type.
 If you try to use a big number, like `336` as a `Word8`, it will just wrap around to `80`.
 
 We packed only a handful of values into a `ByteString`, so they fit inside one chunk.
@@ -2040,7 +2040,7 @@ In C, returning, say, `-1` on failure is completely a matter of convention.
 It only has special meaning to humans.
 If we're not careful, we might treat these abnormal values as ordinary ones and then they can cause havoc and dismay in our code.
 Haskell's type system gives us some much-needed safety in that aspect.
-A function `a -> Maybe b` clearly indicates that it it may produce a `b` wrapped in `Just` or that it may return `Nothing`.
+A function `a -> Maybe b` clearly indicates that it may produce a `b` wrapped in `Just` or that it may return `Nothing`.
 The type is different from just plain `a -> b` and if we try to use those two functions interchangeably, the compiler will complain at us.
 
 Despite having expressive types that support failed computations, Haskell still has support for exceptions, because they make more sense in I/O contexts.
@@ -2241,7 +2241,7 @@ The predicates that act on `IOError` are:
 
 Most of these are pretty self-explanatory.
 `isUserError` evaluates to `True` when we use the function `userError`{.label .function} to make the exception, which is used for making exceptions from our code and equipping them with a string.
-For instance, you can do `ioError $ userError "remote computer unplugged!"`, although It's prefered you use types like `Either` and `Maybe` to express possible failure instead of throwing exceptions yourself with `userError`.
+For instance, you can do `ioError $ userError "remote computer unplugged!"`, although it's preferred you use types like `Either` and `Maybe` to express possible failure instead of throwing exceptions yourself with `userError`.
 
 So you could have a handler that looks something like this:
 

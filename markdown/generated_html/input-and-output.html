@@ -79,7 +79,7 @@ schtick.</p>
 <div class="hintbox">
 <p><strong>Hey!</strong> For the purposes of this chapter, I’m going to
 assume you’re using a unix-y environment for learning Haskell. If you’re
-in Windows, I’d suggest you download <a
+on Windows, I’d suggest you download <a
 href="https://www.cygwin.com/">Cygwin</a>, which is a Linux-like
 environment for Windows, A.K.A. just what you need.</p>
 </div>
@@ -928,8 +928,8 @@ to and reading from files is very much like writing to the standard
 output and reading from the standard input.</p>
 <p>We’ll start off with a really simple program that opens a file called
 <em>girlfriend.txt</em>, which contains a verse from Avril Lavigne’s
-#1 hit <em>Girlfriend</em>, and just prints out out to the terminal.
-Here’s <em>girlfriend.txt</em>:</p>
+#1 hit <em>Girlfriend</em>, and just prints out to the terminal. Here’s
+<em>girlfriend.txt</em>:</p>
 <pre class="plain"><code>Hey! Hey! You! You!
 I don&#39;t like your girlfriend!
 No way! No way!
@@ -1275,8 +1275,8 @@ number, not a string, we run <code>read</code> on that to get
 <code>1</code> and bind that to <code>number</code>.</p>
 <p>Remember the <code>delete</code> and <code>!!</code> functions from
 <code>Data.List</code>. <code>!!</code> returns an element from a list
-with some index and <code>delete</code> deletes the first occurence of
-an element in a list and returns a new list without that occurence.
+with some index and <code>delete</code> deletes the first occurrence of
+an element in a list and returns a new list without that occurrence.
 <code>(todoTasks !! number)</code> (number is now <code>1</code>)
 returns <code>"Dust the dog"</code>. We bind <code>todoTasks</code>
 without the first occurence of <code>"Dust the dog"</code> to
@@ -1583,8 +1583,8 @@ that task to the top of the to-do list.</p>
 <p>You could make this program fail a bit more gracefully in case of bad
 input (for example, if someone runs <code>todo UP YOURS HAHAHAHA</code>)
 by making an I/O action that just reports there has been an error (say,
-<code>errorExit :: IO ()</code>) and then check for possible erronous
-input and if there is erronous input, perform the error reporting I/O
+<code>errorExit :: IO ()</code>) and then check for possible erroneous
+input and if there is erroneous input, perform the error reporting I/O
 action. Another way is to use exceptions, which we will meet soon.</p>
 <h2 id="randomness">Randomness</h2>
 <p><img src="assets/images/input-and-output/random.png" class="right"
@@ -1756,9 +1756,9 @@ new generator. That will be the head. Then we say that the tail will be
 the head and the rest of the list joined and the final generator that we
 got from getting the <em>n - 1</em> random numbers.</p>
 <p>What if we want a random value in some sort of range? All the random
-integers so far were outrageously big or small. What if we want to to
-throw a die? Well, we use <code class="label function">randomR</code>
-for that purpose. It has a type of
+integers so far were outrageously big or small. What if we want to throw
+a die? Well, we use <code class="label function">randomR</code> for that
+purpose. It has a type of
 <code>randomR :: (RandomGen g, Random a) :: (a, a) -&gt; g -&gt; (a, g)</code>,
 meaning that it’s kind of like <code>random</code>, only it takes as its
 first parameter a pair of values that set the lower and upper bounds and
@@ -1781,7 +1781,7 @@ programs, they will always return the same random numbers, which is no
 good for us. That’s why <code>System.Random</code> offers the <code
 class="label function">getStdGen</code> I/O action, which has a type of
 <code>IO StdGen</code>. When your program starts, it asks the system for
-a good random number generator and stores that in a so called global
+a good random number generator and stores that in a so-called global
 generator. <code>getStdGen</code> fetches you that global random
 generator when you bind it to something.</p>
 <p>Here’s a simple program that generates a random string.</p>
@@ -1882,7 +1882,7 @@ number, so <code>number</code> is now <code>7</code>.</p>
 <p><strong>Excuse me!</strong> If the user gives us some input here that
 <code>read</code> can’t read (like <code>"haha"</code>), our program
 will crash with an ugly error message. If you don’t want your program to
-crash on erronous input, use <code class="label function">reads</code>,
+crash on erroneous input, use <code class="label function">reads</code>,
 which returns an empty list when it fails to read a string. When it
 succeeds, it returns a singleton list with a tuple that has our desired
 value as one component and a string with what it didn’t consume as the
@@ -1950,7 +1950,7 @@ only be accessed when the need arises.</p>
 slow. As you know, <code>String</code> is a type synonym for
 <code>[Char]</code>. <code>Char</code>s don’t have a fixed size, because
 it takes several bytes to represent a character from, say, Unicode.
-Furthemore, lists are really lazy. If you have a list like
+Furthermore, lists are really lazy. If you have a list like
 <code>[1,2,3,4]</code>, it will be evaluated only when completely
 necessary. So the whole list is sort of a promise of a list. Remember
 that <code>[1,2,3,4]</code> is syntactic sugar for
@@ -2023,7 +2023,7 @@ Chunk &quot;can&quot; Empty
 ghci&gt; B.pack [98..120]
 Chunk &quot;bcdefghijklmnopqrstuvwx&quot; Empty</code></pre>
 <p>As you can see, you usually don’t have to worry about the
-<code>Word8</code> too much, because the type system can makes the
+<code>Word8</code> too much, because the type system can make the
 numbers choose that type. If you try to use a big number, like
 <code>336</code> as a <code>Word8</code>, it will just wrap around to
 <code>80</code>.</p>
@@ -2141,7 +2141,7 @@ convention. It only has special meaning to humans. If we’re not careful,
 we might treat these abnormal values as ordinary ones and then they can
 cause havoc and dismay in our code. Haskell’s type system gives us some
 much-needed safety in that aspect. A function
-<code>a -&gt; Maybe b</code> clearly indicates that it it may produce a
+<code>a -&gt; Maybe b</code> clearly indicates that it may produce a
 <code>b</code> wrapped in <code>Just</code> or that it may return
 <code>Nothing</code>. The type is different from just plain
 <code>a -&gt; b</code> and if we try to use those two functions
@@ -2369,7 +2369,7 @@ class="label function">userError</code> to make the exception, which is
 used for making exceptions from our code and equipping them with a
 string. For instance, you can do
 <code>ioError $ userError "remote computer unplugged!"</code>, although
-It’s prefered you use types like <code>Either</code> and
+it’s preferred you use types like <code>Either</code> and
 <code>Maybe</code> to express possible failure instead of throwing
 exceptions yourself with <code>userError</code>.</p>
 <p>So you could have a handler that looks something like this:</p>

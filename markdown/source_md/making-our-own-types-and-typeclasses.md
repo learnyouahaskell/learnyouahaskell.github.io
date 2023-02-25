@@ -171,7 +171,7 @@ ghci> nudge (Circle (Point 34 34) 10) 5 10
 Circle (Point 39.0 44.0) 10.0
 ```
 
-If we don't want to deal directly with points, we can make some auxilliary functions that create shapes of some size at the zero coordinates and then nudge those.
+If we don't want to deal directly with points, we can make some auxiliary functions that create shapes of some size at the zero coordinates and then nudge those.
 
 ```{.haskell:hs}
 baseCircle :: Float -> Shape
@@ -207,7 +207,7 @@ By doing `Shape(..)`, we exported all the value constructors for `Shape`, so tha
 It's the same as writing `Shape (Rectangle, Circle)`.
 
 We could also opt not to export any value constructors for `Shape` by just writing `Shape` in the export statement.
-That way, someone importing our module could only make shapes by using the auxilliary functions `baseCircle` and `baseRect`.
+That way, someone importing our module could only make shapes by using the auxiliary functions `baseCircle` and `baseRect`.
 `Data.Map` uses that approach.
 You can't create a map by doing `Map.Map [(1,2),(3,4)]` because it doesn't export that value constructor.
 However, you can make a mapping by using one of the auxilliary functions like `Map.fromList`.
@@ -858,7 +858,7 @@ Either way, the `IntMap` type constructor takes one parameter and that is the ty
 ::: {.hintbox}
 **Oh yeah**.
 If you're going to try and implement this, you'll probably going to do a qualified import of `Data.Map`.
-When you do a qualified import, type constructors also have to be preceeded with a module name.
+When you do a qualified import, type constructors also have to be preceded with a module name.
 So you'd write `type IntMap = Map.Map Int`.
 :::
 
@@ -893,7 +893,7 @@ Left True :: Either Bool b
 ```
 
 So far, we've seen that `Maybe a` was mostly used to represent the results of computations that could have either failed or not.
-But somtimes, `Maybe a` isn't good enough because `Nothing` doesn't really convey much information other than that something has failed.
+But sometimes, `Maybe a` isn't good enough because `Nothing` doesn't really convey much information other than that something has failed.
 That's cool for functions that can fail in only one way or if we're just not interested in how and why they failed.
 A `Data.Map` lookup fails only if the key we were looking for wasn't in the map, so we know exactly what happened.
 However, when we're interested in how some function failed or why, we usually use the result type of `Either a b`, where `a` is some sort of type that can tell us something about the possible failure and `b` is the type of a successful computation.
@@ -1098,9 +1098,9 @@ Now, we're going to implement a **binary search tree**.
 If you're not familiar with binary search trees from languages like C, here's what they are: an element points to two elements, one on its left and one on its right.
 The element to the left is smaller, the element to the right is bigger.
 Each of those elements can also point to two elements (or one, or none).
-In effect, each element has up to two sub-trees.
-And a cool thing about binary search trees is that we know that all the elements at the left sub-tree of, say, 5 are going to be smaller than 5.
-Elements in its right sub-tree are going to be bigger.
+In effect, each element has up to two subtrees.
+And a cool thing about binary search trees is that we know that all the elements at the left subtree of, say, 5 are going to be smaller than 5.
+Elements in its right subtree are going to be bigger.
 So if we need to find if 8 is in our tree, we'd start at 5 and then because 8 is greater than 5, we'd go right.
 We're now at 7 and because 8 is greater than 7, we go right again.
 And we've found our element in three hops!
@@ -1123,8 +1123,8 @@ We do the same for every subsequent node until we reach an empty tree.
 Once we've reached an empty tree, we just insert a node with that value instead of the empty tree.
 
 In languages like C, we'd do this by modifying the pointers and values inside the tree.
-In Haskell, we can't really modify our tree, so we have to make a new sub-tree each time we decide to go left or right and in the end the insertion function returns a completely new tree, because Haskell doesn't really have a concept of pointer, just values.
-Hence, the type for our insertion function is going to be something like `a -> Tree a - > Tree a`.
+In Haskell, we can't really modify our tree, so we have to make a new subtree each time we decide to go left or right and in the end the insertion function returns a completely new tree, because Haskell doesn't really have a concept of pointer, just values.
+Hence, the type for our insertion function is going to be something like `a -> Tree a -> Tree a`.
 It takes an element and a tree and returns a new tree that has that element inside.
 This might seem like it's inefficient but laziness takes care of that problem.
 
@@ -1143,12 +1143,12 @@ treeInsert x (Node a left right)
     | x > a  = Node a left (treeInsert x right)
 ```
 
-The `singleton` function is just a shortcut for making a node that has something and then two empty sub-trees.
+The `singleton` function is just a shortcut for making a node that has something and then two empty subtrees.
 In the insertion function, we first have the edge condition as a pattern.
-If we've reached an empty sub-tree, that means we're where we want and instead of the empty tree, we put a singleton tree with our element.
+If we've reached an empty subtree, that means we're where we want and instead of the empty tree, we put a singleton tree with our element.
 If we're not inserting into an empty tree, then we have to check some things.
 First off, if the element we're inserting is equal to the root element, just return a tree that's the same.
-If it's smaller, return a tree that has the same root value, the same right sub-tree but instead of its left sub-tree, put a tree that has our value inserted into it.
+If it's smaller, return a tree that has the same root value, the same right subtree but instead of its left subtree, put a tree that has our value inserted into it.
 Same (but the other way around) goes if our value is bigger than the root element.
 
 Next up, we're going to make a function that checks if some element is in the tree.
@@ -1161,8 +1161,8 @@ Anyway, if we're not looking for an element in an empty tree, then we check some
 If the element in the root node is what we're looking for, great!
 If it's not, what then?
 Well, we can take advantage of knowing that all the left elements are smaller than the root node.
-So if the element we're looking for is smaller than the root node, check to see if it's in the left sub-tree.
-If it's bigger, check to see if it's in the right sub-tree.
+So if the element we're looking for is smaller than the root node, check to see if it's in the left subtree.
+If it's bigger, check to see if it's in the right subtree.
 
 ```{.haskell:hs}
 treeElem :: (Ord a) => a -> Tree a -> Bool
@@ -1190,7 +1190,7 @@ In that `foldr`, `treeInsert` was the folding function (it takes a tree and a li
 `nums`, of course, was the list we were folding over.
 
 When we print our tree to the console, it's not very readable, but if we try, we can make out its structure.
-We see that the root node is 5 and then it has two sub-trees, one of which has the root node of 3 and the other a 7, etc.
+We see that the root node is 5 and then it has two subtrees, one of which has the root node of 3 and the other a 7, etc.
 
 ```{.haskell:hs}
 ghci> 8 `treeElem` numsTree
@@ -1257,7 +1257,7 @@ We said that two instances of `Eq` are equal if they are not different and they 
 We didn't have to do this, really, but we did and we'll see how this helps us soon.
 
 ::: {.hintbox}
-If we have say `class Eq a where` and then define a type declaration within that class like `(==) :: a -> -a -> Bool`, then when we examine the type of that function later on, it will have the type of `(Eq a) => a -> a -> Bool`.
+If we have say `class Eq a where` and then define a type declaration within that class like `(==) :: a -> a -> Bool`, then when we examine the type of that function later on, it will have the type of `(Eq a) => a -> a -> Bool`.
 :::
 
 So once we have a class, what can we do with it?
@@ -1662,7 +1662,7 @@ It can be thought of as a box in a way (holds several or no values) and the `Tre
 If you look at `fmap` as if it were a function made only for `Tree`, its type signature would look like `(a -> b) -> Tree a -> Tree b`.
 We're going to use recursion on this one.
 Mapping over an empty tree will produce an empty tree.
-Mapping over a non-empty tree will be a tree consisting of our function applied to the root value and its left and right sub-trees will be the previous sub-trees, only our function will be mapped over them.
+Mapping over a non-empty tree will be a tree consisting of our function applied to the root value and its left and right subtrees will be the previous subtrees, only our function will be mapped over them.
 
 ```{.haskell:hs}
 instance Functor Tree where
@@ -1728,7 +1728,7 @@ In one of the next chapters, we'll also take a look at some laws that apply for 
 Functors should obey some laws so that they may have some properties that we can depend on and not think about too much.
 If we use `fmap (+1)` over the list `[1,2,3,4]`, we expect the result to be `[2,3,4,5]` and not its reverse, `[5,4,3,2]`.
 If we use `fmap (\a -> a)` (the identity function, which just returns its parameter) over some list, we expect to get back the same list as a result.
-For example, if we gave the wrong functor instance to our `Tree` type, using `fmap` over a tree where the left sub-tree of a node only has elements that are smaller than the node and the right sub-tree only has nodes that are larger than the node might produce a tree where that's not the case.
+For example, if we gave the wrong functor instance to our `Tree` type, using `fmap` over a tree where the left subtree of a node only has elements that are smaller than the node and the right subtree only has nodes that are larger than the node might produce a tree where that's not the case.
 We'll go over the functor laws in more detail in one of the next chapters.
 :::
 
@@ -1783,7 +1783,7 @@ Maybe Int :: *
 ```
 
 Just like I expected!
-We applied the type parameter to `Maybe` and got back a concrete type (that's what `* -> *` means.
+We applied the type parameter to `Maybe` and got back a concrete type (that's what `* -> *` means).
 A parallel (although not equivalent, types and kinds are two different things) to this is if we do `:t isUpper` and `:t isUpper 'A'`.
 `isUpper` has a type of `Char -> Bool` and `isUpper 'A'` has a type of `Bool`, because its value is basically `True`.
 Both those types, however, have a kind of `*`.
@@ -1912,7 +1912,7 @@ How satisfying.
 Now, to make this type a part of `Functor` we have to partially apply the first two type parameters so that we're left with `* -> *`.
 That means that the start of the instance declaration will be: `instance Functor (Barry a b) where`.
 If we look at `fmap` as if it was made specifically for `Barry`, it would have a type of `fmap :: (a -> b) -> Barry c d a -> Barry c d b`, because we just replace the `Functor`'s `f` with `Barry c d`.
-The third type parameter from `Barry` will have to change and we see that it's conviniently in its own field.
+The third type parameter from `Barry` will have to change and we see that it's conveniently in its own field.
 
 ```{.haskell:hs}
 instance Functor (Barry a b) where

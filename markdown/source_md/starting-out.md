@@ -173,7 +173,7 @@ doubleMe x = x + x
 ```
 
 Functions are defined in a similar way that they are called.
-The function name is followed by parameters seperated by spaces.
+The function name is followed by parameters separated by spaces.
 But when defining functions, there's a `=` and after that we define what the function does.
 Save this as `baby.hs` or something.
 Now navigate to where it's saved and run `ghci` from there.

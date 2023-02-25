@@ -340,7 +340,7 @@ So we have to tell Haskell: "Hey, this expression should have this type, in case
 
 `Enum`{.label .class} members are sequentially ordered types --- they can be enumerated.
 The main advantage of the `Enum` typeclass is that we can use its types in list ranges.
-They also have defined successors and predecesors, which you can get with the `succ` and `pred` functions.
+They also have defined successors and predecessors, which you can get with the `succ` and `pred` functions.
 Types in this class: `()`, `Bool`, `Char`, `Ordering`, `Int`, `Integer`, `Float` and `Double`.
 
 ```{.haskell: .ghci}
