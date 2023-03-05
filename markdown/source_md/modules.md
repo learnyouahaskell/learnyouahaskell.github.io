@@ -113,8 +113,8 @@ ghci> intersperse 0 [1,2,3,4,5,6]
 It then inserts that list in between all those lists and then flattens the result.
 
 ```{.haskell:ghci}
-ghci> intercalate " " ["hey","there","guys"]
-"hey there guys"
+ghci> intercalate " " ["hey","there","folks"]
+"hey there folks"
 ghci> intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
 ```
@@ -125,7 +125,7 @@ If you look at a list of lists as a 2D matrix, the columns become the rows and v
 ```{.haskell:ghci}
 ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci> transpose ["hey","there","guys"]
+ghci> transpose ["hey","there","folks"]
 ["htg","ehu","yey","rs","e"]
 ```
 
@@ -722,10 +722,10 @@ In case you don't remember, `all` takes a predicate and a list and returns `True
 We can also use `isSpace` to simulate the `Data.List` function `words`.
 
 ```{.haskell:ghci}
-ghci> words "hey guys its me"
-["hey","guys","its","me"]
-ghci> groupBy ((==) `on` isSpace) "hey guys its me"
-["hey"," ","guys"," ","its"," ","me"]
+ghci> words "hey folks its me"
+["hey","folks","its","me"]
+ghci> groupBy ((==) `on` isSpace) "hey folks its me"
+["hey"," ","folks"," ","its"," ","me"]
 ghci>
 ```
 
@@ -734,8 +734,8 @@ Hmm, whatever shall we do?
 I know, let's filter that sucker.
 
 ```{.haskell:ghci}
-ghci> filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me"
-["hey","guys","its","me"]
+ghci> filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
+["hey","folks","its","me"]
 ```
 
 Ah.

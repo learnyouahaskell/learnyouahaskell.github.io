@@ -147,8 +147,8 @@ ghci&gt; intersperse 0 [1,2,3,4,5,6]
 <p><code class="label function">intercalate</code> takes a list of lists
 and a list. It then inserts that list in between all those lists and
 then flattens the result.</p>
-<pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;guys&quot;]
-&quot;hey there guys&quot;
+<pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
+&quot;hey there folks&quot;
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]</code></pre>
 <p><code class="label function">transpose</code> transposes a list of
@@ -156,7 +156,7 @@ lists. If you look at a list of lists as a 2D matrix, the columns become
 the rows and vice versa.</p>
 <pre class="haskell:ghci"><code>ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;guys&quot;]
+ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
 [&quot;htg&quot;,&quot;ehu&quot;,&quot;yey&quot;,&quot;rs&quot;,&quot;e&quot;]</code></pre>
 <p>Say we have the polynomials <em>3x<sup>2</sup> + 5x + 9</em>,
 <em>10x<sup>3</sup> + 9</em> and <em>8x<sup>3</sup> + 5x<sup>2</sup> + x
@@ -707,16 +707,16 @@ and a list and returns <code>True</code> only if that predicate holds
 for every element in the list.</p>
 <p>We can also use <code>isSpace</code> to simulate the
 <code>Data.List</code> function <code>words</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot;guys&quot;,&quot;its&quot;,&quot;me&quot;]
-ghci&gt; groupBy ((==) `on` isSpace) &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot; &quot;,&quot;guys&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
+<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]
+ghci&gt; groupBy ((==) `on` isSpace) &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot; &quot;,&quot;folks&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
 ghci&gt;</code></pre>
 <p>Hmmm, well, it kind of does what <code>words</code> does but we’re
 left with elements of only spaces. Hmm, whatever shall we do? I know,
 let’s filter that sucker.</p>
-<pre class="haskell:ghci"><code>ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot;guys&quot;,&quot;its&quot;,&quot;me&quot;]</code></pre>
+<pre class="haskell:ghci"><code>ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]</code></pre>
 <p>Ah.</p>
 <p>The <code>Data.Char</code> also exports a datatype that’s kind of
 like <code>Ordering</code>. The <code>Ordering</code> type can have a

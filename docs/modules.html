@@ -83,8 +83,8 @@ ghci&gt; intersperse 0 [1,2,3,4,5,6]
 </pre>
 <p><span class="label function">intercalate</span> takes a list and a list of lists. It then inserts that list in between all those lists and then flattens the result.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; intercalate " " ["hey","there","guys"]
-"hey there guys"
+ghci&gt; intercalate " " ["hey","there","folks"]
+"hey there folks"
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
 </pre>
@@ -92,7 +92,7 @@ ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 <pre name="code" class="haskell:ghci">
 ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose ["hey","there","guys"]
+ghci&gt; transpose ["hey","there","folks"]
 ["htg","ehu","yey","rs","e"]
 </pre>
 <p>Say we have the polynomials <i>3x<sup>2</sup> + 5x + 9</i>, <i>10x<sup>3</sup> + 9</i> and <i>8x<sup>3</sup> + 5x<sup>2</sup> + x - 1</i> and we want to add them together. We can use the lists <span class="fixed">[0,3,5,9]</span>, <span class="fixed">[10,0,0,9]</span> and <span class="fixed">[8,5,1,-1]</span> to represent them in Haskell. Now, to add them, all we have to do is this:</p>
@@ -442,16 +442,16 @@ False
 <p>Kewl. In case you don't remember, <span class="fixed">all</span> takes a predicate and a list and returns <span class="fixed">True</span> only if that predicate holds for every element in the list.</p>
 <p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.
 <pre name="code" class="haskell:ghci">
-ghci&gt; words "hey guys its me"
-["hey","guys","its","me"]
-ghci&gt; groupBy ((==) `on` isSpace) "hey guys its me"
-["hey"," ","guys"," ","its"," ","me"]
+ghci&gt; words "hey folks its me"
+["hey","folks","its","me"]
+ghci&gt; groupBy ((==) `on` isSpace) "hey folks its me"
+["hey"," ","folks"," ","its"," ","me"]
 ghci&gt;
 </pre>
 <p>Hmmm, well, it kind of does what <span class="fixed">words</span> does but we're left with elements of only spaces. Hmm, whatever shall we do? I know, let's filter that sucker.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me"
-["hey","guys","its","me"]
+ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
+["hey","folks","its","me"]
 </pre>
 <p>Ah.</p>
 <p>The <span class="fixed">Data.Char</span> also exports a datatype that's kind of like <span class="fixed">Ordering</span>. The <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. It's a sort of enumeration. It describes a few possible results that can arise from comparing two elements. The <span class="fixed">GeneralCategory</span> type is also an enumeration. It presents us with a few possible categories that a character can fall into. The main function for getting the general category of a character is <span class="fixed">generalCategory</span>. It has a type of <span class="fixed">generalCategory :: Char -&gt; GeneralCategory</span>. There are about 31 categories so we won't list them all here, but let's play around with the function.</p>
