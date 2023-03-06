@@ -833,7 +833,7 @@ Now, a function that gets the value by a key in an association list can have a t
 ::: {.hintbox}
 **Fonzie says:** Aaay!
 When I talk about *concrete types* I mean like fully applied types like `Map Int String` or if we're dealin' with one of them polymorphic functions, `[a]` or `(Ord a) => Maybe a` and stuff.
-And like, sometimes me and the boys say that `Maybe` is a type, but we don't mean that, cause every idiot knows `Maybe` is a type constructor.
+And like, sometimes me and my buddies say that `Maybe` is a type, but we don't mean that, cause every idiot knows `Maybe` is a type constructor.
 When I apply an extra type to `Maybe`, like `Maybe String`, then I have a concrete type.
 You know, values can only have types that are concrete types!
 So in conclusion, live fast, love hard and don't let anybody else use your comb!
