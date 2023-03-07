@@ -1,7 +1,7 @@
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://learnyouahaskell.github.io/)
 [![pages-build-deployment](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment)
 
-**maintainers:** [Stanislav Modrak](https://github.com/smith558), to become a maintainer email via [here](https://stanislav.gq/)
+**maintainers:** [Stanislav Modrak](https://github.com/smith558), to become a maintainer email via [here](https://stanislav.gq/) 🙂
 
 # Learn You a Haskell: A community version
 
