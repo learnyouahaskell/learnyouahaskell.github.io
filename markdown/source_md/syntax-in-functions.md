@@ -186,7 +186,7 @@ tell (x:y:_) = "This list is long. The first two elements are: " ++ show x ++ " 
 ```
 
 This function is safe because it takes care of the empty list, a singleton list, a list with two elements and a list with more than two elements.
-Note that `(x:[])` and `(x:y:[])` could be rewriten as `[x]` and `[x,y]` (because its syntatic sugar, we don't need the parentheses).
+Note that `(x:[])` and `(x:y:[])` could be rewritten as `[x]` and `[x,y]` (because its syntactic sugar, we don't need the parentheses).
 We can't rewrite `(x:y:_)` with square brackets because it matches any list of length 2 or more.
 
 We already implemented our own `length` function using list comprehension.

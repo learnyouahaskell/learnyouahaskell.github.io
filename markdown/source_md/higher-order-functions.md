@@ -83,7 +83,7 @@ compareWithHundred x = compare 100 x
 
 If we call it with `99`, it returns a `GT`.
 Simple stuff.
-Notice that the `x` is on the right hand side on both sides of the equation.
+Notice that the `x` is on the right-hand side on both sides of the equation.
 Now let's think about what `compare 100` returns.
 It returns a function that takes a number and compares it with `100`.
 Wow!
@@ -334,7 +334,7 @@ ghci> filter (`elem` ['A'..'Z']) "i Laugh At you Because u R All The Same"
 "LABRATS"
 ```
 
-All of this could also be achived with list comprehensions by the use of predicates.
+All of this could also be achieved with list comprehensions by the use of predicates.
 There's no set rule for when to use `map` and `filter` versus using list comprehension, you just have to decide what's more readable depending on the code and the context.
 The `filter` equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical `&&` function.
 
@@ -659,7 +659,7 @@ map' f xs = foldr (\x acc -> f x : acc) [] xs
 
 If we're mapping `(+3)` to `[1,2,3]`, we approach the list from the right side.
 We take the last element, which is `3` and apply the function to it, which ends up being `6`.
-Then, we prepend it to the accumulator, which is was `[]`.
+Then, we prepend it to the accumulator, which is `[]`.
 `6:[]` is `[6]` and that's now the accumulator.
 We apply `(+3)` to `2`, that's `5` and we prepend (`:`) it to the accumulator, so the accumulator is now `[5,6]`.
 We apply `(+3)` to `1` and prepend that to the accumulator and so the end value is `[4,5,6]`.
@@ -767,7 +767,7 @@ ghci> sum (map sqrt [1..130])
 ```
 
 We use `takeWhile` here instead of `filter` because `filter` doesn't work on infinite lists.
-Even though we know the list is ascending, `filter` doesn't, so we use `takeWhile` to cut the scanlist off at the first occurence of a sum greater than 1000.
+Even though we know the list is ascending, `filter` doesn't, so we use `takeWhile` to cut the scanlist off at the first occurrence of a sum greater than 1000.
 
 ## Function application with $ {#function-application}
 
@@ -795,7 +795,7 @@ Because `$` has such a low precedence, we can rewrite that expression as `sum $ 
 When a `$` is encountered, the expression on its right is applied as the parameter to the function on its left.
 How about `sqrt 3 + 4 + 9`?
 This adds together 9, 4 and the square root of 3.
-If we want get the square root of *3 + 4 + 9*, we'd have to write `sqrt (3 + 4 + 9)` or if we use `$` we can write it as `sqrt $ 3 + 4 + 9` because `$` has the lowest precedence of any operator.
+If we want to get the square root of *3 + 4 + 9*, we'd have to write `sqrt (3 + 4 + 9)` or if we use `$` we can write it as `sqrt $ 3 + 4 + 9` because `$` has the lowest precedence of any operator.
 That's why you can imagine a `$` being sort of the equivalent of writing an opening parentheses and then writing a closing one on the far right side of the expression.
 
 How about `sum (filter (> 10) (map (*2) [2..10]))`?
@@ -892,7 +892,7 @@ How would we write this in point free style?
 fn x = ceiling (negate (tan (cos (max 50 x))))
 ```
 
-We can't just get rid of the `x` on both right right sides.
+We can't just get rid of the `x` on both right sides.
 The `x` in the function body has parentheses after it.
 `cos (max 50)` wouldn't make sense.
 You can't get the cosine of a function.
@@ -907,7 +907,7 @@ Many times, a point free style is more readable and concise, because it makes yo
 You can take simple functions and use composition as glue to form more complex functions.
 However, many times, writing a function in point free style can be less readable if a function is too complex.
 That's why making long chains of function composition is discouraged, although I plead guilty of sometimes being too composition-happy.
-The prefered style is to use *let* bindings to give labels to intermediary results or split the problem into sub-problems and then put it together so that the function makes sense to someone reading it instead of just making a huge composition chain.
+The preferred style is to use *let* bindings to give labels to intermediary results or split the problem into sub-problems and then put it together so that the function makes sense to someone reading it instead of just making a huge composition chain.
 
 In the section about maps and filters, we solved a problem of finding the sum of all odd squares that are smaller than 10,000.
 Here's what the solution looks like when put into a function.
