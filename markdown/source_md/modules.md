@@ -511,7 +511,7 @@ ghci> nub "Lots of words and stuff"
 "Lots fwrdanu"
 ```
 
-`delete`{.label .function} takes an element and a list and deletes the first occurence of that element in the list.
+`delete`{.label .function} takes an element and a list and deletes the first occurrence of that element in the list.
 
 ```{.haskell:ghci}
 ghci> delete 'h' "hey there ghang!"
@@ -1331,7 +1331,7 @@ Because a cube is only a special case of a cuboid, we defined its area and volum
 We also defined a helper function called `rectangleArea`, which calculates a rectangle's area based on the lenghts of its sides.
 It's rather trivial because it's just multiplication.
 Notice that we used it in our functions in the module (namely `cuboidArea` and `cuboidVolume`) but we didn't export it!
-Because we want our module to just present functions for dealing with three dimensional objects, we used `rectangleArea` but we didn't export it.
+Because we want our module to just present functions for dealing with three-dimensional objects, we used `rectangleArea` but we didn't export it.
 
 When making a module, we usually export only those functions that act as a sort of interface to our module so that the implementation is hidden.
 If someone is using our `Geometry` module, they don't have to concern themselves with functions that we don't export.
@@ -1345,9 +1345,9 @@ import Geometry
 
 `Geometry.hs` has to be in the same folder that the program that's importing it is in, though.
 
-Modules can also be given a hierarchical structures.
-Each module can have a number of sub-modules and they can have sub-modules of their own.
-Let's section these functions off so that `Geometry` is a module that has three sub-modules, one for each type of object.
+Modules can also have a hierarchical structure.
+Each module can have a number of submodules and they can have submodules of their own.
+Let's section these functions off so that `Geometry` is a module that has three submodules, one for each type of object.
 
 First, we'll make a folder called `Geometry`.
 Mind the capital G.
@@ -1408,7 +1408,7 @@ Alright!
 So first is `Geometry.Sphere`.
 Notice how we placed it in a folder called `Geometry` and then defined the module name as `Geometry.Sphere`.
 We did the same for the cuboid.
-Also notice how in all three sub-modules, we defined functions with the same names.
+Also notice how in all three submodules, we defined functions with the same names.
 We can do this because they're separate modules.
 We want to use functions from `Geometry.Cuboid` in `Geometry.Cube` but we can't just straight up do `import Geometry.Cuboid` because it exports functions with the same names as `Geometry.Cube`.
 That's why we do a qualified import and all is well.

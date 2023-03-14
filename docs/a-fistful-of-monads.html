@@ -400,7 +400,7 @@ But wait, didn't we say that monads are just beefed up applicative functors? Sho
 there be a class constraint in there along the lines of <span
 class="fixed">class (Applicative m) = &gt; Monad m where</span> so that a type
 has to be an applicative functor first before it can be made a monad? Well,
-there should, but when Haskell was made, it hadn't occured to people that
+there should, but when Haskell was made, it hadn't occurred to people that
 applicative functors are a good fit for Haskell so they weren't in there. But
 rest assured, every monad is an applicative functor, even if the <span
 class="fixed">Monad</span> class declaration doesn't say so.

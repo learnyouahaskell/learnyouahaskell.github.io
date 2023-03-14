@@ -138,7 +138,7 @@ tell (x:[]) = "The list has one element: " ++ show x
 tell (x:y:[]) = "The list has two elements: " ++ show x ++ " and " ++ show y
 tell (x:y:_) = "This list is long. The first two elements are: " ++ show x ++ " and " ++ show y
 </pre>
-<p>This function is safe because it takes care of the empty list, a singleton list, a list with two elements and a list with more than two elements. Note that <span class="fixed">(x:[])</span> and <span class="fixed">(x:y:[])</span> could be rewriten as <span class="fixed">[x]</span> and <span class="fixed">[x,y]</span> (because its syntatic sugar, we don't need the parentheses). We can't rewrite <span class="fixed">(x:y:_)</span> with square brackets because it matches any list of length 2 or more.</p>
+<p>This function is safe because it takes care of the empty list, a singleton list, a list with two elements and a list with more than two elements. Note that <span class="fixed">(x:[])</span> and <span class="fixed">(x:y:[])</span> could be rewritten as <span class="fixed">[x]</span> and <span class="fixed">[x,y]</span> (because its syntactic sugar, we don't need the parentheses). We can't rewrite <span class="fixed">(x:y:_)</span> with square brackets because it matches any list of length 2 or more.</p>
 <p>We already implemented our own <span class="fixed">length</span> function using list comprehension. Now we'll do it by using pattern matching and a little recursion:</p>
 <pre name="code" class="haskell: hs">
 length' :: (Num b) =&gt; [a] -&gt; b

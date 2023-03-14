@@ -10,7 +10,7 @@ I decided to write this because I wanted to solidify my own knowledge of Haskell
 There are quite a few tutorials on Haskell floating around on the internet.
 When I was starting out in Haskell, I didn't learn from just one resource.
 The way I learned it was by reading several different tutorials and articles because each explained something in a different way than the other did.
-By going through several resources, I was able put together the pieces and it all just came falling into place.
+By going through several resources, I was able to put together the pieces and it all just came falling into place.
 So this is an attempt at adding another useful resource for learning Haskell so you have a bigger chance of finding one you like.
 
 ![bird](assets/images/introduction/bird.png){.left width=230 height=192}

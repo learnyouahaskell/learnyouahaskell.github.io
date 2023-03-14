@@ -3,7 +3,7 @@
 In this chapter, we'll take a look at a few interesting problems and how to think functionally to solve them as elegantly as possible.
 We probably won't be introducing any new concepts, we'll just be flexing our newly acquired Haskell muscles and practicing our coding skills.
 Each section will present a different problem.
-First we'll describe the problem, then we'll try and find out what the best (or least worst) way of solving it is.
+First we'll describe the problem, then we'll try and find out what the best (or least bad) way of solving it is.
 
 ## Reverse Polish notation calculator {#reverse-polish-notation-calculator}
 
@@ -167,7 +167,7 @@ Cool, it works!
 One nice thing about this function is that it can be easily modified to support various other operators.
 They don't even have to be binary operators.
 For instance, we can make an operator `"log"` that just pops one number off the stack and pushes back its logarithm.
-We can also make a ternary operators that pop three numbers off the stack and push back a result or operators like `"sum"` which pop off all the numbers and push back their sum.
+We can also make ternary operators that pop three numbers off the stack and push back a result or operators like `"sum"` which pop off all the numbers and push back their sum.
 
 Let's modify our function to take a few more operators.
 For simplicity's sake, we'll change its type declaration so that it returns a number of type `Float`.
@@ -212,7 +212,7 @@ ghci> solveRPN "43.2425 0.5 ^"
 
 I think that making a function that can calculate arbitrary floating point RPN expressions and has the option to be easily extended in 10 lines is pretty awesome.
 
-One thing to note about this function is that it's not really fault tolerant.
+One thing to note about this function is that it's not really fault-tolerant.
 When given input that doesn't make sense, it will just crash everything.
 We'll make a fault tolerant version of this with a type declaration of `solveRPN :: String -> Maybe Float` once we get to know monads (they're not scary, trust me!).
 We could make one right now, but it would be a bit tedious because it would involve a lot of checking for `Nothing` on every step.

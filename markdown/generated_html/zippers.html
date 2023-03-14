@@ -61,8 +61,8 @@ of trees, so let’s pick a seed that we will use to plant ours. Here it
 is:</p>
 <pre class="haskell:hs"><code>data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show)</code></pre>
 <p>So our tree is either empty or it’s a node that has an element and
-two sub-trees. Here’s a fine example of such a tree, which I give to
-you, the reader, for free!</p>
+two subtrees. Here’s a fine example of such a tree, which I give to you,
+the reader, for free!</p>
 <pre class="haskell:hs"><code>freeTree :: Tree Char
 freeTree =
     Node &#39;P&#39;
@@ -99,10 +99,10 @@ changeToP (Node x l (Node y (Node _ m n) r)) = Node x l (Node y (Node &#39;P&#39
 <p>Yuck! Not only is this rather ugly, it’s also kind of confusing. What
 happens here? Well, we pattern match on our tree and name its root
 element <code>x</code> (that’s becomes the <code>'P'</code> in the root)
-and its left sub-tree <code>l</code>. Instead of giving a name to its
-right sub-tree, we further pattern match on it. We continue this pattern
-matching until we reach the sub-tree whose root is our <code>'W'</code>.
-Once we’ve done this, we rebuild the tree, only the sub-tree that
+and its left subtree <code>l</code>. Instead of giving a name to its
+right subtree, we further pattern match on it. We continue this pattern
+matching until we reach the subtree whose root is our <code>'W'</code>.
+Once we’ve done this, we rebuild the tree, only the subtree that
 contained the <code>'W'</code> at its root now has a
 <code>'P'</code>.</p>
 <p>Is there a better way of doing this? How about we make our function
@@ -117,9 +117,9 @@ changeToP :: Directions-&gt; Tree Char -&gt; Tree Char
 changeToP (L:ds) (Node x l r) = Node x (changeToP ds l) r
 changeToP (R:ds) (Node x l r) = Node x l (changeToP ds r)
 changeToP [] (Node _ l r) = Node &#39;P&#39; l r</code></pre>
-<p>If the first element in the our list of directions is <code>L</code>,
-we construct a new tree that’s like the old tree, only its left sub-tree
-has an element changed to <code>'P'</code>. When we recursively call
+<p>If the first element in the list of directions is <code>L</code>, we
+construct a new tree that’s like the old tree, only its left subtree has
+an element changed to <code>'P'</code>. When we recursively call
 <code>changeToP</code>, we give it only the tail of the list of
 directions, because we already took a left. We do the same thing in the
 case of an <code>R</code>. If the list of directions is empty, that
@@ -141,10 +141,10 @@ tree sticks:</p>
 ghci&gt; elemAt [R,L] newTree
 &#39;P&#39;</code></pre>
 <p>Nice, this seems to work. In these functions, the list of directions
-acts as a sort of <em>focus</em>, because it pinpoints one exact
-sub-tree from our tree. A direction list of <code>[R]</code> focuses on
-the sub-tree that’s right of the root, for example. An empty direction
-list focuses on the main tree itself.</p>
+acts as a sort of <em>focus</em>, because it pinpoints one exact subtree
+from our tree. A direction list of <code>[R]</code> focuses on the
+subtree that’s right of the root, for example. An empty direction list
+focuses on the main tree itself.</p>
 <p>While this technique may seem cool, it can be rather inefficient,
 especially if we want to repeatedly change elements. Say we have a
 really huge tree and a long direction list that points to some element
@@ -154,12 +154,12 @@ change another element that’s close to the element that we’ve just
 changed, we have to start from the root of the tree and walk all the way
 to the bottom again! What a drag.</p>
 <p>In the next section, we’ll find a better way of focusing on a
-sub-tree, one that allows us to efficiently switch focus to sub-trees
-that are nearby.</p>
+subtree, one that allows us to efficiently switch focus to subtrees that
+are nearby.</p>
 <h2 id="a-trail-of-breadcrumbs">A trail of breadcrumbs</h2>
 <p><img src="assets/images/zippers/bread.png" class="right" width="321"
 height="250" alt="whoop dee doo" /></p>
-<p>Okay, so for focusing on a sub-tree, we want something better than
+<p>Okay, so for focusing on a subtree, we want something better than
 just a list of directions that we always follow from the root of our
 tree. Would it help if we start at the root of the tree and move either
 left or right one step at a time and sort of leave breadcrumbs? That is,
@@ -172,12 +172,12 @@ we’ll call it <code>Breadcrumbs</code> , because our directions will now
 be reversed since we’re leaving them as we go down our tree:</p>
 <pre class="haskell:hs"><code>type Breadcrumbs = [Direction]</code></pre>
 <p>Here’s a function that takes a tree and some breadcrumbs and moves to
-the left sub-tree while adding <code>L</code> to the head of the list
+the left subtree while adding <code>L</code> to the head of the list
 that represents our breadcrumbs:</p>
 <pre class="haskell:hs"><code>goLeft :: (Tree a, Breadcrumbs) -&gt; (Tree a, Breadcrumbs)
 goLeft (Node _ l _, bs) = (l, L:bs)</code></pre>
-<p>We ignore the element at the root and the right sub-tree and just
-return the left sub-tree along with the old breadcrumbs with
+<p>We ignore the element at the root and the right subtree and just
+return the left subtree along with the old breadcrumbs with
 <code>L</code> as the head. Here’s a function to go right:</p>
 <pre class="haskell:hs"><code>goRight :: (Tree a, Breadcrumbs) -&gt; (Tree a, Breadcrumbs)
 goRight (Node _ _ r, bs) = (r, R:bs)</code></pre>
@@ -188,9 +188,9 @@ goRight (Node _ _ r, bs) = (r, R:bs)</code></pre>
 <p><img src="assets/images/zippers/almostzipper.png" class="left"
 width="399" height="224" alt="almostthere" /></p>
 <p>Okay, so now we have a tree that has <code>'W'</code> in its root and
-<code>'C'</code> in the root of its left sub-tree and <code>'R'</code>
-in the root of its right sub-tree. The breadcrumbs are
-<code>[L,R]</code>, because we first went right and then left.</p>
+<code>'C'</code> in the root of its left subtree and <code>'R'</code> in
+the root of its right subtree. The breadcrumbs are <code>[L,R]</code>,
+because we first went right and then left.</p>
 <p>To make walking along our tree clearer, we can use the
 <code>-:</code> function that we defined like so:</p>
 <pre class="haskell:hs"><code>x -: f = f x</code></pre>
@@ -204,18 +204,18 @@ left:</p>
 (Node &#39;W&#39; (Node &#39;C&#39; Empty Empty) (Node &#39;R&#39; Empty Empty),[L,R])</code></pre>
 <h3 id="going-back-up">Going back up</h3>
 <p>What if we now want to go back up in our tree? From our breadcrumbs
-we know that the current tree is the left sub-tree of its parent and
-that it is the right sub-tree of its parent, but that’s it. They don’t
-tell us enough about the parent of the current sub-tree for us to be
-able to go up in the tree. It would seem that apart from the direction
-that we took, a single breadcrumb should also contain all other data
-that we need to go back up. In this case, that’s the element in the
-parent tree along with its right sub-tree.</p>
+we know that the current tree is the left subtree of its parent and that
+it is the right subtree of its parent, but that’s it. They don’t tell us
+enough about the parent of the current subtree for us to be able to go
+up in the tree. It would seem that apart from the direction that we
+took, a single breadcrumb should also contain all other data that we
+need to go back up. In this case, that’s the element in the parent tree
+along with its right subtree.</p>
 <p>In general, a single breadcrumb should contain all the data needed to
 reconstruct the parent node. So it should have the information from all
 the paths that we didn’t take and it should also know the direction that
-we did take, but it must not contain the sub-tree that we’re currently
-focusing on. That’s because we already have that sub-tree in the first
+we did take, but it must not contain the subtree that we’re currently
+focusing on. That’s because we already have that subtree in the first
 component of the tuple, so if we also had it in the breadcrumbs, we’d
 have duplicate information.</p>
 <p>Let’s modify our breadcrumbs so that they also contain information
@@ -235,9 +235,9 @@ we took.</p>
 <p>In essence, every breadcrumb is now like a tree node with a hole in
 it. When we move deeper into a tree, the breadcrumb carries all the
 information that the node that we moved away from carried
-<em>except</em> the sub-tree that we chose to focus on. It also has to
+<em>except</em> the subtree that we chose to focus on. It also has to
 note where the hole is. In the case of a <code>LeftCrumb</code>, we know
-that we moved left, so the sub-tree that’s missing is the left one.</p>
+that we moved left, so the subtree that’s missing is the left one.</p>
 <p>Let’s also change our <code>Breadcrumbs</code> type synonym to
 reflect this:</p>
 <pre class="haskell:hs"><code>type Breadcrumbs a = [Crumb a]</code></pre>
@@ -252,17 +252,17 @@ goLeft (Node x l r, bs) = (l, LeftCrumb x r:bs)</code></pre>
 head of our list of breadcrumbs, we add a <code>LeftCrumb</code> to
 signify that we went left and we equip our <code>LeftCrumb</code> with
 the element in the node that we moved from (that’s the <code>x</code>)
-and the right sub-tree that we chose not to visit.</p>
+and the right subtree that we chose not to visit.</p>
 <p>Note that this function assumes that the current tree that’s under
-focus isn’t <code>Empty</code>. An empty tree doesn’t have any
-sub-trees, so if we try to go left from an empty tree, an error will
-occur because the pattern match on <code>Node</code> won’t succeed and
-there’s no pattern that takes care of <code>Empty</code>.</p>
+focus isn’t <code>Empty</code>. An empty tree doesn’t have any subtrees,
+so if we try to go left from an empty tree, an error will occur because
+the pattern match on <code>Node</code> won’t succeed and there’s no
+pattern that takes care of <code>Empty</code>.</p>
 <p><code>goRight</code> is similar:</p>
 <pre class="haskell:hs"><code>goRight :: (Tree a, Breadcrumbs a) -&gt; (Tree a, Breadcrumbs a)
 goRight (Node x l r, bs) = (r, RightCrumb x l:bs)</code></pre>
 <p>We were previously able to go left and right. What we’ve gotten now
-is the ability to actualy go back up by remembering stuff about the
+is the ability to actually go back up by remembering stuff about the
 parent nodes and the paths that we didn’t visit. Here’s the
 <code>goUp</code> function:</p>
 <pre class="haskell:hs"><code>goUp :: (Tree a, Breadcrumbs a) -&gt; (Tree a, Breadcrumbs a)
@@ -272,8 +272,8 @@ goUp (t, RightCrumb x l:bs) = (Node x l t, bs)</code></pre>
 width="511" height="433" alt="asstronaut" /></p>
 <p>We’re focusing on the tree <code>t</code> and we check what the
 latest <code>Crumb</code> is. If it’s a <code>LeftCrumb</code>, then we
-construct a new tree where our tree <code>t</code> is the left sub-tree
-and we use the information about the right sub-tree that we didn’t visit
+construct a new tree where our tree <code>t</code> is the left subtree
+and we use the information about the right subtree that we didn’t visit
 and the element to fill out the rest of the <code>Node</code>. Because
 we moved back so to speak and picked up the last breadcrumb to recreate
 with it the parent tree, the new list of breadcrumbs doesn’t contain
@@ -284,7 +284,7 @@ of a tree and we want to move up. Later on, we’ll use the
 focus.</p>
 <p>With a pair of <code>Tree a</code> and <code>Breadcrumbs a</code>, we
 have all the information to rebuild the whole tree and we also have a
-focus on a sub-tree. This scheme also enables us to easily move up, left
+focus on a subtree. This scheme also enables us to easily move up, left
 and right. Such a pair that contains a focused part of a data structure
 and its surroundings is called a zipper, because moving our focus up and
 down the data structure resembles the operation of a zipper on a regular
@@ -297,7 +297,7 @@ stick with <code>Zipper</code>.</p>
 <h3 id="manipulating-trees-under-focus">Manipulating trees under
 focus</h3>
 <p>Now that we can move up and down, let’s make a function that modifies
-the element in the root of the sub-tree that the zipper is focusing
+the element in the root of the subtree that the zipper is focusing
 on:</p>
 <pre class="haskell:hs"><code>modify :: (a -&gt; a) -&gt; Zipper a -&gt; Zipper a
 modify f (Node x l r, bs) = (Node (f x) l r, bs)
@@ -323,16 +323,16 @@ sort of like turning a sock inside out. That’s why when we want to move
 up, we don’t have to start from the root and make our way down, but we
 just take the top of our inverted tree, thereby uninverting a part of it
 and adding it to our focus.</p>
-<p>Each node has two sub-trees, even if those sub-trees are empty trees.
-So if we’re focusing on an empty sub-tree, one thing we can do is to
+<p>Each node has two subtrees, even if those subtrees are empty trees.
+So if we’re focusing on an empty subtree, one thing we can do is to
 replace it with a non-empty subtree, thus attaching a tree to a leaf
 node. The code for this is simple:</p>
 <pre class="haskell:hs"><code>attach :: Tree a -&gt; Zipper a -&gt; Zipper a
 attach t (_, bs) = (t, bs)</code></pre>
 <p>We take a tree and a zipper and return a new zipper that has its
 focus replaced with the supplied tree. Not only can we extend trees this
-way by replacing empty sub-trees with new trees, we can also replace
-whole existing sub-trees. Let’s attach a tree to the far left of our
+way by replacing empty subtrees with new trees, we can also replace
+whole existing subtrees. Let’s attach a tree to the far left of our
 <code>freeTree</code>:</p>
 <pre class="haskell:hs"><code>ghci&gt; let farLeft = (freeTree,[]) -: goLeft -: goLeft -: goLeft -: goLeft
 ghci&gt; let newFocus = farLeft -: attach (Node &#39;Z&#39; Empty Empty)</code></pre>
@@ -363,7 +363,7 @@ perspective.</p>
 <p>Zippers can be used with pretty much any data structure, so it’s no
 surprise that they can be used to focus on sub-lists of lists. After
 all, lists are pretty much like trees, only where a node in a tree has
-an element (or not) and several sub-trees, a node in a list has an
+an element (or not) and several subtrees, a node in a list has an
 element and only a single sub-list. When we <a
 href="making-our-own-types-and-typeclasses.html#recursive-data-structures">implemented
 our own lists</a>, we defined our data type like so:</p>
@@ -372,7 +372,7 @@ our own lists</a>, we defined our data type like so:</p>
 height="380" alt="the best damn thing" /></p>
 <p>Contrast this with our definition of our binary tree and it’s easy to
 see how lists can be viewed as trees where each node has only one
-sub-tree.</p>
+subtree.</p>
 <p>A list like <code>[1,2,3]</code> can be written as
 <code>1:2:3:[]</code>. It consists of the head of the list, which is
 <code>1</code> and then the list’s tail, which is <code>2:3:[]</code>.
@@ -382,19 +382,19 @@ and a tail, which is <code>3:[]</code>. With <code>3:[]</code>, the
 <code>[]</code>.</p>
 <p>Let’s make a zipper for lists. To change the focus on sub-lists of a
 list, we move either forward or back (whereas with trees we moved either
-up or left or right). The focused part will be a sub-tree and along with
+up or left or right). The focused part will be a subtree and along with
 that we’ll leave breadcrumbs as we move forward. Now what would a single
 breadcrumb for a list consist of? When we were dealing with binary
 trees, we said that a breadcrumb has to hold the element in the root of
-the parent node along with all the sub-trees that we didn’t choose. It
+the parent node along with all the subtrees that we didn’t choose. It
 also had to remember if we went left or right. So, it had to have all
-the information that a node has except for the sub-tree that we chose to
+the information that a node has except for the subtree that we chose to
 focus on.</p>
 <p>Lists are simpler than trees, so we don’t have to remember if we went
 left or right, because there’s only one way to go deeper into a list.
-Because there’s only one sub-tree to each node, we don’t have to
-remember the paths that we didn’t take either. It seems that all we have
-to remember is the previous element. If we have a list like
+Because there’s only one subtree to each node, we don’t have to remember
+the paths that we didn’t take either. It seems that all we have to
+remember is the previous element. If we have a list like
 <code>[3,4,5]</code> and we know that the previous element was
 <code>2</code>, we can go back by just putting that element at the head
 of our list, getting <code>[2,3,4,5]</code>.</p>
@@ -486,7 +486,7 @@ and zoom around it and add, modify and remove files as well as folders.
 Like with binary trees and lists, we’re going to be leaving breadcrumbs
 that contain info about all the stuff that we chose not to visit. Like
 we said, a single breadcrumb should be kind of like a node, only it
-should contain everything except the sub-tree that we’re currently
+should contain everything except the subtree that we’re currently
 focusing on. It should also note where the hole is so that once we move
 back up, we can plug our previous focus into the hole.</p>
 <p>In this case, a breadcrumb should be like a folder, only it should be
@@ -614,7 +614,7 @@ persistence of Haskell’s data structures really begins to shine.</p>
 binary trees, lists or file systems, we didn’t really care if we took a
 step too far and fell off. For instance, our <code>goLeft</code>
 function takes a zipper of a binary tree and moves the focus to its left
-sub-tree:</p>
+subtree:</p>
 <pre class="haskell:hs"><code>goLeft :: Zipper a -&gt; Zipper a
 goLeft (Node x l r, bs) = (l, LeftCrumb x r:bs)</code></pre>
 <p><img src="assets/images/zippers/bigtree.png" class="right"
@@ -623,9 +623,9 @@ width="247" height="367" alt="falling for you" /></p>
 is, what if it’s not a <code>Node</code>, but an <code>Empty</code>? In
 this case, we’d get a runtime error because the pattern match would fail
 and we have made no pattern to handle an empty tree, which doesn’t have
-any sub-trees at all. So far, we just assumed that we’d never try to
-focus on the left sub-tree of an empty tree as its left sub-tree doesn’t
-exist at all. But going to the left sub-tree of an empty tree doesn’t
+any subtrees at all. So far, we just assumed that we’d never try to
+focus on the left subtree of an empty tree as its left subtree doesn’t
+exist at all. But going to the left subtree of an empty tree doesn’t
 make much sense, and so far we’ve just conveniently ignored this.</p>
 <p>Or what if we were already at the root of some tree and didn’t have
 any breadcrumbs but still tried to move up? The same thing would happen.
@@ -701,12 +701,12 @@ Nothing</code></pre>
 <p>We used <code>return</code> to put a zipper in a <code>Just</code>
 and then used <code>&gt;&gt;=</code> to feed that to our
 <code>goRight</code> function. First, we made a tree that has on its
-left an empty sub-tree and on its right a node that has two empty
-sub-trees. When we try to go right once, the result is a success,
-because the operation makes sense. Going right twice is okay too; we end
-up with the focus on an empty sub-tree. But going right three times
-wouldn’t make sense, because we can’t go to the right of an empty
-sub-tree, which is why the result is a <code>Nothing</code>.</p>
+left an empty subtree and on its right a node that has two empty
+subtrees. When we try to go right once, the result is a success, because
+the operation makes sense. Going right twice is okay too; we end up with
+the focus on an empty subtree. But going right three times wouldn’t make
+sense, because we can’t go to the right of an empty subtree, which is
+why the result is a <code>Nothing</code>.</p>
 <p>Now we’ve equipped our trees with a safety-net that will catch us
 should we fall off. Wow, I nailed this metaphor.</p>
 <p>Our file system also has a lot of cases where an operation could

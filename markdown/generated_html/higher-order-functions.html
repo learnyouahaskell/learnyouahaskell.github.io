@@ -113,7 +113,7 @@ could do something like this:</p>
 <pre class="haskell:hs"><code>compareWithHundred :: (Num a, Ord a) =&gt; a -&gt; Ordering
 compareWithHundred x = compare 100 x</code></pre>
 <p>If we call it with <code>99</code>, it returns a <code>GT</code>.
-Simple stuff. Notice that the <code>x</code> is on the right hand side
+Simple stuff. Notice that the <code>x</code> is on the right-hand side
 on both sides of the equation. Now let’s think about what
 <code>compare 100</code> returns. It returns a function that takes a
 number and compares it with <code>100</code>. Wow! Isn’t that the
@@ -354,13 +354,14 @@ ghci&gt; filter (`elem` [&#39;a&#39;..&#39;z&#39;]) &quot;u LaUgH aT mE BeCaUsE 
 &quot;uagameasadifeent&quot;
 ghci&gt; filter (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;i Laugh At you Because u R All The Same&quot;
 &quot;LABRATS&quot;</code></pre>
-<p>All of this could also be achived with list comprehensions by the use
-of predicates. There’s no set rule for when to use <code>map</code> and
-<code>filter</code> versus using list comprehension, you just have to
-decide what’s more readable depending on the code and the context. The
-<code>filter</code> equivalent of applying several predicates in a list
-comprehension is either filtering something several times or joining the
-predicates with the logical <code>&amp;&amp;</code> function.</p>
+<p>All of this could also be achieved with list comprehensions by the
+use of predicates. There’s no set rule for when to use <code>map</code>
+and <code>filter</code> versus using list comprehension, you just have
+to decide what’s more readable depending on the code and the context.
+The <code>filter</code> equivalent of applying several predicates in a
+list comprehension is either filtering something several times or
+joining the predicates with the logical <code>&amp;&amp;</code>
+function.</p>
 <p>Remember our quicksort function from the <a
 href="recursion.html">previous chapter</a>? We used list comprehensions
 to filter out the list elements that are smaller than (or equal to) and
@@ -671,7 +672,7 @@ map&#39; f xs = foldr (\x acc -&gt; f x : acc) [] xs</code></pre>
 <p>If we’re mapping <code>(+3)</code> to <code>[1,2,3]</code>, we
 approach the list from the right side. We take the last element, which
 is <code>3</code> and apply the function to it, which ends up being
-<code>6</code>. Then, we prepend it to the accumulator, which is was
+<code>6</code>. Then, we prepend it to the accumulator, which is
 <code>[]</code>. <code>6:[]</code> is <code>[6]</code> and that’s now
 the accumulator. We apply <code>(+3)</code> to <code>2</code>, that’s
 <code>5</code> and we prepend (<code>:</code>) it to the accumulator, so
@@ -801,8 +802,8 @@ ghci&gt; sum (map sqrt [1..130])
 <p>We use <code>takeWhile</code> here instead of <code>filter</code>
 because <code>filter</code> doesn’t work on infinite lists. Even though
 we know the list is ascending, <code>filter</code> doesn’t, so we use
-<code>takeWhile</code> to cut the scanlist off at the first occurence of
-a sum greater than 1000.</p>
+<code>takeWhile</code> to cut the scanlist off at the first occurrence
+of a sum greater than 1000.</p>
 <h2 id="function-application">Function application with $</h2>
 <p>Alright, next up, we’ll take a look at the <code>$</code> function,
 also called <em>function application</em>. First of all, let’s check out
@@ -827,10 +828,10 @@ low precedence, we can rewrite that expression as
 keystrokes! When a <code>$</code> is encountered, the expression on its
 right is applied as the parameter to the function on its left. How about
 <code>sqrt 3 + 4 + 9</code>? This adds together 9, 4 and the square root
-of 3. If we want get the square root of <em>3 + 4 + 9</em>, we’d have to
-write <code>sqrt (3 + 4 + 9)</code> or if we use <code>$</code> we can
-write it as <code>sqrt $ 3 + 4 + 9</code> because <code>$</code> has the
-lowest precedence of any operator. That’s why you can imagine a
+of 3. If we want to get the square root of <em>3 + 4 + 9</em>, we’d have
+to write <code>sqrt (3 + 4 + 9)</code> or if we use <code>$</code> we
+can write it as <code>sqrt $ 3 + 4 + 9</code> because <code>$</code> has
+the lowest precedence of any operator. That’s why you can imagine a
 <code>$</code> being sort of the equivalent of writing an opening
 parentheses and then writing a closing one on the far right side of the
 expression.</p>
@@ -921,8 +922,8 @@ currying, we can omit the <code>xs</code> on both sides, because calling
 the function as <code>sum' = foldl (+) 0</code> is called writing it in
 point free style. How would we write this in point free style?</p>
 <pre class="haskell:hs"><code>fn x = ceiling (negate (tan (cos (max 50 x))))</code></pre>
-<p>We can’t just get rid of the <code>x</code> on both right right
-sides. The <code>x</code> in the function body has parentheses after it.
+<p>We can’t just get rid of the <code>x</code> on both right sides. The
+<code>x</code> in the function body has parentheses after it.
 <code>cos (max 50)</code> wouldn’t make sense. You can’t get the cosine
 of a function. What we can do is express <code>fn</code> as a
 composition of functions.</p>
@@ -935,7 +936,7 @@ composition as glue to form more complex functions. However, many times,
 writing a function in point free style can be less readable if a
 function is too complex. That’s why making long chains of function
 composition is discouraged, although I plead guilty of sometimes being
-too composition-happy. The prefered style is to use <em>let</em>
+too composition-happy. The preferred style is to use <em>let</em>
 bindings to give labels to intermediary results or split the problem
 into sub-problems and then put it together so that the function makes
 sense to someone reading it instead of just making a huge composition

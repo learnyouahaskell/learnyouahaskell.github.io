@@ -266,7 +266,7 @@ would have thought? This is what the type class looks like:</p>
 width="363" height="451" alt="this is you on monads" /></p>
 <p>Let’s start with the first line. It says
 <code>class Applicative =&gt; Monad m where</code> which means that if
-we want to create an instance of Monad for some time, we must have an
+we want to create an instance of Monad for some type, we must have an
 instance of Applicative for that type.</p>
 <p>The first function that the <code>Monad</code> type class defines is
 <code>return</code>. It’s the same as <code>pure</code>, only with a

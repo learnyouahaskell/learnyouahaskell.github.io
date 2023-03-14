@@ -36,7 +36,7 @@ isBigGang x = x > 9
 ```
 
 Now, what if instead of just giving us a `True` or `False` value, we want it to also return a log string that says what it did?
-Well, we just make that string and return it along side our `Bool`:
+Well, we just make that string and return it alongside our `Bool`:
 
 ```{.haskell:hs}
 isBigGang :: Int -> (Bool, String)
@@ -343,7 +343,7 @@ If it isn't, then the result is the greatest common divisor of the second number
 For instance, if we want to know what the greatest common divisor of 8 and 3 is, we just follow the algorithm outlined.
 Because 3 isn't 0, we have to find the greatest common divisor of 3 and 2 (if we divide 8 by 3, the remainder is 2).
 Next, we find the greatest common divisor of 3 and 2.
-2 still isn't 0, so now we have have 2 and 1.
+2 still isn't 0, so now we have 2 and 1.
 The second number isn't 0, so we run the algorithm again for 1 and 0, as dividing 2 by 1 gives us a remainder of 0.
 And finally, because the second number is now 0, the final result is 1.
 Let's see if our code agrees:
@@ -778,7 +778,7 @@ The actual value is the result, whereas the context is that we have to provide s
 Say we want to model operating a stack.
 You have a stack of things one on top of another and you can either push stuff on top of that stack or you can take stuff off the top of the stack.
 When you're putting an item on top of the stack we say that you're pushing it to the stack and when you're taking stuff off the top we say that you're popping it.
-If you want to something that's at the bottom of the stack, you have to pop everything that's above it.
+If you want something that's at the bottom of the stack, you have to pop everything that's above it.
 
 We'll use a list to represent our stack and the head of the list will be the top of the stack.
 To help us with our task, we'll make two functions: `pop` and `push`.
@@ -1050,7 +1050,7 @@ threeCoins = do
     return (a,b,c)
 ```
 
-`threeCoins` is now a stateful computations and after taking an initial random generator, it passes it to the first `randomSt`, which produces a number and a new generator, which gets passed to the next one and so on.
+`threeCoins` is now a stateful computation and after taking an initial random generator, it passes it to the first `randomSt`, which produces a number and a new generator, which gets passed to the next one and so on.
 We use `return (a,b,c)` to present `(a,b,c)` as the result without changing the most recent generator.
 Let's give this a go:
 
@@ -1833,7 +1833,7 @@ ghci> [(3,1%2),(5,1%4),(9,1%4)]
 Okay, so `3` has a one out of two chance of happening while `5` and `9` will happen one time out of four.
 Pretty neat.
 
-We took lists and we added some extra context to them, so this represents values withs contexts too.
+We took lists and we added some extra context to them, so this represents values with contexts too.
 Before we go any further, let's wrap this into a `newtype` because something tells me we'll be making some instances.
 
 ```{.haskell:hs}

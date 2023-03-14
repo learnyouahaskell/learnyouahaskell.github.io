@@ -124,7 +124,7 @@ It's like writing `(\xs -> intersperse '-' (reverse (map toUpper xs)))`, only pr
 Another instance of `Functor` that we've been dealing with all along but didn't know was a `Functor` is `(->) r`.
 You're probably slightly confused now, since what the heck does `(->) r` mean?
 The function type `r -> a` can be rewritten as `(->) r a`, much like we can write `2 + 3` as `(+) 2 3`.
-When we look at it as `(->) r a`, we can see `(->)` in a slighty different light, because we see that it's just a type constructor that takes two type parameters, just like `Either`.
+When we look at it as `(->) r a`, we can see `(->)` in a slightly different light, because we see that it's just a type constructor that takes two type parameters, just like `Either`.
 But remember, we said that a type constructor has to take exactly one type parameter so that it can be made an instance of `Functor`.
 That's why we can't make `(->)` an instance of `Functor`, but if we partially apply it to `(->) r`, it doesn't pose any problems.
 If the syntax allowed for type constructors to be partially applied with sections (like we can partially apply `+` by doing `(2+)`, which is the same as `(+) 2`), you could write `(->) r` as `(r ->)`.
@@ -360,7 +360,7 @@ CJust 100 [1,2,3]
 ```
 
 If we use the `CNothing` constructor, there are no fields, and if we use the `CJust` constructor, the first field is an integer and the second field can be any type.
-Let's make this an instance of `Functor` so that everytime we use `fmap`, the function gets applied to the second field, whereas the first field gets increased by 1.
+Let's make this an instance of `Functor` so that every time we use `fmap`, the function gets applied to the second field, whereas the first field gets increased by 1.
 
 ```{.haskell:hs}
 instance Functor CMaybe where
@@ -643,7 +643,7 @@ So far, we've only used `Maybe` in our examples and you might be thinking that a
 There are loads of other instances of `Applicative`, so let's go and meet them!
 
 Lists (actually the list type constructor, `[]`) are applicative functors.
-What a suprise!
+What a surprise!
 Here's how `[]` is an instance of `Applicative`:
 
 ```{.haskell:hs}
@@ -1299,13 +1299,13 @@ ghci> getPair $ fmap reverse (Pair ("london calling", 3))
 ### On newtype laziness 
 
 We mentioned that *newtype* is usually faster than *data*.
-The only thing that can be done with *newtype* is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with *newtype* just like the original ones, only it has to keep in mind that the their types are now distinct.
+The only thing that can be done with *newtype* is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with *newtype* just like the original ones, only it has to keep in mind that the types are now distinct.
 This fact means that not only is *newtype* faster, it's also lazier.
 Let's take a look at what this means.
 
 Like we've said before, Haskell is lazy by default, which means that only when we try to actually print the results of our functions will any computation take place.
-Furthemore, only those computations that are necessary for our function to tell us the result will get carried out.
-The `undefined` value in Haskell represents an erronous computation.
+Furthermore, only those computations that are necessary for our function to tell us the result will get carried out.
+The `undefined` value in Haskell represents an erroneous computation.
 If we try to evaluate it (that is, force Haskell to actually compute it) by printing it to the terminal, Haskell will throw a hissy fit (technically referred to as an exception):
 
 ```{.haskell:hs}
@@ -1951,7 +1951,7 @@ Trees especially lend themselves well to folding.
 
 Because there are so many data structures that work nicely with folds, the `Foldable`{.label .class} type class was introduced.
 Much like `Functor` is for things that can be mapped over, `Foldable` is for things that can be folded up!
-It can be found in `Data.Foldable` and because it export functions whose names clash with the ones from the `Prelude`, it's best imported qualified (and served with basil):
+It can be found in `Data.Foldable` and because it exports functions whose names clash with the ones from the `Prelude`, it's best imported qualified (and served with basil):
 
 ```{.haskell:hs}
 import qualified Foldable as F
@@ -2034,18 +2034,18 @@ instance F.Foldable Tree where
 ![find the visual pun or whatever](assets/images/functors-applicative-functors-and-monoids/accordion.png){.right width=366 height=280}
 
 We think like this: if we are provided with a function that takes an element of our tree and returns a monoid value, how do we reduce our whole tree down to one single monoid value?
-When we were doing `fmap` over our tree, we applied the function that we were mapping to a node and then we recursively mapped the function over the left sub-tree as well as the right one.
+When we were doing `fmap` over our tree, we applied the function that we were mapping to a node and then we recursively mapped the function over the left subtree as well as the right one.
 Here, we're tasked with not only mapping a function, but with also joining up the results into a single monoid value by using `mappend`.
-First we consider the case of the empty tree --- a sad and lonely tree that has no values or sub-trees.
+First we consider the case of the empty tree --- a sad and lonely tree that has no values or subtrees.
 It doesn't hold any value that we can give to our monoid-making function, so we just say that if our tree is empty, the monoid value it becomes is `mempty`.
 
 The case of a non-empty node is a bit more interesting.
-It contains two sub-trees as well as a value.
-In this case, we recursively `foldMap` the same function `f` over the left and the right sub-trees.
+It contains two subtrees as well as a value.
+In this case, we recursively `foldMap` the same function `f` over the left and the right subtrees.
 Remember, our `foldMap` results in a single monoid value.
 We also apply our function `f` to the value in the node.
-Now we have three monoid values (two from our sub-trees and one from applying `f` to the value in the node) and we just have to bang them together into a single value.
-For this purpose we use `mappend`, and naturally the left sub-tree comes first, then the node value and then the right sub-tree.
+Now we have three monoid values (two from our subtrees and one from applying `f` to the value in the node) and we just have to bang them together into a single value.
+For this purpose we use `mappend`, and naturally the left subtree comes first, then the node value and then the right subtree.
 
 Notice that we didn't have to provide the function that takes a value and returns a monoid value.
 We receive that function as a parameter to `foldMap` and all we have to decide is where to apply that function and how to join up the resulting monoids from it.

@@ -38,8 +38,8 @@ how to think functionally to solve them as elegantly as possible. We
 probably won’t be introducing any new concepts, we’ll just be flexing
 our newly acquired Haskell muscles and practicing our coding skills.
 Each section will present a different problem. First we’ll describe the
-problem, then we’ll try and find out what the best (or least worst) way
-of solving it is.</p>
+problem, then we’ll try and find out what the best (or least bad) way of
+solving it is.</p>
 <h2 id="reverse-polish-notation-calculator">Reverse Polish notation
 calculator</h2>
 <p>Usually when we write mathematical expressions in school, we write
@@ -225,7 +225,7 @@ ghci&gt; solveRPN &quot;90 3 -&quot;
 easily modified to support various other operators. They don’t even have
 to be binary operators. For instance, we can make an operator
 <code>"log"</code> that just pops one number off the stack and pushes
-back its logarithm. We can also make a ternary operators that pop three
+back its logarithm. We can also make ternary operators that pop three
 numbers off the stack and push back a result or operators like
 <code>"sum"</code> which pop off all the numbers and push back their
 sum.</p>
@@ -265,15 +265,16 @@ because <code>read</code> knows how to read them.</p>
 <p>I think that making a function that can calculate arbitrary floating
 point RPN expressions and has the option to be easily extended in 10
 lines is pretty awesome.</p>
-<p>One thing to note about this function is that it’s not really fault
-tolerant. When given input that doesn’t make sense, it will just crash
-everything. We’ll make a fault tolerant version of this with a type
-declaration of <code>solveRPN :: String -&gt; Maybe Float</code> once we
-get to know monads (they’re not scary, trust me!). We could make one
-right now, but it would be a bit tedious because it would involve a lot
-of checking for <code>Nothing</code> on every step. If you’re feeling up
-to the challenge though, you can go ahead and try it! Hint: you can use
-<code>reads</code> to see if a read was successful or not.</p>
+<p>One thing to note about this function is that it’s not really
+fault-tolerant. When given input that doesn’t make sense, it will just
+crash everything. We’ll make a fault tolerant version of this with a
+type declaration of <code>solveRPN :: String -&gt; Maybe Float</code>
+once we get to know monads (they’re not scary, trust me!). We could make
+one right now, but it would be a bit tedious because it would involve a
+lot of checking for <code>Nothing</code> on every step. If you’re
+feeling up to the challenge though, you can go ahead and try it! Hint:
+you can use <code>reads</code> to see if a read was successful or
+not.</p>
 <h2 id="heathrow-to-london">Heathrow to London</h2>
 <p>Our next problem is this: your plane has just landed in England and
 you rent a car. You have a meeting really soon and you have to get from
