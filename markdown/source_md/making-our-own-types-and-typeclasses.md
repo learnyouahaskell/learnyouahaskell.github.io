@@ -210,7 +210,7 @@ We could also opt not to export any value constructors for `Shape` by just writi
 That way, someone importing our module could only make shapes by using the auxiliary functions `baseCircle` and `baseRect`.
 `Data.Map` uses that approach.
 You can't create a map by doing `Map.Map [(1,2),(3,4)]` because it doesn't export that value constructor.
-However, you can make a mapping by using one of the auxilliary functions like `Map.fromList`.
+However, you can make a mapping by using one of the auxiliary functions like `Map.fromList`.
 Remember, value constructors are just functions that take the fields as parameters and return a value of some type (like `Shape`) as a result.
 So when we choose not to export them, we just prevent the person importing our module from using those functions, but if some other functions that are exported return a type, we can use them to make values of our custom data types.
 
@@ -241,7 +241,7 @@ Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
 ```
 
 That's kind of cool, although slightly unreadable.
-What if we want to create a function to get seperate info from a person?
+What if we want to create a function to get separate info from a person?
 A function that gets some person's first name, a function that gets some person's last name, etc.
 Well, we'd have to define them kind of like this.
 
@@ -780,12 +780,12 @@ Let's look at a phonebook that we had.
 ```{.haskell:hs}
 phoneBook :: [(String,String)]
 phoneBook =
-    [("betty","555-2938")
-    ,("bonnie","452-2928")
-    ,("patsy","493-2928")
-    ,("lucille","205-2928")
-    ,("wendy","939-8282")
-    ,("penny","853-2492")
+    [("amelia","555-2938")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
     ]
 ```
 
@@ -833,7 +833,7 @@ Now, a function that gets the value by a key in an association list can have a t
 ::: {.hintbox}
 **Fonzie says:** Aaay!
 When I talk about *concrete types* I mean like fully applied types like `Map Int String` or if we're dealin' with one of them polymorphic functions, `[a]` or `(Ord a) => Maybe a` and stuff.
-And like, sometimes me and the boys say that `Maybe` is a type, but we don't mean that, cause every idiot knows `Maybe` is a type constructor.
+And like, sometimes me and my buddies say that `Maybe` is a type, but we don't mean that, cause every idiot knows `Maybe` is a type constructor.
 When I apply an extra type to `Maybe`, like `Maybe String`, then I have a concrete type.
 You know, values can only have types that are concrete types!
 So in conclusion, live fast, love hard and don't let anybody else use your comb!

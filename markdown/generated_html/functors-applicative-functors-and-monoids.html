@@ -1557,7 +1557,7 @@ ghci&gt; getPair $ fmap reverse (Pair (&quot;london calling&quot;, 3))
 <em>data</em>. The only thing that can be done with <em>newtype</em> is
 turning an existing type into a new type, so internally, Haskell can
 represent the values of types defined with <em>newtype</em> just like
-the original ones, only it has to keep in mind that the types are now
+the original ones, only it has to keep in mind that their types are now
 distinct. This fact means that not only is <em>newtype</em> faster, it’s
 also lazier. Let’s take a look at what this means.</p>
 <p>Like we’ve said before, Haskell is lazy by default, which means that
@@ -2271,7 +2271,7 @@ values or it’s a node that holds one value and also two other trees.
 After defining it, we made it an instance of <code>Functor</code> and
 with that we gained the ability to <code>fmap</code> functions over it.
 Now, we’re going to make it an instance of <code>Foldable</code> so that
-we get the abilty to fold it up. One way to make a type constructor an
+we get the ability to fold it up. One way to make a type constructor an
 instance of <code>Foldable</code> is to just directly implement
 <code>foldr</code> for it. But another, often much easier way, is to
 implement the <code>foldMap</code> function, which is also a part of the

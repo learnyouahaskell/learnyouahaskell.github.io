@@ -144,11 +144,11 @@ the list. Here’s a demonstration:</p>
 &quot;M.O.N.K.E.Y&quot;
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]</code></pre>
-<p><code class="label function">intercalate</code> takes a list of lists
-and a list. It then inserts that list in between all those lists and
+<p><code class="label function">intercalate</code> takes a list and a
+list of lists. It then inserts that list in between all those lists and
 then flattens the result.</p>
-<pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;guys&quot;]
-&quot;hey there guys&quot;
+<pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
+&quot;hey there folks&quot;
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]</code></pre>
 <p><code class="label function">transpose</code> transposes a list of
@@ -156,7 +156,7 @@ lists. If you look at a list of lists as a 2D matrix, the columns become
 the rows and vice versa.</p>
 <pre class="haskell:ghci"><code>ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;guys&quot;]
+ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
 [&quot;htg&quot;,&quot;ehu&quot;,&quot;yey&quot;,&quot;rs&quot;,&quot;e&quot;]</code></pre>
 <p>Say we have the polynomials <em>3x<sup>2</sup> + 5x + 9</em>,
 <em>10x<sup>3</sup> + 9</em> and <em>8x<sup>3</sup> + 5x<sup>2</sup> + x
@@ -402,7 +402,7 @@ our stock never went over $1000? Our application of
 of an empty list would result in an error. However, if we rewrote that
 as <code>find (\(val,y,m,d) -&gt; val &gt; 1000) stock</code>, we’d be
 much safer. If our stock never went over $1000 (so if no element
-satisfied the predicate), we’d get back a <code>Nothing</code>. But
+satisfied the predicate), we’d get back a <code>Nothing</code>. But if
 there was a valid answer in that list, we’d get, say,
 <code>Just (1001.4,2008,9,4)</code>.</p>
 <p><code class="label function">elemIndex</code> is kind of like
@@ -455,7 +455,7 @@ ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 shortest list that’s being zipped are cut down to size.</p>
 <p><code class="label function">lines</code> is a useful function when
 dealing with files or input from somewhere. It takes a string and
-returns every line of that string in a separate list.</p>
+returns every line of that string as separate element of a list.</p>
 <pre class="haskell:ghci"><code>ghci&gt; lines &quot;first line\nsecond line\nthird line&quot;
 [&quot;first line&quot;,&quot;second line&quot;,&quot;third line&quot;]</code></pre>
 <p><code>'\n'</code> is the character for a unix newline. Backslashes
@@ -673,7 +673,7 @@ character is a hex digit.</p>
 character is a letter.</p>
 <p><code class="label function">isMark</code> checks for Unicode mark
 characters. Those are characters that combine with preceding letters to
-form latters with accents. Use this if you are French.</p>
+form letters with accents. Use this if you are French.</p>
 <p><code class="label function">isNumber</code> checks whether a
 character is numeric.</p>
 <p><code class="label function">isPunctuation</code> checks whether a
@@ -707,16 +707,16 @@ and a list and returns <code>True</code> only if that predicate holds
 for every element in the list.</p>
 <p>We can also use <code>isSpace</code> to simulate the
 <code>Data.List</code> function <code>words</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot;guys&quot;,&quot;its&quot;,&quot;me&quot;]
-ghci&gt; groupBy ((==) `on` isSpace) &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot; &quot;,&quot;guys&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
+<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]
+ghci&gt; groupBy ((==) `on` isSpace) &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot; &quot;,&quot;folks&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
 ghci&gt;</code></pre>
 <p>Hmmm, well, it kind of does what <code>words</code> does but we’re
 left with elements of only spaces. Hmm, whatever shall we do? I know,
 let’s filter that sucker.</p>
-<pre class="haskell:ghci"><code>ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey guys its me&quot;
-[&quot;hey&quot;,&quot;guys&quot;,&quot;its&quot;,&quot;me&quot;]</code></pre>
+<pre class="haskell:ghci"><code>ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey folks its me&quot;
+[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]</code></pre>
 <p>Ah.</p>
 <p>The <code>Data.Char</code> also exports a datatype that’s kind of
 like <code>Ordering</code>. The <code>Ordering</code> type can have a
@@ -823,12 +823,12 @@ be by having a list of pairs. The first component in the pair would be
 the key, the second component the value. Here’s an example of an
 association list with phone numbers:</p>
 <pre class="haskell:hs"><code>phoneBook =
-    [(&quot;betty&quot;,&quot;555-2938&quot;)
-    ,(&quot;bonnie&quot;,&quot;452-2928&quot;)
-    ,(&quot;patsy&quot;,&quot;493-2928&quot;)
-    ,(&quot;lucille&quot;,&quot;205-2928&quot;)
-    ,(&quot;wendy&quot;,&quot;939-8282&quot;)
-    ,(&quot;penny&quot;,&quot;853-2492&quot;)
+    [(&quot;amelia&quot;,&quot;555-2938&quot;)
+    ,(&quot;freya&quot;,&quot;452-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
+    ,(&quot;neil&quot;,&quot;205-2928&quot;)
+    ,(&quot;roald&quot;,&quot;939-8282&quot;)
+    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
     ]</code></pre>
 <p>Despite this seemingly odd indentation, this is just a list of pairs
 of strings. The most common task when dealing with association lists is
@@ -867,15 +867,15 @@ recursion because they’re easier to read and identify. Everyone knows
 it’s a fold when they see the <code>foldr</code> call, but it takes some
 more thinking to read explicit recursion.</p>
 </div>
-<pre class="haskell:ghci"><code>ghci&gt; findKey &quot;penny&quot; phoneBook
+<pre class="haskell:ghci"><code>ghci&gt; findKey &quot;tenzing&quot; phoneBook
 Just &quot;853-2492&quot;
-ghci&gt; findKey &quot;betty&quot; phoneBook
+ghci&gt; findKey &quot;amelia&quot; phoneBook
 Just &quot;555-2938&quot;
-ghci&gt; findKey &quot;wilma&quot; phoneBook
+ghci&gt; findKey &quot;christopher&quot; phoneBook
 Nothing</code></pre>
 <p><img src="assets/images/modules/legomap.png" class="left" width="214"
 height="240" alt="legomap" /></p>
-<p>Works like a charm! If we have the girl’s phone number, we
+<p>Works like a charm! If we have the friend’s phone number, we
 <code>Just</code> get the number, otherwise we get
 <code>Nothing</code>.</p>
 <p>We just implemented the <code>lookup</code> function from
@@ -896,8 +896,8 @@ us! Here’s the basic rundown of its functions.</p>
 <p>The <code class="label function">fromList</code> function takes an
 association list (in the form of a list) and returns a map with the same
 associations.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.fromList [(&quot;betty&quot;,&quot;555-2938&quot;),(&quot;bonnie&quot;,&quot;452-2928&quot;),(&quot;lucille&quot;,&quot;205-2928&quot;)]
-fromList [(&quot;betty&quot;,&quot;555-2938&quot;),(&quot;bonnie&quot;,&quot;452-2928&quot;),(&quot;lucille&quot;,&quot;205-2928&quot;)]
+<pre class="haskell:ghci"><code>ghci&gt; Map.fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
+fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
 ghci&gt; Map.fromList [(1,2),(3,4),(3,2),(5,5)]
 fromList [(1,2),(3,2),(5,5)]</code></pre>
 <p>If there are duplicate keys in the original association list, the
@@ -959,8 +959,8 @@ fromList [(3,9),(5,9)]</code></pre>
 <code>Data.List</code> <code>lookup</code>, only it operates on maps. It
 returns <code>Just something</code> if it finds something for the key
 and <code>Nothing</code> if it doesn’t.</p>
-<p><code class="label function">member</code> is a predicate takes a key
-and a map and reports whether the key is in the map or not.</p>
+<p><code class="label function">member</code> is a predicate that takes
+a key and a map and reports whether the key is in the map or not.</p>
 <pre class="haskell:ghci"><code>ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
 True
 ghci&gt; Map.member 3 $ Map.fromList [(2,5),(4,5)]
@@ -984,29 +984,29 @@ equivalent of <code>map snd . Map.toList</code>.</p>
 <p><code class="label function">fromListWith</code> is a cool little
 function. It acts like <code>fromList</code>, only it doesn’t discard
 duplicate keys but it uses a function supplied to it to decide what to
-do with them. Let’s say that a girl can have several numbers and we have
+do with them. Let’s say that a friend can have several numbers and we have
 an association list set up like this.</p>
 <pre class="haskell:hs"><code>phoneBook =
-    [(&quot;betty&quot;,&quot;555-2938&quot;)
-    ,(&quot;betty&quot;,&quot;342-2492&quot;)
-    ,(&quot;bonnie&quot;,&quot;452-2928&quot;)
-    ,(&quot;patsy&quot;,&quot;493-2928&quot;)
-    ,(&quot;patsy&quot;,&quot;943-2929&quot;)
-    ,(&quot;patsy&quot;,&quot;827-9162&quot;)
-    ,(&quot;lucille&quot;,&quot;205-2928&quot;)
-    ,(&quot;wendy&quot;,&quot;939-8282&quot;)
-    ,(&quot;penny&quot;,&quot;853-2492&quot;)
-    ,(&quot;penny&quot;,&quot;555-2111&quot;)
+    [(&quot;amelia&quot;,&quot;555-2938&quot;)
+    ,(&quot;amelia&quot;,&quot;342-2492&quot;)
+    ,(&quot;freya&quot;,&quot;452-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;943-2929&quot;)
+    ,(&quot;isabella&quot;,&quot;827-9162&quot;)
+    ,(&quot;neil&quot;,&quot;205-2928&quot;)
+    ,(&quot;roald&quot;,&quot;939-8282&quot;)
+    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
+    ,(&quot;tenzing&quot;,&quot;555-2111&quot;)
     ]</code></pre>
 <p>Now if we just use <code>fromList</code> to put that into a map,
 we’ll lose a few numbers! So here’s what we’ll do:</p>
 <pre class="haskell:hs"><code>phoneBookToMap :: (Ord k) =&gt; [(k, String)] -&gt; Map.Map k String
 phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ &quot;, &quot; ++ number2) xs</code></pre>
-<pre class="haskell:hs"><code>ghci&gt; Map.lookup &quot;patsy&quot; $ phoneBookToMap phoneBook
+<pre class="haskell:hs"><code>ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
 &quot;827-9162, 943-2929, 493-2928&quot;
-ghci&gt; Map.lookup &quot;wendy&quot; $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup &quot;roald&quot; $ phoneBookToMap phoneBook
 &quot;939-8282&quot;
-ghci&gt; Map.lookup &quot;betty&quot; $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup &quot;amelia&quot; $ phoneBookToMap phoneBook
 &quot;342-2492, 555-2938&quot;</code></pre>
 <p>If a duplicate key is found, the function we pass is used to combine
 the values of those keys into some other value. We could also first make
@@ -1014,7 +1014,7 @@ all the values in the association list singleton lists and then we can
 use <code>++</code> to combine the numbers.</p>
 <pre class="haskell:hs"><code>phoneBookToMap :: (Ord k) =&gt; [(k, a)] -&gt; Map.Map k [a]
 phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -&gt; (k,[v])) xs</code></pre>
-<pre class="haskell:ghci"><code>ghci&gt; Map.lookup &quot;patsy&quot; $ phoneBookToMap phoneBook
+<pre class="haskell:ghci"><code>ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
 [&quot;827-9162&quot;,&quot;943-2929&quot;,&quot;493-2928&quot;]</code></pre>
 <p>Pretty neat! Another use case is if we’re making a map from an
 association list of numbers and when a duplicate key is found, we want

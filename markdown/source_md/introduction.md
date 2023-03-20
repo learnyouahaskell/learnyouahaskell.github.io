@@ -41,7 +41,7 @@ You express that in the form of functions.
 You also can't set a variable to something and then set it to something else later.
 If you say that `a` is 5, you can't say it's something else later because you just said it was 5.
 What are you, some kind of liar?
-So in purely functional languages, a function has no side-effects.
+So in purely functional languages, a function has no side effects.
 The only thing a function can do is calculate something and return it as a result.
 At first, this seems kind of limiting but it actually has some very nice consequences: if a function is called twice with the same parameters, it's guaranteed to return the same result.
 That's called referential transparency and not only does it allow the compiler to reason about the program's behavior, but it also allows you to easily deduce (and even prove) that a function is correct and then build more complex functions by gluing simple functions together.
@@ -77,7 +77,7 @@ Haskell is **elegant and concise**.
 Because it uses a lot of high level concepts, Haskell programs are usually shorter than their imperative equivalents.
 And shorter programs are easier to maintain than longer ones and have less bugs.
 
-Haskell was made by some **really smart guys** (with PhDs).
+Haskell was made by some **really smart folk** (with PhDs).
 Work on Haskell began in 1987 when a committee of researchers got together to design a kick-ass language.
 In 2003 the Haskell Report was published, which defines a stable version of the language.
 

@@ -109,12 +109,12 @@ ghci> intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]
 ```
 
-`intercalate`{.label .function} takes a list of lists and a list.
+`intercalate`{.label .function} takes a list and a list of lists.
 It then inserts that list in between all those lists and then flattens the result.
 
 ```{.haskell:ghci}
-ghci> intercalate " " ["hey","there","guys"]
-"hey there guys"
+ghci> intercalate " " ["hey","there","folks"]
+"hey there folks"
 ghci> intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
 ```
@@ -125,7 +125,7 @@ If you look at a list of lists as a 2D matrix, the columns become the rows and v
 ```{.haskell:ghci}
 ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci> transpose ["hey","there","guys"]
+ghci> transpose ["hey","there","folks"]
 ["htg","ehu","yey","rs","e"]
 ```
 
@@ -414,7 +414,7 @@ What would happen if our stock never went over $1000?
 Our application of `dropWhile` would return an empty list and getting the head of an empty list would result in an error.
 However, if we rewrote that as `find (\(val,y,m,d) -> val > 1000) stock`, we'd be much safer.
 If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a `Nothing`.
-But there was a valid answer in that list, we'd get, say, `Just (1001.4,2008,9,4)`.
+But if there was a valid answer in that list, we'd get, say, `Just (1001.4,2008,9,4)`.
 
 `elemIndex`{.label .function} is kind of like `elem`, only it doesn't return a boolean value.
 It maybe returns the index of the element we're looking for.
@@ -468,7 +468,7 @@ ghci> zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 Just like with normal zipping, lists that are longer than the shortest list that's being zipped are cut down to size.
 
 `lines`{.label .function} is a useful function when dealing with files or input from somewhere.
-It takes a string and returns every line of that string in a separate list.
+It takes a string and returns every line of that string as separate element of a list.
 
 ```{.haskell:ghci}
 ghci> lines "first line\nsecond line\nthird line"
@@ -685,7 +685,7 @@ Control characters, for instance, are not printable.
 `isLetter`{.label .function} checks whether a character is a letter.
 
 `isMark`{.label .function} checks for Unicode mark characters.
-Those are characters that combine with preceding letters to form latters with accents.
+Those are characters that combine with preceding letters to form letters with accents.
 Use this if you are French.
 
 `isNumber`{.label .function} checks whether a character is numeric.
@@ -722,10 +722,10 @@ In case you don't remember, `all` takes a predicate and a list and returns `True
 We can also use `isSpace` to simulate the `Data.List` function `words`.
 
 ```{.haskell:ghci}
-ghci> words "hey guys its me"
-["hey","guys","its","me"]
-ghci> groupBy ((==) `on` isSpace) "hey guys its me"
-["hey"," ","guys"," ","its"," ","me"]
+ghci> words "hey folks its me"
+["hey","folks","its","me"]
+ghci> groupBy ((==) `on` isSpace) "hey folks its me"
+["hey"," ","folks"," ","its"," ","me"]
 ghci>
 ```
 
@@ -734,8 +734,8 @@ Hmm, whatever shall we do?
 I know, let's filter that sucker.
 
 ```{.haskell:ghci}
-ghci> filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me"
-["hey","guys","its","me"]
+ghci> filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
+["hey","folks","its","me"]
 ```
 
 Ah.
@@ -864,12 +864,12 @@ Here's an example of an association list with phone numbers:
 
 ```{.haskell:hs}
 phoneBook =
-    [("betty","555-2938")
-    ,("bonnie","452-2928")
-    ,("patsy","493-2928")
-    ,("lucille","205-2928")
-    ,("wendy","939-8282")
-    ,("penny","853-2492")
+    [("amelia","555-2938")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
     ]
 ```
 
@@ -918,18 +918,18 @@ Everyone knows it's a fold when they see the `foldr` call, but it takes some mor
 :::
 
 ```{.haskell:ghci}
-ghci> findKey "penny" phoneBook
+ghci> findKey "tenzing" phoneBook
 Just "853-2492"
-ghci> findKey "betty" phoneBook
+ghci> findKey "amelia" phoneBook
 Just "555-2938"
-ghci> findKey "wilma" phoneBook
+ghci> findKey "christopher" phoneBook
 Nothing
 ```
 
 ![legomap](assets/images/modules/legomap.png){.left width=214 height=240}
 
 Works like a charm!
-If we have the girl's phone number, we `Just` get the number, otherwise we get `Nothing`.
+If we have the friend's phone number, we `Just` get the number, otherwise we get `Nothing`.
 
 We just implemented the `lookup` function from `Data.List`.
 If we want to find the corresponding value to a key, we have to traverse all the elements of the list until we find it.
@@ -950,8 +950,8 @@ Here's the basic rundown of its functions.
 The `fromList`{.label .function} function takes an association list (in the form of a list) and returns a map with the same associations.
 
 ```{.haskell:ghci}
-ghci> Map.fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
-fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
+ghci> Map.fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
+fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
 ghci> Map.fromList [(1,2),(3,4),(3,2),(5,5)]
 fromList [(1,2),(3,2),(5,5)]
 ```
@@ -1032,7 +1032,7 @@ fromList [(3,9),(5,9)]
 `lookup`{.label .function} works like the `Data.List` `lookup`, only it operates on maps.
 It returns `Just something` if it finds something for the key and `Nothing` if it doesn't.
 
-`member`{.label .function} is a predicate takes a key and a map and reports whether the key is in the map or not.
+`member`{.label .function} is a predicate that takes a key and a map and reports whether the key is in the map or not.
 
 ```{.haskell:ghci}
 ghci> Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
@@ -1062,20 +1062,20 @@ ghci> Map.toList . Map.insert 9 2 $ Map.singleton 4 3
 
 `fromListWith`{.label .function} is a cool little function.
 It acts like `fromList`, only it doesn't discard duplicate keys but it uses a function supplied to it to decide what to do with them.
-Let's say that a girl can have several numbers and we have an association list set up like this.
+Let's say that a friend can have several numbers and we have an association list set up like this.
 
 ```{.haskell:hs}
 phoneBook =
-    [("betty","555-2938")
-    ,("betty","342-2492")
-    ,("bonnie","452-2928")
-    ,("patsy","493-2928")
-    ,("patsy","943-2929")
-    ,("patsy","827-9162")
-    ,("lucille","205-2928")
-    ,("wendy","939-8282")
-    ,("penny","853-2492")
-    ,("penny","555-2111")
+    [("amelia","555-2938")
+    ,("amelia","342-2492")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("isabella","943-2929")
+    ,("isabella","827-9162")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
+    ,("tenzing","555-2111")
     ]
 ```
 
@@ -1088,11 +1088,11 @@ phoneBookToMap xs = Map.fromListWith (\number1 number2 -> number1 ++ ", " ++ num
 ```
 
 ```{.haskell:hs}
-ghci> Map.lookup "patsy" $ phoneBookToMap phoneBook
+ghci> Map.lookup "isabella" $ phoneBookToMap phoneBook
 "827-9162, 943-2929, 493-2928"
-ghci> Map.lookup "wendy" $ phoneBookToMap phoneBook
+ghci> Map.lookup "roald" $ phoneBookToMap phoneBook
 "939-8282"
-ghci> Map.lookup "betty" $ phoneBookToMap phoneBook
+ghci> Map.lookup "amelia" $ phoneBookToMap phoneBook
 "342-2492, 555-2938"
 ```
 
@@ -1105,7 +1105,7 @@ phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -> (k,[v])) xs
 ```
 
 ```{.haskell:ghci}
-ghci> Map.lookup "patsy" $ phoneBookToMap phoneBook
+ghci> Map.lookup "isabella" $ phoneBookToMap phoneBook
 ["827-9162","943-2929","493-2928"]
 ```
 

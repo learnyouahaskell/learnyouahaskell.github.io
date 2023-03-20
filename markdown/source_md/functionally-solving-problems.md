@@ -214,7 +214,7 @@ I think that making a function that can calculate arbitrary floating point RPN e
 
 One thing to note about this function is that it's not really fault-tolerant.
 When given input that doesn't make sense, it will just crash everything.
-We'll make a fault tolerant version of this with a type declaration of `solveRPN :: String -> Maybe Float` once we get to know monads (they're not scary, trust me!).
+We'll make a fault-tolerant version of this with a type declaration of `solveRPN :: String -> Maybe Float` once we get to know monads (they're not scary, trust me!).
 We could make one right now, but it would be a bit tedious because it would involve a lot of checking for `Nothing` on every step.
 If you're feeling up to the challenge though, you can go ahead and try it!
 Hint: you can use `reads` to see if a read was successful or not.
