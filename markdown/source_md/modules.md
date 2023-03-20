@@ -109,7 +109,7 @@ ghci> intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]
 ```
 
-`intercalate`{.label .function} takes a list of lists and a list.
+`intercalate`{.label .function} takes a list and a list of lists.
 It then inserts that list in between all those lists and then flattens the result.
 
 ```{.haskell:ghci}
@@ -414,7 +414,7 @@ What would happen if our stock never went over $1000?
 Our application of `dropWhile` would return an empty list and getting the head of an empty list would result in an error.
 However, if we rewrote that as `find (\(val,y,m,d) -> val > 1000) stock`, we'd be much safer.
 If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a `Nothing`.
-But there was a valid answer in that list, we'd get, say, `Just (1001.4,2008,9,4)`.
+But if there was a valid answer in that list, we'd get, say, `Just (1001.4,2008,9,4)`.
 
 `elemIndex`{.label .function} is kind of like `elem`, only it doesn't return a boolean value.
 It maybe returns the index of the element we're looking for.
@@ -468,7 +468,7 @@ ghci> zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 Just like with normal zipping, lists that are longer than the shortest list that's being zipped are cut down to size.
 
 `lines`{.label .function} is a useful function when dealing with files or input from somewhere.
-It takes a string and returns every line of that string in a separate list.
+It takes a string and returns every line of that string as separate element of a list.
 
 ```{.haskell:ghci}
 ghci> lines "first line\nsecond line\nthird line"
@@ -685,7 +685,7 @@ Control characters, for instance, are not printable.
 `isLetter`{.label .function} checks whether a character is a letter.
 
 `isMark`{.label .function} checks for Unicode mark characters.
-Those are characters that combine with preceding letters to form latters with accents.
+Those are characters that combine with preceding letters to form letters with accents.
 Use this if you are French.
 
 `isNumber`{.label .function} checks whether a character is numeric.
@@ -1032,7 +1032,7 @@ fromList [(3,9),(5,9)]
 `lookup`{.label .function} works like the `Data.List` `lookup`, only it operates on maps.
 It returns `Just something` if it finds something for the key and `Nothing` if it doesn't.
 
-`member`{.label .function} is a predicate takes a key and a map and reports whether the key is in the map or not.
+`member`{.label .function} is a predicate that takes a key and a map and reports whether the key is in the map or not.
 
 ```{.haskell:ghci}
 ghci> Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]

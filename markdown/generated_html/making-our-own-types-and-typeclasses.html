@@ -205,7 +205,7 @@ by using the auxiliary functions <code>baseCircle</code> and
 <code>baseRect</code>. <code>Data.Map</code> uses that approach. You
 can’t create a map by doing <code>Map.Map [(1,2),(3,4)]</code> because
 it doesn’t export that value constructor. However, you can make a
-mapping by using one of the auxilliary functions like
+mapping by using one of the auxiliary functions like
 <code>Map.fromList</code>. Remember, value constructors are just
 functions that take the fields as parameters and return a value of some
 type (like <code>Shape</code>) as a result. So when we choose not to
@@ -231,7 +231,7 @@ name, the third is the age and so on. Let’s make a person.</p>
 ghci&gt; guy
 Person &quot;Buddy&quot; &quot;Finklestein&quot; 43 184.2 &quot;526-2928&quot; &quot;Chocolate&quot;</code></pre>
 <p>That’s kind of cool, although slightly unreadable. What if we want to
-create a function to get seperate info from a person? A function that
+create a function to get separate info from a person? A function that
 gets some person’s first name, a function that gets some person’s last
 name, etc. Well, we’d have to define them kind of like this.</p>
 <pre class="haskell:hs"><code>firstName :: Person -&gt; String

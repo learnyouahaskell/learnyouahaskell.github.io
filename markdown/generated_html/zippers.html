@@ -117,7 +117,7 @@ changeToP :: Directions-&gt; Tree Char -&gt; Tree Char
 changeToP (L:ds) (Node x l r) = Node x (changeToP ds l) r
 changeToP (R:ds) (Node x l r) = Node x l (changeToP ds r)
 changeToP [] (Node _ l r) = Node &#39;P&#39; l r</code></pre>
-<p>If the first element in the list of directions is <code>L</code>, we
+<p>If the first element in our list of directions is <code>L</code>, we
 construct a new tree that’s like the old tree, only its left subtree has
 an element changed to <code>'P'</code>. When we recursively call
 <code>changeToP</code>, we give it only the tail of the list of

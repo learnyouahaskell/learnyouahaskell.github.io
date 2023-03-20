@@ -95,7 +95,7 @@ changeToP (R:ds) (Node x l r) = Node x l (changeToP ds r)
 changeToP [] (Node _ l r) = Node 'P' l r
 ```
 
-If the first element in the list of directions is `L`, we construct a new tree that's like the old tree, only its left subtree has an element changed to `'P'`.
+If the first element in our list of directions is `L`, we construct a new tree that's like the old tree, only its left subtree has an element changed to `'P'`.
 When we recursively call `changeToP`, we give it only the tail of the list of directions, because we already took a left.
 We do the same thing in the case of an `R`.
 If the list of directions is empty, that means that we're at our destination, so we return a tree that's like the one supplied, only it has `'P'` as its root element.

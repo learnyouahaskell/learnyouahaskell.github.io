@@ -1299,7 +1299,7 @@ ghci> getPair $ fmap reverse (Pair ("london calling", 3))
 ### On newtype laziness 
 
 We mentioned that *newtype* is usually faster than *data*.
-The only thing that can be done with *newtype* is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with *newtype* just like the original ones, only it has to keep in mind that the types are now distinct.
+The only thing that can be done with *newtype* is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with *newtype* just like the original ones, only it has to keep in mind that their types are now distinct.
 This fact means that not only is *newtype* faster, it's also lazier.
 Let's take a look at what this means.
 
@@ -2004,7 +2004,7 @@ data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
 
 We said that a tree is either an empty tree that doesn't hold any values or it's a node that holds one value and also two other trees.
 After defining it, we made it an instance of `Functor` and with that we gained the ability to `fmap` functions over it.
-Now, we're going to make it an instance of `Foldable` so that we get the abilty to fold it up.
+Now, we're going to make it an instance of `Foldable` so that we get the ability to fold it up.
 One way to make a type constructor an instance of `Foldable` is to just directly implement `foldr` for it.
 But another, often much easier way, is to implement the `foldMap` function, which is also a part of the `Foldable` type class.
 The `foldMap` function has the following type:

@@ -796,7 +796,7 @@ When a `$` is encountered, the expression on its right is applied as the paramet
 How about `sqrt 3 + 4 + 9`?
 This adds together 9, 4 and the square root of 3.
 If we want to get the square root of *3 + 4 + 9*, we'd have to write `sqrt (3 + 4 + 9)` or if we use `$` we can write it as `sqrt $ 3 + 4 + 9` because `$` has the lowest precedence of any operator.
-That's why you can imagine a `$` being sort of the equivalent of writing an opening parentheses and then writing a closing one on the far right side of the expression.
+That's why you can imagine a `$` being sort of the equivalent of writing an opening parenthesis and then writing a closing one on the far right side of the expression.
 
 How about `sum (filter (> 10) (map (*2) [2..10]))`?
 Well, because `$` is right-associative, `f (g (z x))` is equal to `f $ g $ z x`.

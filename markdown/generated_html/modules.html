@@ -144,8 +144,8 @@ the list. Here’s a demonstration:</p>
 &quot;M.O.N.K.E.Y&quot;
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
 [1,0,2,0,3,0,4,0,5,0,6]</code></pre>
-<p><code class="label function">intercalate</code> takes a list of lists
-and a list. It then inserts that list in between all those lists and
+<p><code class="label function">intercalate</code> takes a list and a
+list of lists. It then inserts that list in between all those lists and
 then flattens the result.</p>
 <pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;guys&quot;]
 &quot;hey there guys&quot;
@@ -402,7 +402,7 @@ our stock never went over $1000? Our application of
 of an empty list would result in an error. However, if we rewrote that
 as <code>find (\(val,y,m,d) -&gt; val &gt; 1000) stock</code>, we’d be
 much safer. If our stock never went over $1000 (so if no element
-satisfied the predicate), we’d get back a <code>Nothing</code>. But
+satisfied the predicate), we’d get back a <code>Nothing</code>. But if
 there was a valid answer in that list, we’d get, say,
 <code>Just (1001.4,2008,9,4)</code>.</p>
 <p><code class="label function">elemIndex</code> is kind of like
@@ -455,7 +455,7 @@ ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
 shortest list that’s being zipped are cut down to size.</p>
 <p><code class="label function">lines</code> is a useful function when
 dealing with files or input from somewhere. It takes a string and
-returns every line of that string in a separate list.</p>
+returns every line of that string as separate element of a list.</p>
 <pre class="haskell:ghci"><code>ghci&gt; lines &quot;first line\nsecond line\nthird line&quot;
 [&quot;first line&quot;,&quot;second line&quot;,&quot;third line&quot;]</code></pre>
 <p><code>'\n'</code> is the character for a unix newline. Backslashes
@@ -673,7 +673,7 @@ character is a hex digit.</p>
 character is a letter.</p>
 <p><code class="label function">isMark</code> checks for Unicode mark
 characters. Those are characters that combine with preceding letters to
-form latters with accents. Use this if you are French.</p>
+form letters with accents. Use this if you are French.</p>
 <p><code class="label function">isNumber</code> checks whether a
 character is numeric.</p>
 <p><code class="label function">isPunctuation</code> checks whether a
@@ -959,8 +959,8 @@ fromList [(3,9),(5,9)]</code></pre>
 <code>Data.List</code> <code>lookup</code>, only it operates on maps. It
 returns <code>Just something</code> if it finds something for the key
 and <code>Nothing</code> if it doesn’t.</p>
-<p><code class="label function">member</code> is a predicate takes a key
-and a map and reports whether the key is in the map or not.</p>
+<p><code class="label function">member</code> is a predicate that takes
+a key and a map and reports whether the key is in the map or not.</p>
 <pre class="haskell:ghci"><code>ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
 True
 ghci&gt; Map.member 3 $ Map.fromList [(2,5),(4,5)]
