@@ -77,7 +77,7 @@ Haskell is **elegant and concise**.
 Because it uses a lot of high level concepts, Haskell programs are usually shorter than their imperative equivalents.
 And shorter programs are easier to maintain than longer ones and have less bugs.
 
-Haskell was made by some **really smart guys** (with PhDs).
+Haskell was made by some **really smart folk** (with PhDs).
 Work on Haskell began in 1987 when a committee of researchers got together to design a kick-ass language.
 In 2003 the Haskell Report was published, which defines a stable version of the language.
 

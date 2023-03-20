@@ -83,8 +83,8 @@ ghci&gt; intersperse 0 [1,2,3,4,5,6]
 </pre>
 <p><span class="label function">intercalate</span> takes a list and a list of lists. It then inserts that list in between all those lists and then flattens the result.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; intercalate " " ["hey","there","guys"]
-"hey there guys"
+ghci&gt; intercalate " " ["hey","there","folks"]
+"hey there folks"
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
 </pre>
@@ -92,7 +92,7 @@ ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
 <pre name="code" class="haskell:ghci">
 ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose ["hey","there","guys"]
+ghci&gt; transpose ["hey","there","folks"]
 ["htg","ehu","yey","rs","e"]
 </pre>
 <p>Say we have the polynomials <i>3x<sup>2</sup> + 5x + 9</i>, <i>10x<sup>3</sup> + 9</i> and <i>8x<sup>3</sup> + 5x<sup>2</sup> + x - 1</i> and we want to add them together. We can use the lists <span class="fixed">[0,3,5,9]</span>, <span class="fixed">[10,0,0,9]</span> and <span class="fixed">[8,5,1,-1]</span> to represent them in Haskell. Now, to add them, all we have to do is this:</p>
@@ -442,16 +442,16 @@ False
 <p>Kewl. In case you don't remember, <span class="fixed">all</span> takes a predicate and a list and returns <span class="fixed">True</span> only if that predicate holds for every element in the list.</p>
 <p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.
 <pre name="code" class="haskell:ghci">
-ghci&gt; words "hey guys its me"
-["hey","guys","its","me"]
-ghci&gt; groupBy ((==) `on` isSpace) "hey guys its me"
-["hey"," ","guys"," ","its"," ","me"]
+ghci&gt; words "hey folks its me"
+["hey","folks","its","me"]
+ghci&gt; groupBy ((==) `on` isSpace) "hey folks its me"
+["hey"," ","folks"," ","its"," ","me"]
 ghci&gt;
 </pre>
 <p>Hmmm, well, it kind of does what <span class="fixed">words</span> does but we're left with elements of only spaces. Hmm, whatever shall we do? I know, let's filter that sucker.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me"
-["hey","guys","its","me"]
+ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
+["hey","folks","its","me"]
 </pre>
 <p>Ah.</p>
 <p>The <span class="fixed">Data.Char</span> also exports a datatype that's kind of like <span class="fixed">Ordering</span>. The <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. It's a sort of enumeration. It describes a few possible results that can arise from comparing two elements. The <span class="fixed">GeneralCategory</span> type is also an enumeration. It presents us with a few possible categories that a character can fall into. The main function for getting the general category of a character is <span class="fixed">generalCategory</span>. It has a type of <span class="fixed">generalCategory :: Char -&gt; GeneralCategory</span>. There are about 31 categories so we won't list them all here, but let's play around with the function.</p>
@@ -533,12 +533,12 @@ ghci&gt; decode 5 . encode 5 $ "This is a sentence"
 <p>The most obvious way to represent association lists in Haskell would be by having a list of pairs. The first component in the pair would be the key, the second component the value. Here's an example of an association list with phone numbers:</p>
 <pre name="code" class="haskell:hs">
 phoneBook =
-    [("betty","555-2938")
-    ,("bonnie","452-2928")
-    ,("patsy","493-2928")
-    ,("lucille","205-2928")
-    ,("wendy","939-8282")
-    ,("penny","853-2492")
+    [("amelia","555-2938")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
     ]
 </pre>
 <p>Despite this seemingly odd indentation, this is just a list of pairs of strings. The most common task when dealing with association lists is looking up some value by key. Let's make a function that looks up some value given a key.</p>
@@ -562,15 +562,15 @@ findKey key = foldr (\(k,v) acc -&gt; if key == k then Just v else acc) Nothing
 </pre>
 <div class="hintbox"><em>Note:</em> It's usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they're easier to read and identify. Everyone knows it's a fold when they see the <span class="fixed">foldr</span> call, but it takes some more thinking to read explicit recursion.</div>
 <pre name="code" class="haskell:ghci">
-ghci&gt; findKey "penny" phoneBook
+ghci&gt; findKey "tenzing" phoneBook
 Just "853-2492"
-ghci&gt; findKey "betty" phoneBook
+ghci&gt; findKey "amelia" phoneBook
 Just "555-2938"
-ghci&gt; findKey "wilma" phoneBook
+ghci&gt; findKey "christopher" phoneBook
 Nothing
 </pre>
 <img src="assets/images/modules/legomap.png" alt="legomap" class="left" width="214" height="240">
-<p>Works like a charm! If we have the girl's phone number, we <span class="fixed">Just</span> get the number, otherwise we get <span class="fixed">Nothing</span>.</p>
+<p>Works like a charm! If we have the friend's phone number, we <span class="fixed">Just</span> get the number, otherwise we get <span class="fixed">Nothing</span>.</p>
 <p>We just implemented the <span class="fixed">lookup</span> function from <span class="fixed">Data.List</span>. If we want to find the corresponding value to a key, we have to traverse all the elements of the list until we find it. The <span class="fixed">Data.Map</span> module offers association lists that are much faster (because they're internally implemented with trees) and also it provides a lot of utility functions. From now on, we'll say we're working with maps instead of association lists.</p>
 <p>Because <span class="fixed">Data.Map</span> exports functions that clash with the <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> ones, we'll do a qualified import.
 <pre name="code" class="haskell:hs">
@@ -580,8 +580,8 @@ import qualified Data.Map as Map
 <p>Let's go ahead and see what <span class="fixed">Data.Map</span> has in store for us! Here's the basic rundown of its functions.</p>
 <p>The <span class="label function">fromList</span> function takes an association list (in the form of a list) and returns a map with the same associations.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; Map.fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
-fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
+ghci&gt; Map.fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
+fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
 ghci&gt; Map.fromList [(1,2),(3,4),(3,2),(5,5)]
 fromList [(1,2),(3,2),(5,5)]
 </pre>
@@ -655,19 +655,19 @@ ghci&gt; Map.toList . Map.insert 9 2 $ Map.singleton 4 3
 [(4,3),(9,2)]
 </pre>
 <p><span class="label function">keys</span> and <span class="label function">elems</span> return lists of keys and values respectively. <span class="fixed">keys</span> is the equivalent of <span class="fixed">map fst . Map.toList</span> and <span class="fixed">elems</span> is the equivalent of <span class="fixed">map snd . Map.toList</span>.</p>
-<p><span class="label function">fromListWith</span> is a cool little function. It acts like <span class="fixed">fromList</span>, only it doesn't discard duplicate keys but it uses a function supplied to it to decide what to do with them. Let's say that a girl can have several numbers and we have an association list set up like this.</p>
+<p><span class="label function">fromListWith</span> is a cool little function. It acts like <span class="fixed">fromList</span>, only it doesn't discard duplicate keys but it uses a function supplied to it to decide what to do with them. Let's say that a friend can have several numbers and we have an association list set up like this.</p>
 <pre name="code" class="haskell:hs">
 phoneBook =
-    [("betty","555-2938")
-    ,("betty","342-2492")
-    ,("bonnie","452-2928")
-    ,("patsy","493-2928")
-    ,("patsy","943-2929")
-    ,("patsy","827-9162")
-    ,("lucille","205-2928")
-    ,("wendy","939-8282")
-    ,("penny","853-2492")
-    ,("penny","555-2111")
+    [("amelia","555-2938")
+    ,("amelia","342-2492")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("isabella","943-2929")
+    ,("isabella","827-9162")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
+    ,("tenzing","555-2111")
     ]
 </pre>
 <p>Now if we just use <span class="fixed">fromList</span> to put that into a map, we'll lose a few numbers! So here's what we'll do:</p>
@@ -676,11 +676,11 @@ phoneBookToMap :: (Ord k) =&gt; [(k, String)] -&gt; Map.Map k String
 phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ ", " ++ number2) xs
 </pre>
 <pre name="code" class="haskell:hs">
-ghci&gt; Map.lookup "patsy" $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
 "827-9162, 943-2929, 493-2928"
-ghci&gt; Map.lookup "wendy" $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup "roald" $ phoneBookToMap phoneBook
 "939-8282"
-ghci&gt; Map.lookup "betty" $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup "amelia" $ phoneBookToMap phoneBook
 "342-2492, 555-2938"
 </pre>
 <p>If a duplicate key is found, the function we pass is used to combine the values of those keys into some other value. We could also first make all the values in the association list singleton lists and then we can use <span class="fixed">++</span> to combine the numbers.</p>
@@ -689,7 +689,7 @@ phoneBookToMap :: (Ord k) =&gt; [(k, a)] -&gt; Map.Map k [a]
 phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -&gt; (k,[v])) xs
 </pre>
 <pre name="code" class="haskell:ghci">
-ghci&gt; Map.lookup "patsy" $ phoneBookToMap phoneBook
+ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
 ["827-9162","943-2929","493-2928"]
 </pre>
 <p>Pretty neat! Another use case is if we're making a map from an association list of numbers and when a duplicate key is found, we want the biggest value for the key to be kept.</p>

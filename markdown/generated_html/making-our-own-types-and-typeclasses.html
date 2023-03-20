@@ -728,12 +728,12 @@ into a map. As we’ve already found out, an association list is a list of
 key-value pairs. Let’s look at a phonebook that we had.</p>
 <pre class="haskell:hs"><code>phoneBook :: [(String,String)]
 phoneBook =
-    [(&quot;betty&quot;,&quot;555-2938&quot;)
-    ,(&quot;bonnie&quot;,&quot;452-2928&quot;)
-    ,(&quot;patsy&quot;,&quot;493-2928&quot;)
-    ,(&quot;lucille&quot;,&quot;205-2928&quot;)
-    ,(&quot;wendy&quot;,&quot;939-8282&quot;)
-    ,(&quot;penny&quot;,&quot;853-2492&quot;)
+    [(&quot;amelia&quot;,&quot;555-2938&quot;)
+    ,(&quot;freya&quot;,&quot;452-2928&quot;)
+    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
+    ,(&quot;neil&quot;,&quot;205-2928&quot;)
+    ,(&quot;roald&quot;,&quot;939-8282&quot;)
+    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
     ]</code></pre>
 <p>We see that the type of <code>phoneBook</code> is
 <code>[(String,String)]</code>. That tells us that it’s an association
@@ -782,7 +782,7 @@ types</em> I mean like fully applied types like
 <code>Map Int String</code> or if we’re dealin’ with one of them
 polymorphic functions, <code>[a]</code> or
 <code>(Ord a) =&gt; Maybe a</code> and stuff. And like, sometimes me and
-the boys say that <code>Maybe</code> is a type, but we don’t mean that,
+my buddies say that <code>Maybe</code> is a type, but we don’t mean that,
 cause every idiot knows <code>Maybe</code> is a type constructor. When I
 apply an extra type to <code>Maybe</code>, like
 <code>Maybe String</code>, then I have a concrete type. You know, values
