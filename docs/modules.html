@@ -31,1063 +31,727 @@
                                             </li>
                 </ul>
             </div>
-<h1 id="modules">Modules</h1>
-<h2 id="loading-modules">Loading modules</h2>
-<p><img src="assets/images/modules/modules.png" class="right"
-width="230" height="162" alt="modules" /></p>
-<p>A Haskell module is a collection of related functions, types and
-typeclasses. A Haskell program is a collection of modules where the main
-module loads up the other modules and then uses the functions defined in
-them to do something. Having code split up into several modules has
-quite a lot of advantages. If a module is generic enough, the functions
-it exports can be used in a multitude of different programs. If your own
-code is separated into self-contained modules which don’t rely on each
-other too much (we also say they are loosely coupled), you can reuse
-them later on. It makes the whole deal of writing code more manageable
-by having it split into several parts, each of which has some sort of
-purpose.</p>
-<p>The Haskell standard library is split into modules, each of them
-contains functions and types that are somehow related and serve some
-common purpose. There’s a module for manipulating lists, a module for
-concurrent programming, a module for dealing with complex numbers, etc.
-All the functions, types and typeclasses that we’ve dealt with so far
-were part of the <code>Prelude</code> module, which is imported by
-default. In this chapter, we’re going to examine a few useful modules
-and the functions that they have. But first, we’re going to see how to
-import modules.</p>
-<p>The syntax for importing modules in a Haskell script is
-<code>import &lt;module name&gt;</code>. This must be done before
-defining any functions, so imports are usually done at the top of the
-file. One script can, of course, import several modules. Just put each
-import statement into a separate line. Let’s import the
-<code>Data.List</code> module, which has a bunch of useful functions for
-working with lists and use a function that it exports to create a
-function that tells us how many unique elements a list has.</p>
-<pre class="haskell:hs"><code>import Data.List
+        <h1>Modules</h1>
+<a name="loading-modules"></a><h2>Loading modules</h2>
+<img src="assets/images/modules/modules.png" alt="modules" class="right" width="230" height="162">
+<p>A Haskell module is a collection of related functions, types and typeclasses. A Haskell program is a collection of modules where the main module loads up the other modules and then uses the functions defined in them to do something. Having code split up into several modules has quite a lot of advantages. If a module is generic enough, the functions it exports can be used in a multitude of different programs. If your own code is separated into self-contained modules which don't rely on each other too much (we also say they are loosely coupled), you can reuse them later on. It makes the whole deal of writing code more manageable by having it split into several parts, each of which has some sort of purpose.</p>
+<p>The Haskell standard library is split into modules, each of them contains functions and types that are somehow related and serve some common purpose. There's a module for manipulating lists, a module for concurrent programming, a module for dealing with complex numbers, etc. All the functions, types and typeclasses that we've dealt with so far were part of the <span class="fixed">Prelude</span> module, which is imported by default. In this chapter, we're going to examine a few useful modules and the functions that they have. But first, we're going to see how to import modules.</p>
+<p>The syntax for importing modules in a Haskell script is <span class="fixed">import &lt;module name&gt;</span>. This must be done before defining any functions, so imports are usually done at the top of the file. One script can, of course, import several modules. Just put each import statement into a separate line. Let's import the <span class="fixed">Data.List</span> module, which has a bunch of useful functions for working with lists and use a function that it exports to create a function that tells us how many unique elements a list has.</p>
+<pre name="code" class="haskell:hs">
+import Data.List
 
 numUniques :: (Eq a) =&gt; [a] -&gt; Int
-numUniques = length . nub</code></pre>
-<p>When you do <code>import Data.List</code>, all the functions that
-<code>Data.List</code> exports become available in the global namespace,
-meaning that you can call them from wherever in the script.
-<code>nub</code> is a function defined in <code>Data.List</code> that
-takes a list and weeds out duplicate elements. Composing
-<code>length</code> and <code>nub</code> by doing
-<code>length . nub</code> produces a function that’s the equivalent of
-<code>\xs -&gt; length (nub xs)</code>.</p>
-<p>You can also put the functions of modules into the global namespace
-when using GHCI. If you’re in GHCI and you want to be able to call the
-functions exported by <code>Data.List</code>, do this:</p>
-<pre class="haskell:ghci"><code>ghci&gt; :m + Data.List</code></pre>
-<p>If we want to load up the names from several modules inside GHCI, we
-don’t have to do <code>:m +</code> several times, we can just load up
-several modules at once.</p>
-<pre class="haskell:ghci"><code>ghci&gt; :m + Data.List Data.Map Data.Set</code></pre>
-<p>However, if you’ve loaded a script that already imports a module, you
-don’t need to use <code>:m +</code> to get access to it.</p>
-<p>If you just need a couple of functions from a module, you can
-selectively import just those functions. If we wanted to import only the
-<code>nub</code> and <code>sort</code> functions from
-<code>Data.List</code>, we’d do this:</p>
-<pre class="haskell:hs"><code>import Data.List (nub, sort)</code></pre>
-<p>You can also choose to import all of the functions of a module except
-a few select ones. That’s often useful when several modules export
-functions with the same name and you want to get rid of the offending
-ones. Say we already have our own function that’s called
-<code>nub</code> and we want to import all the functions from
-<code>Data.List</code> except the <code>nub</code> function:</p>
-<pre class="haskell:hs"><code>import Data.List hiding (nub)</code></pre>
-<p>Another way of dealing with name clashes is to do qualified imports.
-The <code>Data.Map</code> module, which offers a data structure for
-looking up values by key, exports a bunch of functions with the same
-name as <code>Prelude</code> functions, like <code>filter</code> or
-<code>null</code>. So when we import <code>Data.Map</code> and then call
-<code>filter</code>, Haskell won’t know which function to use. Here’s
-how we solve this:</p>
-<pre class="haskell:hs"><code>import qualified Data.Map</code></pre>
-<p>This makes it so that if we want to reference <code>Data.Map</code>’s
-<code>filter</code> function, we have to do
-<code>Data.Map.filter</code>, whereas just <code>filter</code> still
-refers to the normal <code>filter</code> we all know and love. But
-typing out <code>Data.Map</code> in front of every function from that
-module is kind of tedious. That’s why we can rename the qualified import
-to something shorter:</p>
-<pre class="haskell:hs"><code>import qualified Data.Map as M</code></pre>
-<p>Now, to reference <code>Data.Map</code>’s <code>filter</code>
-function, we just use <code>M.filter</code>.</p>
-<p>Use <a
-href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/">this
-handy reference</a> to see which modules are in the standard library. A
-great way to pick up new Haskell knowledge is to just click through the
-standard library reference and explore the modules and their functions.
-You can also view the Haskell source code for each module. Reading the
-source code of some modules is a really good way to learn Haskell and
-get a solid feel for it.</p>
-<p>To search for functions or to find out where they’re located, use <a
-href="https://hoogle.haskell.org/">Hoogle</a>. It’s a really awesome
-Haskell search engine, you can search by name, module name or even type
-signature.</p>
-<h2 id="data-list">Data.List</h2>
-<p>The <code>Data.List</code> module is all about lists, obviously. It
-provides some very useful functions for dealing with them. We’ve already
-met some of its functions (like <code>map</code> and
-<code>filter</code>) because the <code>Prelude</code> module exports
-some functions from <code>Data.List</code> for convenience. You don’t
-have to import <code>Data.List</code> via a qualified import because it
-doesn’t clash with any <code>Prelude</code> names except for those that
-<code>Prelude</code> already steals from <code>Data.List</code>. Let’s
-take a look at some of the functions that we haven’t met before.</p>
-<p><code class="label function">intersperse</code> takes an element and
-a list and then puts that element in between each pair of elements in
-the list. Here’s a demonstration:</p>
-<pre class="haskell:ghci"><code>ghci&gt; intersperse &#39;.&#39; &quot;MONKEY&quot;
-&quot;M.O.N.K.E.Y&quot;
+numUniques = length . nub
+</pre>
+<p>When you do <span class="fixed">import Data.List</span>, all the functions that <span class="fixed">Data.List</span> exports become available in the global namespace, meaning that you can call them from wherever in the script. <span class="fixed">nub</span> is a function defined in <span class="fixed">Data.List</span> that takes a list and weeds out duplicate elements. Composing <span class="fixed">length</span> and <span class="fixed">nub</span> by doing <span class="fixed">length . nub</span> produces a function that's the equivalent of <span class="fixed">\xs -&gt; length (nub xs)</span>.</p>
+<p>You can also put the functions of modules into the global namespace when using GHCI. If you're in GHCI and you want to be able to call the functions exported by <span class="fixed">Data.List</span>, do this:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; :m + Data.List
+</pre>
+<p>If we want to load up the names from several modules inside GHCI, we don't have to do <span class="fixed">:m +</span> several times, we can just load up several modules at once.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; :m + Data.List Data.Map Data.Set
+</pre>
+<p>However, if you've loaded a script that already imports a module, you don't need to use <span class="fixed">:m +</span> to get access to it.</p>
+<p>If you just need a couple of functions from a module, you can selectively import just those functions. If we wanted to import only the <span class="fixed">nub</span> and <span class="fixed">sort</span> functions from <span class="fixed">Data.List</span>, we'd do this:</p>
+<pre name="code" class="haskell:hs">
+import Data.List (nub, sort)
+</pre>
+<p>You can also choose to import all of the functions of a module except a few select ones. That's often useful when several modules export functions with the same name and you want to get rid of the offending ones. Say we already have our own function that's called <span class="fixed">nub</span> and we want to import all the functions from <span class="fixed">Data.List</span> except the <span class="fixed">nub</span> function:
+<pre name="code" class="haskell:hs">
+import Data.List hiding (nub)
+</pre>
+<p>Another way of dealing with name clashes is to do qualified imports. The <span class="fixed">Data.Map</span> module, which offers a data structure for looking up values by key, exports a bunch of functions with the same name as <span class="fixed">Prelude</span> functions, like <span class="fixed">filter</span> or <span class="fixed">null</span>. So when we import <span class="fixed">Data.Map</span> and then call <span class="fixed">filter</span>, Haskell won't know which function to use. Here's how we solve this:</p>
+<pre name="code" class="haskell:hs">
+import qualified Data.Map
+</pre>
+<p>This makes it so that if we want to reference <span class="fixed">Data.Map</span>'s <span class="fixed">filter</span> function, we have to do <span class="fixed">Data.Map.filter</span>, whereas just <span class="fixed">filter</span> still refers to the normal <span class="fixed">filter</span> we all know and love. But typing out <span class="fixed">Data.Map</span> in front of every function from that module is kind of tedious. That's why we can rename the qualified import to something shorter:</p>
+<pre name="code" class="haskell:hs">
+import qualified Data.Map as M
+</pre>
+<p>Now, to reference <span class="fixed">Data.Map</span>'s <span class="fixed">filter</span> function, we just use <span class="fixed">M.filter</span>.</p>
+<p>Use <a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/">this handy reference</a> to see which modules are in the standard library. A great way to pick up new Haskell knowledge is to just click through the standard library reference and explore the modules and their functions. You can also view the Haskell source code for each module. Reading the source code of some modules is a really good way to learn Haskell and get a solid feel for it.</p>
+<p>To search for functions or to find out where they're located, use <a href="https://hoogle.haskell.org/">Hoogle</a>. It's a really awesome Haskell search engine, you can search by name, module name or even type signature.</p>
+<a name="data-list"></a><h2>Data.List</h2>
+<p>The <span class="fixed">Data.List</span> module is all about lists, obviously. It provides some very useful functions for dealing with them. We've already met some of its functions (like <span class="fixed">map</span> and <span class="fixed">filter</span>) because the <span class="fixed">Prelude</span> module exports some functions from <span class="fixed">Data.List</span> for convenience. You don't have to import <span class="fixed">Data.List</span> via a qualified import because it doesn't clash with any <span class="fixed">Prelude</span> names except for those that <span class="fixed">Prelude</span> already steals from <span class="fixed">Data.List</span>. Let's take a look at some of the functions that we haven't met before.</p>
+<p><span class="label function">intersperse</span> takes an element and a list and then puts that element in between each pair of elements in the list. Here's a demonstration:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; intersperse '.' "MONKEY"
+"M.O.N.K.E.Y"
 ghci&gt; intersperse 0 [1,2,3,4,5,6]
-[1,0,2,0,3,0,4,0,5,0,6]</code></pre>
-<p><code class="label function">intercalate</code> takes a list and a
-list of lists. It then inserts that list in between all those lists and
-then flattens the result.</p>
-<pre class="haskell:ghci"><code>ghci&gt; intercalate &quot; &quot; [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
-&quot;hey there folks&quot;
+[1,0,2,0,3,0,4,0,5,0,6]
+</pre>
+<p><span class="label function">intercalate</span> takes a list and a list of lists. It then inserts that list in between all those lists and then flattens the result.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; intercalate " " ["hey","there","folks"]
+"hey there folks"
 ghci&gt; intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]
-[1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]</code></pre>
-<p><code class="label function">transpose</code> transposes a list of
-lists. If you look at a list of lists as a 2D matrix, the columns become
-the rows and vice versa.</p>
-<pre class="haskell:ghci"><code>ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
+[1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
+</pre>
+<p><span class="label function">transpose</span> transposes a list of lists. If you look at a list of lists as a 2D matrix, the columns become the rows and vice versa.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
-ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
-[&quot;htf&quot;,&quot;eho&quot;,&quot;yel&quot;,&quot;rk&quot;,&quot;es&quot;]</code></pre>
-<p>Say we have the polynomials <em>3x<sup>2</sup> + 5x + 9</em>,
-<em>10x<sup>3</sup> + 9</em> and <em>8x<sup>3</sup> + 5x<sup>2</sup> + x
-- 1</em> and we want to add them together. We can use the lists
-<code>[0,3,5,9]</code>, <code>[10,0,0,9]</code> and
-<code>[8,5,1,-1]</code> to represent them in Haskell. Now, to add them,
-all we have to do is this:</p>
-<pre class="haskell:ghci"><code>ghci&gt; map sum $ transpose [[0,3,5,9],[10,0,0,9],[8,5,1,-1]]
-[18,8,6,17]</code></pre>
-<p>When we transpose these three lists, the third powers are then in the
-first row, the second powers in the second one and so on. Mapping
-<code>sum</code> to that produces our desired result.</p>
-<p><img src="assets/images/modules/legolists.png" class="left"
-width="230" height="212" alt="shopping lists" /></p>
-<p><code class="label function">foldl'</code> and <code
-class="label function">foldl1'</code> are stricter versions of their
-respective lazy incarnations. When using lazy folds on really big lists,
-you might often get a stack overflow error. The culprit for that is that
-due to the lazy nature of the folds, the accumulator value isn’t
-actually updated as the folding happens. What actually happens is that
-the accumulator kind of makes a promise that it will compute its value
-when asked to actually produce the result (also called a thunk). That
-happens for every intermediate accumulator and all those thunks overflow
-your stack. The strict folds aren’t lazy buggers and actually compute
-the intermediate values as they go along instead of filling up your
-stack with thunks. So if you ever get stack overflow errors when doing
-lazy folds, try switching to their strict versions.</p>
-<p><code class="label function">concat</code> flattens a list of lists
-into just a list of elements.</p>
-<pre class="haskell:ghci"><code>ghci&gt; concat [&quot;foo&quot;,&quot;bar&quot;,&quot;car&quot;]
-&quot;foobarcar&quot;
+ghci&gt; transpose ["hey","there","folks"]
+["htf","eho","yel","rk","es"]
+</pre>
+<p>Say we have the polynomials <i>3x<sup>2</sup> + 5x + 9</i>, <i>10x<sup>3</sup> + 9</i> and <i>8x<sup>3</sup> + 5x<sup>2</sup> + x - 1</i> and we want to add them together. We can use the lists <span class="fixed">[0,3,5,9]</span>, <span class="fixed">[10,0,0,9]</span> and <span class="fixed">[8,5,1,-1]</span> to represent them in Haskell. Now, to add them, all we have to do is this:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; map sum $ transpose [[0,3,5,9],[10,0,0,9],[8,5,1,-1]]
+[18,8,6,17]
+</pre>
+<p>When we transpose these three lists, the third powers are then in the first row, the second powers in the second one and so on. Mapping <span class="fixed">sum</span> to that produces our desired result.</p>
+<img src="assets/images/modules/legolists.png" alt="shopping lists" class="left" width="230" height="212">
+<p><span class="label function">foldl'</span> and <span class="label function">foldl1'</span> are stricter versions of their respective lazy incarnations. When using lazy folds on really big lists, you might often get a stack overflow error. The culprit for that is that due to the lazy nature of the folds, the accumulator value isn't actually updated as the folding happens. What actually happens is that the accumulator kind of makes a promise that it will compute its value when asked to actually produce the result (also called a thunk). That happens for every intermediate accumulator and all those thunks overflow your stack. The strict folds aren't lazy buggers and actually compute the intermediate values as they go along instead of filling up your stack with thunks. So if you ever get stack overflow errors when doing lazy folds, try switching to their strict versions.</p>
+<p><span class="label function">concat</span> flattens a list of lists into just a list of elements.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; concat ["foo","bar","car"]
+"foobarcar"
 ghci&gt; concat [[3,4,5],[2,3,4],[2,1,1]]
-[3,4,5,2,3,4,2,1,1]</code></pre>
-<p>It will just remove one level of nesting. So if you want to
-completely flatten <code>[[[2,3],[3,4,5],[2]],[[2,3],[3,4]]]</code>,
-which is a list of lists of lists, you have to concatenate it twice.</p>
-<p>Doing <code class="label function">concatMap</code> is the same as
-first mapping a function to a list and then concatenating the list with
-<code>concat</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; concatMap (replicate 4) [1..3]
-[1,1,1,1,2,2,2,2,3,3,3,3]</code></pre>
-<p><code class="label function">and</code> takes a list of boolean
-values and returns <code>True</code> only if all the values in the list
-are <code>True</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; and $ map (&gt;4) [5,6,7,8]
+[3,4,5,2,3,4,2,1,1]
+</pre>
+<p>It will just remove one level of nesting. So if you want to completely flatten <span class="fixed">[[[2,3],[3,4,5],[2]],[[2,3],[3,4]]]</span>, which is a list of lists of lists, you have to concatenate it twice.</p>
+<p>Doing <span class="label function">concatMap</span> is the same as first mapping a function to a list and then concatenating the list with <span class="fixed">concat</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; concatMap (replicate 4) [1..3]
+[1,1,1,1,2,2,2,2,3,3,3,3]
+</pre>
+<p><span class="label function">and</span> takes a list of boolean values and returns <span class="fixed">True</span> only if all the values in the list are <span class="fixed">True</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; and $ map (&gt;4) [5,6,7,8]
 True
 ghci&gt; and $ map (==4) [4,4,4,3,4]
-False</code></pre>
-<p><code class="label function">or</code> is like <code>and</code>, only
-it returns <code>True</code> if any of the boolean values in a list is
-<code>True</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; or $ map (==4) [2,3,4,5,6,1]
+False
+</pre>
+<p><span class="label function">or</span> is like <span class="fixed">and</span>, only it returns <span class="fixed">True</span> if any of the boolean values in a list is <span class="fixed">True</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; or $ map (==4) [2,3,4,5,6,1]
 True
 ghci&gt; or $ map (&gt;4) [1,2,3]
-False</code></pre>
-<p><code class="label function">any</code> and <code
-class="label function">all</code> take a predicate and then check if any
-or all the elements in a list satisfy the predicate, respectively.
-Usually we use these two functions instead of mapping over a list and
-then doing <code>and</code> or <code>or</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; any (==4) [2,3,5,6,1,4]
+False
+</pre>
+<p><span class="label function">any</span> and <span class="label function">all</span> take a predicate and then check if any or all the elements in a list satisfy the predicate, respectively. Usually we use these two functions instead of mapping over a list and then doing <span class="fixed">and</span> or <span class="fixed">or</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; any (==4) [2,3,5,6,1,4]
 True
 ghci&gt; all (&gt;4) [6,9,10]
 True
-ghci&gt; all (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;HEYGUYSwhatsup&quot;
+ghci&gt; all (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
 False
-ghci&gt; any (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;HEYGUYSwhatsup&quot;
-True</code></pre>
-<p><code class="label function">iterate</code> takes a function and a
-starting value. It applies the function to the starting value, then it
-applies that function to the result, then it applies the function to
-that result again, etc. It returns all the results in the form of an
-infinite list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; take 10 $ iterate (*2) 1
+ghci&gt; any (`elem` ['A'..'Z']) "HEYGUYSwhatsup"
+True
+</pre>
+<p><span class="label function">iterate</span> takes a function and a starting value. It applies the function to the starting value, then it applies that function to the result, then it applies the function to that result again, etc. It returns all the results in the form of an infinite list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; take 10 $ iterate (*2) 1
 [1,2,4,8,16,32,64,128,256,512]
-ghci&gt; take 3 $ iterate (++ &quot;haha&quot;) &quot;haha&quot;
-[&quot;haha&quot;,&quot;hahahaha&quot;,&quot;hahahahahaha&quot;]</code></pre>
-<p><code class="label function">splitAt</code> takes a number and a
-list. It then splits the list at that many elements, returning the
-resulting two lists in a tuple.</p>
-<pre class="haskell:ghci"><code>ghci&gt; splitAt 3 &quot;heyman&quot;
-(&quot;hey&quot;,&quot;man&quot;)
-ghci&gt; splitAt 100 &quot;heyman&quot;
-(&quot;heyman&quot;,&quot;&quot;)
-ghci&gt; splitAt (-3) &quot;heyman&quot;
-(&quot;&quot;,&quot;heyman&quot;)
-ghci&gt; let (a,b) = splitAt 3 &quot;foobar&quot; in b ++ a
-&quot;barfoo&quot;</code></pre>
-<p><code class="label function">takeWhile</code> is a really useful
-little function. It takes elements from a list while the predicate holds
-and then when an element is encountered that doesn’t satisfy the
-predicate, it’s cut off. It turns out this is very useful.</p>
-<pre class="haskell:ghci"><code>ghci&gt; takeWhile (&gt;3) [6,5,4,3,2,1,2,3,4,5,4,3,2,1]
+ghci&gt; take 3 $ iterate (++ "haha") "haha"
+["haha","hahahaha","hahahahahaha"]
+</pre>
+<p><span class="label function">splitAt</span> takes a number and a list. It then splits the list at that many elements, returning the resulting two lists in a tuple.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; splitAt 3 "heyman"
+("hey","man")
+ghci&gt; splitAt 100 "heyman"
+("heyman","")
+ghci&gt; splitAt (-3) "heyman"
+("","heyman")
+ghci&gt; let (a,b) = splitAt 3 "foobar" in b ++ a
+"barfoo"
+</pre>
+<p><span class="label function">takeWhile</span> is a really useful little function. It takes elements from a list while the predicate holds and then when an element is encountered that doesn't satisfy the predicate, it's cut off. It turns out this is very useful.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; takeWhile (&gt;3) [6,5,4,3,2,1,2,3,4,5,4,3,2,1]
 [6,5,4]
-ghci&gt; takeWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
-&quot;This&quot;</code></pre>
-<p>Say we wanted to know the sum of all third powers that are under
-10,000. We can’t map <code>(^3)</code> to <code>[1..]</code>, apply a
-filter and then try to sum that up because filtering an infinite list
-never finishes. You may know that all the elements here are ascending
-but Haskell doesn’t. That’s why we can do this:</p>
-<pre class="haskell:ghci"><code>ghci&gt; sum $ takeWhile (&lt;10000) $ map (^3) [1..]
-53361</code></pre>
-<p>We apply <code>(^3)</code> to an infinite list and then once an
-element that’s over 10,000 is encountered, the list is cut off. Now we
-can sum it up easily.</p>
-<p><code class="label function">dropWhile</code> is similar, only it
-drops all the elements while the predicate is true. Once predicate
-equates to <code>False</code>, it returns the rest of the list. An
-extremely useful and lovely function!</p>
-<pre class="haskell:ghci"><code>ghci&gt; dropWhile (/=&#39; &#39;) &quot;This is a sentence&quot;
-&quot; is a sentence&quot;
-ghci&gt; dropWhile (&lt;3) [1,2,2,2,3,4,5,4,3,2,1]
-[3,4,5,4,3,2,1]</code></pre>
-<p>We’re given a list that represents the value of a stock by date. The
-list is made of tuples whose first component is the stock value, the
-second is the year, the third is the month and the fourth is the date.
-We want to know when the stock value first exceeded one thousand
-dollars!</p>
-<pre class="haskell:ghci"><code>ghci&gt; let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4),(998.3,2008,9,5)]
-ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)
-(1001.4,2008,9,4)</code></pre>
-<p><code class="label function">span</code> is kind of like
-<code>takeWhile</code>, only it returns a pair of lists. The first list
-contains everything the resulting list from <code>takeWhile</code> would
-contain if it were called with the same predicate and the same list. The
-second list contains the part of the list that would have been
-dropped.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let (fw, rest) = span (/=&#39; &#39;) &quot;This is a sentence&quot; in &quot;First word:&quot; ++ fw ++ &quot;, the rest:&quot; ++ rest
-&quot;First word: This, the rest: is a sentence&quot;</code></pre>
-<p>Whereas <code>span</code> spans the list while the predicate is true,
-<code class="label function">break</code> breaks it when the predicate
-is first true. Doing <code>break p</code> is the equivalent of doing
-<code>span (not . p)</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; break (==4) [1,2,3,4,5,6,7]
+ghci&gt; takeWhile (/=' ') "This is a sentence"
+"This"
+</pre>
+<p>Say we wanted to know the sum of all third powers that are under 10,000. We can't map <span class="fixed">(^3)</span> to <span class="fixed">[1..]</span>, apply a filter and then try to sum that up because filtering an infinite list never finishes. You may know that all the elements here are ascending but Haskell doesn't. That's why we can do this:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; sum $ takeWhile (<10000) $ map (^3) [1..]
+53361
+</pre>
+<p>We apply <span class="fixed">(^3)</span> to an infinite list and then once an element that's over 10,000 is encountered, the list is cut off. Now we can sum it up easily.</p>
+<p><span class="label function">dropWhile</span> is similar, only it drops all the elements while the predicate is true. Once predicate equates to <span class="fixed">False</span>, it returns the rest of the list. An extremely useful and lovely function!</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; dropWhile (/=' ') "This is a sentence"
+" is a sentence"
+ghci&gt; dropWhile (<3) [1,2,2,2,3,4,5,4,3,2,1]
+[3,4,5,4,3,2,1]
+</pre>
+<p>We're given a list that represents the value of a stock by date. The list is made of tuples whose first component is the stock value, the second is the year, the third is the month and the fourth is the date. We want to know when the stock value first exceeded one thousand dollars!</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let stock = [(994.4,2008,9,1),(995.2,2008,9,2),(999.2,2008,9,3),(1001.4,2008,9,4),(998.3,2008,9,5)]
+ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val < 1000) stock)
+(1001.4,2008,9,4)
+</pre>
+<p><span class="label function">span</span> is kind of like <span class="fixed">takeWhile</span>, only it returns a pair of lists. The first list contains everything the resulting list from <span class="fixed">takeWhile</span> would contain if it were called with the same predicate and the same list. The second list contains the part of the list that would have been dropped.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let (fw, rest) = span (/=' ') "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
+"First word: This, the rest: is a sentence"
+</pre>
+<p>Whereas <span class="fixed">span</span> spans the list while the predicate is true, <span class="label function">break</span> breaks it when the predicate is first true. Doing <span class="fixed">break p</span> is the equivalent of doing <span class="fixed">span (not . p)</span>.  </p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; break (==4) [1,2,3,4,5,6,7]
 ([1,2,3],[4,5,6,7])
 ghci&gt; span (/=4) [1,2,3,4,5,6,7]
-([1,2,3],[4,5,6,7])</code></pre>
-<p>When using <code>break</code>, the second list in the result will
-start with the first element that satisfies the predicate.</p>
-<p><code class="label function">sort</code> simply sorts a list. The
-type of the elements in the list has to be part of the <code>Ord</code>
-typeclass, because if the elements of a list can’t be put in some kind
-of order, then the list can’t be sorted.</p>
-<pre class="haskell:ghci"><code>ghci&gt; sort [8,5,3,2,1,6,4,2]
+([1,2,3],[4,5,6,7])
+</pre>
+<p>When using <span class="fixed">break</span>, the second list in the result will start with the first element that satisfies the predicate.</p>
+<p><span class="label function">sort</span> simply sorts a list. The type of the elements in the list has to be part of the <span class="fixed">Ord</span> typeclass, because if the elements of a list can't be put in some kind of order, then the list can't be sorted.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; sort [8,5,3,2,1,6,4,2]
 [1,2,2,3,4,5,6,8]
-ghci&gt; sort &quot;This will be sorted soon&quot;
-&quot;    Tbdeehiillnooorssstw&quot;</code></pre>
-<p><code class="label function">group</code> takes a list and groups
-adjacent elements into sublists if they are equal.</p>
-<pre class="haskell:ghci"><code>ghci&gt; group [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]
-[[1,1,1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]</code></pre>
-<p>If we sort a list before grouping it, we can find out how many times
-each element appears in the list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; map (\l@(x:xs) -&gt; (x,length l)) . group . sort $ [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]
-[(1,4),(2,7),(3,2),(5,1),(6,1),(7,1)]</code></pre>
-<p><code class="label function">inits</code> and <code
-class="label function">tails</code> are like <code>init</code> and
-<code>tail</code>, only they recursively apply that to a list until
-there’s nothing left. Observe.</p>
-<pre class="haskell:ghci"><code>ghci&gt; inits &quot;w00t&quot;
-[&quot;&quot;,&quot;w&quot;,&quot;w0&quot;,&quot;w00&quot;,&quot;w00t&quot;]
-ghci&gt; tails &quot;w00t&quot;
-[&quot;w00t&quot;,&quot;00t&quot;,&quot;0t&quot;,&quot;t&quot;,&quot;&quot;]
-ghci&gt; let w = &quot;w00t&quot; in zip (inits w) (tails w)
-[(&quot;&quot;,&quot;w00t&quot;),(&quot;w&quot;,&quot;00t&quot;),(&quot;w0&quot;,&quot;0t&quot;),(&quot;w00&quot;,&quot;t&quot;),(&quot;w00t&quot;,&quot;&quot;)]</code></pre>
-<p>Let’s use a fold to implement searching a list for a sublist.</p>
-<pre class="haskell:hs"><code>search :: (Eq a) =&gt; [a] -&gt; [a] -&gt; Bool
+ghci&gt; sort "This will be sorted soon"
+"    Tbdeehiillnooorssstw"
+</pre>
+<p><span class="label function">group</span> takes a list and groups adjacent elements into sublists if they are equal.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; group [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]
+[[1,1,1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]
+</pre>
+<p>If we sort a list before grouping it, we can find out how many times each element appears in the list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; map (\l@(x:xs) -&gt; (x,length l)) . group . sort $ [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]
+[(1,4),(2,7),(3,2),(5,1),(6,1),(7,1)]
+</pre>
+<p><span class="label function">inits</span> and <span class="label function">tails</span> are like <span class="fixed">init</span> and <span class="fixed">tail</span>, only they recursively apply that to a list until there's nothing left. Observe.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; inits "w00t"
+["","w","w0","w00","w00t"]
+ghci&gt; tails "w00t"
+["w00t","00t","0t","t",""]
+ghci&gt; let w = "w00t" in zip (inits w) (tails w)
+[("","w00t"),("w","00t"),("w0","0t"),("w00","t"),("w00t","")]
+</pre>
+<p>Let's use a fold to implement searching a list for a sublist.</p>
+<pre name="code" class="haskell:hs">
+search :: (Eq a) =&gt; [a] -&gt; [a] -&gt; Bool
 search needle haystack =
     let nlen = length needle
-    in  foldl (\acc x -&gt; if take nlen x == needle then True else acc) False (tails haystack)</code></pre>
-<p>First we call <code>tails</code> with the list in which we’re
-searching. Then we go over each tail and see if it starts with what
-we’re looking for.</p>
-<p>With that, we actually just made a function that behaves like <code
-class="label function">isInfixOf</code>. <code>isInfixOf</code> searches
-for a sublist within a list and returns <code>True</code> if the sublist
-we’re looking for is somewhere inside the target list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; &quot;cat&quot; `isInfixOf` &quot;im a cat burglar&quot;
+    in  foldl (\acc x -&gt; if take nlen x == needle then True else acc) False (tails haystack)
+</pre>
+<p>First we call <span class="fixed">tails</span> with the list in which we're searching. Then we go over each tail and see if it starts with what we're looking for.</p>
+<p>With that, we actually just made a function that behaves like <span class="label function">isInfixOf</span>. <span class="fixed">isInfixOf</span> searches for a sublist within a list and returns <span class="fixed">True</span> if the sublist we're looking for is somewhere inside the target list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; "cat" `isInfixOf` "im a cat burglar"
 True
-ghci&gt; &quot;Cat&quot; `isInfixOf` &quot;im a cat burglar&quot;
+ghci&gt; "Cat" `isInfixOf` "im a cat burglar"
 False
-ghci&gt; &quot;cats&quot; `isInfixOf` &quot;im a cat burglar&quot;
-False</code></pre>
-<p><code class="label function">isPrefixOf</code> and <code
-class="label function">isSuffixOf</code> search for a sublist at the
-beginning and at the end of a list, respectively.</p>
-<pre class="haskell:ghci"><code>ghci&gt; &quot;hey&quot; `isPrefixOf` &quot;hey there!&quot;
-True
-ghci&gt; &quot;hey&quot; `isPrefixOf` &quot;oh hey there!&quot;
+ghci&gt; "cats" `isInfixOf` "im a cat burglar"
 False
-ghci&gt; &quot;there!&quot; `isSuffixOf` &quot;oh hey there!&quot;
+</pre>
+<p><span class="label function">isPrefixOf</span> and <span class="label function">isSuffixOf</span> search for a sublist at the beginning and at the end of a list, respectively.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; "hey" `isPrefixOf` "hey there!"
 True
-ghci&gt; &quot;there!&quot; `isSuffixOf` &quot;oh hey there&quot;
-False</code></pre>
-<p><code class="label function">elem</code> and <code
-class="label function">notElem</code> check if an element is or isn’t
-inside a list.</p>
-<p><code class="label function">partition</code> takes a list and a
-predicate and returns a pair of lists. The first list in the result
-contains all the elements that satisfy the predicate, the second
-contains all the ones that don’t.</p>
-<pre class="haskell:ghci"><code>ghci&gt; partition (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;BOBsidneyMORGANeddy&quot;
-(&quot;BOBMORGAN&quot;,&quot;sidneyeddy&quot;)
+ghci&gt; "hey" `isPrefixOf` "oh hey there!"
+False
+ghci&gt; "there!" `isSuffixOf` "oh hey there!"
+True
+ghci&gt; "there!" `isSuffixOf` "oh hey there"
+False
+</pre>
+<p><span class="label function">elem</span> and <span class="label function">notElem</span> check if an element is or isn't inside a list. </p>
+<p><span class="label function">partition</span> takes a list and a predicate and returns a pair of lists. The first list in the result contains all the elements that satisfy the predicate, the second contains all the ones that don't.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; partition (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
+("BOBMORGAN","sidneyeddy")
 ghci&gt; partition (&gt;3) [1,3,5,6,3,2,1,0,3,7]
-([5,6,7],[1,3,3,2,1,0,3])</code></pre>
-<p>It’s important to understand how this is different from
-<code>span</code> and <code>break</code>:</p>
-<pre class="haskell:ghci"><code>ghci&gt; span (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;BOBsidneyMORGANeddy&quot;
-(&quot;BOB&quot;,&quot;sidneyMORGANeddy&quot;)</code></pre>
-<p>While <code>span</code> and <code>break</code> are done once they
-encounter the first element that doesn’t and does satisfy the predicate,
-<code>partition</code> goes through the whole list and splits it up
-according to the predicate.</p>
-<p><code class="label function">find</code> takes a list and a predicate
-and returns the first element that satisfies the predicate. But it
-returns that element wrapped in a <code>Maybe</code> value. We’ll be
-covering algebraic data types more in depth in the next chapter but for
-now, this is what you need to know: a <code>Maybe</code> value can
-either be <code>Just something</code> or <code>Nothing</code>. Much like
-a list can be either an empty list or a list with some elements, a
-<code>Maybe</code> value can be either no elements or a single element.
-And like the type of a list of, say, integers is <code>[Int]</code>, the
-type of maybe having an integer is <code>Maybe Int</code>. Anyway, let’s
-take our <code>find</code> function for a spin.</p>
-<pre class="haskell:ghci"><code>ghci&gt; find (&gt;4) [1,2,3,4,5,6]
+([5,6,7],[1,3,3,2,1,0,3])
+</pre>
+<p>It's important to understand how this is different from <span class="fixed">span</span> and <span class="fixed">break</span>:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; span (`elem` ['A'..'Z']) "BOBsidneyMORGANeddy"
+("BOB","sidneyMORGANeddy")
+</pre>
+<p>While <span class="fixed">span</span> and <span class="fixed">break</span> are done once they encounter the first element that doesn't and does satisfy the predicate, <span class="fixed">partition</span> goes through the whole list and splits it up according to the predicate.</p>
+<p><span class="label function">find</span> takes a list and a predicate and returns the first element that satisfies the predicate. But it returns that element wrapped in a <span class="fixed">Maybe</span> value. We'll be covering algebraic data types more in depth in the next chapter but for now, this is what you need to know: a <span class="fixed">Maybe</span> value can either be <span class="fixed">Just something</span> or <span class="fixed">Nothing</span>. Much like a list can be either an empty list or a list with some elements, a <span class="fixed">Maybe</span> value can be either no elements or a single element. And like the type of a list of, say, integers is <span class="fixed">[Int]</span>, the type of maybe having an integer is <span class="fixed">Maybe Int</span>. Anyway, let's take our <span class="fixed">find</span> function for a spin.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; find (&gt;4) [1,2,3,4,5,6]
 Just 5
 ghci&gt; find (&gt;9) [1,2,3,4,5,6]
 Nothing
 ghci&gt; :t find
-find :: (a -&gt; Bool) -&gt; [a] -&gt; Maybe a</code></pre>
-<p>Notice the type of <code>find</code>. Its result is
-<code>Maybe a</code>. That’s kind of like having the type of
-<code>[a]</code>, only a value of the type <code>Maybe</code> can
-contain either no elements or one element, whereas a list can contain no
-elements, one element or several elements.</p>
-<p>Remember when we were searching for the first time our stock went
-over $1000. We did
-<code>head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</code>.
-Remember that <code>head</code> is not really safe. What would happen if
-our stock never went over $1000? Our application of
-<code>dropWhile</code> would return an empty list and getting the head
-of an empty list would result in an error. However, if we rewrote that
-as <code>find (\(val,y,m,d) -&gt; val &gt; 1000) stock</code>, we’d be
-much safer. If our stock never went over $1000 (so if no element
-satisfied the predicate), we’d get back a <code>Nothing</code>. But if
-there was a valid answer in that list, we’d get, say,
-<code>Just (1001.4,2008,9,4)</code>.</p>
-<p><code class="label function">elemIndex</code> is kind of like
-<code>elem</code>, only it doesn’t return a boolean value. It maybe
-returns the index of the element we’re looking for. If that element
-isn’t in our list, it returns a <code>Nothing</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; :t elemIndex
+find :: (a -&gt; Bool) -&gt; [a] -&gt; Maybe a
+</pre>
+<p>Notice the type of <span class="fixed">find</span>. Its result is <span class="fixed">Maybe a</span>. That's kind of like having the type of <span class="fixed">[a]</span>, only a value of the type <span class="fixed">Maybe</span> can contain either no elements or one element, whereas a list can contain no elements, one element or several elements.</p>
+<p>Remember when we were searching for the first time our stock went over $1000. We did <span class="fixed">head (dropWhile (\(val,y,m,d) -&gt; val &lt; 1000) stock)</span>. Remember that <span class="fixed">head</span> is not really safe. What would happen if our stock never went over $1000? Our application of <span class="fixed">dropWhile</span> would return an empty list and getting the head of an empty list would result in an error. However, if we rewrote that as <span class="fixed">find (\(val,y,m,d) -&gt; val &gt; 1000) stock</span>, we'd be much safer. If our stock never went over $1000 (so if no element satisfied the predicate), we'd get back a <span class="fixed">Nothing</span>. But if there was a valid answer in that list, we'd get, say, <span class="fixed">Just (1001.4,2008,9,4)</span>.
+<p><span class="label function">elemIndex</span> is kind of like <span class="fixed">elem</span>, only it doesn't return a boolean value. It maybe returns the index of the element we're looking for. If that element isn't in our list, it returns a <span class="fixed">Nothing</span>.  </p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; :t elemIndex
 elemIndex :: (Eq a) =&gt; a -&gt; [a] -&gt; Maybe Int
 ghci&gt; 4 `elemIndex` [1,2,3,4,5,6]
 Just 3
 ghci&gt; 10 `elemIndex` [1,2,3,4,5,6]
-Nothing</code></pre>
-<p><code class="label function">elemIndices</code> is like
-<code>elemIndex</code>, only it returns a list of indices, in case the
-element we’re looking for crops up in our list several times. Because
-we’re using a list to represent the indices, we don’t need a
-<code>Maybe</code> type, because failure can be represented as the empty
-list, which is very much synonymous to <code>Nothing</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; &#39; &#39; `elemIndices` &quot;Where are the spaces?&quot;
-[5,9,13]</code></pre>
-<p><code class="label function">findIndex</code> is like find, but it
-maybe returns the index of the first element that satisfies the
-predicate. <code class="label function">findIndices</code> returns the
-indices of all elements that satisfy the predicate in the form of a
-list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; findIndex (==4) [5,3,2,1,6,4]
+Nothing
+</pre>
+<p><span class="label function">elemIndices</span> is like <span class="fixed">elemIndex</span>, only it returns a list of indices, in case the element we're looking for crops up in our list several times. Because we're using a list to represent the indices, we don't need a <span class="fixed">Maybe</span> type, because failure can be represented as the empty list, which is very much synonymous to <span class="fixed">Nothing</span>.  </p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; ' ' `elemIndices` "Where are the spaces?"
+[5,9,13]
+</pre>
+<p><span class="label function">findIndex</span> is like find, but it maybe returns the index of the first element that satisfies the predicate. <span class="label function">findIndices</span> returns the indices of all elements that satisfy the predicate in the form of a list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; findIndex (==4) [5,3,2,1,6,4]
 Just 5
 ghci&gt; findIndex (==7) [5,3,2,1,6,4]
 Nothing
-ghci&gt; findIndices (`elem` [&#39;A&#39;..&#39;Z&#39;]) &quot;Where Are The Caps?&quot;
-[0,6,10,14]</code></pre>
-<p>We already covered <code>zip</code> and <code>zipWith</code>. We
-noted that they zip together two lists, either in a tuple or with a
-binary function (meaning such a function that takes two parameters). But
-what if we want to zip together three lists? Or zip three lists with a
-function that takes three parameters? Well, for that, we have <code
-class="label function">zip3</code>, <code
-class="label function">zip4</code>, etc. and <code
-class="label function">zipWith3</code>, <code
-class="label function">zipWith4</code>, etc. These variants go up to 7.
-While this may look like a hack, it works out pretty fine, because there
-aren’t many times when you want to zip 8 lists together. There’s also a
-very clever way for zipping infinite numbers of lists, but we’re not
-advanced enough to cover that just yet.</p>
-<pre class="haskell:ghci"><code>ghci&gt; zipWith3 (\x y z -&gt; x + y + z) [1,2,3] [4,5,2,2] [2,2,3]
+ghci&gt; findIndices (`elem` ['A'..'Z']) "Where Are The Caps?"
+[0,6,10,14]
+</pre>
+<p>We already covered <span class="fixed">zip</span> and <span class="fixed">zipWith</span>. We noted that they zip together two lists, either in a tuple or with a binary function (meaning such a function that takes two parameters). But what if we want to zip together three lists? Or zip three lists with a function that takes three parameters? Well, for that, we have <span class="label function">zip3</span>, <span class="label function">zip4</span>, etc. and <span class="label function">zipWith3</span>, <span class="label function">zipWith4</span>, etc. These variants go up to 7. While this may look like a hack, it works out pretty fine, because there aren't many times when you want to zip 8 lists together. There's also a very clever way for zipping infinite numbers of lists, but we're not advanced enough to cover that just yet.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; zipWith3 (\x y z -&gt; x + y + z) [1,2,3] [4,5,2,2] [2,2,3]
 [7,9,8]
 ghci&gt; zip4 [2,3,3] [2,2,2] [5,5,3] [2,2,2]
-[(2,2,5,2),(3,2,5,2),(3,2,3,2)]</code></pre>
-<p>Just like with normal zipping, lists that are longer than the
-shortest list that’s being zipped are cut down to size.</p>
-<p><code class="label function">lines</code> is a useful function when
-dealing with files or input from somewhere. It takes a string and
-returns every line of that string as separate element of a list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; lines &quot;first line\nsecond line\nthird line&quot;
-[&quot;first line&quot;,&quot;second line&quot;,&quot;third line&quot;]</code></pre>
-<p><code>'\n'</code> is the character for a unix newline. Backslashes
-have special meaning in Haskell strings and characters.</p>
-<p><code class="label function">unlines</code> is the inverse function
-of <code>lines</code>. It takes a list of strings and joins them
-together using a <code>'\n'</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; unlines [&quot;first line&quot;, &quot;second line&quot;, &quot;third line&quot;]
-&quot;first line\nsecond line\nthird line\n&quot;</code></pre>
-<p><code class="label function">words</code> and <code
-class="label function">unwords</code> are for splitting a line of text
-into words or joining a list of words into a text. Very useful.</p>
-<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey these are the words in this sentence&quot;
-[&quot;hey&quot;,&quot;these&quot;,&quot;are&quot;,&quot;the&quot;,&quot;words&quot;,&quot;in&quot;,&quot;this&quot;,&quot;sentence&quot;]
-ghci&gt; words &quot;hey these           are    the words in this\nsentence&quot;
-[&quot;hey&quot;,&quot;these&quot;,&quot;are&quot;,&quot;the&quot;,&quot;words&quot;,&quot;in&quot;,&quot;this&quot;,&quot;sentence&quot;]
-ghci&gt; unwords [&quot;hey&quot;,&quot;there&quot;,&quot;mate&quot;]
-&quot;hey there mate&quot;</code></pre>
-<p>We’ve already mentioned <code class="label function">nub</code>. It
-takes a list and weeds out the duplicate elements, returning a list
-whose every element is a unique snowflake! The function does have a kind
-of strange name. It turns out that “nub” means a small lump or essential
-part of something. In my opinion, they should use real words for
-function names instead of old-people words.</p>
-<pre class="haskell:ghci"><code>ghci&gt; nub [1,2,3,4,3,2,1,2,3,4,3,2,1]
+[(2,2,5,2),(3,2,5,2),(3,2,3,2)]
+</pre>
+<p>Just like with normal zipping, lists that are longer than the shortest list that's being zipped are cut down to size.</p>
+<p><span class="label function">lines</span> is a useful function when dealing with files or input from somewhere. It takes a string and returns every line of that string as separate element of a list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; lines "first line\nsecond line\nthird line"
+["first line","second line","third line"]
+</pre>
+<p><span class="fixed">'\n'</span> is the character for a unix newline. Backslashes have special meaning in Haskell strings and characters.</p>
+<p><span class="label function">unlines</span> is the inverse function of <span class="fixed">lines</span>. It takes a list of strings and joins them together using a <span class="fixed">'\n'</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; unlines ["first line", "second line", "third line"]
+"first line\nsecond line\nthird line\n"
+</pre>
+<p><span class="label function">words</span> and <span class="label function">unwords</span> are for splitting a line of text into words or joining a list of words into a text. Very useful.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; words "hey these are the words in this sentence"
+["hey","these","are","the","words","in","this","sentence"]
+ghci&gt; words "hey these           are    the words in this\nsentence"
+["hey","these","are","the","words","in","this","sentence"]
+ghci&gt; unwords ["hey","there","mate"]
+"hey there mate"
+</pre>
+<p>We've already mentioned <span class="label function">nub</span>. It takes a list and weeds out the duplicate elements, returning a list whose every element is a unique snowflake! The function does have a kind of strange name. It turns out that "nub" means a small lump or essential part of something. In my opinion, they should use real words for function names instead of old-people words.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; nub [1,2,3,4,3,2,1,2,3,4,3,2,1]
 [1,2,3,4]
-ghci&gt; nub &quot;Lots of words and stuff&quot;
-&quot;Lots fwrdanu&quot;</code></pre>
-<p><code class="label function">delete</code> takes an element and a
-list and deletes the first occurrence of that element in the list.</p>
-<pre class="haskell:ghci"><code>ghci&gt; delete &#39;h&#39; &quot;hey there ghang!&quot;
-&quot;ey there ghang!&quot;
-ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; $ &quot;hey there ghang!&quot;
-&quot;ey tere ghang!&quot;
-ghci&gt; delete &#39;h&#39; . delete &#39;h&#39; . delete &#39;h&#39; $ &quot;hey there ghang!&quot;
-&quot;ey tere gang!&quot;</code></pre>
-<p><code class="label function">\\</code> is the list difference
-function. It acts like a set difference, basically. For every element in
-the right-hand list, it removes a matching element in the left one.</p>
-<pre class="haskell:ghci"><code>ghci&gt; [1..10] \\ [2,5,9]
+ghci&gt; nub "Lots of words and stuff"
+"Lots fwrdanu"
+</pre>
+<p><span class="label function">delete</span> takes an element and a list and deletes the first occurrence of that element in the list.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; delete 'h' "hey there ghang!"
+"ey there ghang!"
+ghci&gt; delete 'h' . delete 'h' $ "hey there ghang!"
+"ey tere ghang!"
+ghci&gt; delete 'h' . delete 'h' . delete 'h' $ "hey there ghang!"
+"ey tere gang!"
+</pre>
+<p><span class="label function">\\</span> is the list difference function. It acts like a set difference, basically. For every element in the right-hand list, it removes a matching element in the left one.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; [1..10] \\ [2,5,9]
 [1,3,4,6,7,8,10]
-ghci&gt; &quot;Im a big baby&quot; \\ &quot;big&quot;
-&quot;Im a  baby&quot;</code></pre>
-<p>Doing <code>[1..10] \\ [2,5,9]</code> is like doing
-<code>delete 2 . delete 5 . delete 9 $ [1..10]</code>.</p>
-<p><code class="label function">union</code> also acts like a function
-on sets. It returns the union of two lists. It pretty much goes over
-every element in the second list and appends it to the first one if it
-isn’t already in yet. Watch out though, duplicates are removed from the
-second list!</p>
-<pre class="haskell:ghci"><code>ghci&gt; &quot;hey man&quot; `union` &quot;man what&#39;s up&quot;
-&quot;hey manwt&#39;sup&quot;
+ghci&gt; "Im a big baby" \\ "big"
+"Im a  baby"
+</pre>
+<p>Doing <span class="fixed">[1..10] \\ [2,5,9]</span> is like doing <span class="fixed">delete 2 . delete 5 . delete 9 $ [1..10]</span>.</p>
+<p><span class="label function">union</span> also acts like a function on sets. It returns the union of two lists. It pretty much goes over every element in the second list and appends it to the first one if it isn't already in yet. Watch out though, duplicates are removed from the second list!</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; "hey man" `union` "man what's up"
+"hey manwt'sup"
 ghci&gt; [1..7] `union` [5..10]
-[1,2,3,4,5,6,7,8,9,10]</code></pre>
-<p><code class="label function">intersect</code> works like set
-intersection. It returns only the elements that are found in both
-lists.</p>
-<pre class="haskell:ghci"><code>ghci&gt; [1..7] `intersect` [5..10]
-[5,6,7]</code></pre>
-<p><code class="label function">insert</code> takes an element and a
-list of elements that can be sorted and inserts it into the last
-position where it’s still less than or equal to the next element. In
-other words, <code>insert</code> will start at the beginning of the list
-and then keep going until it finds an element that’s equal to or greater
-than the element that we’re inserting and it will insert it just before
-the element.</p>
-<pre class="haskell:ghci"><code>ghci&gt; insert 4 [3,5,1,2,8,2]
+[1,2,3,4,5,6,7,8,9,10]
+</pre>
+<p><span class="label function">intersect</span> works like set intersection. It returns only the elements that are found in both lists.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; [1..7] `intersect` [5..10]
+[5,6,7]
+</pre>
+<p><span class="label function">insert</span> takes an element and a list of elements that can be sorted and inserts it into the last position where it's still less than or equal to the next element. In other words, <span class="fixed">insert</span> will start at the beginning of the list and then keep going until it finds an element that's equal to or greater than the element that we're inserting and it will insert it just before the element.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; insert 4 [3,5,1,2,8,2]
 [3,4,5,1,2,8,2]
 ghci&gt; insert 4 [1,3,4,4,1]
-[1,3,4,4,4,1]</code></pre>
-<p>The <code>4</code> is inserted right after the <code>3</code> and
-before the <code>5</code> in the first example and in between the
-<code>3</code> and <code>4</code> in the second example.</p>
-<p>If we use <code>insert</code> to insert into a sorted list, the
-resulting list will be kept sorted.</p>
-<pre class="haskell:ghci"><code>ghci&gt; insert 4 [1,2,3,5,6,7]
+[1,3,4,4,4,1]
+</pre>
+<p>The <span class="fixed">4</span> is inserted right after the <span class="fixed">3</span> and before the <span class="fixed">5</span> in the first example and in between the <span class="fixed">3</span> and <span class="fixed">4</span> in the second example.</p>
+If we use <span class="fixed">insert</span> to insert into a sorted list, the resulting list will be kept sorted.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; insert 4 [1,2,3,5,6,7]
 [1,2,3,4,5,6,7]
-ghci&gt; insert &#39;g&#39; $ [&#39;a&#39;..&#39;f&#39;] ++ [&#39;h&#39;..&#39;z&#39;]
-&quot;abcdefghijklmnopqrstuvwxyz&quot;
+ghci&gt; insert 'g' $ ['a'..'f'] ++ ['h'..'z']
+"abcdefghijklmnopqrstuvwxyz"
 ghci&gt; insert 3 [1,2,4,3,2,1]
-[1,2,3,4,3,2,1]</code></pre>
-<p>What <code>length</code>, <code>take</code>, <code>drop</code>,
-<code>splitAt</code>, <code>!!</code> and <code>replicate</code> have in
-common is that they take an <code>Int</code> as one of their parameters
-(or return an <code>Int</code>), even though they could be more generic
-and usable if they just took any type that’s part of the
-<code>Integral</code> or <code>Num</code> typeclasses (depending on the
-functions). They do that for historical reasons. However, fixing that
-would probably break a lot of existing code. That’s why
-<code>Data.List</code> has their more generic equivalents, named <code
-class="label function">genericLength</code>, <code
-class="label function">genericTake</code>, <code
-class="label function">genericDrop</code>, <code
-class="label function">genericSplitAt</code>, <code
-class="label function">genericIndex</code> and <code
-class="label function">genericReplicate</code>. For instance,
-<code>length</code> has a type signature of
-<code>length :: [a] -&gt; Int</code>. If we try to get the average of a
-list of numbers by doing
-<code>let xs = [1..6] in sum xs / length xs</code>, we get a type error,
-because you can’t use <code>/</code> with an <code>Int</code>.
-<code>genericLength</code>, on the other hand, has a type signature of
-<code>genericLength :: (Num a) =&gt; [b] -&gt; a</code>. Because a
-<code>Num</code> can act like a floating point number, getting the
-average by doing
-<code>let xs = [1..6] in sum xs / genericLength xs</code> works out just
-fine.</p>
-<p>The <code>nub</code>, <code>delete</code>, <code>union</code>,
-<code>intersect</code> and <code>group</code> functions all have their
-more general counterparts called <code
-class="label function">nubBy</code>, <code
-class="label function">deleteBy</code>, <code
-class="label function">unionBy</code>, <code
-class="label function">intersectBy</code> and <code
-class="label function">groupBy</code>. The difference between them is
-that the first set of functions use <code>==</code> to test for
-equality, whereas the <em>By</em> ones also take an equality function
-and then compare them by using that equality function.
-<code>group</code> is the same as <code>groupBy (==)</code>.</p>
-<p>For instance, say we have a list that describes the value of a
-function for every second. We want to segment it into sublists based on
-when the value was below zero and when it went above. If we just did a
-normal <code>group</code>, it would just group the equal adjacent values
-together. But what we want is to group them by whether they are negative
-or not. That’s where <code>groupBy</code> comes in! The equality
-function supplied to the <em>By</em> functions should take two elements
-of the same type and return <code>True</code> if it considers them equal
-by its standards.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -14.5, 2.9, 2.3]
+[1,2,3,4,3,2,1]
+</pre>
+<p>What <span class="fixed">length</span>, <span class="fixed">take</span>, <span class="fixed">drop</span>, <span class="fixed">splitAt</span>, <span class="fixed">!!</span> and <span class="fixed">replicate</span> have in common is that they take an <span class="fixed">Int</span> as one of their parameters (or return an <span class="fixed">Int</span>), even though they could be more generic and usable if they just took any type that's part of the <span class="fixed">Integral</span> or <span class="fixed">Num</span> typeclasses (depending on the functions). They do that for historical reasons. However, fixing that would probably break a lot of existing code. That's why <span class="fixed">Data.List</span> has their more generic equivalents, named <span class="label function">genericLength</span>, <span class="label function">genericTake</span>, <span class="label function">genericDrop</span>, <span class="label function">genericSplitAt</span>, <span class="label function">genericIndex</span> and <span class="label function">genericReplicate</span>. For instance, <span class="fixed">length</span> has a type signature of <span class="fixed">length :: [a] -&gt; Int</span>. If we try to get the average of a list of numbers by doing <span class="fixed">let xs = [1..6] in sum xs / length xs</span>, we get a type error, because you can't use <span class="fixed">/</span> with an <span class="fixed">Int</span>. <span class="fixed">genericLength</span>, on the other hand, has a type signature of <span class="fixed">genericLength :: (Num a) =&gt; [b] -&gt; a</span>. Because a <span class="fixed">Num</span> can act like a floating point number, getting the average by doing <span class="fixed">let xs = [1..6] in sum xs / genericLength xs</span> works out just fine.</p>
+<p>The <span class="fixed">nub</span>, <span class="fixed">delete</span>, <span class="fixed">union</span>, <span class="fixed">intersect</span> and <span class="fixed">group</span> functions all have their more general counterparts called <span class="label function">nubBy</span>, <span class="label function">deleteBy</span>, <span class="label function">unionBy</span>, <span class="label function">intersectBy</span> and <span class="label function">groupBy</span>. The difference between them is that the first set of functions use <span class="fixed">==</span> to test for equality, whereas the <i>By</i> ones also take an equality function and then compare them by using that equality function. <span class="fixed">group</span> is the same as <span class="fixed">groupBy (==)</span>. </p>
+<p>For instance, say we have a list that describes the value of a function for every second. We want to segment it into sublists based on when the value was below zero and when it went above. If we just did a normal <span class="fixed">group</span>, it would just group the equal adjacent values together. But what we want is to group them by whether they are negative or not. That's where <span class="fixed">groupBy</span> comes in! The equality function supplied to the <i>By</i> functions should take two elements of the same type and return <span class="fixed">True</span> if it considers them equal by its standards.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -14.5, 2.9, 2.3]
 ghci&gt; groupBy (\x y -&gt; (x &gt; 0) == (y &gt; 0)) values
-[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]</code></pre>
-<p>From this, we clearly see which sections are positive and which are
-negative. The equality function supplied takes two elements and then
-returns <code>True</code> only if they’re both negative or if they’re
-both positive. This equality function can also be written as
-<code>\x y -&gt; (x &gt; 0) &amp;&amp; (y &gt; 0) || (x &lt;= 0) &amp;&amp; (y &lt;= 0)</code>,
-although I think the first way is more readable. An even clearer way to
-write equality functions for the <em>By</em> functions is if you import
-the <code class="label function">on</code> function from
-<code>Data.Function</code>. <code>on</code> is defined like this:</p>
-<pre class="haskell:ghci"><code>on :: (b -&gt; b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; a -&gt; c
-f `on` g = \x y -&gt; f (g x) (g y)</code></pre>
-<p>So doing <code>(==) `on` (&gt; 0)</code> returns an equality function
-that looks like <code>\x y -&gt; (x &gt; 0) == (y &gt; 0)</code>.
-<code>on</code> is used a lot with the <em>By</em> functions because
-with it, we can do:</p>
-<pre class="haskell:ghci"><code>ghci&gt; groupBy ((==) `on` (&gt; 0)) values
-[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]</code></pre>
-<p>Very readable indeed! You can read it out loud: Group this by
-equality on whether the elements are greater than zero.</p>
-<p>Similarly, the <code>sort</code>, <code>insert</code>,
-<code>maximum</code> and <code>minimum</code> also have their more
-general equivalents. Functions like <code>groupBy</code> take a function
-that determines when two elements are equal. <code
-class="label function">sortBy</code>, <code
-class="label function">insertBy</code>, <code
-class="label function">maximumBy</code> and <code
-class="label function">minimumBy</code> take a function that determine
-if one element is greater, smaller or equal to the other. The type
-signature of <code>sortBy</code> is
-<code>sortBy :: (a -&gt; a -&gt; Ordering) -&gt; [a] -&gt; [a]</code>.
-If you remember from before, the <code>Ordering</code> type can have a
-value of <code>LT</code>, <code>EQ</code> or <code>GT</code>.
-<code>sort</code> is the equivalent of <code>sortBy compare</code>,
-because compare just takes two elements whose type is in the
-<code>Ord</code> typeclass and returns their ordering relationship.</p>
-<p>Lists can be compared, but when they are, they are compared
-lexicographically. What if we have a list of lists and we want to sort
-it not based on the inner lists’ contents but on their lengths? Well, as
-you’ve probably guessed, we’ll use the <code>sortBy</code> function.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
+[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
+</pre>
+<p>From this, we clearly see which sections are positive and which are negative. The equality function supplied takes two elements and then returns <span class="fixed">True</span> only if they're both negative or if they're both positive. This equality function can also be written as <span class="fixed">\x y -&gt; (x &gt; 0) &amp;&amp; (y &gt; 0) || (x &lt;= 0) &amp;&amp; (y &lt;= 0)</span>, although I think the first way is more readable. An even clearer way to write equality functions for the <i>By</i> functions is if you import the <span class="label function">on</span> function from <span class="fixed">Data.Function</span>. <span class="fixed">on</span> is defined like this:
+<pre name="code" class="haskell:ghci">
+on :: (b -&gt; b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; a -&gt; c
+f `on` g = \x y -&gt; f (g x) (g y)
+</pre>
+<p>So doing <span class="fixed">(==) `on` (&gt; 0)</span> returns an equality function that looks like <span class="fixed">\x y -&gt; (x &gt; 0) == (y &gt; 0)</span>. <span class="fixed">on</span> is used a lot with the <i>By</i> functions because with it, we can do:
+<pre name="code" class="haskell:ghci">
+ghci&gt; groupBy ((==) `on` (&gt; 0)) values
+[[-4.3,-2.4,-1.2],[0.4,2.3,5.9,10.5,29.1,5.3],[-2.4,-14.5],[2.9,2.3]]
+</pre>
+<p>Very readable indeed! You can read it out loud: Group this by equality on whether the elements are greater than zero.</p>
+<p>Similarly, the <span class="fixed">sort</span>, <span class="fixed">insert</span>, <span class="fixed">maximum</span> and <span class="fixed">minimum</span> also have their more general equivalents. Functions like <span class="fixed">groupBy</span> take a function that determines when two elements are equal. <span class="label function">sortBy</span>, <span class="label function">insertBy</span>, <span class="label function">maximumBy</span> and <span class="label function">minimumBy</span> take a function that determine if one element is greater, smaller or equal to the other. The type signature of <span class="fixed">sortBy</span> is <span class="fixed">sortBy :: (a -&gt; a -&gt; Ordering) -&gt; [a] -&gt; [a]</span>. If you remember from before, the <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. <span class="fixed">sort</span> is the equivalent of <span class="fixed">sortBy compare</span>, because compare just takes two elements whose type is in the <span class="fixed">Ord</span> typeclass and returns their ordering relationship.</p>
+<p>Lists can be compared, but when they are, they are compared lexicographically. What if we have a list of lists and we want to sort it not based on the inner lists' contents but on their lengths? Well, as you've probably guessed, we'll use the <span class="fixed">sortBy</span> function.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
 ghci&gt; sortBy (compare `on` length) xs
-[[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]</code></pre>
-<p>Awesome! <code>compare `on` length</code> … man, that reads almost
-like real English! If you’re not sure how exactly the <code>on</code>
-works here, <code>compare `on` length</code> is the equivalent of
-<code>\x y -&gt; length x `compare` length y</code>. When you’re dealing
-with <em>By</em> functions that take an equality function, you usually
-do <code>(==) `on` something</code> and when you’re dealing with
-<em>By</em> functions that take an ordering function, you usually do
-<code>compare `on` something</code>.</p>
-<h2 id="data-char">Data.Char</h2>
-<p><img src="assets/images/modules/legochar.png" class="right"
-width="230" height="323" alt="lego char" /></p>
-<p>The <code>Data.Char</code> module does what its name suggests. It
-exports functions that deal with characters. It’s also helpful when
-filtering and mapping over strings because they’re just lists of
-characters.</p>
-<p><code>Data.Char</code> exports a bunch of predicates over characters.
-That is, functions that take a character and tell us whether some
-assumption about it is true or false. Here’s what they are:</p>
-<p><code class="label function">isControl</code> checks whether a
-character is a control character.</p>
-<p><code class="label function">isSpace</code> checks whether a
-character is a white-space characters. That includes spaces, tab
-characters, newlines, etc.</p>
-<p><code class="label function">isLower</code> checks whether a
-character is lower-cased.</p>
-<p><code class="label function">isUpper</code> checks whether a
-character is upper-cased.</p>
-<p><code class="label function">isAlpha</code> checks whether a
-character is a letter.</p>
-<p><code class="label function">isAlphaNum</code> checks whether a
-character is a letter or a number.</p>
-<p><code class="label function">isPrint</code> checks whether a
-character is printable. Control characters, for instance, are not
-printable.</p>
-<p><code class="label function">isDigit</code> checks whether a
-character is a digit.</p>
-<p><code class="label function">isOctDigit</code> checks whether a
-character is an octal digit.</p>
-<p><code class="label function">isHexDigit</code> checks whether a
-character is a hex digit.</p>
-<p><code class="label function">isLetter</code> checks whether a
-character is a letter.</p>
-<p><code class="label function">isMark</code> checks for Unicode mark
-characters. Those are characters that combine with preceding letters to
-form letters with accents. Use this if you are French.</p>
-<p><code class="label function">isNumber</code> checks whether a
-character is numeric.</p>
-<p><code class="label function">isPunctuation</code> checks whether a
-character is punctuation.</p>
-<p><code class="label function">isSymbol</code> checks whether a
-character is a fancy mathematical or currency symbol.</p>
-<p><code class="label function">isSeparator</code> checks for Unicode
-spaces and separators.</p>
-<p><code class="label function">isAscii</code> checks whether a
-character falls into the first 128 characters of the Unicode character
-set.</p>
-<p><code class="label function">isLatin1</code> checks whether a
-character falls into the first 256 characters of Unicode.</p>
-<p><code class="label function">isAsciiUpper</code> checks whether a
-character is ASCII and upper-case.</p>
-<p><code class="label function">isAsciiLower</code> checks whether a
-character is ASCII and lower-case.</p>
-<p>All these predicates have a type signature of
-<code>Char -&gt; Bool</code>. Most of the time you’ll use this to filter
-out strings or something like that. For instance, let’s say we’re making
-a program that takes a username and the username can only be comprised
-of alphanumeric characters. We can use the <code>Data.List</code>
-function <code>all</code> in combination with the <code>Data.Char</code>
-predicates to determine if the username is alright.</p>
-<pre class="haskell:ghci"><code>ghci&gt; all isAlphaNum &quot;bobby283&quot;
+[[],[2],[2,2],[1,2,3],[3,5,4,3],[5,4,5,4,4]]
+</pre>
+<p>Awesome! <span class="fixed">compare `on` length</span> ... man, that reads almost like real English! If you're not sure how exactly the <span class="fixed">on</span> works here, <span class="fixed">compare `on` length</span> is the equivalent of <span class="fixed">\x y -&gt; length x `compare` length y</span>. When you're dealing with <i>By</i> functions that take an equality function, you usually do <span class="fixed">(==) `on` something</span> and when you're dealing with <i>By</i> functions that take an ordering function, you usually do <span class="fixed">compare `on` something</span>.</p>
+<a name="data-char"></a><h2>Data.Char</h2>
+<img src="assets/images/modules/legochar.png" alt="lego char" class="right" width="230" height="323">
+<p>The <span class="fixed">Data.Char</span> module does what its name suggests. It exports functions that deal with characters. It's also helpful when filtering and mapping over strings because they're just lists of characters.</p>
+<p><span class="fixed">Data.Char</span> exports a bunch of predicates over characters. That is, functions that take a character and tell us whether some assumption about it is true or false. Here's what they are:</p>
+<p><span class="label function">isControl</span> checks whether a character is a control character.</p>
+<p><span class="label function">isSpace</span> checks whether a character is a white-space characters. That includes spaces, tab characters, newlines, etc.</p>
+<p><span class="label function">isLower</span> checks whether a character is lower-cased. </p>
+<p><span class="label function">isUpper</span> checks whether a character is upper-cased.</p>
+<p><span class="label function">isAlpha</span> checks whether a character is a letter.</p>
+<p><span class="label function">isAlphaNum</span> checks whether a character is a letter or a number.</p>
+<p><span class="label function">isPrint</span> checks whether a character is printable. Control characters, for instance, are not printable.</p>
+<p><span class="label function">isDigit</span> checks whether a character is a digit.</p>
+<p><span class="label function">isOctDigit</span> checks whether a character is an octal digit.</p>
+<p><span class="label function">isHexDigit</span> checks whether a character is a hex digit.</p>
+<p><span class="label function">isLetter</span> checks whether a character is a letter.</p>
+<p><span class="label function">isMark</span> checks for Unicode mark characters. Those are characters that combine with preceding letters to form letters with accents. Use this if you are French.</p>
+<p><span class="label function">isNumber</span> checks whether a character is numeric.</p>
+<p><span class="label function">isPunctuation</span> checks whether a character is punctuation.</p>
+<p><span class="label function">isSymbol</span> checks whether a character is a fancy mathematical or currency symbol.</p>
+<p><span class="label function">isSeparator</span> checks for Unicode spaces and separators.</p>
+<p><span class="label function">isAscii</span> checks whether a character falls into the first 128 characters of the Unicode character set.</p>
+<p><span class="label function">isLatin1</span> checks whether a character falls into the first 256 characters of Unicode.</p>
+<p><span class="label function">isAsciiUpper</span> checks whether a character is ASCII and upper-case.</p>
+<p><span class="label function">isAsciiLower</span> checks whether a character is ASCII and lower-case.</p>
+<p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you'll use this to filter out strings or something like that. For instance, let's say we're making a program that takes a username and the username can only be comprised of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; all isAlphaNum "bobby283"
 True
-ghci&gt; all isAlphaNum &quot;eddy the fish!&quot;
-False</code></pre>
-<p>Kewl. In case you don’t remember, <code>all</code> takes a predicate
-and a list and returns <code>True</code> only if that predicate holds
-for every element in the list.</p>
-<p>We can also use <code>isSpace</code> to simulate the
-<code>Data.List</code> function <code>words</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; words &quot;hey folks its me&quot;
-[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]
-ghci&gt; groupBy ((==) `on` isSpace) &quot;hey folks its me&quot;
-[&quot;hey&quot;,&quot; &quot;,&quot;folks&quot;,&quot; &quot;,&quot;its&quot;,&quot; &quot;,&quot;me&quot;]
-ghci&gt;</code></pre>
-<p>Hmmm, well, it kind of does what <code>words</code> does but we’re
-left with elements of only spaces. Hmm, whatever shall we do? I know,
-let’s filter that sucker.</p>
-<pre class="haskell:ghci"><code>ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ &quot;hey folks its me&quot;
-[&quot;hey&quot;,&quot;folks&quot;,&quot;its&quot;,&quot;me&quot;]</code></pre>
+ghci&gt; all isAlphaNum "eddy the fish!"
+False
+</pre>
+<p>Kewl. In case you don't remember, <span class="fixed">all</span> takes a predicate and a list and returns <span class="fixed">True</span> only if that predicate holds for every element in the list.</p>
+<p>We can also use <span class="fixed">isSpace</span> to simulate the <span class="fixed">Data.List</span> function <span class="fixed">words</span>.
+<pre name="code" class="haskell:ghci">
+ghci&gt; words "hey folks its me"
+["hey","folks","its","me"]
+ghci&gt; groupBy ((==) `on` isSpace) "hey folks its me"
+["hey"," ","folks"," ","its"," ","me"]
+ghci&gt;
+</pre>
+<p>Hmmm, well, it kind of does what <span class="fixed">words</span> does but we're left with elements of only spaces. Hmm, whatever shall we do? I know, let's filter that sucker.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey folks its me"
+["hey","folks","its","me"]
+</pre>
 <p>Ah.</p>
-<p>The <code>Data.Char</code> also exports a datatype that’s kind of
-like <code>Ordering</code>. The <code>Ordering</code> type can have a
-value of <code>LT</code>, <code>EQ</code> or <code>GT</code>. It’s a
-sort of enumeration. It describes a few possible results that can arise
-from comparing two elements. The <code>GeneralCategory</code> type is
-also an enumeration. It presents us with a few possible categories that
-a character can fall into. The main function for getting the general
-category of a character is <code>generalCategory</code>. It has a type
-of <code>generalCategory :: Char -&gt; GeneralCategory</code>. There are
-about 31 categories so we won’t list them all here, but let’s play
-around with the function.</p>
-<pre class="haskell:ghci"><code>ghci&gt; generalCategory &#39; &#39;
+<p>The <span class="fixed">Data.Char</span> also exports a datatype that's kind of like <span class="fixed">Ordering</span>. The <span class="fixed">Ordering</span> type can have a value of <span class="fixed">LT</span>, <span class="fixed">EQ</span> or <span class="fixed">GT</span>. It's a sort of enumeration. It describes a few possible results that can arise from comparing two elements. The <span class="fixed">GeneralCategory</span> type is also an enumeration. It presents us with a few possible categories that a character can fall into. The main function for getting the general category of a character is <span class="fixed">generalCategory</span>. It has a type of <span class="fixed">generalCategory :: Char -&gt; GeneralCategory</span>. There are about 31 categories so we won't list them all here, but let's play around with the function.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; generalCategory ' '
 Space
-ghci&gt; generalCategory &#39;A&#39;
+ghci&gt; generalCategory 'A'
 UppercaseLetter
-ghci&gt; generalCategory &#39;a&#39;
+ghci&gt; generalCategory 'a'
 LowercaseLetter
-ghci&gt; generalCategory &#39;.&#39;
+ghci&gt; generalCategory '.'
 OtherPunctuation
-ghci&gt; generalCategory &#39;9&#39;
+ghci&gt; generalCategory '9'
 DecimalNumber
-ghci&gt; map generalCategory &quot; \t\nA9?|&quot;
-[Space,Control,Control,UppercaseLetter,DecimalNumber,OtherPunctuation,MathSymbol]</code></pre>
-<p>Since the <code>GeneralCategory</code> type is part of the
-<code>Eq</code> typeclass, we can also test for stuff like
-<code>generalCategory c == Space</code>.</p>
-<p><code class="label function">toUpper</code> converts a character to
-upper-case. Spaces, numbers, and the like remain unchanged.</p>
-<p><code class="label function">toLower</code> converts a character to
-lower-case.</p>
-<p><code class="label function">toTitle</code> converts a character to
-title-case. For most characters, title-case is the same as
-upper-case.</p>
-<p><code class="label function">digitToInt</code> converts a character
-to an <code>Int</code>. To succeed, the character must be in the ranges
-<code>'0'..'9'</code>, <code>'a'..'f'</code> or
-<code>'A'..'F'</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; map digitToInt &quot;34538&quot;
+ghci&gt; map generalCategory " \t\nA9?|"
+[Space,Control,Control,UppercaseLetter,DecimalNumber,OtherPunctuation,MathSymbol]
+</pre>
+<p>Since the <span class="fixed">GeneralCategory</span> type is part of the <span class="fixed">Eq</span> typeclass, we can also test for stuff like <span class="fixed">generalCategory c == Space</span>.</p>
+<p><span class="label function">toUpper</span> converts a character to upper-case. Spaces, numbers, and the like remain unchanged.</p>
+<p><span class="label function">toLower</span> converts a character to lower-case.</p>
+<p><span class="label function">toTitle</span> converts a character to title-case. For most characters, title-case is the same as upper-case.</p>
+<p><span class="label function">digitToInt</span> converts a character to an <span class="fixed">Int</span>. To succeed, the character must be in the ranges <span class="fixed">'0'..'9'</span>, <span class="fixed">'a'..'f'</span> or <span class="fixed">'A'..'F'</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; map digitToInt "34538"
 [3,4,5,3,8]
-ghci&gt; map digitToInt &quot;FF85AB&quot;
-[15,15,8,5,10,11]</code></pre>
-<p><code class="label function">intToDigit</code> is the inverse
-function of <code>digitToInt</code>. It takes an <code>Int</code> in the
-range of <code>0..15</code> and converts it to a lower-case
-character.</p>
-<pre class="haskell:ghci"><code>ghci&gt; intToDigit 15
-&#39;f&#39;
+ghci&gt; map digitToInt "FF85AB"
+[15,15,8,5,10,11]
+</pre>
+<p><span class="label function">intToDigit</span> is the inverse function of <span class="fixed">digitToInt</span>. It takes an <span class="fixed">Int</span> in the range of <span class="fixed">0..15</span> and converts it to a lower-case character.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; intToDigit 15
+'f'
 ghci&gt; intToDigit 5
-&#39;5&#39;</code></pre>
-<p>The <code class="label function">ord</code> and <code>chr</code>
-functions convert characters to their corresponding numbers and vice
-versa:</p>
-<pre class="haskell:ghci"><code>ghci&gt; ord &#39;a&#39;
+'5'
+</pre>
+<p>The <span class="label function">ord</span> and <span class="fixed">chr</span> functions convert characters to their corresponding numbers and vice versa:</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; ord 'a'
 97
 ghci&gt; chr 97
-&#39;a&#39;
-ghci&gt; map ord &quot;abcdefgh&quot;
-[97,98,99,100,101,102,103,104]</code></pre>
-<p>The difference between the <code>ord</code> values of two characters
-is equal to how far apart they are in the Unicode table.</p>
-<p>The Caesar cipher is a primitive method of encoding messages by
-shifting each character in them by a fixed number of positions in the
-alphabet. We can easily create a sort of Caesar cipher of our own, only
-we won’t constrict ourselves to the alphabet.</p>
-<pre class="haskell:hs"><code>encode :: Int -&gt; String -&gt; String
+'a'
+ghci&gt; map ord "abcdefgh"
+[97,98,99,100,101,102,103,104]
+</pre>
+<p>The difference between the <span class="fixed">ord</span> values of two characters is equal to how far apart they are in the Unicode table.</p><p>The Caesar cipher is a primitive method of encoding messages by shifting each character in them by a fixed number of positions in the alphabet. We can easily create a sort of Caesar cipher of our own, only we won't constrict ourselves to the alphabet.</p>
+<pre name="code" class="haskell:hs">
+encode :: Int -&gt; String -&gt; String
 encode shift msg =
     let ords = map ord msg
         shifted = map (+ shift) ords
-    in  map chr shifted</code></pre>
-<p>Here, we first convert the string to a list of numbers. Then we add
-the shift amount to each number before converting the list of numbers
-back to characters. If you’re a composition cowboy, you could write the
-body of this function as <code>map (chr . (+ shift) . ord) msg</code>.
-Let’s try encoding a few messages.</p>
-<pre class="haskell:ghci"><code>ghci&gt; encode 3 &quot;Heeeeey&quot;
-&quot;Khhhhh|&quot;
-ghci&gt; encode 4 &quot;Heeeeey&quot;
-&quot;Liiiii}&quot;
-ghci&gt; encode 1 &quot;abcd&quot;
-&quot;bcde&quot;
-ghci&gt; encode 5 &quot;Marry Christmas! Ho ho ho!&quot;
-&quot;Rfww~%Hmwnxyrfx&amp;%Mt%mt%mt&amp;&quot;</code></pre>
-<p>That’s encoded alright. Decoding a message is basically just shifting
-it back by the number of places it was shifted by in the first
-place.</p>
-<pre class="haskell:hs"><code>decode :: Int -&gt; String -&gt; String
-decode shift msg = encode (negate shift) msg</code></pre>
-<pre class="haskell:ghci"><code>ghci&gt; encode 3 &quot;Im a little teapot&quot;
-&quot;Lp#d#olwwoh#whdsrw&quot;
-ghci&gt; decode 3 &quot;Lp#d#olwwoh#whdsrw&quot;
-&quot;Im a little teapot&quot;
-ghci&gt; decode 5 . encode 5 $ &quot;This is a sentence&quot;
-&quot;This is a sentence&quot;</code></pre>
-<h2 id="data-map">Data.Map</h2>
-<p>Association lists (also called dictionaries) are lists that are used
-to store key-value pairs where ordering doesn’t matter. For instance, we
-might use an association list to store phone numbers, where phone
-numbers would be the values and people’s names would be the keys. We
-don’t care in which order they’re stored, we just want to get the right
-phone number for the right person.</p>
-<p>The most obvious way to represent association lists in Haskell would
-be by having a list of pairs. The first component in the pair would be
-the key, the second component the value. Here’s an example of an
-association list with phone numbers:</p>
-<pre class="haskell:hs"><code>phoneBook =
-    [(&quot;amelia&quot;,&quot;555-2938&quot;)
-    ,(&quot;freya&quot;,&quot;452-2928&quot;)
-    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
-    ,(&quot;neil&quot;,&quot;205-2928&quot;)
-    ,(&quot;roald&quot;,&quot;939-8282&quot;)
-    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
-    ]</code></pre>
-<p>Despite this seemingly odd indentation, this is just a list of pairs
-of strings. The most common task when dealing with association lists is
-looking up some value by key. Let’s make a function that looks up some
-value given a key.</p>
-<pre class="haskell:hs"><code>findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; v
-findKey key xs = snd . head . filter (\(k,v) -&gt; key == k) $ xs</code></pre>
-<p>Pretty simple. The function that takes a key and a list, filters the
-list so that only matching keys remain, gets the first key-value that
-matches and returns the value. But what happens if the key we’re looking
-for isn’t in the association list? Hmm. Here, if a key isn’t in the
-association list, we’ll end up trying to get the head of an empty list,
-which throws a runtime error. However, we should avoid making our
-programs so easy to crash, so let’s use the <code>Maybe</code> data
-type. If we don’t find the key, we’ll return a <code>Nothing</code>. If
-we find it, we’ll return <code>Just something</code>, where something is
-the value corresponding to that key.</p>
-<pre class="haskell:hs"><code>findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v
+    in  map chr shifted
+</pre>
+<p>Here, we first convert the string to a list of numbers. Then we add the shift amount to each number before converting the list of numbers back to characters. If you're a composition cowboy, you could write the body of this function as <span class="fixed">map (chr . (+ shift) . ord) msg</span>. Let's try encoding a few messages.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; encode 3 "Heeeeey"
+"Khhhhh|"
+ghci&gt; encode 4 "Heeeeey"
+"Liiiii}"
+ghci&gt; encode 1 "abcd"
+"bcde"
+ghci&gt; encode 5 "Marry Christmas! Ho ho ho!"
+"Rfww~%Hmwnxyrfx&amp;%Mt%mt%mt&amp;"
+</pre>
+<p>That's encoded alright. Decoding a message is basically just shifting it back by the number of places it was shifted by in the first place.</p>
+<pre name="code" class="haskell:hs">
+decode :: Int -&gt; String -&gt; String
+decode shift msg = encode (negate shift) msg
+</pre>
+<pre name="code" class="haskell:ghci">
+ghci&gt; encode 3 "Im a little teapot"
+"Lp#d#olwwoh#whdsrw"
+ghci&gt; decode 3 "Lp#d#olwwoh#whdsrw"
+"Im a little teapot"
+ghci&gt; decode 5 . encode 5 $ "This is a sentence"
+"This is a sentence"
+</pre>
+<a name="data-map"></a><h2>Data.Map</h2>
+<p>Association lists (also called dictionaries) are lists that are used to store key-value pairs where ordering doesn't matter. For instance, we might use an association list to store phone numbers, where phone numbers would be the values and people's names would be the keys. We don't care in which order they're stored, we just want to get the right phone number for the right person.</p>
+<p>The most obvious way to represent association lists in Haskell would be by having a list of pairs. The first component in the pair would be the key, the second component the value. Here's an example of an association list with phone numbers:</p>
+<pre name="code" class="haskell:hs">
+phoneBook =
+    [("amelia","555-2938")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
+    ]
+</pre>
+<p>Despite this seemingly odd indentation, this is just a list of pairs of strings. The most common task when dealing with association lists is looking up some value by key. Let's make a function that looks up some value given a key.</p>
+<pre name="code" class="haskell:hs">
+findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; v
+findKey key xs = snd . head . filter (\(k,v) -&gt; key == k) $ xs
+</pre>
+<p>Pretty simple. The function that takes a key and a list, filters the list so that only matching keys remain, gets the first key-value that matches and returns the value. But what happens if the key we're looking for isn't in the association list? Hmm. Here, if a key isn't in the association list, we'll end up trying to get the head of an empty list, which throws a runtime error. However, we should avoid making our programs so easy to crash, so let's use the <span class="fixed">Maybe</span> data type. If we don't find the key, we'll return a <span class="fixed">Nothing</span>. If we find it, we'll return <span class="fixed">Just something</span>, where something is the value corresponding to that key.</p>
+<pre name="code" class="haskell:hs">
+findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v
 findKey key [] = Nothing
 findKey key ((k,v):xs) = if key == k
                             then Just v
-                            else findKey key xs</code></pre>
-<p>Look at the type declaration. It takes a key that can be equated, an
-association list and then it maybe produces a value. Sounds about
-right.</p>
-<p>This is a textbook recursive function that operates on a list. Edge
-case, splitting a list into a head and a tail, recursive calls, they’re
-all there. This is the classic fold pattern, so let’s see how this would
-be implemented as a fold.</p>
-<pre class="haskell:hs"><code>findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v
-findKey key = foldr (\(k,v) acc -&gt; if key == k then Just v else acc) Nothing</code></pre>
-<div class="hintbox">
-<p><strong>Note:</strong> It’s usually better to use folds for this
-standard list recursion pattern instead of explicitly writing the
-recursion because they’re easier to read and identify. Everyone knows
-it’s a fold when they see the <code>foldr</code> call, but it takes some
-more thinking to read explicit recursion.</p>
-</div>
-<pre class="haskell:ghci"><code>ghci&gt; findKey &quot;tenzing&quot; phoneBook
-Just &quot;853-2492&quot;
-ghci&gt; findKey &quot;amelia&quot; phoneBook
-Just &quot;555-2938&quot;
-ghci&gt; findKey &quot;christopher&quot; phoneBook
-Nothing</code></pre>
-<p><img src="assets/images/modules/legomap.png" class="left" width="214"
-height="240" alt="legomap" /></p>
-<p>Works like a charm! If we have the friend’s phone number, we
-<code>Just</code> get the number, otherwise we get
-<code>Nothing</code>.</p>
-<p>We just implemented the <code>lookup</code> function from
-<code>Data.List</code>. If we want to find the corresponding value to a
-key, we have to traverse all the elements of the list until we find it.
-The <code>Data.Map</code> module offers association lists that are much
-faster (because they’re internally implemented with trees) and also it
-provides a lot of utility functions. From now on, we’ll say we’re
-working with maps instead of association lists.</p>
-<p>Because <code>Data.Map</code> exports functions that clash with the
-<code>Prelude</code> and <code>Data.List</code> ones, we’ll do a
-qualified import.</p>
-<pre class="haskell:hs"><code>import qualified Data.Map as Map</code></pre>
-<p>Put this import statement into a script and then load the script via
-GHCI.</p>
-<p>Let’s go ahead and see what <code>Data.Map</code> has in store for
-us! Here’s the basic rundown of its functions.</p>
-<p>The <code class="label function">fromList</code> function takes an
-association list (in the form of a list) and returns a map with the same
-associations.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
-fromList [(&quot;amelia&quot;,&quot;555-2938&quot;),(&quot;freya&quot;,&quot;452-2928&quot;),(&quot;neil&quot;,&quot;205-2928&quot;)]
+                            else findKey key xs
+</pre>
+<p>Look at the type declaration. It takes a key that can be equated, an association list and then it maybe produces a value. Sounds about right.</p>
+<p>This is a textbook recursive function that operates on a list. Edge case, splitting a list into a head and a tail, recursive calls, they're all there. This is the classic fold pattern, so let's see how this would be implemented as a fold.</p>
+<pre name="code" class="haskell:hs">
+findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v
+findKey key = foldr (\(k,v) acc -&gt; if key == k then Just v else acc) Nothing
+</pre>
+<div class="hintbox"><em>Note:</em> It's usually better to use folds for this standard list recursion pattern instead of explicitly writing the recursion because they're easier to read and identify. Everyone knows it's a fold when they see the <span class="fixed">foldr</span> call, but it takes some more thinking to read explicit recursion.</div>
+<pre name="code" class="haskell:ghci">
+ghci&gt; findKey "tenzing" phoneBook
+Just "853-2492"
+ghci&gt; findKey "amelia" phoneBook
+Just "555-2938"
+ghci&gt; findKey "christopher" phoneBook
+Nothing
+</pre>
+<img src="assets/images/modules/legomap.png" alt="legomap" class="left" width="214" height="240">
+<p>Works like a charm! If we have the friend's phone number, we <span class="fixed">Just</span> get the number, otherwise we get <span class="fixed">Nothing</span>.</p>
+<p>We just implemented the <span class="fixed">lookup</span> function from <span class="fixed">Data.List</span>. If we want to find the corresponding value to a key, we have to traverse all the elements of the list until we find it. The <span class="fixed">Data.Map</span> module offers association lists that are much faster (because they're internally implemented with trees) and also it provides a lot of utility functions. From now on, we'll say we're working with maps instead of association lists.</p>
+<p>Because <span class="fixed">Data.Map</span> exports functions that clash with the <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> ones, we'll do a qualified import.
+<pre name="code" class="haskell:hs">
+import qualified Data.Map as Map
+</pre>
+<p>Put this import statement into a script and then load the script via GHCI.</p>
+<p>Let's go ahead and see what <span class="fixed">Data.Map</span> has in store for us! Here's the basic rundown of its functions.</p>
+<p>The <span class="label function">fromList</span> function takes an association list (in the form of a list) and returns a map with the same associations.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
+fromList [("amelia","555-2938"),("freya","452-2928"),("neil","205-2928")]
 ghci&gt; Map.fromList [(1,2),(3,4),(3,2),(5,5)]
-fromList [(1,2),(3,2),(5,5)]</code></pre>
-<p>If there are duplicate keys in the original association list, the
-duplicates are just discarded. This is the type signature of
-<code>fromList</code></p>
-<pre class="haskell:hs"><code>Map.fromList :: (Ord k) =&gt; [(k, v)] -&gt; Map.Map k v</code></pre>
-<p>It says that it takes a list of pairs of type <code>k</code> and
-<code>v</code> and returns a map that maps from keys of type
-<code>k</code> to type <code>v</code>. Notice that when we were doing
-association lists with normal lists, the keys only had to be equatable
-(their type belonging to the <code>Eq</code> typeclass) but now they
-have to be orderable. That’s an essential constraint in the
-<code>Data.Map</code> module. It needs the keys to be orderable so it
-can arrange them in a tree.</p>
-<p>You should always use <code>Data.Map</code> for key-value
-associations unless you have keys that aren’t part of the
-<code>Ord</code> typeclass.</p>
-<p><code class="label function">empty</code> represents an empty map. It
-takes no arguments, it just returns an empty map.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.empty
-fromList []</code></pre>
-<p><code class="label function">insert</code> takes a key, a value and a
-map and returns a new map that’s just like the old one, only with the
-key and value inserted.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.empty
+fromList [(1,2),(3,2),(5,5)]
+</pre>
+<p>If there are duplicate keys in the original association list, the duplicates are just discarded. This is the type signature of <span class="fixed">fromList</span></p>
+<pre name="code" class="haskell:hs">
+Map.fromList :: (Ord k) =&gt; [(k, v)] -&gt; Map.Map k v
+</pre>
+<p>It says that it takes a list of pairs of type <span class="fixed">k</span> and <span class="fixed">v</span> and returns a map that maps from keys of type <span class="fixed">k</span> to type <span class="fixed">v</span>. Notice that when we were doing association lists with normal lists, the keys only had to be equatable (their type belonging to the <span class="fixed">Eq</span> typeclass) but now they have to be orderable. That's an essential constraint in the <span class="fixed">Data.Map</span> module. It needs the keys to be orderable so it can arrange them in a tree.</p>
+<p>You should always use <span class="fixed">Data.Map</span> for key-value associations unless you have keys that aren't part of the <span class="fixed">Ord</span> typeclass.</p>
+<p><span class="label function">empty</span> represents an empty map. It takes no arguments, it just returns an empty map.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.empty
+fromList []
+</pre>
+<p><span class="label function">insert</span> takes a key, a value and a map and returns a new map that's just like the old one, only with the key and value inserted.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.empty
 fromList []
 ghci&gt; Map.insert 3 100 Map.empty
 fromList [(3,100)]
 ghci&gt; Map.insert 5 600 (Map.insert 4 200 ( Map.insert 3 100  Map.empty))
 fromList [(3,100),(4,200),(5,600)]
 ghci&gt; Map.insert 5 600 . Map.insert 4 200 . Map.insert 3 100 $ Map.empty
-fromList [(3,100),(4,200),(5,600)]</code></pre>
-<p>We can implement our own <code>fromList</code> by using the empty
-map, <code>insert</code> and a fold. Watch:</p>
-<pre class="haskell:ghci"><code>fromList&#39; :: (Ord k) =&gt; [(k,v)] -&gt; Map.Map k v
-fromList&#39; = foldr (\(k,v) acc -&gt; Map.insert k v acc) Map.empty</code></pre>
-<p>It’s a pretty straightforward fold. We start of with an empty map and
-we fold it up from the right, inserting the key value pairs into the
-accumulator as we go along.</p>
-<p><code class="label function">null</code> checks if a map is
-empty.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.null Map.empty
+fromList [(3,100),(4,200),(5,600)]
+</pre>
+<p>We can implement our own <span class="fixed">fromList</span> by using the empty map, <span class="fixed">insert</span> and a fold. Watch:</p>
+<pre name="code" class="haskell:ghci">
+fromList' :: (Ord k) =&gt; [(k,v)] -&gt; Map.Map k v
+fromList' = foldr (\(k,v) acc -&gt; Map.insert k v acc) Map.empty
+</pre>
+<p>It's a pretty straightforward fold. We start of with an empty map and we fold it up from the right, inserting the key value pairs into the accumulator as we go along.</p>
+<p><span class="label function">null</span> checks if a map is empty.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.null Map.empty
 True
 ghci&gt; Map.null $ Map.fromList [(2,3),(5,5)]
-False</code></pre>
-<p><code class="label function">size</code> reports the size of a
-map.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.size Map.empty
+False
+</pre>
+<p><span class="label function">size</span> reports the size of a map.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.size Map.empty
 0
 ghci&gt; Map.size $ Map.fromList [(2,4),(3,3),(4,2),(5,4),(6,4)]
-5</code></pre>
-<p><code class="label function">singleton</code> takes a key and a value
-and creates a map that has exactly one mapping.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.singleton 3 9
+5
+</pre>
+<p><span class="label function">singleton</span> takes a key and a value and creates a map that has exactly one mapping.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.singleton 3 9
 fromList [(3,9)]
 ghci&gt; Map.insert 5 9 $ Map.singleton 3 9
-fromList [(3,9),(5,9)]</code></pre>
-<p><code class="label function">lookup</code> works like the
-<code>Data.List</code> <code>lookup</code>, only it operates on maps. It
-returns <code>Just something</code> if it finds something for the key
-and <code>Nothing</code> if it doesn’t.</p>
-<p><code class="label function">member</code> is a predicate that takes
-a key and a map and reports whether the key is in the map or not.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
+fromList [(3,9),(5,9)]
+</pre>
+<p><span class="label function">lookup</span> works like the <span class="fixed">Data.List</span> <span class="fixed">lookup</span>, only it operates on maps. It returns <span class="fixed">Just something</span> if it finds something for the key and <span class="fixed">Nothing</span> if it doesn't.</p>
+<p><span class="label function">member</span> is a predicate that takes a key and a map and reports whether the key is in the map or not.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)]
 True
 ghci&gt; Map.member 3 $ Map.fromList [(2,5),(4,5)]
-False</code></pre>
-<p><code class="label function">map</code> and <code
-class="label function">filter</code> work much like their list
-equivalents.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.map (*100) $ Map.fromList [(1,1),(2,4),(3,9)]
+False
+</pre>
+<p><span class="label function">map</span> and <span class="label function">filter</span> work much like their list equivalents.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.map (*100) $ Map.fromList [(1,1),(2,4),(3,9)]
 fromList [(1,100),(2,400),(3,900)]
-ghci&gt; Map.filter isUpper $ Map.fromList [(1,&#39;a&#39;),(2,&#39;A&#39;),(3,&#39;b&#39;),(4,&#39;B&#39;)]
-fromList [(2,&#39;A&#39;),(4,&#39;B&#39;)]</code></pre>
-<p><code class="label function">toList</code> is the inverse of
-<code>fromList</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.toList . Map.insert 9 2 $ Map.singleton 4 3
-[(4,3),(9,2)]</code></pre>
-<p><code class="label function">keys</code> and <code
-class="label function">elems</code> return lists of keys and values
-respectively. <code>keys</code> is the equivalent of
-<code>map fst . Map.toList</code> and <code>elems</code> is the
-equivalent of <code>map snd . Map.toList</code>.</p>
-<p><code class="label function">fromListWith</code> is a cool little
-function. It acts like <code>fromList</code>, only it doesn’t discard
-duplicate keys but it uses a function supplied to it to decide what to
-do with them. Let’s say that a friend can have several numbers and we
-have an association list set up like this.</p>
-<pre class="haskell:hs"><code>phoneBook =
-    [(&quot;amelia&quot;,&quot;555-2938&quot;)
-    ,(&quot;amelia&quot;,&quot;342-2492&quot;)
-    ,(&quot;freya&quot;,&quot;452-2928&quot;)
-    ,(&quot;isabella&quot;,&quot;493-2928&quot;)
-    ,(&quot;isabella&quot;,&quot;943-2929&quot;)
-    ,(&quot;isabella&quot;,&quot;827-9162&quot;)
-    ,(&quot;neil&quot;,&quot;205-2928&quot;)
-    ,(&quot;roald&quot;,&quot;939-8282&quot;)
-    ,(&quot;tenzing&quot;,&quot;853-2492&quot;)
-    ,(&quot;tenzing&quot;,&quot;555-2111&quot;)
-    ]</code></pre>
-<p>Now if we just use <code>fromList</code> to put that into a map,
-we’ll lose a few numbers! So here’s what we’ll do:</p>
-<pre class="haskell:hs"><code>phoneBookToMap :: (Ord k) =&gt; [(k, String)] -&gt; Map.Map k String
-phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ &quot;, &quot; ++ number2) xs</code></pre>
-<pre class="haskell:hs"><code>ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
-&quot;827-9162, 943-2929, 493-2928&quot;
-ghci&gt; Map.lookup &quot;roald&quot; $ phoneBookToMap phoneBook
-&quot;939-8282&quot;
-ghci&gt; Map.lookup &quot;amelia&quot; $ phoneBookToMap phoneBook
-&quot;342-2492, 555-2938&quot;</code></pre>
-<p>If a duplicate key is found, the function we pass is used to combine
-the values of those keys into some other value. We could also first make
-all the values in the association list singleton lists and then we can
-use <code>++</code> to combine the numbers.</p>
-<pre class="haskell:hs"><code>phoneBookToMap :: (Ord k) =&gt; [(k, a)] -&gt; Map.Map k [a]
-phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -&gt; (k,[v])) xs</code></pre>
-<pre class="haskell:ghci"><code>ghci&gt; Map.lookup &quot;isabella&quot; $ phoneBookToMap phoneBook
-[&quot;827-9162&quot;,&quot;943-2929&quot;,&quot;493-2928&quot;]</code></pre>
-<p>Pretty neat! Another use case is if we’re making a map from an
-association list of numbers and when a duplicate key is found, we want
-the biggest value for the key to be kept.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.fromListWith max [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)]
-fromList [(2,100),(3,29),(4,22)]</code></pre>
+ghci&gt; Map.filter isUpper $ Map.fromList [(1,'a'),(2,'A'),(3,'b'),(4,'B')]
+fromList [(2,'A'),(4,'B')]
+</pre>
+<p><span class="label function">toList</span> is the inverse of <span class="fixed">fromList</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.toList . Map.insert 9 2 $ Map.singleton 4 3
+[(4,3),(9,2)]
+</pre>
+<p><span class="label function">keys</span> and <span class="label function">elems</span> return lists of keys and values respectively. <span class="fixed">keys</span> is the equivalent of <span class="fixed">map fst . Map.toList</span> and <span class="fixed">elems</span> is the equivalent of <span class="fixed">map snd . Map.toList</span>.</p>
+<p><span class="label function">fromListWith</span> is a cool little function. It acts like <span class="fixed">fromList</span>, only it doesn't discard duplicate keys but it uses a function supplied to it to decide what to do with them. Let's say that a friend can have several numbers and we have an association list set up like this.</p>
+<pre name="code" class="haskell:hs">
+phoneBook =
+    [("amelia","555-2938")
+    ,("amelia","342-2492")
+    ,("freya","452-2928")
+    ,("isabella","493-2928")
+    ,("isabella","943-2929")
+    ,("isabella","827-9162")
+    ,("neil","205-2928")
+    ,("roald","939-8282")
+    ,("tenzing","853-2492")
+    ,("tenzing","555-2111")
+    ]
+</pre>
+<p>Now if we just use <span class="fixed">fromList</span> to put that into a map, we'll lose a few numbers! So here's what we'll do:</p>
+<pre name="code" class="haskell:hs">
+phoneBookToMap :: (Ord k) =&gt; [(k, String)] -&gt; Map.Map k String
+phoneBookToMap xs = Map.fromListWith (\number1 number2 -&gt; number1 ++ ", " ++ number2) xs
+</pre>
+<pre name="code" class="haskell:hs">
+ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
+"827-9162, 943-2929, 493-2928"
+ghci&gt; Map.lookup "roald" $ phoneBookToMap phoneBook
+"939-8282"
+ghci&gt; Map.lookup "amelia" $ phoneBookToMap phoneBook
+"342-2492, 555-2938"
+</pre>
+<p>If a duplicate key is found, the function we pass is used to combine the values of those keys into some other value. We could also first make all the values in the association list singleton lists and then we can use <span class="fixed">++</span> to combine the numbers.</p>
+<pre name="code" class="haskell:hs">
+phoneBookToMap :: (Ord k) =&gt; [(k, a)] -&gt; Map.Map k [a]
+phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -&gt; (k,[v])) xs
+</pre>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.lookup "isabella" $ phoneBookToMap phoneBook
+["827-9162","943-2929","493-2928"]
+</pre>
+<p>Pretty neat! Another use case is if we're making a map from an association list of numbers and when a duplicate key is found, we want the biggest value for the key to be kept.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.fromListWith max [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)]
+fromList [(2,100),(3,29),(4,22)]
+</pre>
 <p>Or we could choose to add together values on the same keys.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.fromListWith (+) [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)]
-fromList [(2,108),(3,62),(4,37)]</code></pre>
-<p><code class="label function">insertWith</code> is to
-<code>insert</code> what <code>fromListWith</code> is to
-<code>fromList</code>. It inserts a key-value pair into a map, but if
-that map already contains the key, it uses the function passed to it to
-determine what to do.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)]
-fromList [(3,104),(5,103),(6,339)]</code></pre>
-<p>These were just a few functions from <code>Data.Map</code>. You can
-see a complete list of functions in the <a
-href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
-<h2 id="data-set">Data.Set</h2>
-<p><img src="assets/images/modules/legosets.png" class="right"
-width="150" height="236" alt="legosets" /></p>
-<p>The <code>Data.Set</code> module offers us, well, sets. Like sets
-from mathematics. Sets are kind of like a cross between lists and maps.
-All the elements in a set are unique. And because they’re internally
-implemented with trees (much like maps in <code>Data.Map</code>),
-they’re ordered. Checking for membership, inserting, deleting, etc. is
-much faster than doing the same thing with lists. The most common
-operation when dealing with sets are inserting into a set, checking for
-membership and converting a set to a list.</p>
-<p>Because the names in <code>Data.Set</code> clash with a lot of
-<code>Prelude</code> and <code>Data.List</code> names, we do a qualified
-import.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.fromListWith (+) [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)]
+fromList [(2,108),(3,62),(4,37)]
+</pre>
+<p><span class="label function">insertWith</span> is to <span class="fixed">insert</span> what <span class="fixed">fromListWith</span> is to <span class="fixed">fromList</span>. It inserts a key-value pair into a map, but if that map already contains the key, it uses the function passed to it to determine what to do.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)]
+fromList [(3,104),(5,103),(6,339)]
+</pre>
+<p>These were just a few functions from <span class="fixed">Data.Map</span>. You can see a complete list of functions in the <a href="https://hackage.haskell.org/package/containers/docs/Data-Map.html">documentation</a>.</p>
+<a name="data-set"></a><h2>Data.Set</h2>
+<img src="assets/images/modules/legosets.png" alt="legosets" class="right" width="150" height="236">
+<p>The <span class="fixed">Data.Set</span> module offers us, well, sets. Like sets from mathematics. Sets are kind of like a cross between lists and maps. All the elements in a set are unique. And because they're internally implemented with trees (much like maps in <span class="fixed">Data.Map</span>), they're ordered. Checking for membership, inserting, deleting, etc. is much faster than doing the same thing with lists. The most common operation when dealing with sets are inserting into a set, checking for membership and converting a set to a list.</p>
+<p>Because the names in <span class="fixed">Data.Set</span> clash with a lot of <span class="fixed">Prelude</span> and <span class="fixed">Data.List</span> names, we do a qualified import.</p>
 <p>Put this import statement in a script:</p>
-<pre class="haskell:ghci"><code>import qualified Data.Set as Set</code></pre>
+<pre name="code" class="haskell:ghci">
+import qualified Data.Set as Set
+</pre>
 <p>And then load the script via GHCI.</p>
-<p>Let’s say we have two pieces of text. We want to find out which
-characters were used in both of them.</p>
-<pre class="haskell:ghci"><code>text1 = &quot;I just had an anime dream. Anime... Reality... Are they so different?&quot;
-text2 = &quot;The old man left his garbage can out and now his trash is all over my lawn!&quot;</code></pre>
-<p>The <code class="label function">fromList</code> function works much
-like you would expect. It takes a list and converts it into a set.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let set1 = Set.fromList text1
+<p>Let's say we have two pieces of text. We want to find out which characters were used in both of them.</p>
+<pre name="code" class="haskell:ghci">
+text1 = "I just had an anime dream. Anime... Reality... Are they so different?"
+text2 = "The old man left his garbage can out and now his trash is all over my lawn!"
+</pre>
+<p>
+The <span class="label function">fromList</span> function works much like you would expect. It takes a list and converts it into a set.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let set1 = Set.fromList text1
 ghci&gt; let set2 = Set.fromList text2
 ghci&gt; set1
-fromList &quot; .?AIRadefhijlmnorstuy&quot;
+fromList " .?AIRadefhijlmnorstuy"
 ghci&gt; set2
-fromList &quot; !Tabcdefghilmnorstuvwy&quot;</code></pre>
-<p>As you can see, the items are ordered and each element is unique. Now
-let’s use the <code class="label function">intersection</code> function
-to see which elements they both share.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.intersection set1 set2
-fromList &quot; adefhilmnorstuy&quot;</code></pre>
-<p>We can use the <code class="label function">difference</code>
-function to see which letters are in the first set but aren’t in the
-second one and vice versa.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.difference set1 set2
-fromList &quot;.?AIRj&quot;
+fromList " !Tabcdefghilmnorstuvwy"
+</pre>
+<p>As you can see, the items are ordered and each element is unique. Now let's use the <span class="label function">intersection</span> function to see which elements they both share.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.intersection set1 set2
+fromList " adefhilmnorstuy"
+</pre>
+<p>We can use the <span class="label function">difference</span> function to see which letters are in the first set but aren't in the second one and vice versa.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.difference set1 set2
+fromList ".?AIRj"
 ghci&gt; Set.difference set2 set1
-fromList &quot;!Tbcgvw&quot;</code></pre>
-<p>Or we can see all the unique letters used in both sentences by using
-<code class="label function">union</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.union set1 set2
-fromList &quot; !.?AIRTabcdefghijlmnorstuvwy&quot;</code></pre>
-<p>The <code class="label function">null</code>, <code
-class="label function">size</code>, <code
-class="label function">member</code>, <code
-class="label function">empty</code>, <code
-class="label function">singleton</code>, <code
-class="label function">insert</code> and <code
-class="label function">delete</code> functions all work like you’d
-expect them to.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.null Set.empty
+fromList "!Tbcgvw"
+</pre>
+<p>Or we can see all the unique letters used in both sentences by using <span class="label function">union</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.union set1 set2
+fromList " !.?AIRTabcdefghijlmnorstuvwy"
+</pre>
+<p>The <span class="label function">null</span>, <span class="label function">size</span>, <span class="label function">member</span>, <span class="label function">empty</span>, <span class="label function">singleton</span>, <span class="label function">insert</span> and <span class="label function">delete</span> functions all work like you'd expect them to.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.null Set.empty
 True
 ghci&gt; Set.null $ Set.fromList [3,4,5,5,4,3]
 False
@@ -1100,76 +764,54 @@ fromList [1,3,4,8,9]
 ghci&gt; Set.insert 8 $ Set.fromList [5..10]
 fromList [5,6,7,8,9,10]
 ghci&gt; Set.delete 4 $ Set.fromList [3,4,5,4,3,4,5]
-fromList [3,5]</code></pre>
-<p>We can also check for subsets or proper subset. Set A is a subset of
-set B if B contains all the elements that A does. Set A is a proper
-subset of set B if B contains all the elements that A does but has more
-elements.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.fromList [2,3,4] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
+fromList [3,5]
+</pre>
+<p>We can also check for subsets or proper subset. Set A is a subset of set B if B contains all the elements that A does. Set A is a proper subset of set B if B contains all the elements that A does but has more elements.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.fromList [2,3,4] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
 True
 ghci&gt; Set.fromList [1,2,3,4,5] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
 True
 ghci&gt; Set.fromList [1,2,3,4,5] `Set.isProperSubsetOf` Set.fromList [1,2,3,4,5]
 False
 ghci&gt; Set.fromList [2,3,4,8] `Set.isSubsetOf` Set.fromList [1,2,3,4,5]
-False</code></pre>
-<p>We can also <code class="label function">map</code> over sets and
-<code class="label function">filter</code> them.</p>
-<pre class="haskell:ghci"><code>ghci&gt; Set.filter odd $ Set.fromList [3,4,5,6,7,2,3,4]
+False
+</pre>
+<p>We can also <span class="label function">map</span> over sets and <span class="label function">filter</span> them.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; Set.filter odd $ Set.fromList [3,4,5,6,7,2,3,4]
 fromList [3,5,7]
 ghci&gt; Set.map (+1) $ Set.fromList [3,4,5,6,7,2,3,4]
-fromList [3,4,5,6,7,8]</code></pre>
-<p>Sets are often used to weed a list of duplicates from a list by first
-making it into a set with <code>fromList</code> and then converting it
-back to a list with <code class="label function">toList</code>. The
-<code>Data.List</code> function <code>nub</code> already does that, but
-weeding out duplicates for large lists is much faster if you cram them
-into a set and then convert them back to a list than using
-<code>nub</code>. But using <code>nub</code> only requires the type of
-the list’s elements to be part of the <code>Eq</code> typeclass, whereas
-if you want to cram elements into a set, the type of the list has to be
-in <code>Ord</code>.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let setNub xs = Set.toList $ Set.fromList xs
-ghci&gt; setNub &quot;HEY WHATS CRACKALACKIN&quot;
-&quot; ACEHIKLNRSTWY&quot;
-ghci&gt; nub &quot;HEY WHATS CRACKALACKIN&quot;
-&quot;HEY WATSCRKLIN&quot;</code></pre>
-<p><code>setNub</code> is generally faster than <code>nub</code> on big
-lists but as you can see, <code>nub</code> preserves the ordering of the
-list’s elements, while <code>setNub</code> does not.</p>
-<h2 id="making-our-own-modules">Making our own modules</h2>
-<p><img src="assets/images/modules/making_modules.png" class="right"
-width="345" height="224" alt="making modules" /></p>
-<p>We’ve looked at some cool modules so far, but how do we make our own
-module? Almost every programming language enables you to split your code
-up into several files and Haskell is no different. When making programs,
-it’s good practice to take functions and types that work towards a
-similar purpose and put them in a module. That way, you can easily reuse
-those functions in other programs by just importing your module.</p>
-<p>Let’s see how we can make our own modules by making a little module
-that provides some functions for calculating the volume and area of a
-few geometrical objects. We’ll start by creating a file called
-<code>Geometry.hs</code>.</p>
-<p>We say that a module <em>exports</em> functions. What that means is
-that when I import a module, I can use the functions that it exports. It
-can define functions that its functions call internally, but we can only
-see and use the ones that it exports.</p>
-<p>At the beginning of a module, we specify the module name. If we have
-a file called <code>Geometry.hs</code>, then we should name our module
-<code>Geometry</code>. Then, we specify the functions that it exports
-and after that, we can start writing the functions. So we’ll start with
-this.</p>
-<pre class="haskell:ghci"><code>module Geometry
+fromList [3,4,5,6,7,8]
+</pre>
+<p>Sets are often used to weed a list of duplicates from a list by first making it into a set with <span class="fixed">fromList</span> and then converting it back to a list with <span class="label function">toList</span>. The <span class="fixed">Data.List</span> function <span class="fixed">nub</span> already does that, but weeding out duplicates for large lists is much faster if you cram them into a set and then convert them back to a list than using <span class="fixed">nub</span>. But using <span class="fixed">nub</span> only requires the type of the list's elements to be part of the <span class="fixed">Eq</span> typeclass, whereas if you want to cram elements into a set, the type of the list has to be in <span class="fixed">Ord</span>.</p>
+<pre name="code" class="haskell:ghci">
+ghci&gt; let setNub xs = Set.toList $ Set.fromList xs
+ghci&gt; setNub "HEY WHATS CRACKALACKIN"
+" ACEHIKLNRSTWY"
+ghci&gt; nub "HEY WHATS CRACKALACKIN"
+"HEY WATSCRKLIN"
+</pre>
+<p><span class="fixed">setNub</span> is generally faster than <span class="fixed">nub</span> on big lists but as you can see, <span class="fixed">nub</span> preserves the ordering of the list's elements, while <span class="fixed">setNub</span> does not.</p>
+<a name="making-our-own-modules"></a><h2>Making our own modules</h2>
+<img src="assets/images/modules/making_modules.png" alt="making modules" class="right" width="345" height="224">
+<p>We've looked at some cool modules so far, but how do we make our own module? Almost every programming language enables you to split your code up into several files and Haskell is no different. When making programs, it's good practice to take functions and types that work towards a similar purpose and put them in a module. That way, you can easily reuse those functions in other programs by just importing your module.</p>
+<p>Let's see how we can make our own modules by making a little module that provides some functions for calculating the volume and area of a few geometrical objects. We'll start by creating a file called <span class="fixed">Geometry.hs</span>.</p>
+<p>We say that a module <i>exports</i> functions. What that means is that when I import a module, I can use the functions that it exports. It can define functions that its functions call internally, but we can only see and use the ones that it exports.</p>
+<p>At the beginning of a module, we specify the module name. If we have a file called <span class="fixed">Geometry.hs</span>, then we should name our module <span class="fixed">Geometry</span>. Then, we specify the functions that it exports and after that, we can start writing the functions. So we'll start with this.</p>
+<pre name="code" class="haskell:ghci">
+module Geometry
 ( sphereVolume
 , sphereArea
 , cubeVolume
 , cubeArea
 , cuboidArea
 , cuboidVolume
-) where</code></pre>
-<p>As you can see, we’ll be doing areas and volumes for spheres, cubes
-and cuboids. Let’s go ahead and define our functions then:</p>
-<pre class="haskell:ghci"><code>module Geometry
+) where
+</pre>
+<p>As you can see, we'll be doing areas and volumes for spheres, cubes and cuboids. Let's go ahead and define our functions then:</p>
+<pre name="code" class="haskell:ghci">
+module Geometry
 ( sphereVolume
 , sphereArea
 , cubeVolume
@@ -1197,40 +839,20 @@ cuboidArea :: Float -&gt; Float -&gt; Float -&gt; Float
 cuboidArea a b c = rectangleArea a b * 2 + rectangleArea a c * 2 + rectangleArea c b * 2
 
 rectangleArea :: Float -&gt; Float -&gt; Float
-rectangleArea a b = a * b</code></pre>
-<p>Pretty standard geometry right here. There are a few things to take
-note of though. Because a cube is only a special case of a cuboid, we
-defined its area and volume by treating it as a cuboid whose sides are
-all of the same length. We also defined a helper function called
-<code>rectangleArea</code>, which calculates a rectangle’s area based on
-the lenghts of its sides. It’s rather trivial because it’s just
-multiplication. Notice that we used it in our functions in the module
-(namely <code>cuboidArea</code> and <code>cuboidVolume</code>) but we
-didn’t export it! Because we want our module to just present functions
-for dealing with three-dimensional objects, we used
-<code>rectangleArea</code> but we didn’t export it.</p>
-<p>When making a module, we usually export only those functions that act
-as a sort of interface to our module so that the implementation is
-hidden. If someone is using our <code>Geometry</code> module, they don’t
-have to concern themselves with functions that we don’t export. We can
-decide to change those functions completely or delete them in a newer
-version (we could delete <code>rectangleArea</code> and just use
-<code>*</code> instead) and no one will mind because we weren’t
-exporting them in the first place.</p>
+rectangleArea a b = a * b
+</pre>
+<p>Pretty standard geometry right here. There are a few things to take note of though. Because a cube is only a special case of a cuboid, we defined its area and volume by treating it as a cuboid whose sides are all of the same length. We also defined a helper function called <span class="fixed">rectangleArea</span>, which calculates a rectangle's area based on the lenghts of its sides. It's rather trivial because it's just multiplication. Notice that we used it in our functions in the module (namely <span class="fixed">cuboidArea</span> and <span class="fixed">cuboidVolume</span>) but we didn't export it! Because we want our module to just present functions for dealing with three-dimensional objects, we used <span class="fixed">rectangleArea</span> but we didn't export it.</p>
+<p>When making a module, we usually export only those functions that act as a sort of interface to our module so that the implementation is hidden. If someone is using our <span class="fixed">Geometry</span> module, they don't have to concern themselves with functions that we don't export. We can decide to change those functions completely or delete them in a newer version (we could delete <span class="fixed">rectangleArea</span> and just use <span class="fixed">*</span> instead) and no one will mind because we weren't exporting them in the first place.</p>
 <p>To use our module, we just do:</p>
-<pre class="haskell:ghci"><code>import Geometry</code></pre>
-<p><code>Geometry.hs</code> has to be in the same folder that the
-program that’s importing it is in, though.</p>
-<p>Modules can also have a hierarchical structure. Each module can have
-a number of submodules and they can have submodules of their own. Let’s
-section these functions off so that <code>Geometry</code> is a module
-that has three submodules, one for each type of object.</p>
-<p>First, we’ll make a folder called <code>Geometry</code>. Mind the
-capital G. In it, we’ll place three files: <code>Sphere.hs</code>,
-<code>Cuboid.hs</code>, and <code>Cube.hs</code>. Here’s what the files
-will contain:</p>
-<p><code>Sphere.hs</code></p>
-<pre class="haskell:ghci"><code>module Geometry.Sphere
+<pre name="code" class="haskell:ghci">
+import Geometry
+</pre>
+<p><span class="fixed">Geometry.hs</span> has to be in the same folder that the program that's importing it is in, though.</p>
+<p>Modules can also have a hierarchical structure. Each module can have a number of submodules and they can have submodules of their own. Let's section these functions off so that <span class="fixed">Geometry</span> is a module that has three submodules, one for each type of object.</p>
+<p>First, we'll make a folder called <span class="fixed">Geometry</span>. Mind the capital G. In it, we'll place three files: <span class="fixed">Sphere.hs</span>, <span class="fixed">Cuboid.hs</span>, and <span class="fixed">Cube.hs</span>. Here's what the files will contain:</p>
+<p><span class="fixed">Sphere.hs</span></p>
+<pre name="code" class="haskell:ghci">
+module Geometry.Sphere
 ( volume
 , area
 ) where
@@ -1239,9 +861,11 @@ volume :: Float -&gt; Float
 volume radius = (4.0 / 3.0) * pi * (radius ^ 3)
 
 area :: Float -&gt; Float
-area radius = 4 * pi * (radius ^ 2)</code></pre>
-<p><code>Cuboid.hs</code></p>
-<pre class="haskell:ghci"><code>module Geometry.Cuboid
+area radius = 4 * pi * (radius ^ 2)
+</pre>
+<p><span class="fixed">Cuboid.hs</span></p>
+<pre name="code" class="haskell:ghci">
+module Geometry.Cuboid
 ( volume
 , area
 ) where
@@ -1253,9 +877,11 @@ area :: Float -&gt; Float -&gt; Float -&gt; Float
 area a b c = rectangleArea a b * 2 + rectangleArea a c * 2 + rectangleArea c b * 2
 
 rectangleArea :: Float -&gt; Float -&gt; Float
-rectangleArea a b = a * b</code></pre>
-<p><code>Cube.hs</code></p>
-<pre class="haskell:ghci"><code>module Geometry.Cube
+rectangleArea a b = a * b
+</pre>
+<p><span class="fixed">Cube.hs</span></p>
+<pre name="code" class="haskell:ghci">
+module Geometry.Cube
 ( volume
 , area
 ) where
@@ -1266,36 +892,21 @@ volume :: Float -&gt; Float
 volume side = Cuboid.volume side side side
 
 area :: Float -&gt; Float
-area side = Cuboid.area side side side</code></pre>
-<p>Alright! So first is <code>Geometry.Sphere</code>. Notice how we
-placed it in a folder called <code>Geometry</code> and then defined the
-module name as <code>Geometry.Sphere</code>. We did the same for the
-cuboid. Also notice how in all three submodules, we defined functions
-with the same names. We can do this because they’re separate modules. We
-want to use functions from <code>Geometry.Cuboid</code> in
-<code>Geometry.Cube</code> but we can’t just straight up do
-<code>import Geometry.Cuboid</code> because it exports functions with
-the same names as <code>Geometry.Cube</code>. That’s why we do a
-qualified import and all is well.</p>
-<p>So now if we’re in a file that’s on the same level as the
-<code>Geometry</code> folder, we can do, say:</p>
-<pre class="haskell:ghci"><code>import Geometry.Sphere</code></pre>
-<p>And then we can call <code>area</code> and <code>volume</code> and
-they’ll give us the area and volume for a sphere. And if we want to
-juggle two or more of these modules, we have to do qualified imports
-because they export functions with the same names. So we just do
-something like:</p>
-<pre class="haskell:ghci"><code>import qualified Geometry.Sphere as Sphere
+area side = Cuboid.area side side side
+</pre>
+<p>Alright! So first is <span class="fixed">Geometry.Sphere</span>. Notice how we placed it in a folder called <span class="fixed">Geometry</span> and then defined the module name as <span class="fixed">Geometry.Sphere</span>. We did the same for the cuboid. Also notice how in all three submodules, we defined functions with the same names. We can do this because they're separate modules. We want to use functions from <span class="fixed">Geometry.Cuboid</span> in <span class="fixed">Geometry.Cube</span> but we can't just straight up do <span class="fixed">import Geometry.Cuboid</span> because it exports functions with the same names as <span class="fixed">Geometry.Cube</span>. That's why we do a qualified import and all is well.</p>
+<p>So now if we're in a file that's on the same level as the <span class="fixed">Geometry</span> folder, we can do, say:</p>
+<pre name="code" class="haskell:ghci">
+import Geometry.Sphere
+</pre>
+<p>And then we can call <span class="fixed">area</span> and <span class="fixed">volume</span> and they'll give us the area and volume for a sphere. And if we want to juggle two or more of these modules, we have to do qualified imports because they export functions with the same names. So we just do something like:</p>
+<pre name="code" class="haskell:ghci">
+import qualified Geometry.Sphere as Sphere
 import qualified Geometry.Cuboid as Cuboid
-import qualified Geometry.Cube as Cube</code></pre>
-<p>And then we can call <code>Sphere.area</code>,
-<code>Sphere.volume</code>, <code>Cuboid.area</code>, etc. and each will
-calculate the area or volume for their corresponding object.</p>
-<p>The next time you find yourself writing a file that’s really big and
-has a lot of functions, try to see which functions serve some common
-purpose and then see if you can put them in their own module. You’ll be
-able to just import your module the next time you’re writing a program
-that requires some of the same functionality.</p>
+import qualified Geometry.Cube as Cube
+</pre>
+<p>And then we can call <span class="fixed">Sphere.area</span>, <span class="fixed">Sphere.volume</span>, <span class="fixed">Cuboid.area</span>, etc. and each will calculate the area or volume for their corresponding object.</p>
+<p>The next time you find yourself writing a file that's really big and has a lot of functions, try to see which functions serve some common purpose and then see if you can put them in their own module. You'll be able to just import your module the next time you're writing a program that requires some of the same functionality.</p>
                 <div class="footdiv">
                 <ul>
                     <li style="text-align:left">
