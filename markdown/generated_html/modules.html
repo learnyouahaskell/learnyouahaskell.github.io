@@ -157,7 +157,7 @@ the rows and vice versa.</p>
 <pre class="haskell:ghci"><code>ghci&gt; transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
 ghci&gt; transpose [&quot;hey&quot;,&quot;there&quot;,&quot;folks&quot;]
-[&quot;htg&quot;,&quot;ehu&quot;,&quot;yey&quot;,&quot;rs&quot;,&quot;e&quot;]</code></pre>
+[&quot;htf&quot;,&quot;eho&quot;,&quot;yel&quot;,&quot;rk&quot;,&quot;es&quot;]</code></pre>
 <p>Say we have the polynomials <em>3x<sup>2</sup> + 5x + 9</em>,
 <em>10x<sup>3</sup> + 9</em> and <em>8x<sup>3</sup> + 5x<sup>2</sup> + x
 - 1</em> and we want to add them together. We can use the lists
@@ -984,8 +984,8 @@ equivalent of <code>map snd . Map.toList</code>.</p>
 <p><code class="label function">fromListWith</code> is a cool little
 function. It acts like <code>fromList</code>, only it doesn’t discard
 duplicate keys but it uses a function supplied to it to decide what to
-do with them. Let’s say that a friend can have several numbers and we have
-an association list set up like this.</p>
+do with them. Let’s say that a friend can have several numbers and we
+have an association list set up like this.</p>
 <pre class="haskell:hs"><code>phoneBook =
     [(&quot;amelia&quot;,&quot;555-2938&quot;)
     ,(&quot;amelia&quot;,&quot;342-2492&quot;)
