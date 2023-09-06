@@ -424,7 +424,7 @@ It has a type declaration of `fromIntegral :: (Num b, Integral a) => a -> b`.
 From its type signature we see that it takes an integral number and turns it into a more general number.
 That's useful when you want integral and floating point types to work together nicely.
 For instance, the `length` function has a type declaration of `length :: [a] -> Int` instead of having a more general type of `(Num b) => length :: [a] -> b`.
-Anyway, if we try to get a length of a list and then add it to `3.2`, we'll get an error because we tried to add together an `Int` and a floating point number.
+If we try to get a length of a list and then add it to `3.2`, we'll get an error because we tried to add together an `Int` and a floating point number.
 So to get around this, we do `fromIntegral (length [1,2,3,4]) + 3.2` and it all works out.
 
 Notice that `fromIntegral` has several class constraints in its type signature.
