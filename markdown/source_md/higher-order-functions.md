@@ -131,12 +131,10 @@ What happens if we try to just do `multThree 3 4` in GHCI instead of binding it 
 
 ```{.haskell:hs}
 ghci> multThree 3 4
-<interactive>:1:0:
-    No instance for (Show (t -> t))
-      arising from a use of `print' at <interactive>:1:0-12
-    Possible fix: add an instance declaration for (Show (t -> t))
-    In the expression: print it
-    In a 'do' expression: print it
+<interactive>:1:1: error: [GHC-39999]
+    • No instance for ‘Show (a0 -> a0)’ arising from a use of ‘print’
+        (maybe you haven't applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it
 ```
 
 GHCI is telling us that the expression produced a function of type `a -> a` but it doesn't know how to print it to the screen.
