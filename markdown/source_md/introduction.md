@@ -20,6 +20,7 @@ Although I bet that even if you don't have any significant programming experienc
 
 The channel #haskell on the Libera.Chat network is a great place to ask questions if you're feeling stuck.
 People there are extremely nice, patient and understanding to newbies.
+If IRC it not your cup of tea, [https://discourse.haskell.org](https://discourse.haskell.org) is a popular community forum with a section for learners.
 
 I failed to learn Haskell approximately 2 times before finally grasping it because it all just seemed too weird to me and I didn't get it.
 But then once it just "clicked" and after getting over that initial hurdle, it was pretty much smooth sailing.
