@@ -115,7 +115,6 @@ pre.code {
     color:black;
 }
 .fixed {
-    white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;
     background-color:#ddd;
     font-weight:normal;
