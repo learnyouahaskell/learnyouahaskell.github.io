@@ -1083,7 +1083,6 @@ ghci> a .++ b
 ```
 
 Nice.
-Is nice.
 If we wanted, we could implement all of the functions that operate on lists on our own list type.
 
 Notice how we pattern matched on `(x :-: xs)`.
