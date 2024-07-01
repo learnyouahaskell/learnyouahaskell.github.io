@@ -303,7 +303,7 @@ instance Functor Maybe where
 ```
 
 We imagine that `id` plays the role of the `f` parameter in the implementation.
-We see that if wee `fmap id` over `Just x`, the result will be `Just (id x)`, and because `id` just returns its parameter, we can deduce that `Just (id x)` equals `Just x`.
+We see that if we `fmap id` over `Just x`, the result will be `Just (id x)`, and because `id` just returns its parameter, we can deduce that `Just (id x)` equals `Just x`.
 So now we know that if we map `id` over a `Maybe` value with a `Just` value constructor, we get that same value back.
 
 Seeing that mapping `id` over a `Nothing` value returns the same value is trivial.
