@@ -879,7 +879,7 @@ Then, we map the lambda over it and the result is the following:
 ```
 
 The lambda is applied to every element and we get a list of lists.
-Finally, we just flatten the list and voila!
+Finally, we just flatten the list and voilà!
 We've applied a non-deterministic function to a non-deterministic value!
 
 Non-determinism also includes support for failure.
