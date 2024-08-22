@@ -586,7 +586,7 @@ Finally, `Just (3+) <*> Just 5` is carried out, which results in a `Just 8`.
 
 Isn't this awesome?!
 Applicative functors and the applicative style of doing `pure f <*> x <*> y <*> ...` allow us to take a function that expects parameters that aren't necessarily wrapped in functors and use that function to operate on several values that are in functor contexts.
-The function can take as many parameters as we want, because it's always partially applied step by step between occurences of `<*>`.
+The function can take as many parameters as we want, because it's always partially applied step by step between occurrences of `<*>`.
 
 This becomes even more handy and apparent if we consider the fact that `pure f <*> x` equals `fmap f x`.
 This is one of the applicative laws.
@@ -1578,7 +1578,7 @@ We were able to use the general type of `[a]` (as opposed to specifying `[Int]` 
 
 Because `mconcat` has a default implementation, we get it for free when we make something an instance of `Monoid`.
 In the case of the list, `mconcat` turns out to be just `concat`.
-It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjecent lists in a list.
+It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjacent lists in a list.
 
 The monoid laws do indeed hold for the list instance.
 When we have several lists and we `mappend` (or `++`) them together, it doesn't matter which ones we do first, because they're just joined at the ends anyway.
