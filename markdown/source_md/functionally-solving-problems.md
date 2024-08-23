@@ -41,7 +41,7 @@ Finally, there's a `-`.
 We pop `10` and `14` from the stack, subtract `14` from `10` and push that back.
 The number on the stack is now `-4` and because there are no more numbers or operators in our expression, that's our result!
 
-Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains a RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
+Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains an RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
 
 What would the type of that function be?
 We want it to take a string as a parameter and produce a number as its result.

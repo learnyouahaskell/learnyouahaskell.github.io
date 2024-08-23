@@ -1587,7 +1587,7 @@ Folding with a binary function that returns a `Writer` value is cool as well bec
 
 ![i've found yellow!](assets/images/for-a-few-monads-more/miner.png){.left width=280 height=396}
 
-When we were solving the problem of [implementing a RPN calculator](http://learnyouahaskell.com/reverse-polish-notation-calculator), we noted that it worked fine as long as the input that it got made sense.
+When we were solving the problem of [implementing an RPN calculator](http://learnyouahaskell.com/reverse-polish-notation-calculator), we noted that it worked fine as long as the input that it got made sense.
 But if something went wrong, it caused our whole program to crash.
 Now that we know how to take some code that we have and make it monadic, let's take our RPN calculator and add error handling to it by taking advantage of the `Maybe` monad.
 
