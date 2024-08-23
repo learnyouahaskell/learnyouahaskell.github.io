@@ -2067,7 +2067,7 @@ ghci> head []
 
 ![Stop right there, criminal scum! Nobody breaks the law on my watch! Now pay your fine or it's off to jail.](assets/images/input-and-output/police.png){width=241 height=328 .left}
 
-Pure code can throw exceptions, but it they can only be caught in the I/O part of our code (when we're inside a *do* block that goes into `main`).
+Pure code can throw exceptions, but they can only be caught in the I/O part of our code (when we're inside a *do* block that goes into `main`).
 That's because you don't know when (or if) anything will be evaluated in pure code, because it is lazy and doesn't have a well-defined order of execution, whereas I/O code does.
 
 Earlier, we talked about how we should spend as little time as possible in the I/O part of our program.
