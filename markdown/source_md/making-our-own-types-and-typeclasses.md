@@ -857,7 +857,7 @@ Either way, the `IntMap` type constructor takes one parameter and that is the ty
 
 ::: {.hintbox}
 **Oh yeah**.
-If you're going to try and implement this, you'll probably going to do a qualified import of `Data.Map`.
+If you're going to try and implement this, you'll probably need to do a qualified import of `Data.Map`.
 When you do a qualified import, type constructors also have to be preceded with a module name.
 So you'd write `type IntMap = Map.Map Int`.
 :::
