@@ -185,7 +185,7 @@ It just states that the first component's type and the return value's type are t
 
 A typeclass is a sort of interface that defines some behavior.
 If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
-A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object oriented languages.
+A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object-oriented languages.
 Well, they're not.
 You can think of them kind of as Java interfaces, only better.
 
