@@ -130,7 +130,7 @@ So that's why we have to specify both the `Num` and `Ord` class constraints when
 Next up, we'll implement `take`.
 It takes a certain number of elements from a list.
 For instance, `take 3 [5,4,3,2,1]` will return `[5,4,3]`.
-If we try to take 0 or less elements from a list, we get an empty list.
+If we try to take 0 or fewer elements from a list, we get an empty list.
 Also if we try to take anything from an empty list, we get an empty list.
 Notice that those are two edge conditions right there.
 So let's write that out:
