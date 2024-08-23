@@ -78,7 +78,7 @@ ghci> :t putStrLn "hello, world"
 putStrLn "hello, world" :: IO ()
 ```
 
-We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also know as unit).
+We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also known as "unit").
 An I/O action is something that, when performed, will carry out an action with a side-effect (that's usually either reading from the input or printing stuff to the screen) and will also contain some kind of return value inside it.
 Printing a string to the terminal doesn't really have any kind of meaningful return value, so a dummy value of `()` is used.
 
