@@ -537,7 +537,7 @@ Vector 148 666 222
 ![gob](assets/images/making-our-own-types-and-typeclasses/gob.png){.right width=112 height=350}
 
 In the [Typeclasses 101](types-and-typeclasses.html#typeclasses-101) section, we explained the basics of typeclasses.
-We explained that a typeclass is a sort of an interface that defines some behavior.
+We explained that a typeclass is a sort of interface that defines some behavior.
 A type can be made an **instance** of a typeclass if it supports that behavior.
 Example: the `Int` type is an instance of the `Eq` typeclass because the `Eq` typeclass defines behavior for stuff that can be equated.
 And because integers can be equated, `Int` is a part of the `Eq` typeclass.
