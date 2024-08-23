@@ -448,7 +448,7 @@ We determine `forwardPriceToB` and `crossPriceToB` in the same manner.
 
 Now that we know what the best way to A and B is, we just need to make the new paths to A and B based on that.
 If it's cheaper to go to A by just going forwards, we set `newPathToA` to be `(A,a):pathA`.
-Basically we prepend the `Label` `A` and the section length `a` to the optimal path path on A so far.
+Basically we prepend the `Label` `A` and the section length `a` to the optimal path on A so far.
 Basically, we say that the best path to the next A crossroads is the path to the previous A crossroads and then one section forward via A.
 Remember, `A` is just a label, whereas `a` has a type of `Int`.
 Why do we prepend instead of doing `pathA ++ [(A,a)]`?
