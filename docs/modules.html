@@ -432,7 +432,7 @@ ghci&gt; sortBy (compare `on` length) xs
 <p><span class="label function">isLatin1</span> checks whether a character falls into the first 256 characters of Unicode.</p>
 <p><span class="label function">isAsciiUpper</span> checks whether a character is ASCII and upper-case.</p>
 <p><span class="label function">isAsciiLower</span> checks whether a character is ASCII and lower-case.</p>
-<p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you'll use this to filter out strings or something like that. For instance, let's say we're making a program that takes a username and the username can only be comprised of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
+<p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you'll use this to filter out strings or something like that. For instance, let's say we're making a program that takes a username and the username can only be composed of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; all isAlphaNum "bobby283"
 True
