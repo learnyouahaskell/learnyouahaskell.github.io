@@ -615,7 +615,7 @@ ghci&gt; 3 `Cons` (4 `Cons` (5 `Cons` Empty))
 Cons 3 (Cons 4 (Cons 5 Empty))
 </pre>
 <p>We called our <span class="fixed">Cons</span> constructor in an infix manner so you can see how it's just like <span class="fixed">:</span>. <span class="fixed">Empty</span> is like <span class="fixed">[]</span> and <span class="fixed">4 `Cons` (5 `Cons` Empty)</span> is like <span class="fixed">4:(5:[])</span>.</p>
-<p>We can define functions to be automatically infix by making them comprised of only special characters. We can also do the same with constructors, since they're just functions that return a data type. So check this out.</p>
+<p>We can define functions to be automatically infix by making them composed of only special characters. We can also do the same with constructors, since they're just functions that return a data type. So check this out.</p>
 <pre name="code" class="haskell:hs">
 infixr 5 :-:
 data List a = Empty | a :-: (List a) deriving (Show, Read, Eq, Ord)
