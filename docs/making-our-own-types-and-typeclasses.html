@@ -426,7 +426,7 @@ True
 <pre name="code" class="haskell:hs">
 data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 </pre>
-<p>Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the <span class="fixed">Enum</span> typeclass. The <span class="fixed">Enum</span> typeclass is for things that have predecessors and successors. We can also make it part of the <span class="fixed">Bounded</span> typeclass, which is for things that have a lowest possible value and highest possible value. And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.</p>
+<p>Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the <span class="fixed">Enum</span> typeclass. The <span class="fixed">Enum</span> typeclass is for things that have predecessors and successors. We can also make it part of the <span class="fixed">Bounded</span> typeclass, which is for things that have the lowest possible value and highest possible value. And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.</p>
 <pre name="code" class="haskell:hs">
 data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
            deriving (Eq, Ord, Show, Read, Bounded, Enum)
