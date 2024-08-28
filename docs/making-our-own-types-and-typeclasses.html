@@ -44,7 +44,7 @@ data Bool = False | True
 data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647
 </pre>
 <img src="assets/images/making-our-own-types-and-typeclasses/caveman.png" alt="caveman" class="left" width="220" height="215">
-<p>The first and last value constructors are the minimum and maximum possible values of <span class="fixed">Int</span>. It's not actually defined like this, the ellipses are here because we omitted a heapload of numbers, so this is just for illustrative purposes.</p>
+<p>The first and last value constructors are the minimum and maximum possible values of <span class="fixed">Int</span>. It's not actually defined like this, the ellipses are here because we omitted a heap load of numbers, so this is just for illustrative purposes.</p>
 <p>Now, let's think about how we would represent a shape in Haskell. One way would be to use tuples. A circle could be denoted as <span class="fixed">(43.1, 55.0, 10.4)</span> where the first and second fields are the coordinates of the circle's center and the third field is the radius. Sounds OK, but those could also represent a 3D vector or anything else. A better solution would be to make our own type to represent a shape. Let's say that a shape can be a circle or a rectangle. Here it is:</p>
 <pre name="code" class="haskell:hs">
 data Shape = Circle Float Float Float | Rectangle Float Float Float Float
