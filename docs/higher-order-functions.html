@@ -440,7 +440,7 @@ ghci&gt; map (negate . sum . tail) [[1..5],[3..6],[1..7]]
 sum' :: (Num a) =&gt; [a] -&gt; a
 sum' xs = foldl (+) 0 xs
 </pre>
-<p>The <span class="fixed">xs</span> is exposed on both right sides. Because of currying, we can omit the <span class="fixed">xs</span> on both sides, because calling <span class="fixed">foldl (+) 0</span> creates a function that takes a list. Writing the function as <span class="fixed">sum' = foldl (+) 0</span> is called writing it in point free style. How would we write this in point free style?</p>
+<p>The <span class="fixed">xs</span> is exposed on both sides, right? Because of currying, we can omit the <span class="fixed">xs</span> on both sides, because calling <span class="fixed">foldl (+) 0</span> creates a function that takes a list. Writing the function as <span class="fixed">sum' = foldl (+) 0</span> is called writing it in point free style. How would we write this in point free style?</p>
 <pre name="code" class="haskell:hs">
 fn x = ceiling (negate (tan (cos (max 50 x))))
 </pre>
