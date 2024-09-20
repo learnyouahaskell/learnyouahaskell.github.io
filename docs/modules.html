@@ -205,7 +205,7 @@ ghci&gt; sort [8,5,3,2,1,6,4,2]
 ghci&gt; sort "This will be sorted soon"
 "    Tbdeehiillnooorssstw"
 </pre>
-<p><span class="label function">group</span> takes a list and groups adjacent elements into sublists if they are equal.</p>
+<p><span class="label function">group</span> takes a list and groups adjacent elements into sub lists if they are equal.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; group [1,1,1,1,2,2,2,2,3,3,2,2,2,5,6,7]
 [[1,1,1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]
@@ -224,7 +224,7 @@ ghci&gt; tails "w00t"
 ghci&gt; let w = "w00t" in zip (inits w) (tails w)
 [("","w00t"),("w","00t"),("w0","0t"),("w00","t"),("w00t","")]
 </pre>
-<p>Let's use a fold to implement searching a list for a sublist.</p>
+<p>Let's use a fold to implement searching a list for a sub list.</p>
 <pre name="code" class="haskell:hs">
 search :: (Eq a) =&gt; [a] -&gt; [a] -&gt; Bool
 search needle haystack =
@@ -232,7 +232,7 @@ search needle haystack =
     in  foldl (\acc x -&gt; if take nlen x == needle then True else acc) False (tails haystack)
 </pre>
 <p>First we call <span class="fixed">tails</span> with the list in which we're searching. Then we go over each tail and see if it starts with what we're looking for.</p>
-<p>With that, we actually just made a function that behaves like <span class="label function">isInfixOf</span>. <span class="fixed">isInfixOf</span> searches for a sublist within a list and returns <span class="fixed">True</span> if the sublist we're looking for is somewhere inside the target list.</p>
+<p>With that, we actually just made a function that behaves like <span class="label function">isInfixOf</span>. <span class="fixed">isInfixOf</span> searches for a sub list within a list and returns <span class="fixed">True</span> if the sub list we're looking for is somewhere inside the target list.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; "cat" `isInfixOf` "im a cat burglar"
 True
@@ -241,7 +241,7 @@ False
 ghci&gt; "cats" `isInfixOf` "im a cat burglar"
 False
 </pre>
-<p><span class="label function">isPrefixOf</span> and <span class="label function">isSuffixOf</span> search for a sublist at the beginning and at the end of a list, respectively.</p>
+<p><span class="label function">isPrefixOf</span> and <span class="label function">isSuffixOf</span> search for a sub list at the beginning and at the end of a list, respectively.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; "hey" `isPrefixOf` "hey there!"
 True
@@ -383,7 +383,7 @@ ghci&gt; insert 3 [1,2,4,3,2,1]
 </pre>
 <p>What <span class="fixed">length</span>, <span class="fixed">take</span>, <span class="fixed">drop</span>, <span class="fixed">splitAt</span>, <span class="fixed">!!</span> and <span class="fixed">replicate</span> have in common is that they take an <span class="fixed">Int</span> as one of their parameters (or return an <span class="fixed">Int</span>), even though they could be more generic and usable if they just took any type that's part of the <span class="fixed">Integral</span> or <span class="fixed">Num</span> typeclasses (depending on the functions). They do that for historical reasons. However, fixing that would probably break a lot of existing code. That's why <span class="fixed">Data.List</span> has their more generic equivalents, named <span class="label function">genericLength</span>, <span class="label function">genericTake</span>, <span class="label function">genericDrop</span>, <span class="label function">genericSplitAt</span>, <span class="label function">genericIndex</span> and <span class="label function">genericReplicate</span>. For instance, <span class="fixed">length</span> has a type signature of <span class="fixed">length :: [a] -&gt; Int</span>. If we try to get the average of a list of numbers by doing <span class="fixed">let xs = [1..6] in sum xs / length xs</span>, we get a type error, because you can't use <span class="fixed">/</span> with an <span class="fixed">Int</span>. <span class="fixed">genericLength</span>, on the other hand, has a type signature of <span class="fixed">genericLength :: (Num a) =&gt; [b] -&gt; a</span>. Because a <span class="fixed">Num</span> can act like a floating point number, getting the average by doing <span class="fixed">let xs = [1..6] in sum xs / genericLength xs</span> works out just fine.</p>
 <p>The <span class="fixed">nub</span>, <span class="fixed">delete</span>, <span class="fixed">union</span>, <span class="fixed">intersect</span> and <span class="fixed">group</span> functions all have their more general counterparts called <span class="label function">nubBy</span>, <span class="label function">deleteBy</span>, <span class="label function">unionBy</span>, <span class="label function">intersectBy</span> and <span class="label function">groupBy</span>. The difference between them is that the first set of functions use <span class="fixed">==</span> to test for equality, whereas the <i>By</i> ones also take an equality function and then compare them by using that equality function. <span class="fixed">group</span> is the same as <span class="fixed">groupBy (==)</span>. </p>
-<p>For instance, say we have a list that describes the value of a function for every second. We want to segment it into sublists based on when the value was below zero and when it went above. If we just did a normal <span class="fixed">group</span>, it would just group the equal adjacent values together. But what we want is to group them by whether they are negative or not. That's where <span class="fixed">groupBy</span> comes in! The equality function supplied to the <i>By</i> functions should take two elements of the same type and return <span class="fixed">True</span> if it considers them equal by its standards.</p>
+<p>For instance, say we have a list that describes the value of a function for every second. We want to segment it into sub lists based on when the value was below zero and when it went above. If we just did a normal <span class="fixed">group</span>, it would just group the equal adjacent values together. But what we want is to group them by whether they are negative or not. That's where <span class="fixed">groupBy</span> comes in! The equality function supplied to the <i>By</i> functions should take two elements of the same type and return <span class="fixed">True</span> if it considers them equal by its standards.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; let values = [-4.3, -2.4, -1.2, 0.4, 2.3, 5.9, 10.5, 29.1, 5.3, -2.4, -14.5, 2.9, 2.3]
 ghci&gt; groupBy (\x y -&gt; (x &gt; 0) == (y &gt; 0)) values
@@ -432,7 +432,7 @@ ghci&gt; sortBy (compare `on` length) xs
 <p><span class="label function">isLatin1</span> checks whether a character falls into the first 256 characters of Unicode.</p>
 <p><span class="label function">isAsciiUpper</span> checks whether a character is ASCII and upper-case.</p>
 <p><span class="label function">isAsciiLower</span> checks whether a character is ASCII and lower-case.</p>
-<p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you'll use this to filter out strings or something like that. For instance, let's say we're making a program that takes a username and the username can only be comprised of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
+<p>All these predicates have a type signature of <span class="fixed">Char -&gt; Bool</span>. Most of the time you'll use this to filter out strings or something like that. For instance, let's say we're making a program that takes a username and the username can only be composed of alphanumeric characters. We can use the <span class="fixed">Data.List</span> function <span class="fixed">all</span> in combination with the <span class="fixed">Data.Char</span> predicates to determine if the username is alright.</p>
 <pre name="code" class="haskell:ghci">
 ghci&gt; all isAlphaNum "bobby283"
 True
@@ -841,7 +841,7 @@ cuboidArea a b c = rectangleArea a b * 2 + rectangleArea a c * 2 + rectangleArea
 rectangleArea :: Float -&gt; Float -&gt; Float
 rectangleArea a b = a * b
 </pre>
-<p>Pretty standard geometry right here. There are a few things to take note of though. Because a cube is only a special case of a cuboid, we defined its area and volume by treating it as a cuboid whose sides are all of the same length. We also defined a helper function called <span class="fixed">rectangleArea</span>, which calculates a rectangle's area based on the lenghts of its sides. It's rather trivial because it's just multiplication. Notice that we used it in our functions in the module (namely <span class="fixed">cuboidArea</span> and <span class="fixed">cuboidVolume</span>) but we didn't export it! Because we want our module to just present functions for dealing with three-dimensional objects, we used <span class="fixed">rectangleArea</span> but we didn't export it.</p>
+<p>Pretty standard geometry right here. There are a few things to take note of though. Because a cube is only a special case of a cuboid, we defined its area and volume by treating it as a cuboid whose sides are all of the same length. We also defined a helper function called <span class="fixed">rectangleArea</span>, which calculates a rectangle's area based on the lengths of its sides. It's rather trivial because it's just multiplication. Notice that we used it in our functions in the module (namely <span class="fixed">cuboidArea</span> and <span class="fixed">cuboidVolume</span>) but we didn't export it! Because we want our module to just present functions for dealing with three-dimensional objects, we used <span class="fixed">rectangleArea</span> but we didn't export it.</p>
 <p>When making a module, we usually export only those functions that act as a sort of interface to our module so that the implementation is hidden. If someone is using our <span class="fixed">Geometry</span> module, they don't have to concern themselves with functions that we don't export. We can decide to change those functions completely or delete them in a newer version (we could delete <span class="fixed">rectangleArea</span> and just use <span class="fixed">*</span> instead) and no one will mind because we weren't exporting them in the first place.</p>
 <p>To use our module, we just do:</p>
 <pre name="code" class="haskell:ghci">
