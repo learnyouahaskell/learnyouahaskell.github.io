@@ -724,7 +724,7 @@ Nice! When we land birds without throwing Pierre off balance, we get a new pole
 wrapped in a <span class="fixed">Just</span>. But when many more birds end up on
 one side of the pole, we get a <span class="fixed">Nothing</span>. This is cool,
 but we seem to have lost the ability to repeatedly land birds on the pole. We
-can't do <span class="fixed">landLeft 1 (landRight 1 (0,0))</span> anymore
+can't do <span class="fixed">landLeft 1 (landRight 1 (0,0))</span> any more
 because when we apply <span class="fixed">landRight 1</span> to <span
 class="fixed">(0,0)</span>, we don't get a <span class="fixed">Pole</span>, but
 a <span class="fixed">Maybe Pole</span>. <span class="fixed">landLeft 1</span>
@@ -861,7 +861,7 @@ banana _ = Nothing
 
 <p>
 Now we can chain it together with our bird landings. It will always cause our walker
-to fall, because it ignores whatever's passed to it and always returns a
+to fall, because it ignores whatever is passed to it and always returns a
 failure. Check it:
 </p>
 
@@ -1106,7 +1106,7 @@ wouldn't make sense if we translated the <span class="fixed">do</span>
 expression
 back to a chain of <span class="fixed">&gt;&gt;=</span> applications. Rather,
 its result is the result of the whole glued up monadic value, taking into
-account the possible failure of any of the previous ones.
+account the possible failure of any previous ones.
 </p>
 
 <p>
@@ -1139,10 +1139,10 @@ expression with all the previous ones chained into it.
 </p>
 
 <p>
-Our tightwalker's routine can also be expressed with <span class="fixed">do</span>
+Our tightrope walker's routine can also be expressed with <span class="fixed">do</span>
 notation. <span class="fixed">landLeft</span> and <span class="fixed">landRight</span>
 take a number of birds and a pole and produce a pole wrapped in a <span
-class="fixed">Just</span>, unless the tightwalker
+class="fixed">Just</span>, unless the tightrope walker
 slips, in which case a <span class="fixed">Nothing</span> is produced. We used
 <span class="fixed">&gt;&gt;=</span> to chain successive steps because each one
 relied on the previous one and each one had an added context of possible
@@ -1426,7 +1426,7 @@ lambda over it and the result is the following:
 
 <p>
 The lambda is applied to every element and we get a list of lists. Finally, we
-just flatten the list and voila! We've applied a non-deterministic function to a
+just flatten the list and voilà! We've applied a non-deterministic function to a
 non-deterministic value!
 </p>
 
@@ -1726,7 +1726,7 @@ The knight can always take one step horizontally or vertically and two steps
 horizontally or vertically but its movement has to be both horizontal and
 vertical. <span class="fixed">(c',r')</span> takes on every value from the list
 of movements and then <span class="fixed">guard</span> makes sure that the new
-move, <span class="fixed">(c',r')</span> is still on the board. If it it's not,
+move, <span class="fixed">(c',r')</span> is still on the board. If it's not,
 it produces an empty list, which causes a failure and <span
 class="fixed">return (c',r')</span> isn't carried out for that position.
 </p>
@@ -1861,7 +1861,7 @@ a new instance of the <span class="fixed">Monad</span> type class, we have to be
 reasonably sure that all is well with the monad laws for that type. We can rely
 on the types that come with the standard library to satisfy the laws, but later
 when we go about making our own monads, we're going to have to manually check
-the if the laws hold. But don't worry, they're not complicated.
+if the laws hold. But don't worry, they're not complicated.
 </p>
 
 <h3>Left identity</h3>
