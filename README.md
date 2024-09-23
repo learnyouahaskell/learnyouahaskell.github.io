@@ -20,7 +20,8 @@ The whole thing is completely free to read online, but the original is also avai
 
 ## TODOs:
 - [ ] refactor web code
-- [ ] make mobile-friendly
+- [x] make content mobile-friendly
+- [ ] make homepage mobile-friendly
 - [x] prepare "content edit request" interface on GitHub
 - [ ] add exercises
 - [ ] update (just overall, the outdated parts)
