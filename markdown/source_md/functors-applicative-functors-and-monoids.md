@@ -681,7 +681,7 @@ ghci> [(*0),(+100),(^2)] <*> [1,2,3]
 ```
 
 The left list has three functions and the right list has three values, so the resulting list will have nine elements.
-Every function in the left list is applied to every function in the right one.
+Every function in the left list is applied to every value in the right one.
 If we have a list of functions that take two parameters, we can apply those functions between two lists.
 
 ```{.haskell:hs}

@@ -327,7 +327,7 @@ Just "Hey"
 ghci&gt; [(*0),(+100),(^2)] &lt;*&gt; [1,2,3]
 [0,0,0,101,102,103,1,4,9]
 </pre>
-<p>The left list has three functions and the right list has three values, so the resulting list will have nine elements. Every function in the left list is applied to every function in the right one. If we have a list of functions that take two parameters, we can apply those functions between two lists.</p>
+<p>The left list has three functions and the right list has three values, so the resulting list will have nine elements. Every function in the left list is applied to every value in the right one. If we have a list of functions that take two parameters, we can apply those functions between two lists.</p>
 <pre name="code" class="haskell:hs">
 ghci&gt; [(+),(*)] &lt;*&gt; [1,2] &lt;*&gt; [3,4]
 [4,5,5,6,3,4,6,8]
