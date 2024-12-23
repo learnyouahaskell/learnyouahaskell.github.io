@@ -402,13 +402,12 @@ into a more general number. That’s useful when you want integral and
 floating point types to work together nicely. For instance, the
 <code>length</code> function has a type declaration of
 <code>length :: [a] -&gt; Int</code> instead of having a more general
-type of <code>(Num b) =&gt; length :: [a] -&gt; b</code>. I think that’s
-there for historical reasons or something, although in my opinion, it’s
-pretty stupid. Anyway, if we try to get a length of a list and then add
-it to <code>3.2</code>, we’ll get an error because we tried to add
-together an <code>Int</code> and a floating point number. So to get
-around this, we do <code>fromIntegral (length [1,2,3,4]) + 3.2</code>
-and it all works out.</p>
+type of <code>(Num b) =&gt; length :: [a] -&gt; b</code>. If we try to
+get a length of a list and then add it to <code>3.2</code>, we’ll get an
+error because we tried to add together an <code>Int</code> and a
+floating point number. So to get around this, we do
+<code>fromIntegral (length [1,2,3,4]) + 3.2</code> and it all works
+out.</p>
 <p>Notice that <code>fromIntegral</code> has several class constraints
 in its type signature. That’s completely valid and as you can see, the
 class constraints are separated by commas inside the parentheses.</p>
