@@ -45,7 +45,14 @@ do
 >>>>>>> c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
 
     chnum=$((i + 1))
+<<<<<<< HEAD
     if [[ $chnum -ge 10 ]];
+||||||| parent of 56bfa42 (Most variables don't need the `$` in `$((shell math))`)
+    chnum=$(($i + 1))
+    if [[ $chnum -ge 10 ]];
+=======
+    if ((chnum >= 10))
+>>>>>>> 56bfa42 (Most variables don't need the `$` in `$((shell math))`)
     then
         sp=" "
     else
@@ -76,7 +83,12 @@ done
 # For every input MD file produce and HTML file
 for i in "${!filename[@]}"
 do
+<<<<<<< HEAD
     # back/next-links business
+||||||| parent of 56bfa42 (Most variables don't need the `$` in `$((shell math))`)
+    if (($i <= 0))
+=======
+>>>>>>> 56bfa42 (Most variables don't need the `$` in `$((shell math))`)
     if ((i <= 0))
     then
         prev_title=
