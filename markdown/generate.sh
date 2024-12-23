@@ -30,9 +30,19 @@ cp source_md/chapters_head.md $chapterfile
 # Generate temporary TOC file ($chapterfile)
 for i in "${!filename[@]}"
 do
+<<<<<<< HEAD
     sourcemd=$IN/${filename[$i]}.md
     
     title[i]=$(sed -n '/^# /s/# //p;' "$sourcemd" | sed 's/{.*//' | sed 's/ *$//g')
+||||||| parent of c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
+    sourcemd=source_md/${filename[$i]}.md
+    
+    title[$i]=$(sed -n '/^# /s/# //p;' $sourcemd | sed 's/{.*//' | sed 's/ *$//g')
+=======
+    sourcemd=source_md/${filename[$i]}.md
+
+    title[$i]=$(sed -n '/^# /s/# //p;' $sourcemd | sed 's/{.*//; s/ *$//g')
+>>>>>>> c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
 
     chnum=$((i + 1))
     if [[ $chnum -ge 10 ]];
@@ -42,11 +52,25 @@ do
         sp="  "
     fi
 
+<<<<<<< HEAD
     sed -n '/^#\{1,2\} /p' "$sourcemd" \
         | sed "s/^#  *\(.*[^ ]\) *{.*/$chnum.${sp}[\1](${filename[$i]}.html)/" \
         | sed "s/^#  *\(.*[^ ]\) */$chnum.${sp}[\1](${filename[$i]}.html)/" \
         | sed "s/^##  *\(.*[^ ]\) *{ *#\(.*\)}/    * [\1](${filename[$i]}.html\#\2)/" \
         >>$chapterfile
+||||||| parent of c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
+    sed -n '/^#\{1,2\} /p' $sourcemd \
+        | sed "s/^#  *\(.*[^ ]\) *{.*/$chnum.$sp[\1](${filename[$i]}.html)/" \
+        | sed "s/^#  *\(.*[^ ]\) */$chnum.$sp[\1](${filename[$i]}.html)/" \
+        | sed "s/^##  *\(.*[^ ]\) *{ *#\(.*\)}/    * [\1](${filename[$i]}.html\#\2)/" \
+        >>$chapterfile
+=======
+    grep '^#\{1,2\} ' $sourcemd \
+        | sed "s/^#  *\(.*[^ ]\) *{.*/$chnum.$sp[\1](${filename[$i]}.html)/;
+               s/^#  *\(.*[^ ]\) */$chnum.$sp[\1](${filename[$i]}.html)/;
+               s/^##  *\(.*[^ ]\) *{ *#\(.*\)}/    * [\1](${filename[$i]}.html\#\2)/" \
+        >> $chapterfile
+>>>>>>> c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
 done
 
 # For every input MD file produce and HTML file
@@ -71,16 +95,34 @@ do
         next_title="${title[$next]}"
         next_filename=${filename[$next]}
     fi
+<<<<<<< HEAD
     
     $PANDOC \
+||||||| parent of c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
+    
+    pandoc -d config/pandoc-defaults.yml --template=config/template.html \
+=======
+
+    pandoc -d config/pandoc-defaults.yml --template=config/template.html \
+>>>>>>> c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
         -V footdiv=true -V title="${title[$i]}" \
         --metadata title="${title[$i]}$titlesuffix" \
+<<<<<<< HEAD
         -V prev_title="$prev_title" -V prev_filename="$prev_filename" \
         -V next_title="$next_title" -V next_filename="$next_filename" \
         -o "$OUT"/"${filename[$i]}".html "$IN"/"${filename[$i]}".md
 
    sed '/<p><img/ { N; N; N; s#<p>\(<img[^>]*\) /></p>#\1># }
        s# />#>#' -i "$OUT"/"${filename[$i]}".html
+||||||| parent of c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
+        -V prev_title="$prev_title" -V prev_filename=$prev_filename \
+        -V next_title="$next_title" -V next_filename=$next_filename \
+        -o generated_html/${filename[$i]}.html source_md/${filename[$i]}.md   
+=======
+        -V prev_title="$prev_title" -V prev_filename=$prev_filename \
+        -V next_title="$next_title" -V next_filename=$next_filename \
+        -o generated_html/${filename[$i]}.html source_md/${filename[$i]}.md
+>>>>>>> c1fa241 (re-generate html, concatenate sed commands, remove trailing whitespace)
 done
 
 cat "$IN"/chapters_foot.md >>$chapterfile
