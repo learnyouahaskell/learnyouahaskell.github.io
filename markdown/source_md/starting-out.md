@@ -592,7 +592,7 @@ For now, let's examine how you would get the first 24 multiples of 13.
 Sure, you could do `[13,26..24*13]`.
 But there's a better way: `take 24 [13,26..]`.
 Because Haskell is lazy, it won't try to evaluate the infinite list immediately because it would never finish.
-It'll wait to see what you want to get out of that infinite lists.
+It'll wait to see what you want to get out of that infinite list.
 And here it sees you just want the first 24 elements and it gladly obliges.
 
 A handful of functions that produce infinite lists:
