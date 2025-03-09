@@ -260,8 +260,8 @@ numLongChains = length (filter isLong (map chain [1..100]))
 <div class="hintbox"><em>Note:</em> This function has a type of <span class="fixed">numLongChains :: Int</span> because <span class="fixed">length</span> returns an <span class="fixed">Int</span> instead of a <span class="fixed">Num a</span> for historical reasons. If we wanted to return a more general <span class="fixed">Num a</span>, we could have used <span class="fixed">fromIntegral</span> on the resulting length.</div>
 <p>Using <span class="fixed">map</span>, we can also do stuff like <span class="fixed">map (*) [0..]</span>, if not for any other reason than to illustrate how currying works and how (partially applied) functions are real values that you can pass around to other functions or put into lists (you just can't turn them to strings). So far, we've only mapped functions that take one parameter over lists, like <span class="fixed">map (*2) [0..]</span> to get a list of type <span class="fixed">(Num a) =&gt; [a]</span>, but we can also do <span class="fixed">map (*) [0..]</span> without a problem. What happens here is that the number in the list is applied to the function <span class="fixed">*</span>, which has a type of <span class="fixed">(Num a) =&gt; a -&gt; a -&gt; a</span>. Applying only one parameter to a function that takes two parameters returns a function that takes one parameter. If we map <span class="fixed">*</span> over the list <span class="fixed">[0..]</span>, we get back a list of functions that only take one parameter, so <span class="fixed">(Num a) =&gt; [a -&gt; a]</span>. <span class="fixed">map (*) [0..]</span> produces a list like the one we'd get by writing <span class="fixed">[(0*),(1*),(2*),(3*),(4*),(5*)..</span>.</p>
 <pre name="code" class="haskell:hs">
-ghci&gt; let listOfFuns = map (*) [0..]
-ghci&gt; (listOfFuns !! 4) 5
+ghci&gt; let listOfFuncs = map (*) [0..]
+ghci&gt; (listOfFuncs !! 4) 5
 20
 </pre>
 <p>Getting the element with the index <span class="fixed">4</span> from our list returns a function that's equivalent to <span class="fixed">(4*)</span>. And then, we just apply <span class="fixed">5</span> to that function. So that's like writing <span class="fixed">(4*) 5</span> or just <span class="fixed">4 * 5</span>.</p>
@@ -377,7 +377,7 @@ ghci&gt; scanl (flip (:)) [] [3,2,1]
 [[],[3],[2,3],[1,2,3]]
 </pre>
 <p>When using a <span class="fixed">scanl</span>, the final result will be in the last element of the resulting list while a <span class="fixed">scanr</span> will place the result in the head.</p>
-<p>Scans are used to monitor the progression of a function that can be implemented as a fold. Let's answer us this question: <em>How many elements does it take for the sum of the roots of all natural numbers to exceed 1000?</em> To get the squares of all natural numbers, we just do <span class="fixed">map sqrt [1..]</span>. Now, to get the sum, we could do a fold, but because we're interested in how the sum progresses, we're going to do a scan. Once we've done the scan, we just see how many sums are under 1000. The first sum in the scanlist will be 1, normally. The second will be 1 plus the square root of 2. The third will be that plus the square root of 3. If there are X sums under 1000, then it takes X+1 elements for the sum to exceed 1000.</p>
+<p>Scans are used to monitor the progression of a function that can be implemented as a fold. Let's answer us this question: <em>How many elements does it take for the sum of the square roots of all natural numbers to exceed 1000?</em> To get the square roots of all natural numbers, we just do <span class="fixed">map sqrt [1..]</span>. Now, to get the sum, we could do a fold, but because we're interested in how the sum progresses, we're going to do a scan. Once we've done the scan, we just see how many sums are under 1000. The first sum in the scanlist will be 1, normally. The second will be 1 plus the square root of 2. The third will be that plus the square root of 3. If there are X sums under 1000, then it takes X+1 elements for the sum to exceed 1000.</p>
 <pre name="code" class="haskell:hs">
 sqrtSums :: Int
 sqrtSums = length (takeWhile (&lt;1000) (scanl1 (+) (map sqrt [1..]))) + 1
@@ -441,7 +441,7 @@ ghci&gt; map (negate . sum . tail) [[1..5],[3..6],[1..7]]
 sum' :: (Num a) =&gt; [a] -&gt; a
 sum' xs = foldl (+) 0 xs
 </pre>
-<p>The <span class="fixed">xs</span> is exposed on both right sides. Because of currying, we can omit the <span class="fixed">xs</span> on both sides, because calling <span class="fixed">foldl (+) 0</span> creates a function that takes a list. Writing the function as <span class="fixed">sum' = foldl (+) 0</span> is called writing it in point free style. How would we write this in point free style?</p>
+<p>The <span class="fixed">xs</span> is exposed on both sides, right? Because of currying, we can omit the <span class="fixed">xs</span> on both sides, because calling <span class="fixed">foldl (+) 0</span> creates a function that takes a list. Writing the function as <span class="fixed">sum' = foldl (+) 0</span> is called writing it in point free style. How would we write this in point free style?</p>
 <pre name="code" class="haskell:hs">
 fn x = ceiling (negate (tan (cos (max 50 x))))
 </pre>

@@ -252,7 +252,7 @@ class (Functor f) =&gt; Applicative f where
 <p>This simple three line class definition tells us a lot! Let's start at the first line. It starts the definition of the <span class="fixed">Applicative</span> class and it also introduces a class constraint. It says that if we want to make a type constructor part of the <span class="fixed">Applicative</span> typeclass, it has to be in <span class="fixed">Functor</span> first. That's why if we know that if a type constructor is part of the <span class="fixed">Applicative</span> typeclass, it's also in <span class="fixed">Functor</span>, so we can use <span class="fixed">fmap</span> on it.</p>
 <p>The first method it defines is called <span class="fixed">pure</span>. Its type declaration is <span class="fixed">pure :: a -&gt; f a</span>. <span class="fixed">f</span> plays the role of our applicative functor instance here. Because Haskell has a very good type system and because everything a function can do is take some parameters and return some value, we can tell a lot from a type declaration and this is no exception. <span class="fixed">pure</span> should take a value of any type and return an applicative functor with that value inside it. When we say <i>inside it</i>, we're using the box analogy again, even though we've seen that it doesn't always stand up to scrutiny. But the <span class="fixed">a -&gt; f a</span> type declaration is still pretty descriptive. We take a value and we wrap it in an applicative functor that has that value as the result inside it.</p>
 <p>A better way of thinking about <span class="fixed">pure</span> would be to say that it takes a value and puts it in some sort of default (or pure) context&mdash;a minimal context that still yields that value.</p>
-<p>The <span class="fixed">&lt;*&gt;</span> function is really interesting. It has a type declaration of <span class="fixed">f (a -&gt; b) -&gt; f a -&gt; f b</span>. Does this remind you of anything? Of course, <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It's a sort of a beefed up <span class="fixed">fmap</span>. Whereas <span class="fixed">fmap</span> takes a function and a functor and applies the function inside the functor, <span class="fixed">&lt;*&gt;</span> takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one. When I say <i>extract</i>, I actually sort of mean <i>run</i> and then extract, maybe even <i>sequence</i>. We'll see why soon.
+<p>The <span class="fixed">&lt;*&gt;</span> function is really interesting. It has a type declaration of <span class="fixed">f (a -&gt; b) -&gt; f a -&gt; f b</span>. Does this remind you of anything? Of course, <span class="fixed">fmap :: (a -&gt; b) -&gt; f a -&gt; f b</span>. It's a sort of beefed up <span class="fixed">fmap</span>. Whereas <span class="fixed">fmap</span> takes a function and a functor and applies the function inside the functor, <span class="fixed">&lt;*&gt;</span> takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one. When I say <i>extract</i>, I actually sort of mean <i>run</i> and then extract, maybe even <i>sequence</i>. We'll see why soon.
 <p>Let's take a look at the <span class="fixed">Applicative</span> instance implementation for <span class="fixed">Maybe</span>.</p>
 <pre name="code" class="haskell:hs">
 instance Applicative Maybe where
@@ -287,9 +287,9 @@ Nothing
 ghci&gt; pure (+) &lt;*&gt; Nothing &lt;*&gt; Just 5
 Nothing
 </pre>
-<img src="assets/images/functors-applicative-functors-and-monoids/whale.png" alt="whaale" class="right" width="214" height="177">
+<img src="assets/images/functors-applicative-functors-and-monoids/whale.png" alt="whale" class="right" width="214" height="177">
 <p>What's going on here? Let's take a look, step by step. <span class="fixed">&lt;*&gt;</span> is left-associative, which means that <span class="fixed">pure (+) &lt;*&gt; Just 3 &lt;*&gt; Just 5</span> is the same as <span class="fixed">(pure (+) &lt;*&gt; Just 3) &lt;*&gt; Just 5</span>. First, the <span class="fixed">+</span> function is put in a functor, which is in this case a <span class="fixed">Maybe</span> value that contains the function. So at first, we have <span class="fixed">pure (+)</span>, which is <span class="fixed">Just (+)</span>. Next, <span class="fixed">Just (+) &lt;*&gt; Just 3</span> happens. The result of this is <span class="fixed">Just (3+)</span>. This is because of partial application. Only applying <span class="fixed">3</span> to the <span class="fixed">+</span> function results in a function that takes one parameter and adds 3 to it. Finally, <span class="fixed">Just (3+) &lt;*&gt; Just 5</span> is carried out, which results in a <span class="fixed">Just 8</span>. </p>
-<p>Isn't this awesome?! Applicative functors and the applicative style of doing <span class="fixed">pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; ...</span> allow us to take a function that expects parameters that aren't necessarily wrapped in functors and use that function to operate on several values that are in functor contexts. The function can take as many parameters as we want, because it's always partially applied step by step between occurences of <span class="fixed">&lt;*&gt;</span>.</p>
+<p>Isn't this awesome?! Applicative functors and the applicative style of doing <span class="fixed">pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; ...</span> allow us to take a function that expects parameters that aren't necessarily wrapped in functors and use that function to operate on several values that are in functor contexts. The function can take as many parameters as we want, because it's always partially applied step by step between occurrences of <span class="fixed">&lt;*&gt;</span>.</p>
 <p>This becomes even more handy and apparent if we consider the fact that <span class="fixed">pure f &lt;*&gt; x</span> equals <span class="fixed">fmap f x</span>. This is one of the applicative laws. We'll take a closer look at them later, but for now, we can sort of intuitively see that this is so. Think about it, it makes sense. Like we said before, <span class="fixed">pure</span> puts a value in a default context. If we just put a function in a default context and then extract and apply it to a value inside another applicative functor, we did the same as just mapping that function over that applicative functor. Instead of writing <span class="fixed">pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; ...</span>, we can write <span class="fixed">fmap f x &lt;*&gt; y &lt;*&gt; ...</span>. This is why <span class="fixed">Control.Applicative</span> exports a function called <span class="fixed">&lt;$&gt;</span>, which is just <span class="fixed">fmap</span> as an infix operator. Here's how it's defined:</p>
 <pre name="code" class="haskell:hs">
 (&lt;$&gt;) :: (Functor f) =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -702,7 +702,7 @@ ghci&gt; CharList "this will be shown!"
 CharList {getCharList = "this will be shown!"}
 ghci&gt; CharList "benny" == CharList "benny"
 True
-ghci&gt; CharList "benny" == CharList "oisters"
+ghci&gt; CharList "benny" == CharList "oysters"
 False
 </pre>
 
@@ -943,7 +943,7 @@ ghci&gt; helloMe undefined
 "hello"
 </pre>
 
-<img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" alt="top of the mornin to ya!!!" class="right" width="184" height="230">
+<img src="assets/images/functors-applicative-functors-and-monoids/shamrock.png" alt="top of the morning to ya!!!" class="right" width="184" height="230">
 
 <p>
 It worked! Hmmm, why is that? Well, like we've said, when we use <i>newtype</i>,
@@ -1323,7 +1323,7 @@ it for free when we make something an instance of <span class="fixed">Monoid</sp
 In the case of the list, <span class="fixed">mconcat</span> turns out to be just
 <span class="fixed">concat</span>. It takes a list of lists and flattens it,
 because that's the equivalent of doing <span class="fixed">++</span> between all
-the adjecent lists in a list.
+the adjacent lists in a list.
 </p>
 
 <p>
@@ -1858,7 +1858,7 @@ Just 9
 If we want a monoid on <span class="fixed">Maybe a</span> such that the second
 parameter is kept if both parameters of <span class="fixed">mappend</span> are
 <span class="fixed">Just</span> values, <span class="fixed">Data.Monoid</span>
-provides a the <span class="fixed">Last a</span> type, which works like <span
+provides a <span class="fixed">Last a</span> type, which works like <span
 class="fixed">First a</span>, only the last non-<span
 class="fixed">Nothing</span>
 value is kept when <span class="fixed">mappend</span>ing and using <span
@@ -2060,7 +2060,7 @@ testTree = Node 5
 </pre>
 
 <p>
-It has <span class="fixed">5</span> at its root and then its left node is has
+It has <span class="fixed">5</span> at its root and then its left node has
 <span class="fixed">3</span> with <span class="fixed">1</span> on the left and
 <span class="fixed">6</span> on the right. The root's right node has a <span
 class="fixed">9</span>

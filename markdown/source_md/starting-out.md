@@ -85,8 +85,10 @@ What about doing `5 + "llama"` or `5 == True`?
 Well, if we try the first snippet, we get a big scary error message!
 
 ```{.haskell: .ghci}
-• No instance for (Num String) arising from a use of ‘+’
-    • In the expression: 5 + "llama"
+<interactive>:1:1: error: [GHC-39999]
+    • No instance for ‘Num String’ arising from the literal ‘5’
+    • In the first argument of ‘(+)’, namely ‘5’
+      In the expression: 5 + "llama"
       In an equation for ‘it’: it = 5 + "llama"
 ```
 
@@ -101,6 +103,13 @@ You can't compare apples and oranges.
 We'll take a closer look at types a bit later.
 Note: you can do `5 + 4.0` because `5` is sneaky and can act like an integer or a floating-point number.
 `4.0` can't act like an integer, so `5` is the one that has to adapt.
+
+::: {.hintbox}
+**Note:** GHC errors are all assigned unique identifiers such as `GHC-39999` above.
+Whenever you are stuck with a stubborn error, you can look it up at
+[https://errors.haskell.org/](https://errors.haskell.org/) to learn typical causes
+and solutions.
+:::
 
 You may not have known it but we've been using functions now all along.
 For instance, `*` is a function that takes two numbers and multiplies them.
@@ -583,7 +592,7 @@ For now, let's examine how you would get the first 24 multiples of 13.
 Sure, you could do `[13,26..24*13]`.
 But there's a better way: `take 24 [13,26..]`.
 Because Haskell is lazy, it won't try to evaluate the infinite list immediately because it would never finish.
-It'll wait to see what you want to get out of that infinite lists.
+It'll wait to see what you want to get out of that infinite list.
 And here it sees you just want the first 24 elements and it gladly obliges.
 
 A handful of functions that produce infinite lists:
@@ -777,8 +786,9 @@ What if we tried to make a shape like `[(1,2),(8,11,5),(4,5)]`?
 Well, we'd get this error:
 
 ```{.haskell: .ghci}
-• Couldn't match expected type ‘(a, b)’
-                  with actual type ‘(a0, b0, c0)’
+<interactive>:1:8: error: [GHC-83865]
+    • Couldn't match expected type: (a, b)
+                  with actual type: (a0, b0, c0)
     • In the expression: (8, 11, 5)
       In the expression: [(1, 2), (8, 11, 5), (4, 5)]
       In an equation for ‘it’: it = [(1, 2), (8, 11, 5), (4, 5)]

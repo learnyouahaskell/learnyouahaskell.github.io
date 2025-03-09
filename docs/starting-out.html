@@ -36,7 +36,7 @@
 <a name="ready-set-go"></a><h2>Ready, set, go!</h2>
 <p>
 <img src="assets/images/starting-out/startingout.png" class="right" alt="egg" width="214" height="187">
-Alright, let's get started! If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions. The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for Haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
+Alright, let's get started! If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions. The first thing we're going to do is run GHC's interactive mode and call some function to get a very basic feel for Haskell. Open your terminal and type in <span class="fixed">ghci</span>. You will be greeted with something like this.
 </p>
 <pre name="code" class="haskell: ghci">
 GHCi, version 9.2.4: https://www.haskell.org/ghc/  :? for help
@@ -527,7 +527,7 @@ ghci&gt; zip [1..] ["apple", "orange", "cherry", "mango"]
 <img src="assets/images/starting-out/pythag.png" alt="look at meee" class="center" width="350" height="315">
 <p>Here's a problem that combines tuples and list comprehensions: which right triangle that has integers for all sides and all sides equal to or smaller than 10 has a perimeter of 24? First, let's try generating all triangles with sides equal to or smaller than 10:</p>
 <pre name="code" class="haskell: ghci">ghci&gt; triangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..10], a &lt;- [1..10] ] </pre>
-<p>We're just drawing from three lists and our output function is combining them into a triple. If you evaluate that by typing out <span class="fixed">triangles</span> in GHCI, you'll get a list of all possible triangles with sides under or equal to 10. Next, we'll add a condition that they all have to be right triangles. We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.</p>
+<p>We're just drawing from three lists and our output function is combining them into a triple. If you evaluate that by typing out <span class="fixed">triangles</span> in GHCI, you'll get a list of all possible triangles with sides under or equal to 10. Next, we'll add a condition that they all have to be right triangles. We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; rightTriangles = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2] </pre>
 <p>We're almost done. Now, we just modify the function by saying that we want the ones where the perimeter is 24.</p>
