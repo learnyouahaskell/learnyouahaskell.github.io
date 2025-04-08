@@ -187,7 +187,7 @@ ghci&gt; head (dropWhile (\(val,y,m,d) -&gt; val < 1000) stock)
 </pre>
 <p><span class="label function">span</span> is kind of like <span class="fixed">takeWhile</span>, only it returns a pair of lists. The first list contains everything the resulting list from <span class="fixed">takeWhile</span> would contain if it were called with the same predicate and the same list. The second list contains the part of the list that would have been dropped.</p>
 <pre name="code" class="haskell:ghci">
-ghci&gt; let (fw, rest) = span (/=' ') "This is a sentence" in "First word:" ++ fw ++ ", the rest:" ++ rest
+ghci&gt; let (fw, rest) = span (/=' ') "This is a sentence" in "First word: " ++ fw ++ ", the rest:" ++ rest
 "First word: This, the rest: is a sentence"
 </pre>
 <p>Whereas <span class="fixed">span</span> spans the list while the predicate is true, <span class="label function">break</span> breaks it when the predicate is first true. Doing <span class="fixed">break p</span> is the equivalent of doing <span class="fixed">span (not . p)</span>.  </p>

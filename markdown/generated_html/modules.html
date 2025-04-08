@@ -285,7 +285,7 @@ contains everything the resulting list from <code>takeWhile</code> would
 contain if it were called with the same predicate and the same list. The
 second list contains the part of the list that would have been
 dropped.</p>
-<pre class="haskell:ghci"><code>ghci&gt; let (fw, rest) = span (/=&#39; &#39;) &quot;This is a sentence&quot; in &quot;First word:&quot; ++ fw ++ &quot;, the rest:&quot; ++ rest
+<pre class="haskell:ghci"><code>ghci&gt; let (fw, rest) = span (/=&#39; &#39;) &quot;This is a sentence&quot; in &quot;First word: &quot; ++ fw ++ &quot;, the rest:&quot; ++ rest
 &quot;First word: This, the rest: is a sentence&quot;</code></pre>
 <p>Whereas <code>span</code> spans the list while the predicate is true,
 <code class="label function">break</code> breaks it when the predicate
