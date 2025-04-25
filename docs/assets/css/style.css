@@ -13,6 +13,14 @@ h1 {
     font-family:georgia, Arial, serif;
     margin-bottom:15px;
     font-weight:normal;
+    overflow-wrap:break-word;
+    hyphens:auto;
+}
+@media screen and (max-width:400px) {
+    h1 {
+        font-size:40px;
+        line-height:40px;
+    }
 }
 h2 {
     font-size:20px;
@@ -43,17 +51,24 @@ em {
     list-style-type:disc;
     margin:25px 25px;
 }
+img {
+    /* If width is limited by max-width, scale height proportionally */
+    height:auto;
+}
 img.right {
     float: right;
     margin:10px;
+    max-width:40%;
 }
 img.left {
     float: left;
     margin:10px;
+    max-width:40%;
 }
 img.center {
     margin:10px auto 25px auto;
     display:block;
+    max-width:100%;
 }
 pre.code {
     color:white;
@@ -100,15 +115,22 @@ pre.code {
     color:black;
 }
 .fixed {
-    white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;
     background-color:#ddd;
     font-weight:normal;
     padding:0px 3px;
     font-weight:bold;
+    /* Allow inline code to wrap if necessary */
+    /* These rules were based off the CSS used on the Stack Exchange website */
+    white-space-collapse:preserve;
+    overflow-wrap:break-word;
+    text-wrap:wrap;
+    /* Rounded corners help user connect two parts of one code snippet wrapped across lines */
+    border-radius:4px;
 }
 #content {
-    width:800px;
+    /* For narrow viewports, the content width will be 90% of the viewport width */
+    width:min(800px, 90vw);
     margin:0px auto;
 }
 .introcontent {
@@ -125,8 +147,8 @@ pre.code {
     font-family:arial,serif;
     font-size:24px;
     padding-left:25px;
-    margin:0px; 
-    color:#408156 ;
+    margin:0px;
+    color:#408156;
     margin-bottom:25px;
 }
 .chapters > li {
@@ -179,6 +201,21 @@ pre.code {
     display:table-cell;
     width:33%;
 }
+/* For narrow viewports, let navigation links split to separate lines */
+@media screen and (max-width:300px) {
+    .footdiv {
+        display:unset;
+    }
+    .footdiv ul {
+        display:unset;
+        margin:0 25px 0 0 !important;
+    }
+    .footdiv ul li {
+        display:block;
+        width:unset;
+    }
+}
+
 .prevlink {
     padding-left:20px;
     background-image:url(https://s3.amazonaws.com/lyah/prv.png);
