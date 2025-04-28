@@ -156,12 +156,10 @@ the <code>subtract</code> function like so:
 instead of binding it to a name with a <em>let</em> or passing it to
 another function?</p>
 <pre class="haskell:hs"><code>ghci&gt; multThree 3 4
-&lt;interactive&gt;:1:0:
-    No instance for (Show (t -&gt; t))
-      arising from a use of `print&#39; at &lt;interactive&gt;:1:0-12
-    Possible fix: add an instance declaration for (Show (t -&gt; t))
-    In the expression: print it
-    In a &#39;do&#39; expression: print it</code></pre>
+&lt;interactive&gt;:1:1: error: [GHC-39999]
+    • No instance for ‘Show (a0 -&gt; a0)’ arising from a use of ‘print’
+        (maybe you haven&#39;t applied a function to enough arguments?)
+    • In a stmt of an interactive GHCi command: print it</code></pre>
 <p>GHCI is telling us that the expression produced a function of type
 <code>a -&gt; a</code> but it doesn’t know how to print it to the
 screen. Functions aren’t instances of the <code>Show</code> typeclass,
