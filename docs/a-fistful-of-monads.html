@@ -382,29 +382,22 @@ who would have thought? This is what the type class looks like:
 </p>
 
 <pre name="code" class="haskell:hs">
-class Monad m where
+class Applicative m =&gt; Monad m where
     return :: a -&gt; m a
+    return = pure
 
     (&gt;&gt;=) :: m a -&gt; (a -&gt; m b) -&gt; m b
 
     (&gt;&gt;) :: m a -&gt; m b -&gt; m b
     x &gt;&gt; y = x &gt;&gt;= \_ -&gt; y
-
-    fail :: String -&gt; m a
-    fail msg = error msg
 </pre>
 
 <img src="assets/images/a-fistful-of-monads/kid.png" alt="this is you on monads" class="right" width="363" height="451">
 <p>
-Let's start with the first line. It says <span class="fixed">class Monad m where</span>.
-But wait, didn't we say that monads are just beefed up applicative functors? Shouldn't
-there be a class constraint in there along the lines of <span
-class="fixed">class (Applicative m) = &gt; Monad m where</span> so that a type
-has to be an applicative functor first before it can be made a monad? Well,
-there should, but when Haskell was made, it hadn't occurred to people that
-applicative functors are a good fit for Haskell so they weren't in there. But
-rest assured, every monad is an applicative functor, even if the <span
-class="fixed">Monad</span> class declaration doesn't say so.
+Let's start with the first line. It says
+<span class="fixed">class (Applicative m) = &gt; Monad m where</span> which means
+that if we want to create an instance of Monad for some type, we must have an
+instance of Applicative for that type.
 </p>
 
 <p>
@@ -447,11 +440,6 @@ instances.
 </p>
 
 <p>
-The final function of the <span class="fixed">Monad</span> type class is
-<span class="fixed">fail</span>. We never use it explicitly in our code. Instead, it's used by Haskell to enable failure in a special syntactic construct for monads that we'll meet later. We don't need to concern ourselves with <span class="fixed">fail</span> too much for now.
-</p>
-
-<p>
 Now that we know what the <span class="fixed">Monad</span> type class looks
 like, let's take a look at how <span class="fixed">Maybe</span> is an instance
 of <span class="fixed">Monad</span>!
@@ -459,17 +447,15 @@ of <span class="fixed">Monad</span>!
 
 <pre name="code" class="haskell:hs">
 instance Monad Maybe where
-    return x = Just x
     Nothing &gt;&gt;= f = Nothing
     Just x &gt;&gt;= f  = f x
-    fail _ = Nothing
 </pre>
 
 <p>
-<span class="fixed">return</span> is the same as <span
-class="fixed">pure</span>, so that one's a no-brainer. We do what we did in the
-<span class="fixed">Applicative</span> type class and wrap it in a <span
-class="fixed">Just</span>.
+Both <span class="fixed">return</span> and <span class="fixed">(&gt;&gt;)</span> have <em>default
+implementations</em>, so we omit them in instances. <span class="fixed">return</span>
+is the same as <span class="fixed">pure</span>, it wraps a value in
+<span class="fixed">Just</span>.
 </p>
 
 <p>
@@ -1275,25 +1261,26 @@ produced right away, because the mechanism of falling through patterns isn't
 present in <span class="fixed">let</span> expressions. When pattern matching
 fails in a <span class="fixed">do</span> expression, the <span
 class="fixed">fail</span> function is called. It's part of the <span
-class="fixed">Monad</span> type class and it enables failed pattern matching to
+class="fixed">MonadFail</span> type class and it enables failed pattern matching to
 result in a failure in the context of the current monad instead of making our
-program crash. Its default implementation is this:
+program crash.
 </p>
 
 <pre name="code" class="haskell:hs">
-fail :: (Monad m) =&gt; String -&gt; m a
-fail msg = error msg
+class Monad m =&gt; MonadFail m where
+    fail :: String -&gt; m a
 </pre>
 
 <p>
-So by default it does make our program crash, but monads that incorporate a
+Monads that incorporate a
 context of possible failure (like <span class="fixed">Maybe</span>) usually
 implement it on their own. For <span class="fixed">Maybe</span>, its implemented
 like so:
 </p>
 
 <pre name="code" class="haskell:hs">
-fail _ = Nothing
+instance MonadFail Maybe where
+    fail _ = Nothing
 </pre>
 
 <p>
@@ -1369,9 +1356,7 @@ and see what the <span class="fixed">Monad</span> instance for lists looks like:
 
 <pre name="code" class="haskell:hs">
 instance Monad [] where
-    return x = [x]
     xs &gt;&gt;= f = concat (map f xs)
-    fail _ = []
 </pre>
 
 <p>
@@ -1564,41 +1549,41 @@ our number into a string and then we check if the character <span
 class="fixed">'7'</span> is part of that string. Pretty clever. To see how
 filtering in list comprehensions translates to the list monad, we have to check
 out the <span class="fixed">guard</span> function and the <span
-class="fixed">MonadPlus</span> type class. The <span class="fixed">MonadPlus</span>
-type class is for monads that can also act as monoids. Here's its definition:
+class="fixed">Alternative</span> type class. The <span class="fixed">Alternative</span>
+type class is for Applicatives that can also act as monoids. Here's its definition:
 </p>
 
 <pre name="code" class="haskell:hs">
-class Monad m =&gt; MonadPlus m where
-    mzero :: m a
-    mplus :: m a -&gt; m a -&gt; m a
+class Applicative f =&gt; Alternative f where
+    empty :: f a
+    (&lt;|&gt;) :: f a -&gt; f a -&gt; f a
 </pre>
 
 <p>
-<span class="fixed">mzero</span> is synonymous to <span class="fixed">mempty</span>
+<span class="fixed">empty</span> is synonymous to <span class="fixed">mempty</span>
 from the <span class="fixed">Monoid</span> type class and <span
-class="fixed">mplus</span> corresponds to <span class="fixed">mappend</span>.
+class="fixed">(&lt;|&gt;)</span> corresponds to <span class="fixed">mappend</span>.
 Because lists are monoids as well as monads, they can be made an instance of
 this type class:
 </p>
 
 <pre name="code" class="haskell:hs">
-instance MonadPlus [] where
-    mzero = []
-    mplus = (++)
+instance Alternative [] where
+    empty = []
+    (&lt;&gt;) = (++)
 </pre>
 
 <p>
-For lists <span class="fixed">mzero</span> represents a non-deterministic
+For lists <span class="fixed">empty</span> represents a non-deterministic
 computation that has no results at all &mdash; a failed computation. <span
-class="fixed">mplus</span> joins two non-deterministic values into one. The
+class="fixed">(&lt;|&gt;)</span> joins two non-deterministic values into one. The
 <span class="fixed">guard</span> function is defined like this:
 </p>
 
 <pre name="code" class="haskell:hs">
-guard :: (MonadPlus m) =&gt; Bool -&gt; m ()
-guard True = return ()
-guard False = mzero
+guard :: (Alternative m) =&gt; Bool -&gt; m ()
+guard True = pure ()
+guard False = empty
 </pre>
 
 <p>
