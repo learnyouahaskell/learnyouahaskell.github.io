@@ -1229,8 +1229,9 @@ Whoops, had some trouble!
 <p>In the handler, we didn't check to see what kind of <span class="fixed">IOError</span> we got. We just say <span class="fixed">"Whoops, had some trouble!"</span> for any kind of error. Just catching all types of exceptions in one handler is bad practice in Haskell just like it is in most other languages. What if some other exception happens that we don't want to catch, like us interrupting the program or something? That's why we're going to do the same thing that's usually done in other languages as well: we'll check to see what kind of exception we got. If it's the kind of exception we're waiting to catch, we do our stuff. If it's not, we throw that exception back into the wild. Let's modify our program to catch only the exceptions caused by a file not existing.</p>
 <pre name="code" class="haskell:hs">
 import System.Environment
-import System.IO
-import System.IO.Error
+import System.IO.Error  
+import Control.Exception
+
 
 main = toTry `catch` handler
 
