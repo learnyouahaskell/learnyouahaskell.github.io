@@ -1,3 +1,34 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=learnyouahaskell&project=learnyouahaskell.github.io&lang=id">Bahasa Indonesia</a>
+      </div>
+    </div>
+  </details>
+</div>
+
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://learnyouahaskell.github.io/)
 [![pages-build-deployment](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment)
 
