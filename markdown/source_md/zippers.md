@@ -544,7 +544,7 @@ First we use `break` to break the list of items in a folder into those that prec
 If you remember, `break` takes a predicate and a list and returns a pair of lists.
 The first list in the pair holds items for which the predicate returns `False`.
 Then, once the predicate returns `True` for an item, it places that item and the rest of the list in the second item of the pair.
-We made an auxilliary function called `nameIs` that takes a name and a file system item and returns `True` if the names match.
+We made an auxiliary function called `nameIs` that takes a name and a file system item and returns `True` if the names match.
 
 So now, `ls` is a list that contains the items that precede the item that we're searching for, `item` is that very item and `rs` is the list of items that come after it in its folder.
 Now that we have this, we just present the item that we got from `break` as the focus and build a breadcrumb that has all the data it needs.

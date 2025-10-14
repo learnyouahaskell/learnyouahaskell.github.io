@@ -286,7 +286,7 @@ It's the most used data structure and it can be used in a multitude of different
 Lists are SO awesome.
 In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 
-In Haskell, lists are a **homogenous** data structure.
+In Haskell, lists are a **homogeneous** data structure.
 They store several elements of the same type.
 That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters.
 And now, a list!
@@ -771,7 +771,7 @@ That's its type and it doesn't matter if it has only one number in it or an infi
 Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components.
 They are denoted with parentheses and their components are separated by commas.
 
-Another key difference is that they don't have to be homogenous.
+Another key difference is that they don't have to be homogeneous.
 Unlike a list, a tuple can contain a combination of several types.
 
 Think about how we'd represent a two-dimensional vector in Haskell.
@@ -881,7 +881,7 @@ ghci> triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 We're just drawing from three lists and our output function is combining them into a triple.
 If you evaluate that by typing out `triangles` in GHCI, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
-We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.
+We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.
 
 ```{.haskell: .ghci}
 ghci> rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2]

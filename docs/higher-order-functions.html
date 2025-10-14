@@ -325,7 +325,7 @@ sum' :: (Num a) =&gt; [a] -&gt; a
 sum' = foldl (+) 0
 </pre>
 <p>The lambda function <span class="fixed">(\acc x -&gt; acc + x)</span> is the same as <span class="fixed">(+)</span>. We can omit the <span class="fixed">xs</span> as the parameter because calling <span class="fixed">foldl (+) 0</span> will return a function that takes a list. Generally, if you have a function like <span class="fixed">foo a = bar b a</span>, you can rewrite it as <span class="fixed">foo = bar b</span>, because of currying.</p>
-<p>Anyhoo, let's implement another function with a left fold before moving on to right folds. I'm sure you all know that <span class="fixed">elem</span> checks whether a value is part of a list so I won't go into that again (whoops, just did!). Let's implement it with a left fold. </p>
+<p>Anyhow, let's implement another function with a left fold before moving on to right folds. I'm sure you all know that <span class="fixed">elem</span> checks whether a value is part of a list so I won't go into that again (whoops, just did!). Let's implement it with a left fold. </p>
 <pre name="code" class="haskell:hs">
 elem' :: (Eq a) =&gt; a -&gt; [a] -&gt; Bool
 elem' y ys = foldl (\acc x -&gt; if x == y then True else acc) False ys
