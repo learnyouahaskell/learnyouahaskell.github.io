@@ -20,11 +20,12 @@ The whole thing is completely free to read online, but the original is also avai
 
 ## TODOs:
 - [ ] refactor web code
-- [x] make content mobile-friendly
+- [ ] make UI more modern (whilst retaining as much of the original "feel" as possible)
+- [x] make content pages mobile-friendly (*still needs work)
 - [ ] make homepage mobile-friendly
 - [x] prepare "content edit request" interface on GitHub
 - [ ] add exercises
-- [ ] update (just overall, the outdated parts)
+- [ ] update content (just overall, the outdated parts)
 
 Don't forget to star the GitHub repository if you like it! 🙂
 
