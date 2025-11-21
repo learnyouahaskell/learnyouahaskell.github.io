@@ -90,8 +90,9 @@ From here on, we’ll give all the functions that we make type
 declarations. Remember the list comprehension we made previously that
 filters a string so that only caps remain? Here’s how it looks like with
 a type declaration.</p>
-<pre class="haskell: hs"><code>removeNonUppercase :: [Char] -&gt; [Char]
-removeNonUppercase st = [ c | c &lt;- st, c `elem` [&#39;A&#39;..&#39;Z&#39;]]</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">removeNonUppercase ::</span> [<span class="dt">Char</span>] <span class="ot">-&gt;</span> [<span class="dt">Char</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>removeNonUppercase st <span class="ot">=</span> [ c <span class="op">|</span> c <span class="ot">&lt;-</span> st, c <span class="ot">`elem`</span> [<span class="ch">&#39;A&#39;</span><span class="op">..</span><span class="ch">&#39;Z&#39;</span>]]</span></code></pre></div>
 <p><code>removeNonUppercase</code> has a type of
 <code>[Char] -&gt; [Char]</code>, meaning that it maps from a string to
 a string. That’s because it takes one string as a parameter and returns
@@ -103,8 +104,9 @@ by itself that it’s a function from a string to a string but we did
 anyway. But how do we write out the type of a function that takes
 several parameters? Here’s a simple function that takes three integers
 and adds them together:</p>
-<pre class="haskell: hs"><code>addThree :: Int -&gt; Int -&gt; Int -&gt; Int
-addThree x y z = x + y + z</code></pre>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">addThree ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>addThree x y z <span class="ot">=</span> x <span class="op">+</span> y <span class="op">+</span> z</span></code></pre></div>
 <p>The parameters are separated with <code>-&gt;</code> and there’s no
 special distinction between the parameters and the return type. The
 return type is the last item in the declaration and the parameters are
@@ -127,20 +129,23 @@ maximum possible <code>Int</code> is 2147483647 and the minimum is
 integer. The main difference is that it’s not bounded so it can be used
 to represent really really big numbers. I mean like really big.
 <code>Int</code>, however, is more efficient.</p>
-<pre class="haskell: hs"><code>factorial :: Integer -&gt; Integer
-factorial n = product [1..n]</code></pre>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">factorial ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>factorial n <span class="ot">=</span> <span class="fu">product</span> [<span class="dv">1</span><span class="op">..</span>n]</span></code></pre></div>
 <pre class="haskell: ghci"><code>ghci&gt; factorial 50
 30414093201713378043612608166064768844377641568960512000000000000</code></pre>
 <p><code class="label type">Float</code> is a real floating point with
 single precision.</p>
-<pre class="haskell: hs"><code>circumference :: Float -&gt; Float
-circumference r = 2 * pi * r</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">circumference ::</span> <span class="dt">Float</span> <span class="ot">-&gt;</span> <span class="dt">Float</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>circumference r <span class="ot">=</span> <span class="dv">2</span> <span class="op">*</span> <span class="fu">pi</span> <span class="op">*</span> r</span></code></pre></div>
 <pre class="haskell: ghci"><code>ghci&gt; circumference 4.0
 25.132742</code></pre>
 <p><code class="label type">Double</code> is a real floating point with
 double the precision!</p>
-<pre class="haskell: hs"><code>circumference&#39; :: Double -&gt; Double
-circumference&#39; r = 2 * pi * r</code></pre>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">circumference&#39; ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>circumference&#39; r <span class="ot">=</span> <span class="dv">2</span> <span class="op">*</span> <span class="fu">pi</span> <span class="op">*</span> r</span></code></pre></div>
 <pre class="haskell: ghci"><code>ghci&gt; circumference&#39; 4.0
 25.132741228718345</code></pre>
 <p><code class="label type">Bool</code> is a boolean type. It can have
@@ -403,13 +408,12 @@ into a more general number. That’s useful when you want integral and
 floating point types to work together nicely. For instance, the
 <code>length</code> function has a type declaration of
 <code>length :: [a] -&gt; Int</code> instead of having a more general
-type of <code>(Num b) =&gt; length :: [a] -&gt; b</code>. I think that’s
-there for historical reasons or something, although in my opinion, it’s
-pretty stupid. Anyway, if we try to get a length of a list and then add
-it to <code>3.2</code>, we’ll get an error because we tried to add
-together an <code>Int</code> and a floating point number. So to get
-around this, we do <code>fromIntegral (length [1,2,3,4]) + 3.2</code>
-and it all works out.</p>
+type of <code>(Num b) =&gt; length :: [a] -&gt; b</code>. If we try to
+get a length of a list and then add it to <code>3.2</code>, we’ll get an
+error because we tried to add together an <code>Int</code> and a
+floating point number. So to get around this, we do
+<code>fromIntegral (length [1,2,3,4]) + 3.2</code> and it all works
+out.</p>
 <p>Notice that <code>fromIntegral</code> has several class constraints
 in its type signature. That’s completely valid and as you can see, the
 class constraints are separated by commas inside the parentheses.</p>
