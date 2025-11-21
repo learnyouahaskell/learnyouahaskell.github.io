@@ -1328,7 +1328,7 @@ rectangleArea a b = a * b
 Pretty standard geometry right here.
 There are a few things to take note of though.
 Because a cube is only a special case of a cuboid, we defined its area and volume by treating it as a cuboid whose sides are all of the same length.
-We also defined a helper function called `rectangleArea`, which calculates a rectangle's area based on the lenghts of its sides.
+We also defined a helper function called `rectangleArea`, which calculates a rectangle's area based on the lengths of its sides.
 It's rather trivial because it's just multiplication.
 Notice that we used it in our functions in the module (namely `cuboidArea` and `cuboidVolume`) but we didn't export it!
 Because we want our module to just present functions for dealing with three-dimensional objects, we used `rectangleArea` but we didn't export it.

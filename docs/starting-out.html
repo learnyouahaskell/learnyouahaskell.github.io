@@ -212,7 +212,7 @@ There are two noteworthy things here. The first is that in the function name we 
 Much like shopping lists in the real world, lists in Haskell are very useful. It's the most used data structure and it can be used in a multitude of different ways to model and solve a whole bunch of problems. Lists are SO awesome. In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 </p>
 <p>
-In Haskell, lists are a <em>homogenous</em> data structure. They store several elements of the same type. That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters. And now, a list!
+In Haskell, lists are a <em>homogeneous</em> data structure. They store several elements of the same type. That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters. And now, a list!
 </p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; lostNumbers = [4,8,15,16,23,42]
@@ -479,7 +479,7 @@ ghci&gt; [ [ x | x &lt;- xs, even x ] | xs &lt;- xxs]
 <a name="tuples"></a><h2>Tuples</h2>
 <img src="assets/images/starting-out/tuple.png" alt="tuples" class="right" width="160" height="162">
 <p>In some ways, tuples are like lists &mdash; they are a way to store several values into a single value. However, there are a few fundamental differences. A list of numbers is a list of numbers. That's its type and it doesn't matter if it has only one number in it or an infinite amount of numbers. Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components. They are denoted with parentheses and their components are separated by commas.</p>
-<p>Another key difference is that they don't have to be homogenous. Unlike a list, a tuple can contain a combination of several types.</p>
+<p>Another key difference is that they don't have to be homogeneous. Unlike a list, a tuple can contain a combination of several types.</p>
 <p>Think about how we'd represent a two-dimensional vector in Haskell. One way would be to use a list. That would kind of work. So what if we wanted to put a couple of vectors in a list to represent points of a shape on a two-dimensional plane? We could do something like <span class="fixed">[[1,2],[8,11],[4,5]]</span>. The problem with that method is that we could also do stuff like <span class="fixed">[[1,2],[8,11,5],[4,5]]</span>, which Haskell has no problem with since it's still a list of lists with numbers, but it kind of doesn't make sense. But a tuple of size two (also called a pair) is its own type, which means that a list can't have a couple of pairs in it and then a triple (a tuple of size three), so let's use that instead. Instead of surrounding the vectors with square brackets, we use parentheses: <span class="fixed">[(1,2),(8,11),(4,5)]</span>. What if we tried to make a shape like <span class="fixed">[(1,2),(8,11,5),(4,5)]</span>? Well, we'd get this error:</p>
 <pre name="code" class="haskell: ghci">
     • Couldn't match expected type ‘(a, b)’
