@@ -1013,8 +1013,8 @@ Empty .++ ys = ys
 ghci&gt; let b = 6 :-: 7 :-: Empty
 ghci&gt; a .++ b
 (:-:) 3 ((:-:) 4 ((:-:) 5 ((:-:) 6 ((:-:) 7 Empty))))</code></pre>
-<p>Nice. Is nice. If we wanted, we could implement all of the functions
-that operate on lists on our own list type.</p>
+<p>Nice. If we wanted, we could implement all of the functions that
+operate on lists on our own list type.</p>
 <p>Notice how we pattern matched on <code>(x :-: xs)</code>. That works
 because pattern matching is actually about matching constructors. We can
 match on <code>:-:</code> because it is a constructor for our own list

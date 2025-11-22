@@ -97,8 +97,10 @@ ghci&gt; &quot;hello&quot; == &quot;hello&quot;
 True</code></pre>
 <p>What about doing <code>5 + "llama"</code> or <code>5 == True</code>?
 Well, if we try the first snippet, we get a big scary error message!</p>
-<pre class="haskell: ghci"><code>• No instance for (Num String) arising from a use of ‘+’
-    • In the expression: 5 + &quot;llama&quot;
+<pre class="haskell: ghci"><code>&lt;interactive&gt;:1:1: error: [GHC-39999]
+    • No instance for ‘Num String’ arising from the literal ‘5’
+    • In the first argument of ‘(+)’, namely ‘5’
+      In the expression: 5 + &quot;llama&quot;
       In an equation for ‘it’: it = 5 + &quot;llama&quot;</code></pre>
 <p>Yikes! What GHCI is telling us here is that <code>"llama"</code> is
 not a number and so it doesn’t know how to add it to 5. Even if it
@@ -114,6 +116,13 @@ later. Note: you can do <code>5 + 4.0</code> because <code>5</code> is
 sneaky and can act like an integer or a floating-point number.
 <code>4.0</code> can’t act like an integer, so <code>5</code> is the one
 that has to adapt.</p>
+<div class="hintbox">
+<p><strong>Note:</strong> GHC errors are all assigned unique identifiers
+such as <code>GHC-39999</code> above. Whenever you are stuck with a
+stubborn error, you can look it up at <a
+href="https://errors.haskell.org/">https://errors.haskell.org/</a> to
+learn typical causes and solutions.</p>
+</div>
 <p>You may not have known it but we’ve been using functions now all
 along. For instance, <code>*</code> is a function that takes two numbers
 and multiplies them. As you’ve seen, we call it by sandwiching it
@@ -179,7 +188,8 @@ with that number. In C, that would be something like
 <p>In the previous section we got a basic feel for calling functions.
 Now let’s try making our own! Open up your favorite text editor and
 punch in this function that takes a number and multiplies it by two.</p>
-<pre class="haskell: hs"><code>doubleMe x = x + x</code></pre>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>doubleMe x <span class="ot">=</span> x <span class="op">+</span> x</span></code></pre></div>
 <p>Functions are defined in a similar way that they are called. The
 function name is followed by parameters separated by spaces. But when
 defining functions, there’s a <code>=</code> and after that we define
@@ -198,7 +208,8 @@ ghci&gt; doubleMe 8.3
 numbers (anything that can be considered a number, really), our function
 also works on any number. Let’s make a function that takes two numbers
 and multiplies each by two and then adds them together.</p>
-<pre class="haskell: hs"><code>doubleUs x y = x*2 + y*2</code></pre>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>doubleUs x y <span class="ot">=</span> x<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> y<span class="op">*</span><span class="dv">2</span></span></code></pre></div>
 <p>Simple. We could have also defined it as
 <code>doubleUs x y = x + x + y + y</code>. Testing it out produces
 pretty predictable results (remember to append this function to the
@@ -213,7 +224,8 @@ ghci&gt; doubleUs 28 88 + doubleMe 123
 <p>As expected, you can call your own functions from other functions
 that you made. With that in mind, we could redefine
 <code>doubleUs</code> like this:</p>
-<pre class="haskell: hs"><code>doubleUs x y = doubleMe x + doubleMe y</code></pre>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>doubleUs x y <span class="ot">=</span> doubleMe x <span class="op">+</span> doubleMe y</span></code></pre></div>
 <p>This is a very simple example of a common pattern you will see
 throughout Haskell. Making basic functions that are obviously correct
 and then combining them into more complex functions. This way you also
@@ -228,9 +240,10 @@ doesn’t matter if you define <code>doubleMe</code> first and then
 <p>Now we’re going to make a function that multiplies a number by 2 but
 only if that number is smaller than or equal to 100 because numbers
 bigger than 100 are big enough as it is!</p>
-<pre class="haskell: hs"><code>doubleSmallNumber x = if x &gt; 100
-                        then x
-                        else x*2</code></pre>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>doubleSmallNumber x <span class="ot">=</span> <span class="kw">if</span> x <span class="op">&gt;</span> <span class="dv">100</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">then</span> x</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">else</span> x<span class="op">*</span><span class="dv">2</span></span></code></pre></div>
 <p><img src="assets/images/starting-out/baby.png" class="left"
 width="140" height="211" alt="this is you" /></p>
 <p>Right here we introduced Haskell’s if statement. You’re probably
@@ -249,7 +262,8 @@ the else is mandatory, an if statement will always return something and
 that’s why it’s an expression. If we wanted to add one to every number
 that’s produced in our previous function, we could have written its body
 like this.</p>
-<pre class="haskell: hs"><code>doubleSmallNumber&#39; x = (if x &gt; 100 then x else x*2) + 1</code></pre>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>doubleSmallNumber&#39; x <span class="ot">=</span> (<span class="kw">if</span> x <span class="op">&gt;</span> <span class="dv">100</span> <span class="kw">then</span> x <span class="kw">else</span> x<span class="op">*</span><span class="dv">2</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
 <p>Had we omitted the parentheses, it would have added one only if
 <code>x</code> wasn’t greater than 100. Note the <code>'</code> at the
 end of the function name. That apostrophe doesn’t have any special
@@ -258,7 +272,8 @@ name. We usually use <code>'</code> to either denote a strict version of
 a function (one that isn’t lazy) or a slightly modified version of a
 function or a variable. Because <code>'</code> is a valid character in
 functions, we can make a function like this.</p>
-<pre class="haskell: hs"><code>conanO&#39;Brien = &quot;It&#39;s a-me, Conan O&#39;Brien!&quot;</code></pre>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>conanO&#39;Brien <span class="ot">=</span> <span class="st">&quot;It&#39;s a-me, Conan O&#39;Brien!&quot;</span></span></code></pre></div>
 <p>There are two noteworthy things here. The first is that in the
 function name we didn’t capitalize Conan’s name. That’s because
 functions can’t begin with uppercase letters. We’ll see why a bit later.
@@ -512,7 +527,7 @@ now, let’s examine how you would get the first 24 multiples of 13. Sure,
 you could do <code>[13,26..24*13]</code>. But there’s a better way:
 <code>take 24 [13,26..]</code>. Because Haskell is lazy, it won’t try to
 evaluate the infinite list immediately because it would never finish.
-It’ll wait to see what you want to get out of that infinite lists. And
+It’ll wait to see what you want to get out of that infinite list. And
 here it sees you just want the first 24 elements and it gladly
 obliges.</p>
 <p>A handful of functions that produce infinite lists:</p>
@@ -579,8 +594,9 @@ we can easily reuse it.</p>
 <code>odd</code> returns <code>True</code> on an odd number and
 <code>False</code> on an even one. The element is included in the list
 only if all the predicates evaluate to <code>True</code>.</p>
-<pre class="haskell: hs"><code>ghci&gt; boomBangs [7..13]
-[&quot;BOOM!&quot;,&quot;BOOM!&quot;,&quot;BANG!&quot;,&quot;BANG!&quot;]</code></pre>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ghci<span class="op">&gt;</span> boomBangs [<span class="dv">7</span><span class="op">..</span><span class="dv">13</span>]</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>[<span class="st">&quot;BOOM!&quot;</span>,<span class="st">&quot;BOOM!&quot;</span>,<span class="st">&quot;BANG!&quot;</span>,<span class="st">&quot;BANG!&quot;</span>]</span></code></pre></div>
 <p>We can include several predicates. If we wanted all numbers from 10
 to 20 that are not 13, 15 or 19, we’d do:</p>
 <pre class="haskell: ghci"><code>ghci&gt; [ x | x &lt;- [10..20], x /= 13, x /= 15, x /= 19]
@@ -610,7 +626,8 @@ ghci&gt; [adjective ++ &quot; &quot; ++ noun | adjective &lt;- adjectives, noun 
 &quot;grouchy pope&quot;,&quot;scheming hobo&quot;,&quot;scheming frog&quot;,&quot;scheming pope&quot;]</code></pre>
 <p>I know! Let’s write our own version of <code>length</code>! We’ll
 call it <code>length'</code>.</p>
-<pre class="haskell: hs"><code>length&#39; xs = sum [1 | _ &lt;- xs]</code></pre>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>length&#39; xs <span class="ot">=</span> <span class="fu">sum</span> [<span class="dv">1</span> <span class="op">|</span> _ <span class="ot">&lt;-</span> xs]</span></code></pre></div>
 <p><code>_</code> means that we don’t care what we’ll draw from the list
 anyway so instead of writing a variable name that we’ll never use, we
 just write <code>_</code>. This function replaces every element of a
@@ -620,7 +637,8 @@ resulting sum will be the length of our list.</p>
 comprehensions to process and produce strings. Here’s a function that
 takes a string and removes everything except uppercase letters from
 it.</p>
-<pre class="haskell: hs"><code>removeNonUppercase st = [ c | c &lt;- st, c `elem` [&#39;A&#39;..&#39;Z&#39;]]</code></pre>
+<div class="sourceCode" id="cb52"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>removeNonUppercase st <span class="ot">=</span> [ c <span class="op">|</span> c <span class="ot">&lt;-</span> st, c <span class="ot">`elem`</span> [<span class="ch">&#39;A&#39;</span><span class="op">..</span><span class="ch">&#39;Z&#39;</span>]]</span></code></pre></div>
 <p>Testing it out:</p>
 <pre class="haskell: ghci"><code>ghci&gt; removeNonUppercase &quot;Hahaha! Ahahaha!&quot;
 &quot;HA&quot;
@@ -665,8 +683,9 @@ let’s use that instead. Instead of surrounding the vectors with square
 brackets, we use parentheses: <code>[(1,2),(8,11),(4,5)]</code>. What if
 we tried to make a shape like <code>[(1,2),(8,11,5),(4,5)]</code>? Well,
 we’d get this error:</p>
-<pre class="haskell: ghci"><code>• Couldn&#39;t match expected type ‘(a, b)’
-                  with actual type ‘(a0, b0, c0)’
+<pre class="haskell: ghci"><code>&lt;interactive&gt;:1:8: error: [GHC-83865]
+    • Couldn&#39;t match expected type: (a, b)
+                  with actual type: (a0, b0, c0)
     • In the expression: (8, 11, 5)
       In the expression: [(1, 2), (8, 11, 5), (4, 5)]
       In an equation for ‘it’: it = [(1, 2), (8, 11, 5), (4, 5)]

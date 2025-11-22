@@ -47,9 +47,10 @@ different patterns. This leads to really neat code that’s simple and
 readable. You can pattern match on any data type — numbers, characters,
 lists, tuples, etc. Let’s make a really trivial function that checks if
 the number we supplied to it is a seven or not.</p>
-<pre class="haskell: hs"><code>lucky :: (Integral a) =&gt; a -&gt; String
-lucky 7 = &quot;LUCKY NUMBER SEVEN!&quot;
-lucky x = &quot;Sorry, you&#39;re out of luck, pal!&quot;</code></pre>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lucky ::</span> (<span class="dt">Integral</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lucky <span class="dv">7</span> <span class="ot">=</span> <span class="st">&quot;LUCKY NUMBER SEVEN!&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>lucky x <span class="ot">=</span> <span class="st">&quot;Sorry, you&#39;re out of luck, pal!&quot;</span></span></code></pre></div>
 <p>When you call <code>lucky</code>, the patterns will be checked from
 top to bottom and when it conforms to a pattern, the corresponding
 function body will be used. The only way a number can conform to the
@@ -60,13 +61,14 @@ But what if we wanted a function that says the numbers from 1 to 5 and
 says <code>"Not between 1 and 5"</code> for any other number? Without
 pattern matching, we’d have to make a pretty convoluted if then else
 tree. However, with it:</p>
-<pre class="haskell: hs"><code>sayMe :: (Integral a) =&gt; a -&gt; String
-sayMe 1 = &quot;One!&quot;
-sayMe 2 = &quot;Two!&quot;
-sayMe 3 = &quot;Three!&quot;
-sayMe 4 = &quot;Four!&quot;
-sayMe 5 = &quot;Five!&quot;
-sayMe x = &quot;Not between 1 and 5&quot;</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sayMe ::</span> (<span class="dt">Integral</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sayMe <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;One!&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sayMe <span class="dv">2</span> <span class="ot">=</span> <span class="st">&quot;Two!&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sayMe <span class="dv">3</span> <span class="ot">=</span> <span class="st">&quot;Three!&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sayMe <span class="dv">4</span> <span class="ot">=</span> <span class="st">&quot;Four!&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sayMe <span class="dv">5</span> <span class="ot">=</span> <span class="st">&quot;Five!&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sayMe x <span class="ot">=</span> <span class="st">&quot;Not between 1 and 5&quot;</span></span></code></pre></div>
 <p>Note that if we moved the last pattern (the catch-all one) to the
 top, it would always say <code>"Not between 1 and 5"</code>, because it
 would catch all the numbers and they wouldn’t have a chance to fall
@@ -78,9 +80,10 @@ is usually defined in mathematics. We start by saying that the factorial
 of 0 is 1. Then we state that the factorial of any positive integer is
 that integer multiplied by the factorial of its predecessor. Here’s how
 that looks like translated in Haskell terms.</p>
-<pre class="haskell: hs"><code>factorial :: (Integral a) =&gt; a -&gt; a
-factorial 0 = 1
-factorial n = n * factorial (n - 1)</code></pre>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ot">factorial ::</span> (<span class="dt">Integral</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>factorial <span class="dv">0</span> <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>factorial n <span class="ot">=</span> n <span class="op">*</span> factorial (n <span class="op">-</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>This is the first time we’ve defined a function recursively.
 Recursion is important in Haskell and we’ll take a closer look at it
 later. But in a nutshell, this is what happens if we try to get the
@@ -98,10 +101,11 @@ is important when specifying patterns and it’s always best to specify
 the most specific ones first and then the more general ones later.</p>
 <p>Pattern matching can also fail. If we define a function like
 this:</p>
-<pre class="haskell: hs"><code>charName :: Char -&gt; String
-charName &#39;a&#39; = &quot;Albert&quot;
-charName &#39;b&#39; = &quot;Broseph&quot;
-charName &#39;c&#39; = &quot;Cecil&quot;</code></pre>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ot">charName ::</span> <span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>charName <span class="ch">&#39;a&#39;</span> <span class="ot">=</span> <span class="st">&quot;Albert&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>charName <span class="ch">&#39;b&#39;</span> <span class="ot">=</span> <span class="st">&quot;Broseph&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>charName <span class="ch">&#39;c&#39;</span> <span class="ot">=</span> <span class="st">&quot;Cecil&quot;</span></span></code></pre></div>
 <p>and then try to call it with an input that we didn’t expect, this is
 what happens:</p>
 <pre class="haskell: ghci"><code>ghci&gt; charName &#39;a&#39;
@@ -119,12 +123,14 @@ form of pairs) and adds them together? To add together two vectors, we
 add their x components separately and then their y components
 separately. Here’s how we would have done it if we didn’t know about
 pattern matching:</p>
-<pre class="haskell: hs"><code>addVectors :: (Num a) =&gt; (a, a) -&gt; (a, a) -&gt; (a, a)
-addVectors a b = (fst a + fst b, snd a + snd b)</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">addVectors ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> (a, a) <span class="ot">-&gt;</span> (a, a) <span class="ot">-&gt;</span> (a, a)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>addVectors a b <span class="ot">=</span> (<span class="fu">fst</span> a <span class="op">+</span> <span class="fu">fst</span> b, <span class="fu">snd</span> a <span class="op">+</span> <span class="fu">snd</span> b)</span></code></pre></div>
 <p>Well, that works, but there’s a better way to do it. Let’s modify the
 function so that it uses pattern matching.</p>
-<pre class="haskell: hs"><code>addVectors :: (Num a) =&gt; (a, a) -&gt; (a, a) -&gt; (a, a)
-addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)</code></pre>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">addVectors ::</span> (<span class="dt">Num</span> a) <span class="ot">=&gt;</span> (a, a) <span class="ot">-&gt;</span> (a, a) <span class="ot">-&gt;</span> (a, a)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>addVectors (x1, y1) (x2, y2) <span class="ot">=</span> (x1 <span class="op">+</span> x2, y1 <span class="op">+</span> y2)</span></code></pre></div>
 <p>There we go! Much better. Note that this is already a catch-all
 pattern. The type of <code>addVectors</code> (in both cases) is
 <code>addVectors :: (Num a) =&gt; (a, a) -&gt; (a, a) - &gt; (a, a)</code>,
@@ -132,14 +138,15 @@ so we are guaranteed to get two pairs as parameters.</p>
 <p><code>fst</code> and <code>snd</code> extract the components of
 pairs. But what about triples? Well, there are no provided functions
 that do that but we can make our own.</p>
-<pre class="haskell: hs"><code>first :: (a, b, c) -&gt; a
-first (x, _, _) = x
-
-second :: (a, b, c) -&gt; b
-second (_, y, _) = y
-
-third :: (a, b, c) -&gt; c
-third (_, _, z) = z</code></pre>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">first ::</span> (a, b, c) <span class="ot">-&gt;</span> a</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>first (x, _, _) <span class="ot">=</span> x</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ot">second ::</span> (a, b, c) <span class="ot">-&gt;</span> b</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>second (_, y, _) <span class="ot">=</span> y</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ot">third ::</span> (a, b, c) <span class="ot">-&gt;</span> c</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>third (_, _, z) <span class="ot">=</span> z</span></code></pre></div>
 <p>The <code>_</code> means the same thing as it does in list
 comprehensions. It means that we really don’t care what that part is, so
 we just write a <code>_</code>.</p>
@@ -169,9 +176,10 @@ the rest of the list to another variable, you can use something like
 elements or more.</p>
 <p>Now that we know how to pattern match against list, let’s make our
 own implementation of the <code>head</code> function.</p>
-<pre class="haskell: hs"><code>head&#39; :: [a] -&gt; a
-head&#39; [] = error &quot;Can&#39;t call head on an empty list, dummy!&quot;
-head&#39; (x:_) = x</code></pre>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">head&#39; ::</span> [a] <span class="ot">-&gt;</span> a</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>head&#39; [] <span class="ot">=</span> <span class="fu">error</span> <span class="st">&quot;Can&#39;t call head on an empty list, dummy!&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>head&#39; (x<span class="op">:</span>_) <span class="ot">=</span> x</span></code></pre></div>
 <p>Checking if it works:</p>
 <pre class="haskell: ghci"><code>ghci&gt; head&#39; [4,5,6]
 4
@@ -186,11 +194,12 @@ causes the program to crash, so it’s not good to use it too much. But
 calling <code>head</code> on an empty list doesn’t make sense.</p>
 <p>Let’s make a trivial function that tells us some of the first
 elements of the list in (in)convenient English form.</p>
-<pre class="haskell: hs"><code>tell :: (Show a) =&gt; [a] -&gt; String
-tell [] = &quot;The list is empty&quot;
-tell (x:[]) = &quot;The list has one element: &quot; ++ show x
-tell (x:y:[]) = &quot;The list has two elements: &quot; ++ show x ++ &quot; and &quot; ++ show y
-tell (x:y:_) = &quot;This list is long. The first two elements are: &quot; ++ show x ++ &quot; and &quot; ++ show y</code></pre>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">tell ::</span> (<span class="dt">Show</span> a) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>tell [] <span class="ot">=</span> <span class="st">&quot;The list is empty&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>tell (x<span class="op">:</span>[]) <span class="ot">=</span> <span class="st">&quot;The list has one element: &quot;</span> <span class="op">++</span> <span class="fu">show</span> x</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>tell (x<span class="op">:</span>y<span class="op">:</span>[]) <span class="ot">=</span> <span class="st">&quot;The list has two elements: &quot;</span> <span class="op">++</span> <span class="fu">show</span> x <span class="op">++</span> <span class="st">&quot; and &quot;</span> <span class="op">++</span> <span class="fu">show</span> y</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tell (x<span class="op">:</span>y<span class="op">:</span>_) <span class="ot">=</span> <span class="st">&quot;This list is long. The first two elements are: &quot;</span> <span class="op">++</span> <span class="fu">show</span> x <span class="op">++</span> <span class="st">&quot; and &quot;</span> <span class="op">++</span> <span class="fu">show</span> y</span></code></pre></div>
 <p>This function is safe because it takes care of the empty list, a
 singleton list, a list with two elements and a list with more than two
 elements. Note that <code>(x:[])</code> and <code>(x:y:[])</code> could
@@ -201,9 +210,10 @@ length 2 or more.</p>
 <p>We already implemented our own <code>length</code> function using
 list comprehension. Now we’ll do it by using pattern matching and a
 little recursion:</p>
-<pre class="haskell: hs"><code>length&#39; :: (Num b) =&gt; [a] -&gt; b
-length&#39; [] = 0
-length&#39; (_:xs) = 1 + length&#39; xs</code></pre>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode haskell: hs"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">length&#39; ::</span> (<span class="dt">Num</span> b) <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> b</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>length&#39; [] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>length&#39; (_<span class="op">:</span>xs) <span class="ot">=</span> <span class="dv">1</span> <span class="op">+</span> length&#39; xs</span></code></pre></div>
 <p>This is similar to the factorial function we wrote earlier. First we
 defined the result of a known input — the empty list. This is also known
 as the edge condition. Then in the second pattern we take the list apart
