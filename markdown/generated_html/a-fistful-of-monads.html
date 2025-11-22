@@ -255,29 +255,20 @@ check out the type class that belongs to monads.</p>
 applicative functors have the <code>Applicative</code> type class,
 monads come with their own type class: <code>Monad</code>! Wow, who
 would have thought? This is what the type class looks like:</p>
-<pre class="haskell:hs"><code>class Monad m where
+<pre class="haskell:hs"><code>class Applicative m =&gt; Monad m where
     return :: a -&gt; m a
+    return = pure
 
     (&gt;&gt;=) :: m a -&gt; (a -&gt; m b) -&gt; m b
 
     (&gt;&gt;) :: m a -&gt; m b -&gt; m b
-    x &gt;&gt; y = x &gt;&gt;= \_ -&gt; y
-
-    fail :: String -&gt; m a
-    fail msg = error msg</code></pre>
+    x &gt;&gt; y = x &gt;&gt;= \_ -&gt; y</code></pre>
 <p><img src="assets/images/a-fistful-of-monads/kid.png" class="right"
 width="363" height="451" alt="this is you on monads" /></p>
 <p>Let’s start with the first line. It says
-<code>class Monad m where</code>. But wait, didn’t we say that monads
-are just beefed up applicative functors? Shouldn’t there be a class
-constraint in there along the lines of
-<code>class (Applicative m) = &gt; Monad m where</code> so that a type
-has to be an applicative functor first before it can be made a monad?
-Well, there should, but when Haskell was made, it hadn’t occurred to
-people that applicative functors are a good fit for Haskell so they
-weren’t in there. But rest assured, every monad is an applicative
-functor, even if the <code>Monad</code> class declaration doesn’t say
-so.</p>
+<code>class Applicative =&gt; Monad m where</code> which means that if
+we want to create an instance of Monad for some type, we must have an
+instance of Applicative for that type.</p>
 <p>The first function that the <code>Monad</code> type class defines is
 <code>return</code>. It’s the same as <code>pure</code>, only with a
 different name. Its type is <code>(Monad m) =&gt; a -&gt; m a</code>. It
@@ -306,22 +297,16 @@ returns a monadic value.</p>
 attention to it for now because it comes with a default implementation
 and we pretty much never implement it when making <code>Monad</code>
 instances.</p>
-<p>The final function of the <code>Monad</code> type class is
-<code>fail</code>. We never use it explicitly in our code. Instead, it’s
-used by Haskell to enable failure in a special syntactic construct for
-monads that we’ll meet later. We don’t need to concern ourselves with
-<code>fail</code> too much for now.</p>
 <p>Now that we know what the <code>Monad</code> type class looks like,
 let’s take a look at how <code>Maybe</code> is an instance of
 <code>Monad</code>!</p>
 <pre class="haskell:hs"><code>instance Monad Maybe where
-    return x = Just x
     Nothing &gt;&gt;= f = Nothing
-    Just x &gt;&gt;= f  = f x
-    fail _ = Nothing</code></pre>
-<p><code>return</code> is the same as <code>pure</code>, so that one’s a
-no-brainer. We do what we did in the <code>Applicative</code> type class
-and wrap it in a <code>Just</code>.</p>
+    Just x &gt;&gt;= f  = f x</code></pre>
+<p>Both <code>return</code> and <code>(&gt;&gt;)</code> have <em>default
+implementations</em>, so we omit them in instances. <code>return</code>
+is the same as <code>pure</code>, it wraps a value in
+<code>Just</code>.</p>
 <p>The <code>&gt;&gt;=</code> function is the same as our
 <code>applyMaybe</code>. When feeding the <code>Maybe a</code> to our
 function, we keep in mind the context and return a <code>Nothing</code>
@@ -812,17 +797,16 @@ matching in <code>let</code> expressions results in an error being
 produced right away, because the mechanism of falling through patterns
 isn’t present in <code>let</code> expressions. When pattern matching
 fails in a <code>do</code> expression, the <code>fail</code> function is
-called. It’s part of the <code>Monad</code> type class and it enables
-failed pattern matching to result in a failure in the context of the
-current monad instead of making our program crash. Its default
-implementation is this:</p>
-<pre class="haskell:hs"><code>fail :: (Monad m) =&gt; String -&gt; m a
-fail msg = error msg</code></pre>
-<p>So by default it does make our program crash, but monads that
-incorporate a context of possible failure (like <code>Maybe</code>)
-usually implement it on their own. For <code>Maybe</code>, its
+called. It’s part of the <code>MonadFail</code> type class and it
+enables failed pattern matching to result in a failure in the context of
+the current monad instead of making our program crash.</p>
+<pre class="haskell:hs"><code>class Monad m =&gt; MonadFail m where
+    fail :: String -&gt; m a</code></pre>
+<p>Monads that incorporate a context of possible failure (like
+<code>Maybe</code>) usually implement it. For <code>Maybe</code>, its
 implemented like so:</p>
-<pre class="haskell:hs"><code>fail _ = Nothing</code></pre>
+<pre class="haskell:hs"><code>instance MonadFail Maybe where
+    fail _ = Nothing</code></pre>
 <p>It ignores the error message and makes a <code>Nothing</code>. So
 when pattern matching fails in a <code>Maybe</code> value that’s written
 in <code>do</code> notation, the whole value results in a
@@ -868,9 +852,7 @@ non-deterministic value as well, only it has many more results.</p>
 Let’s go ahead and see what the <code>Monad</code> instance for lists
 looks like:</p>
 <pre class="haskell:hs"><code>instance Monad [] where
-    return x = [x]
-    xs &gt;&gt;= f = concat (map f xs)
-    fail _ = []</code></pre>
+    xs &gt;&gt;= f = concat (map f xs)</code></pre>
 <p><code>return</code> does the same thing as <code>pure</code>, so we
 should already be familiar with <code>return</code> for lists. It takes
 a value and puts it in a minimal default context that still yields that
@@ -987,26 +969,26 @@ digits contain a <code>7</code>:</p>
 a string and then we check if the character <code>'7'</code> is part of
 that string. Pretty clever. To see how filtering in list comprehensions
 translates to the list monad, we have to check out the
-<code>guard</code> function and the <code>MonadPlus</code> type class.
-The <code>MonadPlus</code> type class is for monads that can also act as
-monoids. Here’s its definition:</p>
-<pre class="haskell:hs"><code>class Monad m =&gt; MonadPlus m where
-    mzero :: m a
-    mplus :: m a -&gt; m a -&gt; m a</code></pre>
-<p><code>mzero</code> is synonymous to <code>mempty</code> from the
-<code>Monoid</code> type class and <code>mplus</code> corresponds to
-<code>mappend</code>. Because lists are monoids as well as monads, they
-can be made an instance of this type class:</p>
-<pre class="haskell:hs"><code>instance MonadPlus [] where
-    mzero = []
-    mplus = (++)</code></pre>
-<p>For lists <code>mzero</code> represents a non-deterministic
+<code>guard</code> function and the <code>Alternative</code> type class.
+The <code>Alternative</code> type class is for Applicatives that can
+also act as monoids. Here’s its definition:</p>
+<pre class="haskell:hs"><code>class Applicative f =&gt; Alternative f where
+    empty :: f a
+    (&lt;|&gt;) :: f a -&gt; f a -&gt; f a</code></pre>
+<p><code>empty</code> is synonymous to <code>mempty</code> from the
+<code>Monoid</code> type class and <code>(&lt;|&gt;)</code> corresponds
+to <code>mappend</code>. Because lists are monoids as well as monads,
+they can be made an instance of this type class:</p>
+<pre class="haskell:hs"><code>instance Alternative [] where
+    empty = []
+    (&lt;|&gt;) = (++)</code></pre>
+<p>For lists <code>empty</code> represents a non-deterministic
 computation that has no results at all — a failed computation.
-<code>mplus</code> joins two non-deterministic values into one. The
-<code>guard</code> function is defined like this:</p>
-<pre class="haskell:hs"><code>guard :: (MonadPlus m) =&gt; Bool -&gt; m ()
-guard True = return ()
-guard False = mzero</code></pre>
+<code>(&lt;|&gt;)</code> joins two non-deterministic values into one.
+The <code>guard</code> function is defined like this:</p>
+<pre class="haskell:hs"><code>guard :: (Alternative m) =&gt; Bool -&gt; m ()
+guard True = pure ()
+guard False = empty</code></pre>
 <p>It takes a boolean value and if it’s <code>True</code>, takes a
 <code>()</code> and puts it in a minimal default context that still
 succeeds. Otherwise, it makes a failed monadic value. Here it is in
