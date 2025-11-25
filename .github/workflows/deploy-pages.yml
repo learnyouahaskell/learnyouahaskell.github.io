@@ -15,7 +15,6 @@ jobs:
       - name: Install pandoc
         run: |
           sudo apt install pandoc
-        uses: actions/checkout@v5
       - name: Generate HTML from Markdown
         run: |
           cd markdown
