@@ -3,7 +3,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches:
-      - xogcox-align-to-markdown
+      - main
   workflow_dispatch:
 
 jobs:
