@@ -413,7 +413,7 @@ holds.</p>
     fmap f (Just x) = Just (f x)
     fmap f Nothing = Nothing</code></pre>
 <p>We imagine that <code>id</code> plays the role of the <code>f</code>
-parameter in the implementation. We see that if wee <code>fmap id</code>
+parameter in the implementation. We see that if we <code>fmap id</code>
 over <code>Just x</code>, the result will be <code>Just (id x)</code>,
 and because <code>id</code> just returns its parameter, we can deduce
 that <code>Just (id x)</code> equals <code>Just x</code>. So now we know
