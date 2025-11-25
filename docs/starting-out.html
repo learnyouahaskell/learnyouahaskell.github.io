@@ -245,7 +245,7 @@ Notice how <span class="fixed">:</span> takes a number and a list of numbers or 
 <p>
 <span class="fixed">[1,2,3]</span> is actually just syntactic sugar for <span class="fixed">1:2:3:[]</span>. <span class="fixed">[]</span> is an empty list. If we prepend <span class="fixed">3</span> to it, it becomes <span class="fixed">[3]</span>. If we prepend <span class="fixed">2</span> to that, it becomes <span class="fixed">[2,3]</span>, and so on.
 </p>
-<p class="hintbox"><em>Note:</em> <span class="fixed">[]</span>, <span class="fixed">[[]]</span> and<span class="fixed">[[],[],[]]</span> are all different things. The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.</p>
+<p class="hintbox"><em>Note:</em> <span class="fixed">[]</span>, <span class="fixed">[[]]</span> and<span class="fixed">[[],[],[]]</span> are all different things. The first one is an empty list, the second one is a list that contains one empty list, the third one is a list that contains three empty lists.</p>
 <p>If you want to get an element out of a list by index, use <span class="fixed">!!</span>. The indices start at 0.</p>
 <pre name="code" class="haskell: ghci">
 ghci&gt; "Steve Buscemi" !! 6

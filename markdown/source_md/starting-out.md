@@ -338,7 +338,7 @@ If we prepend `2` to that, it becomes `[2,3]`, and so on.
 
 ::: {.hintbox}
 **Note:** `[]`, `[[]]` and`[[],[],[]]` are all different things.
-The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.
+The first one is an empty list, the second one is a list that contains one empty list, the third one is a list that contains three empty lists.
 :::
 
 If you want to get an element out of a list by index, use `!!`.
