@@ -1,4 +1,3 @@
 from: markdown-implicit_figures
 to: html
-highlight-style: null
 standalone: true
