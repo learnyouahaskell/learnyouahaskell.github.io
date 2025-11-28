@@ -185,7 +185,7 @@ It just states that the first component's type and the return value's type are t
 
 A typeclass is a sort of interface that defines some behavior.
 If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
-A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object oriented languages.
+A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object-oriented languages.
 Well, they're not.
 You can think of them kind of as Java interfaces, only better.
 
@@ -199,7 +199,7 @@ ghci> :t (==)
 ::: {.hintbox}
 **Note**: the equality operator, `==` is a function.
 So are `+`, `*`, `-`, `/` and pretty much all operators.
-If a function is comprised only of special characters, it's considered an infix function by default.
+If a function name comprised only special characters, it's considered an infix function by default.
 If we want to examine its type, pass it to another function or call it as a prefix function, we have to surround it in parentheses.
 :::
 
