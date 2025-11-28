@@ -281,7 +281,8 @@ densityTell density
 
 Guards are indicated by pipes that follow a function's name and its parameters.
 Usually, they're indented a bit to the right and lined up.
-A guard is basically a boolean expression.
+A guard can be one of two things.
+The first is basically a boolean expression.
 If it evaluates to `True`, then the corresponding function body is used.
 If it evaluates to `False`, checking drops through to the next guard and so on.
 If we call this function with `24.3`, it will first check if that's smaller than or equal to `1.2`.
@@ -294,7 +295,7 @@ Guards are a very nice alternative for this.
 
 Many times, the last guard is `otherwise`.
 `otherwise` is defined simply as `otherwise = True` and catches everything.
-This is very similar to patterns, only they check if the input satisfies a pattern but guards check for boolean conditions.
+This is very similar to patterns, only they check if the input satisfies a pattern but boolean guards check for boolean conditions.
 If all the guards of a function evaluate to `False` (and we haven't provided an `otherwise` catch-all guard), evaluation falls through to the next **pattern**.
 That's how patterns and guards play nicely together.
 If no suitable guards or patterns are found, an error is thrown.
@@ -362,6 +363,26 @@ GT
 ::: {.hintbox}
 **Note:** Not only can we call functions as infix with backticks, we can also define them using backticks.
 Sometimes it's easier to read that way.
+:::
+
+But wait! It's not the only kind of guards.
+Sometimes, you want to check not that an argument satisfies some pattern, but that the result of some function does (and pattern match on the result, of course).
+That's what pattern guards are for:
+
+```{.haskell:hs}
+densityTell :: String -> String  
+densityTell input  
+    | Just density <- readMaybe input, density < 1.2 = "Wow! You're going for a ride in the sky!"  
+    | Just density <- readMaybe input, density <= 1000.0 = "Have fun swimming, but watch out for sharks!"  
+    | Nothing <- readMaybe input :: (RealFloat a => Maybe a) = "You know I need a density, right?"  
+    | otherwise   = "If it's sink or swim, you're going to sink."  
+```
+
+The full syntax of guards is a series of either boolean expressions or patterns guards, separated by commas.
+
+::: {.hintbox}
+**Note:** Haskell has been designed to be a language that evolves and includes the results of research and experimentation.
+Pattern guards were not included in the first stable version of Haskell (called **Haskell98**) but were added to the next (called **Haskell2010**).
 :::
 
 ## Where!? {#where}
