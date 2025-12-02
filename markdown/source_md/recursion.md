@@ -118,7 +118,7 @@ replicate' n x
 
 We used guards here instead of patterns because we're testing for a boolean condition.
 If `n` is less than or equal to 0, return an empty list.
-Otherwise return a list that has `x` as the first element and then `x` replicated n-1 times as the tail.
+Otherwise, return a list that has `x` as the first element and then `x` replicated n-1 times as the tail.
 Eventually, the `(n-1)` part will cause our function to reach the edge condition.
 
 ::: {.hintbox}
@@ -130,7 +130,7 @@ So that's why we have to specify both the `Num` and `Ord` class constraints when
 Next up, we'll implement `take`.
 It takes a certain number of elements from a list.
 For instance, `take 3 [5,4,3,2,1]` will return `[5,4,3]`.
-If we try to take 0 or less elements from a list, we get an empty list.
+If we try to take 0 or fewer elements from a list, we get an empty list.
 Also if we try to take anything from an empty list, we get an empty list.
 Notice that those are two edge conditions right there.
 So let's write that out:
@@ -296,7 +296,7 @@ It doesn't matter if it's a list, a tree or any other data structure.
 A sum is the first element of a list plus the sum of the rest of the list.
 A product of a list is the first element of the list times the product of the rest of the list.
 The length of a list is one plus the length of the tail of the list.
-Ekcetera, ekcetera ...
+Et cetera, et cetera...
 
 ![brain](assets/images/recursion/brain.png){.left width=250 height=219}
 
