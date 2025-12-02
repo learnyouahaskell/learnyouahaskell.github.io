@@ -75,7 +75,7 @@ If a function you make takes two parameters and adds them together and you don't
 
 Haskell is **elegant and concise**.
 Because it uses a lot of high level concepts, Haskell programs are usually shorter than their imperative equivalents.
-And shorter programs are easier to maintain than longer ones and have less bugs.
+And shorter programs are easier to maintain than longer ones and have fewer bugs.
 
 Haskell was made by some **really smart folk** (with PhDs).
 Work on Haskell began in 1987 when a committee of researchers got together to design a kick-ass language.
