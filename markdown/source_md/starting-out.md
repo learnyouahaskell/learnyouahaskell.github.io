@@ -5,7 +5,7 @@
 ![egg](assets/images/starting-out/startingout.png){.right width=214 height=187}
 Alright, let's get started!
 If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions.
-The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for Haskell.
+The first thing we're going to do is run GHC's interactive mode and call some function to get a very basic feel for Haskell.
 Open your terminal and type in `ghci`.
 You will be greeted with something like this.
 
@@ -329,7 +329,7 @@ If we prepend `2` to that, it becomes `[2,3]`, and so on.
 
 ::: {.hintbox}
 **Note:** `[]`, `[[]]` and`[[],[],[]]` are all different things.
-The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.
+The first one is an empty list, the second one is a list that contains one empty list, the third one is a list that contains three empty lists.
 :::
 
 If you want to get an element out of a list by index, use `!!`.
@@ -871,7 +871,7 @@ ghci> triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 We're just drawing from three lists and our output function is combining them into a triple.
 If you evaluate that by typing out `triangles` in GHCI, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
-We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.
+We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.
 
 ```{.haskell: .ghci}
 ghci> rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2]
