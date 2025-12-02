@@ -43,7 +43,7 @@ main = putStrLn "hello, world"
 ```
 
 We just defined a name called `main` and in it we call a function called `putStrLn` with the parameter `"hello, world"`.
-Looks pretty much run of the mill, but it isn't, as we'll see in just a few moments.
+Looks pretty much run-of-the-mill, but it isn't, as we'll see in just a few moments.
 Save that file as `helloworld.hs`.
 
 And now, we're going to do something we've never done before.
@@ -78,7 +78,7 @@ ghci> :t putStrLn "hello, world"
 putStrLn "hello, world" :: IO ()
 ```
 
-We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also know as unit).
+We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also known as `unit`).
 An I/O action is something that, when performed, will carry out an action with a side-effect (that's usually either reading from the input or printing stuff to the screen) and will also contain some kind of return value inside it.
 Printing a string to the terminal doesn't really have any kind of meaningful return value, so a dummy value of `()` is used.
 
@@ -267,7 +267,7 @@ reverseWords = unwords . map reverse . words
 To get a feel of what it does, you can run it before we go over the code.
 
 ::: {.hintbox}
-**Protip**: To run a program you can either compile it and then run the produced executable file by doing `ghc --make helloworld` and then `./helloworld` or you can use the `runhaskell` command like so: `runhaskell helloworld.hs` and your program will be executed on the fly.
+**Pro tip**: To run a program you can either compile it and then run the produced executable file by doing `ghc --make helloworld` and then `./helloworld` or you can use the `runhaskell` command like so: `runhaskell helloworld.hs` and your program will be executed on the fly.
 :::
 
 First, let's take a look at the `reverseWords` function.
@@ -2067,7 +2067,7 @@ ghci> head []
 
 ![Stop right there, criminal scum! Nobody breaks the law on my watch! Now pay your fine or it's off to jail.](assets/images/input-and-output/police.png){width=241 height=328 .left}
 
-Pure code can throw exceptions, but it they can only be caught in the I/O part of our code (when we're inside a *do* block that goes into `main`).
+Pure code can throw exceptions, but they can only be caught in the I/O part of our code (when we're inside a *do* block that goes into `main`).
 That's because you don't know when (or if) anything will be evaluated in pure code, because it is lazy and doesn't have a well-defined order of execution, whereas I/O code does.
 
 Earlier, we talked about how we should spend as little time as possible in the I/O part of our program.
@@ -2306,5 +2306,5 @@ This is kind of similar to *try-catch* blocks of other languages, where you can 
 
 Now you know how to deal with I/O exceptions!
 Throwing exceptions from pure code and dealing with them hasn't been covered here, mainly because, like we said, Haskell offers much better ways to indicate errors than reverting to I/O to catch them.
-Even when glueing together I/O actions that might fail, I prefer to have their type be something like `IO (Either a b)`, meaning that they're normal I/O actions but the result that they yield when performed is of type `Either a b`, meaning it's either `Left a` or `Right b`.
+Even when gluing together I/O actions that might fail, I prefer to have their type be something like `IO (Either a b)`, meaning that they're normal I/O actions but the result that they yield when performed is of type `Either a b`, meaning it's either `Left a` or `Right b`.
 
