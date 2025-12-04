@@ -1199,16 +1199,14 @@ main = do (fileName:_) &lt;- getArgs
 </pre>
 <p>We did <span class="fixed">fileExists &lt;- doesFileExist fileName</span> because <span class="fixed">doesFileExist</span> has a type of <span class="fixed">doesFileExist :: FilePath -&gt; IO Bool</span>, which means that it returns an I/O action that has as its result a boolean value which tells us if the file exists. We can't just use <span class="fixed">doesFileExist</span> in an <i>if</i> expression directly.</p>
 <p>Another solution here would be to use exceptions. It's perfectly acceptable to use them in this context. A file not existing is an exception that arises from I/O, so catching it in I/O is fine and dandy.</p>
-<p>To deal with this by using exceptions, we're going to take advantage of the <span class="label function">catch</span> function from <span class="fixed">System.IO.Error</span>. Its type is <span class="fixed">catch :: IO a -&gt; (IOError -&gt; IO a) -&gt; IO a</span>. It takes two parameters. The first one is an I/O action. For instance, it could be an I/O action that tries to open a file. The second one is the so-called handler. If the first I/O action passed to <span class="fixed">catch</span> throws an I/O exception, that exception gets passed to the handler, which then decides what to do. So the final result is an I/O action that will either act the same as the first parameter or it will do what the handler tells it if the first I/O action throws an exception.</p>
+<p>To deal with this by using exceptions, we're going to take advantage of the <span class="label function">catch</span> function from <span class="fixed">Control.Exception</span>. Its type is <span class="fixed">catch :: IO a -&gt; (IOError -&gt; IO a) -&gt; IO a</span>. It takes two parameters. The first one is an I/O action. For instance, it could be an I/O action that tries to open a file. The second one is the so-called handler. If the first I/O action passed to <span class="fixed">catch</span> throws an I/O exception, that exception gets passed to the handler, which then decides what to do. So the final result is an I/O action that will either act the same as the first parameter or it will do what the handler tells it if the first I/O action throws an exception.</p>
 <img src="assets/images/input-and-output/puppy.png" alt="non sequitur" class="right" width="334" height="240">
 <p>If you're familiar with <i>try-catch</i> blocks in languages like Java or Python, the <span class="fixed">catch</span> function is similar to them. The first parameter is the thing to try, kind of like the stuff in the <i>try</i> block in other, imperative languages. The second parameter is the handler that takes an exception, just like most <i>catch</i> blocks take exceptions that you can then examine to see what happened. The handler is invoked if an exception is thrown.</p>
 <p>The handler takes a value of type <span class="fixed">IOError</span>, which is a value that signifies that an I/O exception occurred. It also carries information regarding the type of the exception that was thrown. How this type is implemented depends on the implementation of the language itself, which means that we can't inspect values of the type <span class="fixed">IOError</span> by pattern matching against them, just like we can't pattern match against values of type <span class="fixed">IO <i>something</i></span>. We can use a bunch of useful predicates to find out stuff about values of type <span class="fixed">IOError</span> as we'll learn in a second.</p>
 <p>So let's put our new friend <span class="fixed">catch</span> to use!</p>
 <pre name="code" class="haskell:hs">
 import System.Environment
-import System.IO
-import System.IO.Error
-
+import Control.Exception
 main = toTry `catch` handler
 
 toTry :: IO ()
@@ -1231,8 +1229,9 @@ Whoops, had some trouble!
 <p>In the handler, we didn't check to see what kind of <span class="fixed">IOError</span> we got. We just say <span class="fixed">"Whoops, had some trouble!"</span> for any kind of error. Just catching all types of exceptions in one handler is bad practice in Haskell just like it is in most other languages. What if some other exception happens that we don't want to catch, like us interrupting the program or something? That's why we're going to do the same thing that's usually done in other languages as well: we'll check to see what kind of exception we got. If it's the kind of exception we're waiting to catch, we do our stuff. If it's not, we throw that exception back into the wild. Let's modify our program to catch only the exceptions caused by a file not existing.</p>
 <pre name="code" class="haskell:hs">
 import System.Environment
-import System.IO
-import System.IO.Error
+import System.IO.Error  
+import Control.Exception
+
 
 main = toTry `catch` handler
 
@@ -1273,8 +1272,9 @@ handler e
 <p><span class="fixed">System.IO.Error</span> also exports functions that enable us to ask our exceptions for some attributes, like what the handle of the file that caused the error is, or what the filename is. These start with <span class="fixed">ioe</span> and you can see a <a href="https://hackage.haskell.org/package/base/docs/System-IO-Error.html#g:3">full list of them</a> in the documentation. Say we want to print the filename that caused our error. We can't print the <span class="fixed">fileName</span> that we got from <span class="fixed">getArgs</span>, because only the <span class="fixed">IOError</span> is passed to the handler and the handler doesn't know about anything else. A function depends only on the parameters it was called with. That's why we can use the <span class="label function">ioeGetFileName</span> function, which has a type of <span class="fixed">ioeGetFileName :: IOError -&gt; Maybe FilePath</span>. It takes an <span class="fixed">IOError</span> as a parameter and maybe returns a <span class="fixed">FilePath</span> (which is just a type synonym for <span class="fixed">String</span>, remember, so it's kind of the same thing). Basically, what it does is it extracts the file path from the <span class="fixed">IOError</span>, if it can. Let's modify our program to print out the file path that's responsible for the exception occurring.
 <pre name="code" class="haskell:hs">
 import System.Environment
-import System.IO
 import System.IO.Error
+import Control.Exception
+
 
 main = toTry `catch` handler
 
