@@ -86,8 +86,8 @@ Well, if we try the first snippet, we get a big scary error message!
 
 ```{.haskell: .ghci}
 • No instance for (Num String) arising from a use of ‘+’
-    • In the expression: 5 + "llama"
-      In an equation for ‘it’: it = 5 + "llama"
+• In the expression: 5 + "llama"
+  In an equation for ‘it’: it = 5 + "llama"
 ```
 
 Yikes!
