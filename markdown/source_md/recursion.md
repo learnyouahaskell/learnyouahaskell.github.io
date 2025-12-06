@@ -279,13 +279,13 @@ Here's an illustration:
 
 ![quicksort](assets/images/recursion/quicksort.png){.center width=799 height=332}
 
-An element that is in place and won't move anymore is represented in `orange`{style=color:#FF6600;font-weight:bold;}.
+An element that is in place and won't move anymore is represented in [orange]{style=color:#FF6600;font-weight:bold;}.
 If you read them from left to right, you'll see the sorted list.
 Although we chose to compare all the elements to the heads, we could have used any element to compare against.
 In quicksort, an element that you compare against is called a pivot.
-They're in `green`{style=color:#009900;font-weight:bold} here.
+They're in [green]{style=color:#009900;font-weight:bold} here.
 We chose the head because it's easy to get by pattern matching.
-The elements that are smaller than the pivot are `light green`{style=color:#0f0;font-weight:bold} and elements larger than the pivot are `dark green`{style=color:#030;font-weight:bold}.
+The elements that are smaller than the pivot are [light green]{style=color:#0f0;font-weight:bold} and elements larger than the pivot are [dark green]{style=color:#030;font-weight:bold}.
 The yellowish gradient thing represents an application of quicksort.
 
 ## Thinking recursively {#thinking-recursively}

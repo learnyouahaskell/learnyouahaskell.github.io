@@ -289,8 +289,8 @@ You could also write that part out as:
 
 ```{.haskell:hs}
 else (do
-            putStrLn $ reverseWords line
-            main)
+    putStrLn $ reverseWords line
+    main)
 ```
 
 This makes it more explicit that the *do* block can be viewed as one I/O action, but it's uglier.
