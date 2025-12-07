@@ -1,0 +1,9 @@
+docs/*.html
+!docs/index.html
+
+.DS_Store
+.idea
+*.log
+tmp/
+
+

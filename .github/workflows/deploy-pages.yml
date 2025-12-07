@@ -16,10 +16,7 @@ jobs:
         run: |
           sudo apt install pandoc
       - name: Generate HTML from Markdown
-        run: |
-          cd markdown
-          ./generate.sh
-          cp ./generated_html/* ../docs/
+        run: make
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
