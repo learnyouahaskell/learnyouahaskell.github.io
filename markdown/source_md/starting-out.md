@@ -104,6 +104,13 @@ We'll take a closer look at types a bit later.
 Note: you can do `5 + 4.0` because `5` is sneaky and can act like an integer or a floating-point number.
 `4.0` can't act like an integer, so `5` is the one that has to adapt.
 
+::: {.hintbox}
+**Note:** GHC errors are all assigned unique identifiers such as `GHC-39999` above.
+Whenever you are stuck with a stubborn error, you can look it up at
+[https://errors.haskell.org/](https://errors.haskell.org/) to learn typical causes
+and solutions.
+:::
+
 You may not have known it but we've been using functions now all along.
 For instance, `*` is a function that takes two numbers and multiplies them.
 As you've seen, we call it by sandwiching it between them.
