@@ -11,8 +11,8 @@ h1 {
     font-size:60px;
     line-height:60px;
     font-family:georgia, Arial, serif;
-    font-weight:normal;
     margin-bottom:15px;
+    font-weight:normal;
     overflow-wrap:break-word;
     hyphens:auto;
 }
@@ -20,7 +20,8 @@ h1 {
     h1 {
         font-size:40px;
         line-height:40px;
-    }   font-weight:normal;
+        font-weight:normal;
+    }
 }
 h2 {
     font-size:20px;
@@ -208,7 +209,6 @@ pre > code {
 .footdiv ul li {
     display:table-cell;
     width:33%;
-
 }
 /* For narrow viewports, let navigation links split to separate lines */
 @media screen and (max-width:300px) {
