@@ -85,9 +85,11 @@ What about doing `5 + "llama"` or `5 == True`?
 Well, if we try the first snippet, we get a big scary error message!
 
 ```{.haskell: .ghci}
-• No instance for (Num String) arising from a use of ‘+’
-• In the expression: 5 + "llama"
-  In an equation for ‘it’: it = 5 + "llama"
+<interactive>:1:1: error: [GHC-39999]
+    • No instance for ‘Num String’ arising from the literal ‘5’
+    • In the first argument of ‘(+)’, namely ‘5’
+      In the expression: 5 + "llama"
+      In an equation for ‘it’: it = 5 + "llama"
 ```
 
 Yikes!
