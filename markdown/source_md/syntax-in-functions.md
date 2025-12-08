@@ -441,8 +441,8 @@ We could have rewritten the where section of our previous function as:
 
 ```{.haskell:hs}
 ...
-where density = mass / volume
-      (air, water) = (2.2, 1000.0)
+    where density = mass / volume
+          (air, water) = (1.2, 1000.0)
 ```
 
 Let's make another fairly trivial function where we get a first and a last name and give someone back their initials.
