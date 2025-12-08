@@ -1,7 +1,7 @@
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://learnyouahaskell.github.io/)
 [![pages-build-deployment](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment/badge.svg?branch=main)](https://github.com/learnyouahaskell/learnyouahaskell.github.io/actions/workflows/pages/pages-build-deployment)
 
-**maintainers:** [Stanislav Modrak](https://github.com/smith558), to become a maintainer email via [here](https://stanislav.gq/) 🙂
+**maintainers:** [Stanislav Modrak](https://github.com/smith558), [Artem Pelenitsyn](https://github.com/ulysses4ever), [Pier-Luc Caron St-Pierre](https://github.com/pierluc-codes); to become a maintainer email via [here](https://stanislav.gq/) 🙂
 
 # Learn You a Haskell: A community version
 
@@ -20,10 +20,14 @@ The whole thing is completely free to read online, but the original is also avai
 
 ## TODOs:
 - [ ] refactor web code
-- [ ] make mobile-friendly
+- [ ] make UI more modern (whilst retaining as much of the original "feel" as possible)
+- [x] make content pages mobile-friendly (*still needs work)
+- [ ] make index page mobile-friendly
 - [x] prepare "content edit request" interface on GitHub
 - [ ] add exercises
-- [ ] update (just overall, the outdated parts)
+- [ ] update content (just overall, the outdated parts)
+
+For some of these points, there are more focused issues on GitHub.
 
 Don't forget to star the GitHub repository if you like it! 🙂
 
@@ -35,7 +39,7 @@ Discuss the ideas with the community.
 * Haskell Discourse - https://discourse.haskell.org/t/learn-you-a-haskell-a-community-version/4056
 
 ## Licence
-This domain and repository is in no way affiliated with Miran Lipovača (the original author) and is being extended and modified with his permision as per the licence the original work was released under ([Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/)) as well as his literal statement encouraging modifications to be made ([FAQ](http://learnyouahaskell.com/faq)).
+This domain and repository is in no way affiliated with Miran Lipovača (the original author) and is being extended and modified with his permission as per the licence the original work was released under ([Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/)) as well as his literal statement encouraging modifications to be made ([FAQ](http://learnyouahaskell.com/faq)).
 
 ##
 This work is licensed under a [Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/).
