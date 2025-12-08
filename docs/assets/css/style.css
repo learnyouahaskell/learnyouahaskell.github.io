@@ -11,6 +11,7 @@ h1 {
     font-size:60px;
     line-height:60px;
     font-family:georgia, Arial, serif;
+    font-weight:normal;
     margin-bottom:15px;
     overflow-wrap:break-word;
     hyphens:auto;
