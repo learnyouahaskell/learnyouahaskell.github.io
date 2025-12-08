@@ -786,13 +786,14 @@ What if we tried to make a shape like `[(1,2),(8,11,5),(4,5)]`?
 Well, we'd get this error:
 
 ```{.haskell: .ghci}
-• Couldn't match expected type ‘(a, b)’
-              with actual type ‘(a0, b0, c0)’
-• In the expression: (8, 11, 5)
-  In the expression: [(1, 2), (8, 11, 5), (4, 5)]
-  In an equation for ‘it’: it = [(1, 2), (8, 11, 5), (4, 5)]
-• Relevant bindings include
-    it :: [(a, b)] (bound at <interactive>:1:1)
+<interactive>:1:8: error: [GHC-83865]
+    • Couldn't match expected type: (a, b)
+                  with actual type: (a0, b0, c0)
+    • In the expression: (8, 11, 5)
+      In the expression: [(1, 2), (8, 11, 5), (4, 5)]
+      In an equation for ‘it’: it = [(1, 2), (8, 11, 5), (4, 5)]
+    • Relevant bindings include
+        it :: [(a, b)] (bound at <interactive>:1:1)
 ```
 
 It's telling us that we tried to use a pair and a triple in the same list, which is not supposed to happen.
