@@ -112,6 +112,8 @@ pre > code {
     font-weight:normal;
     padding:0px 3px;
     font-weight:bold;
+    text-wrap: wrap;
+    overflow-wrap: break-word;
 }
 #content {
     width:800px;
