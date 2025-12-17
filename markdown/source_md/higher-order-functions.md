@@ -473,8 +473,8 @@ If we map `*` over the list `[0..]`, we get back a list of functions that only t
 `map (*) [0..]` produces a list like the one we'd get by writing `[(0*),(1*),(2*),(3*),(4*),(5*)..`.
 
 ```{.haskell:hs}
-ghci> let listOfFuns = map (*) [0..]
-ghci> (listOfFuns !! 4) 5
+ghci> let listOfFuncs = map (*) [0..]
+ghci> (listOfFuncs !! 4) 5
 20
 ```
 
@@ -741,8 +741,8 @@ ghci> scanl (flip (:)) [] [3,2,1]
 When using a `scanl`, the final result will be in the last element of the resulting list while a `scanr` will place the result in the head.
 
 Scans are used to monitor the progression of a function that can be implemented as a fold.
-Let's answer us this question: **How many elements does it take for the sum of the roots of all natural numbers to exceed 1000?**
-To get the squares of all natural numbers, we just do `map sqrt [1..]`.
+Let's answer us this question: **How many elements does it take for the sum of the square roots of all natural numbers to exceed 1000?**
+To get the square roots of all natural numbers, we just do `map sqrt [1..]`.
 Now, to get the sum, we could do a fold, but because we're interested in how the sum progresses, we're going to do a scan.
 Once we've done the scan, we just see how many sums are under 1000.
 The first sum in the scanlist will be 1, normally.
@@ -881,7 +881,7 @@ sum' :: (Num a) => [a] -> a
 sum' xs = foldl (+) 0 xs
 ```
 
-The `xs` is exposed on both right sides.
+The `xs` is exposed on both sides, right?
 Because of currying, we can omit the `xs` on both sides, because calling `foldl (+) 0` creates a function that takes a list.
 Writing the function as `sum' = foldl (+) 0` is called writing it in point free style.
 How would we write this in point free style?

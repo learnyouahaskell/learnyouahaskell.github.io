@@ -506,7 +506,7 @@ The `<*>` function is really interesting.
 It has a type declaration of `f (a -> b) -> f a -> f b`.
 Does this remind you of anything?
 Of course, `fmap :: (a -> b) -> f a -> f b`.
-It's a sort of a beefed up `fmap`.
+It's a sort of beefed up `fmap`.
 Whereas `fmap` takes a function and a functor and applies the function inside the functor, `<*>` takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one.
 When I say *extract*, I actually sort of mean *run* and then extract, maybe even *sequence*.
 We'll see why soon.
@@ -586,7 +586,7 @@ Finally, `Just (3+) <*> Just 5` is carried out, which results in a `Just 8`.
 
 Isn't this awesome?!
 Applicative functors and the applicative style of doing `pure f <*> x <*> y <*> ...` allow us to take a function that expects parameters that aren't necessarily wrapped in functors and use that function to operate on several values that are in functor contexts.
-The function can take as many parameters as we want, because it's always partially applied step by step between occurences of `<*>`.
+The function can take as many parameters as we want, because it's always partially applied step by step between occurrences of `<*>`.
 
 This becomes even more handy and apparent if we consider the fact that `pure f <*> x` equals `fmap f x`.
 This is one of the applicative laws.
@@ -1207,7 +1207,7 @@ ghci> CharList "this will be shown!"
 CharList {getCharList = "this will be shown!"}
 ghci> CharList "benny" == CharList "benny"
 True
-ghci> CharList "benny" == CharList "oisters"
+ghci> CharList "benny" == CharList "oysters"
 False
 ```
 
@@ -1578,7 +1578,7 @@ We were able to use the general type of `[a]` (as opposed to specifying `[Int]` 
 
 Because `mconcat` has a default implementation, we get it for free when we make something an instance of `Monoid`.
 In the case of the list, `mconcat` turns out to be just `concat`.
-It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjecent lists in a list.
+It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjacent lists in a list.
 
 The monoid laws do indeed hold for the list instance.
 When we have several lists and we `mappend` (or `++`) them together, it doesn't matter which ones we do first, because they're just joined at the ends anyway.
@@ -1933,7 +1933,7 @@ ghci> getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
 Just 9
 ```
 
-If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `mappend` are `Just` values, `Data.Monoid` provides a the `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `mappend`ing and using `mconcat`:
+If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `mappend` are `Just` values, `Data.Monoid` provides a `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `mappend`ing and using `mconcat`:
 
 ```{.haskell:hs}
 ghci> getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
@@ -2065,7 +2065,7 @@ testTree = Node 5
             )
 ```
 
-It has `5` at its root and then its left node is has `3` with `1` on the left and `6` on the right.
+It has `5` at its root and then its left node has `3` with `1` on the left and `6` on the right.
 The root's right node has a `9` and then an `8` to its left and a `10` on the far right side.
 With a `Foldable` instance, we can do all of the folds that we can do on lists:
 

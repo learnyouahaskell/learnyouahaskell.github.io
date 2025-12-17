@@ -22,10 +22,12 @@ The whole thing is completely free to read online, but the original is also avai
 - [ ] refactor web code
 - [ ] make UI more modern (whilst retaining as much of the original "feel" as possible)
 - [x] make content pages mobile-friendly (*still needs work)
-- [ ] make homepage mobile-friendly
+- [ ] make index page mobile-friendly
 - [x] prepare "content edit request" interface on GitHub
 - [ ] add exercises
 - [ ] update content (just overall, the outdated parts)
+
+For some of these points, there are more focused issues on GitHub.
 
 Don't forget to star the GitHub repository if you like it! 🙂
 

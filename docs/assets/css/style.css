@@ -20,6 +20,7 @@ h1 {
     h1 {
         font-size:40px;
         line-height:40px;
+        font-weight:normal;
     }
 }
 h2 {
@@ -44,6 +45,9 @@ a:hover {
     text-decoration:none;
 }
 em {
+    font-style:italic;
+}
+strong {
     font-style:normal;
     font-weight:bold;
 }
@@ -70,7 +74,7 @@ img.center {
     display:block;
     max-width:100%;
 }
-pre.code {
+pre > code {
     color:white;
     /*background-color:#522812;*/
     background-color:black;
@@ -91,6 +95,9 @@ pre.code {
     background-color:#ffc;
     margin-bottom:25px;
     background-image:url(https://s3.amazonaws.com/lyah/note.jpg);
+}
+.hintbox > p {
+    margin-bottom:0px;
 }
 .label {
     white-space:nowrap;
@@ -114,7 +121,8 @@ pre.code {
     background-color:#99DDcc;
     color:black;
 }
-.fixed {
+:not(pre) > code:not(.label, .function, .type, .class, .law) {
+    white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;
     background-color:#ddd;
     font-weight:normal;
@@ -122,7 +130,6 @@ pre.code {
     font-weight:bold;
     /* Allow inline code to wrap if necessary */
     /* These rules were based off the CSS used on the Stack Exchange website */
-    white-space-collapse:preserve;
     overflow-wrap:break-word;
     text-wrap:wrap;
     /* Rounded corners help user connect two parts of one code snippet wrapped across lines */
@@ -149,6 +156,7 @@ pre.code {
     padding-left:25px;
     margin:0px;
     color:#408156;
+    margin-top:25px;
     margin-bottom:25px;
 }
 .chapters > li {
@@ -215,7 +223,6 @@ pre.code {
         width:unset;
     }
 }
-
 .prevlink {
     padding-left:20px;
     background-image:url(https://s3.amazonaws.com/lyah/prv.png);

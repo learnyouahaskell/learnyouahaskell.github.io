@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+      - name: Install pandoc
+        run: |
+          sudo apt install pandoc
+      - name: Generate HTML from Markdown
+        run: make
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
