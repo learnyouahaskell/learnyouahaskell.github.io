@@ -177,7 +177,7 @@ In the previous section we got a basic feel for calling functions.
 Now let's try making our own!
 Open up your favorite text editor and punch in this function that takes a number and multiplies it by two.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleMe x = x + x
 ```
 
@@ -202,7 +202,7 @@ ghci> doubleMe 8.3
 Because `+` works on integers as well as on floating-point numbers (anything that can be considered a number, really), our function also works on any number.
 Let's make a function that takes two numbers and multiplies each by two and then adds them together.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleUs x y = x*2 + y*2
 ```
 
@@ -222,7 +222,7 @@ ghci> doubleUs 28 88 + doubleMe 123
 As expected, you can call your own functions from other functions that you made.
 With that in mind, we could redefine `doubleUs` like this:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleUs x y = doubleMe x + doubleMe y
 ```
 
@@ -236,7 +236,7 @@ Functions in Haskell don't have to be in any particular order, so it doesn't mat
 
 Now we're going to make a function that multiplies a number by 2 but only if that number is smaller than or equal to 100 because numbers bigger than 100 are big enough as it is!
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleSmallNumber x = if x > 100
                         then x
                         else x*2
@@ -255,7 +255,7 @@ An expression is basically a piece of code that returns a value.
 Because the else is mandatory, an if statement will always return something and that's why it's an expression.
 If we wanted to add one to every number that's produced in our previous function, we could have written its body like this.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleSmallNumber' x = (if x > 100 then x else x*2) + 1
 ```
 
@@ -266,7 +266,7 @@ It's a valid character to use in a function name.
 We usually use `'` to either denote a strict version of a function (one that isn't lazy) or a slightly modified version of a function or a variable.
 Because `'` is a valid character in functions, we can make a function like this.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 conanO'Brien = "It's a-me, Conan O'Brien!"
 ```
 
@@ -676,7 +676,7 @@ The last part of the comprehension is the predicate.
 The function `odd` returns `True` on an odd number and `False` on an even one.
 The element is included in the list only if all the predicates evaluate to `True`.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 ghci> boomBangs [7..13]
 ["BOOM!","BOOM!","BANG!","BANG!"]
 ```
@@ -721,7 +721,7 @@ I know!
 Let's write our own version of `length`!
 We'll call it `length'`.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 length' xs = sum [1 | _ <- xs]
 ```
 
@@ -732,7 +732,7 @@ This means that the resulting sum will be the length of our list.
 Just a friendly reminder: because strings are lists, we can use list comprehensions to process and produce strings.
 Here's a function that takes a string and removes everything except uppercase letters from it.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 ```
 

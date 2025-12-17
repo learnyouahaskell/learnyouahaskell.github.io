@@ -60,7 +60,7 @@ From here on, we'll give all the functions that we make type declarations.
 Remember the list comprehension we made previously that filters a string so that only caps remain?
 Here's how it looks like with a type declaration.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 removeNonUppercase :: [Char] -> [Char]
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 ```
@@ -72,7 +72,7 @@ We didn't have to give this function a type declaration because the compiler can
 But how do we write out the type of a function that takes several parameters?
 Here's a simple function that takes three integers and adds them together:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 addThree :: Int -> Int -> Int -> Int
 addThree x y z = x + y + z
 ```
@@ -97,7 +97,7 @@ The main difference is that it's not bounded so it can be used to represent real
 I mean like really big.
 `Int`, however, is more efficient.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 factorial :: Integer -> Integer
 factorial n = product [1..n]
 ```
@@ -109,7 +109,7 @@ ghci> factorial 50
 
 `Float`{.label .type} is a real floating point with single precision.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 circumference :: Float -> Float
 circumference r = 2 * pi * r
 ```
@@ -121,7 +121,7 @@ ghci> circumference 4.0
 
 `Double`{.label .type} is a real floating point with double the precision!
 
-```{.haskell: .hs}
+```{.haskell:hs}
 circumference' :: Double -> Double
 circumference' r = 2 * pi * r
 ```

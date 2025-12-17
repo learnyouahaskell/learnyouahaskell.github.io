@@ -12,7 +12,7 @@ This leads to really neat code that's simple and readable.
 You can pattern match on any data type --- numbers, characters, lists, tuples, etc.
 Let's make a really trivial function that checks if the number we supplied to it is a seven or not.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 lucky :: (Integral a) => a -> String
 lucky 7 = "LUCKY NUMBER SEVEN!"
 lucky x = "Sorry, you're out of luck, pal!"
@@ -26,7 +26,7 @@ But what if we wanted a function that says the numbers from 1 to 5 and says `"No
 Without pattern matching, we'd have to make a pretty convoluted if then else tree.
 However, with it:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 sayMe :: (Integral a) => a -> String
 sayMe 1 = "One!"
 sayMe 2 = "Two!"
@@ -45,7 +45,7 @@ We start by saying that the factorial of 0 is 1.
 Then we state that the factorial of any positive integer is that integer multiplied by the factorial of its predecessor.
 Here's how that looks like translated in Haskell terms.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 factorial :: (Integral a) => a -> a
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
@@ -65,7 +65,7 @@ That's why order is important when specifying patterns and it's always best to s
 Pattern matching can also fail.
 If we define a function like this:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 charName :: Char -> String
 charName 'a' = "Albert"
 charName 'b' = "Broseph"
@@ -91,7 +91,7 @@ What if we wanted to make a function that takes two vectors in a 2D space (that 
 To add together two vectors, we add their x components separately and then their y components separately.
 Here's how we would have done it if we didn't know about pattern matching:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)
 addVectors a b = (fst a + fst b, snd a + snd b)
 ```
@@ -99,7 +99,7 @@ addVectors a b = (fst a + fst b, snd a + snd b)
 Well, that works, but there's a better way to do it.
 Let's modify the function so that it uses pattern matching.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)
 addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
 ```
@@ -113,7 +113,7 @@ The type of `addVectors` (in both cases) is `addVectors :: (Num a) => (a, a) -> 
 But what about triples?
 Well, there are no provided functions that do that but we can make our own.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 first :: (a, b, c) -> a
 first (x, _, _) = x
 
@@ -153,7 +153,7 @@ It will only match against lists that have three elements or more.
 
 Now that we know how to pattern match against list, let's make our own implementation of the `head` function.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 head' :: [a] -> a
 head' [] = error "Can't call head on an empty list, dummy!"
 head' (x:_) = x
@@ -177,7 +177,7 @@ But calling `head` on an empty list doesn't make sense.
 
 Let's make a trivial function that tells us some of the first elements of the list in (in)convenient English form.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 tell :: (Show a) => [a] -> String
 tell [] = "The list is empty"
 tell (x:[]) = "The list has one element: " ++ show x
@@ -192,7 +192,7 @@ We can't rewrite `(x:y:_)` with square brackets because it matches any list of l
 We already implemented our own `length` function using list comprehension.
 Now we'll do it by using pattern matching and a little recursion:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 length' :: (Num b) => [a] -> b
 length' [] = 0
 length' (_:xs) = 1 + length' xs
