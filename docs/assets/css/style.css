@@ -130,7 +130,6 @@ pre > code {
     font-weight:bold;
     /* Allow inline code to wrap if necessary */
     /* These rules were based off the CSS used on the Stack Exchange website */
-    white-space-collapse:preserve;
     overflow-wrap:break-word;
     text-wrap:wrap;
     /* Rounded corners help user connect two parts of one code snippet wrapped across lines */
