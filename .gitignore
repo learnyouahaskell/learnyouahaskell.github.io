@@ -1,4 +1,4 @@
-docs/*.html
-!docs/index.html
+static/*.html
+!static/index.html
 
 .DS_Store

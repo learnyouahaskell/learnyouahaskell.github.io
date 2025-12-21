@@ -1,3 +1,7 @@
+---
+chapter: 5
+---
+
 # Recursion {style=margin-left:-2px}
 
 ## Hello recursion! {#hello-recursion}

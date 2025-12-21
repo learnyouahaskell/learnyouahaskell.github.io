@@ -13,7 +13,7 @@
 set -euo pipefail
 
 IN=source_md
-OUT=../docs
+OUT=./static
 TMP=generated_md
 mkdir -p $OUT
 mkdir -p $TMP

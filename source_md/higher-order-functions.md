@@ -1,3 +1,7 @@
+---
+chapter: 6
+---
+
 # Higher Order Functions {style=margin-left:-3px}
 
 ![sun](assets/images/higher-order-functions/sun.png){.right width=203 height=183}
