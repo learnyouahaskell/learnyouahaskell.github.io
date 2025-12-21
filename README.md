@@ -38,6 +38,70 @@ Discuss the ideas with the community.
 * Reddit - https://www.reddit.com/r/haskell/comments/sogi3s/learn_you_a_haskell_a_community_version/
 * Haskell Discourse - https://discourse.haskell.org/t/learn-you-a-haskell-a-community-version/4056
 
+## Contributing
+
+We are happy to get your contributions!
+For the most part, you can simply edit Markdown files and open a PR with the edits.
+If you want to preview the changes locally, you need to build the site as discussed below.
+
+### Building the site
+
+The site is built using [Hakyll](https://jaspervdj.be/hakyll/), a static site generator in the form of a Haskell library.
+With Hakyll, you first build a Haskell application `site`, and then run it to generate HTML for the website (some workflows combine these steps; notably, `cabal run`).
+You can build the application in two ways common for Haskell software: with `cabal` (standard, slow first build) or `nix` (advanced, fast first build).
+Both of them rely on the same Haskell package description (the `.cabal` file), so they should produce the same result.
+
+#### Option 1: Using Cabal
+
+You will need the Haskell toolchain, GHC and Cabal, installed (e.g. via [GHCup][ghcup]).
+After that you can use `cabal` to build the website as follows:
+
+[ghcup]: https://www.haskell.org/ghcup/
+
+```bash
+# Update package list (first time only)
+cabal update
+
+# Build and run the site generator
+cabal run site -- build
+
+# Preview the site locally (optional)
+cabal run site -- watch
+# Then visit http://localhost:8000
+```
+
+A variation of these commands is used in the `Makefile`: run `make` to generate the website.
+
+#### Option 2: Using Nix
+
+[Nix][nix] is less straightforward to obtain usually, so it's not recommended for newcomers.
+Nix provides pre-compiled binary packages for all dependencies, which significantly speeds up the first build.
+This is what we use in our GitHub CI for expediency.
+
+[nix]: https://nixos.org/
+
+```bash
+# Build the site application binary with Nix
+nix-build
+
+# Run the site generator to build the site
+result/bin/site build
+
+# Preview the site locally (optional)
+result/bin/site watch
+# Then visit http://localhost:8000
+```
+
+Alternatively, you can use the `Makefile`:
+```bash
+# Build the binary and generate the site
+make nix-site
+```
+
+### Build results
+
+No matter how you build the site, it will end up in the `_site/` directory.
+
 ## Licence
 This domain and repository is in no way affiliated with Miran Lipovača (the original author) and is being extended and modified with his permission as per the licence the original work was released under ([Creative Commons Attribution-Noncommercial-ShareAlike 3.0 Unported License](http://creativecommons.org/licenses/by-nc-sa/3.0/)) as well as his literal statement encouraging modifications to be made ([FAQ](https://web.archive.org/web/20250126151541/http://learnyouahaskell.com/faq)).
 

@@ -1,8 +1,7 @@
 ---
 chapter: 4
+title: "Syntax in Functions"
 ---
-
-# Syntax in Functions {style=margin-left:-3px}
 
 ## Pattern matching {#pattern-matching}
 
