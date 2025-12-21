@@ -1,8 +1,7 @@
 ---
 chapter: 3
+title: "Types and Typeclasses"
 ---
-
-# Types and Typeclasses 
 
 ## Believe the type {#believe-the-type}
 

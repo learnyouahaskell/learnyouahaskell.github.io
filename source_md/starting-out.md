@@ -1,8 +1,7 @@
 ---
 chapter: 2
+title: "Starting Out"
 ---
-
-# Starting Out {style=margin-left:-3px}
 
 ## Ready, set, go! {#ready-set-go}
 
