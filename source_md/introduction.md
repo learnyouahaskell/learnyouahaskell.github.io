@@ -1,8 +1,7 @@
 ---
 chapter: 1
+title: "Introduction"
 ---
-
-# Introduction 
 
 ## About this tutorial {#about-this-tutorial}
 

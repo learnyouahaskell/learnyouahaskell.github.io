@@ -1,5 +1,7 @@
-# FAQ 
+---
 
+title: "FAQ"
+---
 ![turtle???](assets/images/faq/turtle.png){.right width=349 height=204}
 
 ## Can I put this tutorial on my site or change it or whatever? 
