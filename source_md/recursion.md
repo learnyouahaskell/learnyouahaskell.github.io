@@ -1,8 +1,7 @@
 ---
 chapter: 5
+title: "Recursion"
 ---
-
-# Recursion {style=margin-left:-2px}
 
 ## Hello recursion! {#hello-recursion}
 

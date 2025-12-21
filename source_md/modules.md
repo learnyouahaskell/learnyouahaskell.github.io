@@ -1,8 +1,7 @@
 ---
 chapter: 7
+title: "Modules"
 ---
-
-# Modules 
 
 ## Loading modules {#loading-modules}
 
