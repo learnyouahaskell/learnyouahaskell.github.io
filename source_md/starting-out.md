@@ -1,3 +1,7 @@
+---
+chapter: 2
+---
+
 # Starting Out {style=margin-left:-3px}
 
 ## Ready, set, go! {#ready-set-go}

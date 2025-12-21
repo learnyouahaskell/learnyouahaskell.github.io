@@ -1,3 +1,7 @@
+---
+chapter: 13
+---
+
 # For a Few Monads More 
 
 ![there are two kinds of people in the world, my friend. those who learn them a haskell and those who have the job of coding java](assets/images/for-a-few-monads-more/clint.png){.right width=189 height=400}

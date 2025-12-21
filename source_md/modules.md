@@ -1,3 +1,7 @@
+---
+chapter: 7
+---
+
 # Modules 
 
 ## Loading modules {#loading-modules}
