@@ -286,7 +286,7 @@ It's the most used data structure and it can be used in a multitude of different
 Lists are SO awesome.
 In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 
-In Haskell, lists are a **homogenous** data structure.
+In Haskell, lists are a **homogeneous** data structure.
 They store several elements of the same type.
 That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters.
 And now, a list!
@@ -771,7 +771,7 @@ That's its type and it doesn't matter if it has only one number in it or an infi
 Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components.
 They are denoted with parentheses and their components are separated by commas.
 
-Another key difference is that they don't have to be homogenous.
+Another key difference is that they don't have to be homogeneous.
 Unlike a list, a tuple can contain a combination of several types.
 
 Think about how we'd represent a two-dimensional vector in Haskell.

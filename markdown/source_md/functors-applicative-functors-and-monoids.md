@@ -1047,7 +1047,7 @@ True
 It turns a list with the type `(Num a) => [a -> Bool]` into a function with the type `(Num a) => a -> [Bool]`.
 Pretty neat, huh?
 
-Because lists are homogenous, all the functions in the list have to be functions of the same type, of course.
+Because lists are homogeneous, all the functions in the list have to be functions of the same type, of course.
 You can't have a list like `[ord, (+3)]`, because `ord` takes a character and returns a number, whereas `(+3)` takes a number and returns a number.
 
 When used with `[]`, `sequenceA` takes a list of lists and returns a list of lists.
@@ -1642,7 +1642,7 @@ instance Num a => Monoid (Product a) where
 `mappend` pattern matches on the `Product` constructor, multiplies the two numbers and then wraps the resulting number back.
 As you can see, there's a `Num a` class constraint.
 So this means that `Product a` is an instance of `Monoid` for all `a`'s that are already an instance of `Num`.
-To use `Producta a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
+To use `Product a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
 
 ```{.haskell:hs}
 ghci> getProduct $ Product 3 `mappend` Product 9

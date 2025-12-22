@@ -2071,7 +2071,7 @@ Pure code can throw exceptions, but they can only be caught in the I/O part of o
 That's because you don't know when (or if) anything will be evaluated in pure code, because it is lazy and doesn't have a well-defined order of execution, whereas I/O code does.
 
 Earlier, we talked about how we should spend as little time as possible in the I/O part of our program.
-The logic of our program should reside mostly within our pure functions, because their results are dependant only on the parameters that the functions are called with.
+The logic of our program should reside mostly within our pure functions, because their results are dependent only on the parameters that the functions are called with.
 When dealing with pure functions, you only have to think about what a function returns, because it can't do anything else.
 This makes your life easier.
 Even though doing some logic in I/O is necessary (like opening files and the like), it should preferably be kept to a minimum.
