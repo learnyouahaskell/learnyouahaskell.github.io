@@ -617,7 +617,7 @@ The lambda function `(\acc x -> acc + x)` is the same as `(+)`.
 We can omit the `xs` as the parameter because calling `foldl (+) 0` will return a function that takes a list.
 Generally, if you have a function like `foo a = bar b a`, you can rewrite it as `foo = bar b`, because of currying.
 
-Anyhoo, let's implement another function with a left fold before moving on to right folds.
+Anyhow, let's implement another function with a left fold before moving on to right folds.
 I'm sure you all know that `elem` checks whether a value is part of a list so I won't go into that again (whoops, just did!).
 Let's implement it with a left fold.
 
