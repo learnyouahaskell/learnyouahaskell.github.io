@@ -788,7 +788,7 @@ so am i
 short
 ```
 
-We pipe the contents of *shortlines.txt* into the output of *shortlinesonly* and as the output, we only get the short lines.
+We pipe the contents of *shortlines.txt* into *shortlinesonly*, and the output contains only the short lines.
 
 This pattern of getting some string from the input, transforming it with a function and then outputting that is so common that there exists a function which makes that even easier, called `interact`{.label .function}.
 `interact` takes a function of type `String -> String` as a parameter and returns an I/O action that will take some input, run that function on it and then print out the function's result.
