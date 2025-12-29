@@ -8,7 +8,7 @@ Sure, it's licensed under a [creative commons](https://creativecommons.org/licen
 
 ## Do you recommend any other Haskell reading material? 
 
-There are many excellent Haskell tutorials available, but it’s also worth highlighting the official [Haskell](https://www.haskell.org/documentation/) documentation. It provides a well-structured set of learning materials spanning beginner and intermediate topics.
+There are many excellent Haskell tutorials available, but it’s also worth highlighting the official [Haskell](https://www.haskell.org/documentation/){rel=nofollow} documentation. It provides a well-structured set of learning materials spanning beginner and intermediate topics.
 This tutorial focuses on simple examples to ease newcomers into Haskell, while the broader documentation complements it by covering more practical and advanced use cases.
 
 Another great Haskell resource is [Try Haskell](https://tryhaskell.org){rel=nofollow}, which allows you to try Haskell right in your browser and offers a rad interactive walkthrough.
