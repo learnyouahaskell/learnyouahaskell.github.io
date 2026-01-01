@@ -882,8 +882,8 @@ palindrome
 palindrome
 ```
 
-Again, we get the same output as if we had run our program and put in the words ourselves at the standard input.
-We just don't see the input that `palindromes.hs` because the input came from the file and not from us typing the words in.
+Again, we get the same output as if we had run the program and typed the words ourselves at standard input.
+The difference is that we don’t see the input, because it was provided to `palindromes.hs` from a file rather than entered directly at the keyboard.
 
 So now you probably see how lazy I/O works and how we can use it to our advantage.
 You can just think in terms of what the output is supposed to be for some given input and write a function to do that transformation.
@@ -1275,9 +1275,9 @@ Here's a small program that demonstrates how these two work:
 
 ```{.haskell:hs}
 import System.Environment
- import Data.List
+import Data.List
 
- main = do
+main = do
     args <- getArgs
     progName <- getProgName
     putStrLn "The arguments are:"
