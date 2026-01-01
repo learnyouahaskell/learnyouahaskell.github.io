@@ -1,4 +1,7 @@
-# Starting Out {style=margin-left:-3px}
+---
+chapter: 2
+title: "Starting Out"
+---
 
 ## Ready, set, go! {#ready-set-go}
 

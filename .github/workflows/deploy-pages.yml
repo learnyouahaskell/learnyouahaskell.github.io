@@ -1,9 +1,9 @@
-name: Deploy GitHub Pages
+name: Build and Deploy
 
 on:
   push:
     branches:
-      - main
+      - '**'  # Build on all branches
   workflow_dispatch:
 
 jobs:
@@ -12,17 +12,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Install pandoc
+      
+      - name: Install Nix
+        uses: cachix/install-nix-action@v24
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+      
+      - name: Build site with Nix
         run: |
-          sudo apt install pandoc
-      - name: Generate HTML from Markdown
-        run: make
+          make nix-site
+      
       - name: Upload artifact
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/
+          path: _site/
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}

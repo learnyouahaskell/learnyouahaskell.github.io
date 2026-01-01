@@ -1,4 +1,7 @@
-# Types and Typeclasses 
+---
+chapter: 3
+title: "Types and Typeclasses"
+---
 
 ## Believe the type {#believe-the-type}
 
