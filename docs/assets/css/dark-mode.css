@@ -1,0 +1,195 @@
+/* Dark Mode Styles for Learn You a Haskell */
+
+/* Dark mode is activated by adding 'dark-mode' class to body */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-mode.introcontent {
+    /* Add a semi-transparent dark overlay on top of bg.png */
+    background-image: linear-gradient(rgba(26, 26, 26, 0.75), rgba(26, 26, 26, 0.75)), url(https://s3.amazonaws.com/lyah/bg.png);
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .bgwrapper {
+    background-color: #1a1a1a;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+    color: #e0e0e0;
+}
+
+body.dark-mode a {
+    color: #66b3ff;
+}
+
+body.dark-mode a:visited {
+    color: #9999ff;
+}
+
+body.dark-mode a:hover {
+    color: #ff6666;
+}
+
+body.dark-mode :not(pre) > code:not(.label, .function, .type, .class, .law) {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+body.dark-mode pre > code {
+    background-color: #0d0d0d;
+    color: #90ee90;
+}
+
+body.dark-mode .hintbox {
+    background-color: #2d2d1a;
+    background-image: none !important;
+    color: #f0f0f0;
+    border: 1px solid #5a5a3a;
+}
+
+body.dark-mode .chapters > li > a {
+    color: #e0e0e0;
+    border-bottom: 1px solid #404040;
+}
+
+body.dark-mode .chapters > li > a:visited {
+    color: #b0b0b0;
+}
+
+body.dark-mode .chapters > li > a:hover {
+    color: #ff6666;
+}
+
+body.dark-mode .chapters > li > ul > li > a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .chapters > li > ul > li > a:visited {
+    color: #b0b0b0;
+}
+
+body.dark-mode .chapters > li > ul > li > a:hover {
+    color: #ff6666;
+}
+
+body.dark-mode .errata {
+    background-color: #3d1a1a;
+    color: #e0e0e0;
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    position: fixed;
+    top: 40px;
+    right: 20px;
+    /* Using z-index 10000 to match the Ukraine banner and ensure visibility */
+    z-index: 10000;
+    background-color: #333;
+    color: white;
+    border: 2px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.dark-mode-toggle:hover {
+    background-color: #444;
+    transform: scale(1.1);
+}
+
+body.dark-mode .dark-mode-toggle {
+    background-color: #f0f0f0;
+    color: #333;
+    border-color: #ccc;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background-color: #e0e0e0;
+}
+
+/* Adjust toggle button for mobile */
+@media screen and (max-width: 600px) {
+    .dark-mode-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        top: 40px;
+        right: 10px;
+    }
+}
+
+/* Dark mode for index page specific elements */
+body.dark-mode {
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode #newsplash {
+    color: #e0e0e0;
+    background-color: #1a1a1a !important;
+    position: relative;
+    overflow: hidden; /* Prevent content from spilling outside the container */
+}
+
+/* Add a dark overlay using pseudo-element to dim background while keeping text readable */
+body.dark-mode #newsplash::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(26, 26, 26, 0.40);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Ensure content is above the overlay and constrain width to prevent overflow */
+/* The text div is absolutely positioned, so we need to constrain it with explicit left/right */
+/* Parent container is 880px wide, text should wrap within it with proper margins */
+body.dark-mode #newsplash > div[style*="position:absolute"] {
+    position: absolute !important; /* Keep original positioning */
+    z-index: 1;
+    left: 0 !important;
+    right: 20px !important; /* 20px margin on the right to prevent overflow */
+    padding-left: 20px; /* Match the left padding to keep text centered */
+    padding-right: 20px; /* Additional padding for safety */
+    box-sizing: border-box;
+}
+
+body.dark-mode .newsplash a.nostarchlink {
+    color: #66b3ff;
+}
+
+body.dark-mode .newsplash a.nostarchlink:hover {
+    color: #ff6666;
+}
+
+/* Make index page buttons slightly more visible in dark mode without hiding graphics */
+body.dark-mode #faq-button,
+body.dark-mode #book-button,
+body.dark-mode #read-button {
+    /* Keep the buttons as clickable areas over the dimmed graphics */
+    opacity: 1;
+}
+
+/* Handle image backgrounds in dark mode */
+body.dark-mode img {
+    opacity: 0.9;
+    background-color: transparent;
+}
+
+/* Keep images at full opacity when needed */
+body.dark-mode img.full-opacity {
+    opacity: 1;
+}
