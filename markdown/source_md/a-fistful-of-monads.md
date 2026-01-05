@@ -5,7 +5,7 @@ Then, we took that concept one step further by introducing applicative functors,
 
 In this chapter, we'll learn about monads, which are just beefed up applicative functors, much like applicative functors are only beefed up functors.
 
-![more cool than u](assets/images/a-fistful-of-monads/smugpig.png){.right width=307 height=186}
+![more cool than u](assets/images/a-fistful-of-monads/smugpig.png){.right width=307 height=168}
 
 When we started off with functors, we saw that it's possible to map functions over various data types.
 We saw that for this purpose, the `Functor` type class was introduced and it had us asking the question: when we have a function of type `a -> b` and some data type `f a`, how do we map that function over the data type to end up with `f b`?
