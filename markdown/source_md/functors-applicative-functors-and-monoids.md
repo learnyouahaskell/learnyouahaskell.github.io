@@ -1118,7 +1118,7 @@ Just by using `<$>` and `<*>` we can use normal functions to uniformly operate o
 
 ## The newtype keyword {#the-newtype-keyword}
 
-![why_ so serious?](assets/images/functors-applicative-functors-and-monoids/maoi.png){.left width=107 height=202}
+![why so serious?](assets/images/functors-applicative-functors-and-monoids/maoi.png){.left width=107 height=202}
 
 So far, we've learned how to make our own algebraic data types by using the **data** keyword.
 We've also learned how to give existing types synonyms with the **type** keyword.
