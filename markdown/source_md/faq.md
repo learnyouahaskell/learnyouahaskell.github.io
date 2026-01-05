@@ -8,7 +8,7 @@ Sure, it's licensed under a [creative commons](https://creativecommons.org/licen
 
 ## Do you recommend any other Haskell reading material? 
 
-There are loads of awesome tutorials out there, but I'd just like to point out how great [Real World Haskell](http://book.realworldhaskell.org/read/){rel=nofollow} is.
+There are loads of awesome tutorials out there, but I'd just like to point out how great [Real World Haskell](https://book.realworldhaskell.org/read/){rel=nofollow} is.
 It's really great.
 I feel it complements this tutorial nicely.
 This tutorial focuses mainly on using simple examples to ease beginners into learning Haskell, whereas Real World Haskell really shows you how to do useful stuff with it.
