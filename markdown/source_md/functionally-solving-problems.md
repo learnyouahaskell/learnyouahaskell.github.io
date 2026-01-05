@@ -277,7 +277,7 @@ We also won't be able to say for certain that our solution is the optimal one, w
 That's not a good solution then.
 Here's a simplified picture of our road system:
 
-![roads](assets/images/functionally-solving-problems/roads_simple.png){.center width=685 height=245}
+![roads](assets/images/functionally-solving-problems/roads_simple.png){.center width=686 height=245}
 
 Alright, can you figure out what the shortest path to the first crossroads (the first blue dot on A, marked *A1*) on road A is?
 That's pretty trivial.
