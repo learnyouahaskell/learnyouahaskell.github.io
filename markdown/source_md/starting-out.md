@@ -881,7 +881,7 @@ ghci> triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 We're just drawing from three lists and our output function is combining them into a triple.
 If you evaluate that by typing out `triangles` in GHCI, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
-We'll also modify this function by taking into consideration that side b isn't larger than the hypothenuse and that side a isn't larger than side b.
+We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.
 
 ```{.haskell: .ghci}
 ghci> rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2]
