@@ -32,7 +32,7 @@ data Int = -2147483648 | -2147483647 | ... | -1 | 0 | 1 | 2 | ... | 2147483647
 ![caveman](assets/images/making-our-own-types-and-typeclasses/caveman.png){.left width=220 height=215}
 
 The first and last value constructors are the minimum and maximum possible values of `Int`.
-It's not actually defined like this, the ellipses are here because we omitted a heapload of numbers, so this is just for illustrative purposes.
+It's not actually defined like this, the ellipses are here because we omitted a heap load of numbers, so this is just for illustrative purposes.
 
 Now, let's think about how we would represent a shape in Haskell.
 One way would be to use tuples.
