@@ -1578,7 +1578,7 @@ We were able to use the general type of `[a]` (as opposed to specifying `[Int]` 
 
 Because `mconcat` has a default implementation, we get it for free when we make something an instance of `Monoid`.
 In the case of the list, `mconcat` turns out to be just `concat`.
-It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjecent lists in a list.
+It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjacent lists in a list.
 
 The monoid laws do indeed hold for the list instance.
 When we have several lists and we `mappend` (or `++`) them together, it doesn't matter which ones we do first, because they're just joined at the ends anyway.
