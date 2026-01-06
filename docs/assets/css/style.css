@@ -94,7 +94,7 @@ pre > code {
     padding:10px;
     background-color:#ffc;
     margin-bottom:25px;
-    background-image:url(https://s3.amazonaws.com/lyah/note.jpg);
+    background-image:url(../images/note.png);
 }
 .hintbox > p {
     margin-bottom:0px;
@@ -141,7 +141,7 @@ pre > code {
     margin:0px auto;
 }
 .introcontent {
-    background-image:url(https://s3.amazonaws.com/lyah/bg.png);
+    background-image:url(../images/bg.png);
 }
 .bgwrapper {
     margin-top:50px;
@@ -225,13 +225,13 @@ pre > code {
 }
 .prevlink {
     padding-left:20px;
-    background-image:url(https://s3.amazonaws.com/lyah/prv.png);
+    background-image:url(../images/prv.png);
     background-position:0px 3px;
     background-repeat:no-repeat;
 }
 .nxtlink {
     padding-right:20px;
-    background-image:url(https://s3.amazonaws.com/lyah/nxt.png);
+    background-image:url(../images/nxt.png);
     background-position:top right;
     background-repeat:no-repeat;
 }
