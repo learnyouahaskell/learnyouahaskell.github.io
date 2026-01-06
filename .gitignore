@@ -1,0 +1,4 @@
+docs/*.html
+!docs/index.html
+
+.DS_Store

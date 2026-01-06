@@ -142,7 +142,7 @@ if((matches=regex.exec(list[i]))!=null)
 return matches[1];return defaultValue;}
 function FindTagsByName(list,name,tagName)
 {var tags=document.getElementsByTagName(tagName);for(var i=0;i<tags.length;i++)
-if(tags[i].getAttribute('name')==name)
+if(tags[i].firstELementChild !== null && tags[i].firstElementChild.nodeName == 'CODE')
 list.push(tags[i]);}
 var elements=[];var highlighter=null;var registered={};var propertyName='innerHTML';FindTagsByName(elements,name,'pre');FindTagsByName(elements,name,'textarea');if(elements.length==0)
 return;for(var brush in dp.sh.Brushes)
@@ -158,4 +158,5 @@ continue;highlighter=new dp.sh.Brushes[registered[language]]();element.style.dis
 else
 {var textNode=document.createTextNode(highlighter.Style);styleNode.appendChild(textNode);}
 headNode.appendChild(styleNode);}
-highlighter.firstLine=(firstLine==null)?parseInt(GetOptionValue('firstline',options,1)):firstLine;highlighter.Highlight(element[propertyName]);highlighter.source=element;element.parentNode.insertBefore(highlighter.div,element);}}
+highlighter.firstLine=(firstLine==null)?parseInt(GetOptionValue('firstline',options,1)):firstLine;highlighter.Highlight(element.firstElementChild[propertyName]);highlighter.source=element;element.parentNode.insertBefore(highlighter.div,element);}}
+

@@ -60,7 +60,7 @@ From here on, we'll give all the functions that we make type declarations.
 Remember the list comprehension we made previously that filters a string so that only caps remain?
 Here's how it looks like with a type declaration.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 removeNonUppercase :: [Char] -> [Char]
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 ```
@@ -72,7 +72,7 @@ We didn't have to give this function a type declaration because the compiler can
 But how do we write out the type of a function that takes several parameters?
 Here's a simple function that takes three integers and adds them together:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 addThree :: Int -> Int -> Int -> Int
 addThree x y z = x + y + z
 ```
@@ -92,12 +92,12 @@ It's used for whole numbers.
 `Int` is bounded, which means that it has a minimum and a maximum value.
 Usually on 32-bit machines the maximum possible `Int` is 2147483647 and the minimum is -2147483648.
 
-`Integer`{.label .type} stands for, er … also integer.
+`Integer`{.label .type} stands for, er ... also integer.
 The main difference is that it's not bounded so it can be used to represent really really big numbers.
 I mean like really big.
 `Int`, however, is more efficient.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 factorial :: Integer -> Integer
 factorial n = product [1..n]
 ```
@@ -109,7 +109,7 @@ ghci> factorial 50
 
 `Float`{.label .type} is a real floating point with single precision.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 circumference :: Float -> Float
 circumference r = 2 * pi * r
 ```
@@ -121,7 +121,7 @@ ghci> circumference 4.0
 
 `Double`{.label .type} is a real floating point with double the precision!
 
-```{.haskell: .hs}
+```{.haskell:hs}
 circumference' :: Double -> Double
 circumference' r = 2 * pi * r
 ```
@@ -163,7 +163,7 @@ This is much like generics in other languages, only in Haskell it's much more po
 Functions that have type variables are called **polymorphic functions**.
 The type declaration of `head` states that it takes a list of any type and returns one element of that type.
 
-Although type variables can have names longer than one character, we usually give them names of a, b, c, d …
+Although type variables can have names longer than one character, we usually give them names of a, b, c, d ...
 
 Remember `fst`?
 It returns the first component of a pair.
@@ -185,7 +185,7 @@ It just states that the first component's type and the return value's type are t
 
 A typeclass is a sort of interface that defines some behavior.
 If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
-A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object oriented languages.
+A lot of people coming from OOP get confused by typeclasses because they think they are like classes in object-oriented languages.
 Well, they're not.
 You can think of them kind of as Java interfaces, only better.
 
@@ -199,7 +199,7 @@ ghci> :t (==)
 ::: {.hintbox}
 **Note**: the equality operator, `==` is a function.
 So are `+`, `*`, `-`, `/` and pretty much all operators.
-If a function is comprised only of special characters, it's considered an infix function by default.
+If a function name is comprised only of special characters, it's considered an infix function by default.
 If we want to examine its type, pass it to another function or call it as a prefix function, we have to surround it in parentheses.
 :::
 

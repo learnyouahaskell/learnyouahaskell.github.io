@@ -43,7 +43,7 @@ main = putStrLn "hello, world"
 ```
 
 We just defined a name called `main` and in it we call a function called `putStrLn` with the parameter `"hello, world"`.
-Looks pretty much run of the mill, but it isn't, as we'll see in just a few moments.
+Looks pretty much run-of-the-mill, but it isn't, as we'll see in just a few moments.
 Save that file as `helloworld.hs`.
 
 And now, we're going to do something we've never done before.
@@ -78,7 +78,7 @@ ghci> :t putStrLn "hello, world"
 putStrLn "hello, world" :: IO ()
 ```
 
-We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also know as unit).
+We can read the type of `putStrLn` like this: `putStrLn` takes a string and returns an **I/O action** that has a result type of `()` (i.e. the empty tuple, also known as `unit`).
 An I/O action is something that, when performed, will carry out an action with a side-effect (that's usually either reading from the input or printing stuff to the screen) and will also contain some kind of return value inside it.
 Printing a string to the terminal doesn't really have any kind of meaningful return value, so a dummy value of `()` is used.
 
@@ -267,7 +267,7 @@ reverseWords = unwords . map reverse . words
 To get a feel of what it does, you can run it before we go over the code.
 
 ::: {.hintbox}
-**Protip**: To run a program you can either compile it and then run the produced executable file by doing `ghc --make helloworld` and then `./helloworld` or you can use the `runhaskell` command like so: `runhaskell helloworld.hs` and your program will be executed on the fly.
+**Pro tip**: To run a program you can either compile it and then run the produced executable file by doing `ghc --make helloworld` and then `./helloworld` or you can use the `runhaskell` command like so: `runhaskell helloworld.hs` and your program will be executed on the fly.
 :::
 
 First, let's take a look at the `reverseWords` function.
@@ -289,8 +289,8 @@ You could also write that part out as:
 
 ```{.haskell:hs}
 else (do
-            putStrLn $ reverseWords line
-            main)
+    putStrLn $ reverseWords line
+    main)
 ```
 
 This makes it more explicit that the *do* block can be viewed as one I/O action, but it's uglier.
@@ -788,7 +788,7 @@ so am i
 short
 ```
 
-We pipe the contents of *shortlines.txt* into the output of *shortlinesonly* and as the output, we only get the short lines.
+We pipe the contents of *shortlines.txt* into *shortlinesonly*, and the output contains only the short lines.
 
 This pattern of getting some string from the input, transforming it with a function and then outputting that is so common that there exists a function which makes that even easier, called `interact`{.label .function}.
 `interact` takes a function of type `String -> String` as a parameter and returns an I/O action that will take some input, run that function on it and then print out the function's result.
@@ -882,8 +882,8 @@ palindrome
 palindrome
 ```
 
-Again, we get the same output as if we had run our program and put in the words ourselves at the standard input.
-We just don't see the input that `palindromes.hs` because the input came from the file and not from us typing the words in.
+Again, we get the same output as if we had run the program and typed the words ourselves at standard input.
+The difference is that we don’t see the input, because it was provided to `palindromes.hs` from a file rather than entered directly at the keyboard.
 
 So now you probably see how lazy I/O works and how we can use it to our advantage.
 You can just think in terms of what the output is supposed to be for some given input and write a function to do that transformation.
@@ -897,7 +897,7 @@ Same goes for writing to the terminal, it's kind of like writing to a file.
 We can call these two files `stdout` and `stdin`, meaning *standard output* and *standard input*, respectively.
 Keeping that in mind, we'll see that writing to and reading from files is very much like writing to the standard output and reading from the standard input.
 
-We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1 hit *Girlfriend*, and just prints it out to the terminal.
+We'll start off with a really simple program that opens a file called *girlfriend.txt*, which contains a verse from Avril Lavigne's #1&nbsp;hit *Girlfriend*, and just prints it out to the terminal.
 Here's *girlfriend.txt*:
 
 ```{.plain}
@@ -1275,9 +1275,9 @@ Here's a small program that demonstrates how these two work:
 
 ```{.haskell:hs}
 import System.Environment
- import Data.List
+import Data.List
 
- main = do
+main = do
     args <- getArgs
     progName <- getProgName
     putStrLn "The arguments are:"
@@ -2071,7 +2071,7 @@ Pure code can throw exceptions, but they can only be caught in the I/O part of o
 That's because you don't know when (or if) anything will be evaluated in pure code, because it is lazy and doesn't have a well-defined order of execution, whereas I/O code does.
 
 Earlier, we talked about how we should spend as little time as possible in the I/O part of our program.
-The logic of our program should reside mostly within our pure functions, because their results are dependant only on the parameters that the functions are called with.
+The logic of our program should reside mostly within our pure functions, because their results are dependent only on the parameters that the functions are called with.
 When dealing with pure functions, you only have to think about what a function returns, because it can't do anything else.
 This makes your life easier.
 Even though doing some logic in I/O is necessary (like opening files and the like), it should preferably be kept to a minimum.
@@ -2306,4 +2306,5 @@ This is kind of similar to *try-catch* blocks of other languages, where you can 
 
 Now you know how to deal with I/O exceptions!
 Throwing exceptions from pure code and dealing with them hasn't been covered here, mainly because, like we said, Haskell offers much better ways to indicate errors than reverting to I/O to catch them.
-Even when glueing together I/O actions that might fail, I prefer to have their type be something like `IO (Either a b)`, meaning that they're normal I/O actions but the result that they yield when performed is of type `Either a b`, meaning it's either `Left a` or `Right b`.
+Even when gluing together I/O actions that might fail, I prefer to have their type be something like `IO (Either a b)`, meaning that they're normal I/O actions but the result that they yield when performed is of type `Either a b`, meaning it's either `Left a` or `Right b`.
+
