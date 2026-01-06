@@ -126,7 +126,7 @@ If you look at a list of lists as a 2D matrix, the columns become the rows and v
 ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
 ghci> transpose ["hey","there","folks"]
-["htg","ehu","yey","rs","e"]
+["htf","eho","yel","rk","es"]
 ```
 
 Say we have the polynomials *3x^2^ + 5x + 9*, *10x^3^ + 9* and *8x^3^ + 5x^2^ + x - 1* and we want to add them together.
@@ -706,7 +706,7 @@ Use this if you are French.
 
 All these predicates have a type signature of `Char -> Bool`.
 Most of the time you'll use this to filter out strings or something like that.
-For instance, let's say we're making a program that takes a username and the username can only be comprised of alphanumeric characters.
+For instance, let's say we're making a program that takes a username consisting only of alphanumeric characters.
 We can use the `Data.List` function `all` in combination with the `Data.Char` predicates to determine if the username is alright.
 
 ```{.haskell:ghci}

@@ -506,7 +506,7 @@ The `<*>` function is really interesting.
 It has a type declaration of `f (a -> b) -> f a -> f b`.
 Does this remind you of anything?
 Of course, `fmap :: (a -> b) -> f a -> f b`.
-It's a sort of a beefed up `fmap`.
+It's a sort of beefed up `fmap`.
 Whereas `fmap` takes a function and a functor and applies the function inside the functor, `<*>` takes a functor that has a function in it and another functor and sort of extracts that function from the first functor and then maps it over the second one.
 When I say *extract*, I actually sort of mean *run* and then extract, maybe even *sequence*.
 We'll see why soon.
@@ -1047,7 +1047,7 @@ True
 It turns a list with the type `(Num a) => [a -> Bool]` into a function with the type `(Num a) => a -> [Bool]`.
 Pretty neat, huh?
 
-Because lists are homogenous, all the functions in the list have to be functions of the same type, of course.
+Because lists are homogeneous, all the functions in the list have to be functions of the same type, of course.
 You can't have a list like `[ord, (+3)]`, because `ord` takes a character and returns a number, whereas `(+3)` takes a number and returns a number.
 
 When used with `[]`, `sequenceA` takes a list of lists and returns a list of lists.
@@ -1118,7 +1118,7 @@ Just by using `<$>` and `<*>` we can use normal functions to uniformly operate o
 
 ## The newtype keyword {#the-newtype-keyword}
 
-![why_ so serious?](assets/images/functors-applicative-functors-and-monoids/maoi.png){.left width=107 height=202}
+![why so serious?](assets/images/functors-applicative-functors-and-monoids/maoi.png){.left width=107 height=202}
 
 So far, we've learned how to make our own algebraic data types by using the **data** keyword.
 We've also learned how to give existing types synonyms with the **type** keyword.
@@ -1207,7 +1207,7 @@ ghci> CharList "this will be shown!"
 CharList {getCharList = "this will be shown!"}
 ghci> CharList "benny" == CharList "benny"
 True
-ghci> CharList "benny" == CharList "oisters"
+ghci> CharList "benny" == CharList "oysters"
 False
 ```
 
@@ -1642,7 +1642,7 @@ instance Num a => Monoid (Product a) where
 `mappend` pattern matches on the `Product` constructor, multiplies the two numbers and then wraps the resulting number back.
 As you can see, there's a `Num a` class constraint.
 So this means that `Product a` is an instance of `Monoid` for all `a`'s that are already an instance of `Num`.
-To use `Producta a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
+To use `Product a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
 
 ```{.haskell:hs}
 ghci> getProduct $ Product 3 `mappend` Product 9
@@ -1933,7 +1933,7 @@ ghci> getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
 Just 9
 ```
 
-If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `mappend` are `Just` values, `Data.Monoid` provides a the `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `mappend`ing and using `mconcat`:
+If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `mappend` are `Just` values, `Data.Monoid` provides a `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `mappend`ing and using `mconcat`:
 
 ```{.haskell:hs}
 ghci> getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
@@ -2065,7 +2065,7 @@ testTree = Node 5
             )
 ```
 
-It has `5` at its root and then its left node is has `3` with `1` on the left and `6` on the right.
+It has `5` at its root and then its left node has `3` with `1` on the left and `6` on the right.
 The root's right node has a `9` and then an `8` to its left and a `10` on the far right side.
 With a `Foldable` instance, we can do all of the folds that we can do on lists:
 

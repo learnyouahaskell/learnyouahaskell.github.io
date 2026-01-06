@@ -5,7 +5,7 @@
 ![egg](assets/images/starting-out/startingout.png){.right width=214 height=187}
 Alright, let's get started!
 If you're the sort of horrible person who doesn't read introductions to things and you skipped it, you might want to read the last section in the introduction anyway because it explains what you need to follow this tutorial and how we're going to load functions.
-The first thing we're going to do is run ghc's interactive mode and call some function to get a very basic feel for Haskell.
+The first thing we're going to do is run GHC's interactive mode and call some function to get a very basic feel for Haskell.
 Open your terminal and type in `ghci`.
 You will be greeted with something like this.
 
@@ -177,7 +177,7 @@ In the previous section we got a basic feel for calling functions.
 Now let's try making our own!
 Open up your favorite text editor and punch in this function that takes a number and multiplies it by two.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleMe x = x + x
 ```
 
@@ -202,7 +202,7 @@ ghci> doubleMe 8.3
 Because `+` works on integers as well as on floating-point numbers (anything that can be considered a number, really), our function also works on any number.
 Let's make a function that takes two numbers and multiplies each by two and then adds them together.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleUs x y = x*2 + y*2
 ```
 
@@ -222,7 +222,7 @@ ghci> doubleUs 28 88 + doubleMe 123
 As expected, you can call your own functions from other functions that you made.
 With that in mind, we could redefine `doubleUs` like this:
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleUs x y = doubleMe x + doubleMe y
 ```
 
@@ -236,7 +236,7 @@ Functions in Haskell don't have to be in any particular order, so it doesn't mat
 
 Now we're going to make a function that multiplies a number by 2 but only if that number is smaller than or equal to 100 because numbers bigger than 100 are big enough as it is!
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleSmallNumber x = if x > 100
                         then x
                         else x*2
@@ -255,7 +255,7 @@ An expression is basically a piece of code that returns a value.
 Because the else is mandatory, an if statement will always return something and that's why it's an expression.
 If we wanted to add one to every number that's produced in our previous function, we could have written its body like this.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 doubleSmallNumber' x = (if x > 100 then x else x*2) + 1
 ```
 
@@ -266,7 +266,7 @@ It's a valid character to use in a function name.
 We usually use `'` to either denote a strict version of a function (one that isn't lazy) or a slightly modified version of a function or a variable.
 Because `'` is a valid character in functions, we can make a function like this.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 conanO'Brien = "It's a-me, Conan O'Brien!"
 ```
 
@@ -286,7 +286,7 @@ It's the most used data structure and it can be used in a multitude of different
 Lists are SO awesome.
 In this section we'll look at the basics of lists, strings (which are lists) and list comprehensions.
 
-In Haskell, lists are a **homogenous** data structure.
+In Haskell, lists are a **homogeneous** data structure.
 They store several elements of the same type.
 That means that we can have a list of integers or a list of characters but we can't have a list that has a few integers and then a few characters.
 And now, a list!
@@ -338,7 +338,7 @@ If we prepend `2` to that, it becomes `[2,3]`, and so on.
 
 ::: {.hintbox}
 **Note:** `[]`, `[[]]` and`[[],[],[]]` are all different things.
-The first one is an empty list, the seconds one is a list that contains one empty list, the third one is a list that contains three empty lists.
+The first one is an empty list, the second one is a list that contains one empty list, the third one is a list that contains three empty lists.
 :::
 
 If you want to get an element out of a list by index, use `!!`.
@@ -354,7 +354,7 @@ ghci> [9.4,33.2,96.2,11.2,23.25] !! 1
 But if you try to get the sixth element from a list that only has four elements, you'll get an error so be careful!
 
 Lists can also contain lists.
-They can also contain lists that contain lists that contain lists …
+They can also contain lists that contain lists that contain lists ...
 
 ```{.haskell: .ghci}
 ghci> b = [[1,2,3,4],[5,3,3,3],[1,2,2,3,4],[1,2,3]]
@@ -676,7 +676,7 @@ The last part of the comprehension is the predicate.
 The function `odd` returns `True` on an odd number and `False` on an even one.
 The element is included in the list only if all the predicates evaluate to `True`.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 ghci> boomBangs [7..13]
 ["BOOM!","BOOM!","BANG!","BANG!"]
 ```
@@ -707,7 +707,7 @@ ghci> [ x*y | x <- [2,5,10], y <- [8,10,11], x*y > 50]
 [55,80,100,110]
 ```
 
-How about a list comprehension that combines a list of adjectives and a list of nouns … for epic hilarity.
+How about a list comprehension that combines a list of adjectives and a list of nouns ... for epic hilarity.
 
 ```{.haskell: .ghci}
 ghci> nouns = ["hobo","frog","pope"]
@@ -721,7 +721,7 @@ I know!
 Let's write our own version of `length`!
 We'll call it `length'`.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 length' xs = sum [1 | _ <- xs]
 ```
 
@@ -732,7 +732,7 @@ This means that the resulting sum will be the length of our list.
 Just a friendly reminder: because strings are lists, we can use list comprehensions to process and produce strings.
 Here's a function that takes a string and removes everything except uppercase letters from it.
 
-```{.haskell: .hs}
+```{.haskell:hs}
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 ```
 
@@ -771,7 +771,7 @@ That's its type and it doesn't matter if it has only one number in it or an infi
 Tuples, however, are used when you know exactly how many values you want to combine and its type depends on how many components it has and the types of the components.
 They are denoted with parentheses and their components are separated by commas.
 
-Another key difference is that they don't have to be homogenous.
+Another key difference is that they don't have to be homogeneous.
 Unlike a list, a tuple can contain a combination of several types.
 
 Think about how we'd represent a two-dimensional vector in Haskell.

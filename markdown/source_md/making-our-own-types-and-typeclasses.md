@@ -537,7 +537,7 @@ Vector 148 666 222
 ![gob](assets/images/making-our-own-types-and-typeclasses/gob.png){.right width=112 height=350}
 
 In the [Typeclasses 101](types-and-typeclasses.html#typeclasses-101) section, we explained the basics of typeclasses.
-We explained that a typeclass is a sort of an interface that defines some behavior.
+We explained that a typeclass is a sort of interface that defines some behavior.
 A type can be made an **instance** of a typeclass if it supports that behavior.
 Example: the `Int` type is an instance of the `Eq` typeclass because the `Eq` typeclass defines behavior for stuff that can be equated.
 And because integers can be equated, `Int` is a part of the `Eq` typeclass.
@@ -697,7 +697,7 @@ data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 
 Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the `Enum` typeclass.
 The `Enum` typeclass is for things that have predecessors and successors.
-We can also make it part of the `Bounded` typeclass, which is for things that have a lowest possible value and highest possible value.
+We can also make it part of the `Bounded` typeclass, which is for things that have the lowest possible value and highest possible value.
 And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.
 
 ```{.haskell:hs}
@@ -857,7 +857,7 @@ Either way, the `IntMap` type constructor takes one parameter and that is the ty
 
 ::: {.hintbox}
 **Oh yeah**.
-If you're going to try and implement this, you'll probably going to do a qualified import of `Data.Map`.
+If you're going to try and implement this, you'll probably need to do a qualified import of `Data.Map`.
 When you do a qualified import, type constructors also have to be preceded with a module name.
 So you'd write `type IntMap = Map.Map Int`.
 :::
@@ -1025,7 +1025,7 @@ Cons 3 (Cons 4 (Cons 5 Empty))
 We called our `Cons` constructor in an infix manner so you can see how it's just like `:`.
 `Empty` is like `[]` and ``4 `Cons` (5 `Cons` Empty)`` is like `4:(5:[])`.
 
-We can define functions to be automatically infix by making them comprised of only special characters.
+We can define functions to be automatically infix by having them consist only of special characters.
 We can also do the same with constructors, since they're just functions that return a data type.
 So check this out.
 
