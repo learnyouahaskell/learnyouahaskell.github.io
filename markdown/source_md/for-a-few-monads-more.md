@@ -539,7 +539,7 @@ ghci> fromDiffList (toDiffList [1,2,3,4] `mappend` toDiffList [1,2,3])
 [1,2,3,4,1,2,3]
 ```
 
-Tip top!
+Tip-top!
 Now we can increase the efficiency of our `gcdReverse` function by making it use difference lists instead of normal lists:
 
 ```{.haskell:hs}
@@ -1369,7 +1369,7 @@ ghci> runState (join (State $ \s -> (push 10,1:2:s))) [0,0,0]
 ```
 
 The lambda here takes a state and puts `2` and `1` onto the stack and presents `push 10` as its result.
-So when this whole thing is flattened with `join` and then run, it first puts `2` and `1` onto the stack and then `push 10` gets carried out, pushing a `10` on to the top.
+So when this whole thing is flattened with `join` and then run, it first puts `2` and `1` onto the stack and then `push 10` gets carried out, pushing a `10` onto the top.
 
 The implementation for `join` is as follows:
 
@@ -1587,7 +1587,7 @@ Folding with a binary function that returns a `Writer` value is cool as well bec
 
 ![i've found yellow!](assets/images/for-a-few-monads-more/miner.png){.left width=280 height=396}
 
-When we were solving the problem of [implementing a RPN calculator](http://learnyouahaskell.com/reverse-polish-notation-calculator), we noted that it worked fine as long as the input that it got made sense.
+When we were solving the problem of [implementing an RPN calculator](http://learnyouahaskell.com/reverse-polish-notation-calculator), we noted that it worked fine as long as the input that it got made sense.
 But if something went wrong, it caused our whole program to crash.
 Now that we know how to take some code that we have and make it monadic, let's take our RPN calculator and add error handling to it by taking advantage of the `Maybe` monad.
 
@@ -1823,7 +1823,7 @@ ghci> 1%3 + 5%4
 
 The first line is just one quarter.
 In the second line we add two halves to get a whole and in the third line we add one third with five quarters and get nineteen twelfths.
-So let'use throw out our floating points and use `Rational` for our probabilities:
+So let's throw out our floating points and use `Rational` for our probabilities:
 
 ```{.haskell:hs}
 ghci> [(3,1%2),(5,1%4),(9,1%4)]

@@ -222,7 +222,7 @@ class Monad m where
 Let's start with the first line.
 It says `class Monad m where`.
 But wait, didn't we say that monads are just beefed up applicative functors?
-Shouldn't there be a class constraint in there along the lines of `class (Applicative m) = > Monad m where` so that a type has to be an applicative functor first before it can be made a monad?
+Shouldn't there be a class constraint in there along the lines of `class (Applicative m) => Monad m where` so that a type has to be an applicative functor first before it can be made a monad?
 Well, there should, but when Haskell was made, it hadn't occurred to people that applicative functors are a good fit for Haskell so they weren't in there.
 But rest assured, every monad is an applicative functor, even if the `Monad` class declaration doesn't say so.
 
@@ -517,7 +517,7 @@ banana _ = Nothing
 ```
 
 Now we can chain it together with our bird landings.
-It will always cause our walker to fall, because it ignores whatever's passed to it and always returns a failure.
+It will always cause our walker to fall, because it ignores whatever is passed to it and always returns a failure.
 Check it:
 
 ```{.haskell:hs}
@@ -673,7 +673,7 @@ In a `do` expression, every line is a monadic value.
 To inspect its result, we use `<-`.
 If we have a `Maybe String` and we bind it with `<-` to a variable, that variable will be a `String`, just like when we used `>>=` to feed monadic values to lambdas.
 The last monadic value in a `do` expression, like `Just (show x ++ y)` here, can't be used with `<-` to bind its result, because that wouldn't make sense if we translated the `do` expression back to a chain of `>>=` applications.
-Rather, its result is the result of the whole glued up monadic value, taking into account the possible failure of any of the previous ones.
+Rather, its result is the result of the whole glued up monadic value, taking into account the possible failure of any previous ones.
 
 For instance, examine the following line:
 
@@ -694,8 +694,8 @@ marySue = do
 
 If we compare these two, it's easy to see why the result of the whole monadic value is the result of the last monadic value in the `do` expression with all the previous ones chained into it.
 
-Our tightwalker's routine can also be expressed with `do` notation.
-`landLeft` and `landRight` take a number of birds and a pole and produce a pole wrapped in a `Just`, unless the tightwalker slips, in which case a `Nothing` is produced.
+Our tightrope walker's routine can also be expressed with `do` notation.
+`landLeft` and `landRight` take a number of birds and a pole and produce a pole wrapped in a `Just`, unless the tightrope walker slips, in which case a `Nothing` is produced.
 We used `>>=` to chain successive steps because each one relied on the previous one and each one had an added context of possible failure.
 Here's two birds landing on the left side, then two birds landing on the right and then one bird landing on the left:
 
@@ -879,7 +879,7 @@ Then, we map the lambda over it and the result is the following:
 ```
 
 The lambda is applied to every element and we get a list of lists.
-Finally, we just flatten the list and voila!
+Finally, we just flatten the list and voilà!
 We've applied a non-deterministic function to a non-deterministic value!
 
 Non-determinism also includes support for failure.
@@ -1088,7 +1088,7 @@ moveKnight (c,r) = do
 
 The knight can always take one step horizontally or vertically and two steps horizontally or vertically but its movement has to be both horizontal and vertical.
 `(c',r')` takes on every value from the list of movements and then `guard` makes sure that the new move, `(c',r')` is still on the board.
-If it it's not, it produces an empty list, which causes a failure and `return (c',r')` isn't carried out for that position.
+If it's not, it produces an empty list, which causes a failure and `return (c',r')` isn't carried out for that position.
 
 This function can also be written without the use of lists as a monad, but we did it here just for kicks.
 Here is the same function done with `filter`:
@@ -1175,7 +1175,7 @@ These laws allow us to make reasonable assumptions about the type and its behavi
 
 Haskell allows any type to be an instance of any type class as long as the types check out.
 It can't check if the monad laws hold for a type though, so if we're making a new instance of the `Monad` type class, we have to be reasonably sure that all is well with the monad laws for that type.
-We can rely on the types that come with the standard library to satisfy the laws, but later when we go about making our own monads, we're going to have to manually check the if the laws hold.
+We can rely on the types that come with the standard library to satisfy the laws, but later when we go about making our own monads, we're going to have to manually check if the laws hold.
 But don't worry, they're not complicated.
 
 ### Left identity 
