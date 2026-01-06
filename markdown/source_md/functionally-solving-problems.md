@@ -24,7 +24,7 @@ Every time a number is encountered, push it onto the stack.
 When we encounter an operator, take the two numbers that are on top of the stack (we also say that we *pop* them), use the operator and those two and then push the resulting number back onto the stack.
 When you reach the end of the expression, you should be left with a single number if the expression was well-formed and that number represents the result.
 
-![this expression](http://s3.amazonaws.com/lyah/rpn.png){.center width=626 height=224}
+![this expression](assets/images/functionally-solving-problems/rpn.png){.center width=626 height=224}
 
 Let's go over the expression `10 4 3 + 2 * -` together!
 First we push `10` onto the stack and the stack is now `10`.
