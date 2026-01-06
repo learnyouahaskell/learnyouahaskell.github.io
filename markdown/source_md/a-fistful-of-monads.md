@@ -694,8 +694,8 @@ marySue = do
 
 If we compare these two, it's easy to see why the result of the whole monadic value is the result of the last monadic value in the `do` expression with all the previous ones chained into it.
 
-Our tightwalker's routine can also be expressed with `do` notation.
-`landLeft` and `landRight` take a number of birds and a pole and produce a pole wrapped in a `Just`, unless the tightwalker slips, in which case a `Nothing` is produced.
+Our tightrope walker's routine can also be expressed with `do` notation.
+`landLeft` and `landRight` take a number of birds and a pole and produce a pole wrapped in a `Just`, unless the tightrope walker slips, in which case a `Nothing` is produced.
 We used `>>=` to chain successive steps because each one relied on the previous one and each one had an added context of possible failure.
 Here's two birds landing on the left side, then two birds landing on the right and then one bird landing on the left:
 
