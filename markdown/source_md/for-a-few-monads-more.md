@@ -1823,7 +1823,7 @@ ghci> 1%3 + 5%4
 
 The first line is just one quarter.
 In the second line we add two halves to get a whole and in the third line we add one third with five quarters and get nineteen twelfths.
-So lets throw out our floating points and use `Rational` for our probabilities:
+So let'use throw out our floating points and use `Rational` for our probabilities:
 
 ```{.haskell:hs}
 ghci> [(3,1%2),(5,1%4),(9,1%4)]
