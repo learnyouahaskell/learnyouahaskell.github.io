@@ -1,4 +1,7 @@
-# A Fistful of Monads 
+---
+chapter: 12
+title: "A Fistful of Monads"
+---
 
 When we first talked about functors, we saw that they were a useful concept for values that can be mapped over.
 Then, we took that concept one step further by introducing applicative functors, which allow us to view values of certain data types as values with contexts and use normal functions on those values while preserving the meaning of those contexts.

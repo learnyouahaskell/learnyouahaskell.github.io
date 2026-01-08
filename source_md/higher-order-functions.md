@@ -1,4 +1,7 @@
-# Higher Order Functions {style=margin-left:-3px}
+---
+chapter: 6
+title: "Higher Order Functions"
+---
 
 ![sun](assets/images/higher-order-functions/sun.png){.right width=203 height=183}
 

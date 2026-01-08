@@ -1,4 +1,7 @@
-# Zippers 
+---
+chapter: 14
+title: "Zippers"
+---
 
 ![hi im chet](assets/images/zippers/60sdude.png){.right width=122 height=407}
 
