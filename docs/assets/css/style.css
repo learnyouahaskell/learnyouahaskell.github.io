@@ -13,6 +13,15 @@ h1 {
     font-family:georgia, Arial, serif;
     margin-bottom:15px;
     font-weight:normal;
+    overflow-wrap:break-word;
+    hyphens:auto;
+}
+@media screen and (max-width:400px) {
+    h1 {
+        font-size:40px;
+        line-height:40px;
+        font-weight:normal;
+    }
 }
 h2 {
     font-size:20px;
@@ -36,6 +45,9 @@ a:hover {
     text-decoration:none;
 }
 em {
+    font-style:italic;
+}
+strong {
     font-style:normal;
     font-weight:bold;
 }
@@ -43,19 +55,26 @@ em {
     list-style-type:disc;
     margin:25px 25px;
 }
+img {
+    /* If width is limited by max-width, scale height proportionally */
+    height:auto;
+}
 img.right {
     float: right;
     margin:10px;
+    max-width:40%;
 }
 img.left {
     float: left;
     margin:10px;
+    max-width:40%;
 }
 img.center {
     margin:10px auto 25px auto;
     display:block;
+    max-width:100%;
 }
-pre.code {
+pre > code {
     color:white;
     /*background-color:#522812;*/
     background-color:black;
@@ -75,7 +94,10 @@ pre.code {
     padding:10px;
     background-color:#ffc;
     margin-bottom:25px;
-    background-image:url(https://s3.amazonaws.com/lyah/note.jpg);
+    background-image:url(../images/note.png);
+}
+.hintbox > p {
+    margin-bottom:0px;
 }
 .label {
     white-space:nowrap;
@@ -99,20 +121,27 @@ pre.code {
     background-color:#99DDcc;
     color:black;
 }
-.fixed {
+:not(pre) > code:not(.label, .function, .type, .class, .law) {
     white-space:nowrap;
     font-family:Consolas, "Courier New", monospace;
     background-color:#ddd;
     font-weight:normal;
     padding:0px 3px;
     font-weight:bold;
+    /* Allow inline code to wrap if necessary */
+    /* These rules were based off the CSS used on the Stack Exchange website */
+    overflow-wrap:break-word;
+    text-wrap:wrap;
+    /* Rounded corners help user connect two parts of one code snippet wrapped across lines */
+    border-radius:4px;
 }
 #content {
-    width:800px;
+    /* For narrow viewports, the content width will be 90% of the viewport width */
+    width:min(800px, 90vw);
     margin:0px auto;
 }
 .introcontent {
-    background-image:url(https://s3.amazonaws.com/lyah/bg.png);
+    background-image:url(../images/bg.png);
 }
 .bgwrapper {
     margin-top:50px;
@@ -125,8 +154,9 @@ pre.code {
     font-family:arial,serif;
     font-size:24px;
     padding-left:25px;
-    margin:0px; 
-    color:#408156 ;
+    margin:0px;
+    color:#408156;
+    margin-top:25px;
     margin-bottom:25px;
 }
 .chapters > li {
@@ -179,15 +209,29 @@ pre.code {
     display:table-cell;
     width:33%;
 }
+/* For narrow viewports, let navigation links split to separate lines */
+@media screen and (max-width:300px) {
+    .footdiv {
+        display:unset;
+    }
+    .footdiv ul {
+        display:unset;
+        margin:0 25px 0 0 !important;
+    }
+    .footdiv ul li {
+        display:block;
+        width:unset;
+    }
+}
 .prevlink {
     padding-left:20px;
-    background-image:url(https://s3.amazonaws.com/lyah/prv.png);
+    background-image:url(../images/prv.png);
     background-position:0px 3px;
     background-repeat:no-repeat;
 }
 .nxtlink {
     padding-right:20px;
-    background-image:url(https://s3.amazonaws.com/lyah/nxt.png);
+    background-image:url(../images/nxt.png);
     background-position:top right;
     background-repeat:no-repeat;
 }
