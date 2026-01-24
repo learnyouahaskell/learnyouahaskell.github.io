@@ -126,7 +126,7 @@ If you look at a list of lists as a 2D matrix, the columns become the rows and v
 ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
 [[1,4,7],[2,5,8],[3,6,9]]
 ghci> transpose ["hey","there","folks"]
-["htg","ehu","yey","rs","e"]
+["htf","eho","yel","rk","es"]
 ```
 
 Say we have the polynomials *3x^2^ + 5x + 9*, *10x^3^ + 9* and *8x^3^ + 5x^2^ + x - 1* and we want to add them together.
@@ -706,7 +706,7 @@ Use this if you are French.
 
 All these predicates have a type signature of `Char -> Bool`.
 Most of the time you'll use this to filter out strings or something like that.
-For instance, let's say we're making a program that takes a username and the username can only be comprised of alphanumeric characters.
+For instance, let's say we're making a program that takes a username consisting only of alphanumeric characters.
 We can use the `Data.List` function `all` in combination with the `Data.Char` predicates to determine if the username is alright.
 
 ```{.haskell:ghci}
@@ -1328,7 +1328,7 @@ rectangleArea a b = a * b
 Pretty standard geometry right here.
 There are a few things to take note of though.
 Because a cube is only a special case of a cuboid, we defined its area and volume by treating it as a cuboid whose sides are all of the same length.
-We also defined a helper function called `rectangleArea`, which calculates a rectangle's area based on the lenghts of its sides.
+We also defined a helper function called `rectangleArea`, which calculates a rectangle's area based on the lengths of its sides.
 It's rather trivial because it's just multiplication.
 Notice that we used it in our functions in the module (namely `cuboidArea` and `cuboidVolume`) but we didn't export it!
 Because we want our module to just present functions for dealing with three-dimensional objects, we used `rectangleArea` but we didn't export it.

@@ -4,14 +4,12 @@
 
 ## Can I put this tutorial on my site or change it or whatever? 
 
-Sure, it's licensed under a [creative commons](https://creativecommons.org/licenses/by-nc-sa/3.0/){rel=nofollow} license, so you can share and change this, as long as you do it with a smile on your face and for non-commercial purposes.
+Sure, it's licensed under a [creative commons](https://creativecommons.org/licenses/by-nc-sa/3.0/){rel=license} license, so you can share and change this, as long as you do it with a smile on your face and for non-commercial purposes.
 
 ## Do you recommend any other Haskell reading material? 
 
-There are loads of awesome tutorials out there, but I'd just like to point out how great [Real World Haskell](http://book.realworldhaskell.org/read/){rel=nofollow} is.
-It's really great.
-I feel it complements this tutorial nicely.
-This tutorial focuses mainly on using simple examples to ease beginners into learning Haskell, whereas Real World Haskell really shows you how to do useful stuff with it.
+There are many excellent Haskell tutorials available, but it’s also worth highlighting the official [Haskell](https://www.haskell.org/documentation/){rel=nofollow} documentation. It provides a well-structured set of learning materials spanning beginner and intermediate topics.
+This tutorial focuses on simple examples to ease newcomers into Haskell, while the broader documentation complements it by covering more practical and advanced use cases.
 
 Another great Haskell resource is [Try Haskell](https://tryhaskell.org){rel=nofollow}, which allows you to try Haskell right in your browser and offers a rad interactive walkthrough.
 

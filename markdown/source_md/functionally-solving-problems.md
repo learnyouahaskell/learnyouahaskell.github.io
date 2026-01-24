@@ -20,14 +20,14 @@ This is what the previous infix expression looks like in RPN: `10 4 3 + 2 * -`.
 How do we calculate what the result of that is?
 Well, think of a stack.
 You go over the expression from left to right.
-Every time a number is encountered, push it on to the stack.
+Every time a number is encountered, push it onto the stack.
 When we encounter an operator, take the two numbers that are on top of the stack (we also say that we *pop* them), use the operator and those two and then push the resulting number back onto the stack.
 When you reach the end of the expression, you should be left with a single number if the expression was well-formed and that number represents the result.
 
-![this expression](http://s3.amazonaws.com/lyah/rpn.png){.center width=626 height=224}
+![this expression](assets/images/functionally-solving-problems/rpn.png){.center width=626 height=224}
 
 Let's go over the expression `10 4 3 + 2 * -` together!
-First we push `10` on to the stack and the stack is now `10`.
+First we push `10` onto the stack and the stack is now `10`.
 The next item is `4`, so we push it to the stack as well.
 The stack is now `10, 4`.
 We do the same with `3` and the stack is now `10, 4, 3`.
@@ -41,14 +41,14 @@ Finally, there's a `-`.
 We pop `10` and `14` from the stack, subtract `14` from `10` and push that back.
 The number on the stack is now `-4` and because there are no more numbers or operators in our expression, that's our result!
 
-Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains a RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
+Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains an RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
 
 What would the type of that function be?
 We want it to take a string as a parameter and produce a number as its result.
 So it will probably be something like `solveRPN :: (Num a) => String -> a`.
 
 ::: {.hintbox}
-**Protip:** it really helps to first think what the type declaration of a function should be before concerning ourselves with the implementation and then write it down.
+**Pro tip:** it really helps to first think what the type declaration of a function should be before concerning ourselves with the implementation and then write it down.
 In Haskell, a function's type declaration tells us a whole lot about the function, due to the very strong type system.
 :::
 
@@ -127,7 +127,7 @@ If it is, then it will take a list like `[3,4,9,3]` and call its first two eleme
 So in this case, `x` would be `3` and `y` would be `4`.
 `ys` would be `[9,3]`.
 It will return a list that's just like `ys`, only it has `x` and `y` multiplied as its head.
-So with this we pop the two topmost numbers off the stack, multiply them and push the result back on to the stack.
+So with this we pop the two topmost numbers off the stack, multiply them and push the result back onto the stack.
 If the item is not `"*"`, the pattern matching will fall through and `"+"` will be checked, and so on.
 
 If the item is none of the operators, then we assume it's a string that represents a number.
@@ -138,7 +138,7 @@ Also noticed that we added an extra class constraint of `Read a` to the function
 So this declaration means that the result can be of any type that's part of the `Num` and `Read` typeclasses (like `Int`, `Float`, etc.).
 
 For the list of items `["2","3","+"]`, our function will start folding from the left.
-The intial stack will be `[]`.
+The initial stack will be `[]`.
 It will call the folding function with `[]` as the stack (accumulator) and `"2"` as the item.
 Because that item is not an operator, it will be `read` and the added to the beginning of `[]`.
 So the new stack is now `[2]` and the folding function will be called with `[2]` as the stack and `["3"]` as the item, producing a new stack of `[3,2]`.
@@ -254,7 +254,7 @@ Here's what the input would look like for this case:
 ```
 
 To mentally parse the input file, read it in threes and mentally split the road system into sections.
-Each section is comprised of a road A, road B and a crossing road.
+Each section is composed of road A, road B and a crossing road.
 To have it neatly fit into threes, we say that there's a last crossing section that takes 0 minutes to drive over.
 That's because we don't care where we arrive in London, as long as we're in London.
 
@@ -277,7 +277,7 @@ We also won't be able to say for certain that our solution is the optimal one, w
 That's not a good solution then.
 Here's a simplified picture of our road system:
 
-![roads](assets/images/functionally-solving-problems/roads_simple.png){.center width=685 height=245}
+![roads](assets/images/functionally-solving-problems/roads_simple.png){.center width=686 height=245}
 
 Alright, can you figure out what the shortest path to the first crossroads (the first blue dot on A, marked *A1*) on road A is?
 That's pretty trivial.

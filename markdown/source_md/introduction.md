@@ -15,18 +15,19 @@ So this is an attempt at adding another useful resource for learning Haskell so 
 
 ![bird](assets/images/introduction/bird.png){.left width=230 height=192}
 
-This tutorial is aimed at people who have experience in imperative programming languages (C, C++, Java, Python …) but haven't programmed in a functional language before (Haskell, ML, OCaml …).
+This tutorial is aimed at people who have experience in imperative programming languages (C, C++, Java, Python ...) but haven't programmed in a functional language before (Haskell, ML, OCaml ...).
 Although I bet that even if you don't have any significant programming experience, a smart person such as yourself will be able to follow along and learn Haskell.
 
 The channel #haskell on the Libera.Chat network is a great place to ask questions if you're feeling stuck.
 People there are extremely nice, patient and understanding to newbies.
-If IRC it not your cup of tea, [https://discourse.haskell.org](https://discourse.haskell.org) is a popular community forum with a section for learners.
+If IRC it not your cup of tea, [https://discourse.haskell.org](https://discourse.haskell.org) is a popular community forum with a section for learners. 
+There is also a large and helpful Discord community with thousands of members that can be located by searching for 'Functional Programming Discord'.
 
 I failed to learn Haskell approximately 2 times before finally grasping it because it all just seemed too weird to me and I didn't get it.
 But then once it just "clicked" and after getting over that initial hurdle, it was pretty much smooth sailing.
 I guess what I'm trying to say is: Haskell is great and if you're interested in programming you should really learn it even if it seems weird at first.
 Learning Haskell is much like learning to program for the first time --- it's fun!
-It forces you to think differently, which brings us to the next section …
+It forces you to think differently, which brings us to the next section ...
 
 ## So what's Haskell? {#so-whats-haskell}
 
@@ -76,7 +77,7 @@ If a function you make takes two parameters and adds them together and you don't
 
 Haskell is **elegant and concise**.
 Because it uses a lot of high level concepts, Haskell programs are usually shorter than their imperative equivalents.
-And shorter programs are easier to maintain than longer ones and have less bugs.
+And shorter programs are easier to maintain than longer ones and have fewer bugs.
 
 Haskell was made by some **really smart folk** (with PhDs).
 Work on Haskell began in 1987 when a committee of researchers got together to design a kick-ass language.
