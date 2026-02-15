@@ -1,4 +1,7 @@
-# Input and Output
+---
+chapter: 9
+title: "Input and Output"
+---
 
 ![poor dog](assets/images/input-and-output/dognap.png){.right width=261 height=382}
 

@@ -1,4 +1,7 @@
-# Functors, Applicative Functors and Monoids 
+---
+chapter: 11
+title: "Functors, Applicative Functors and Monoids"
+---
 
 Haskell's combination of purity, higher order functions, parameterized algebraic data types, and typeclasses allows us to implement polymorphism on a much higher level than possible in other languages.
 We don't have to think about types belonging to a big hierarchy of types.

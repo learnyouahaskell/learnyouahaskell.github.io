@@ -1,4 +1,7 @@
-# Making Our Own Types and Typeclasses 
+---
+chapter: 8
+title: "Making Our Own Types and Typeclasses"
+---
 
 In the previous chapters, we covered some existing Haskell types and typeclasses.
 In this chapter, we'll learn how to make our own and how to put them to work!

@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="shortcut icon" href="assets/images/favicon.png" type="image/png">
 $if(prev_filename)$
-        <link rel="prev" href="${prev_filename}.html">
+        <link rel="prev" href="$prev_filename$">
 $endif$
 $if(next_filename)$
-        <link rel="next" href="${next_filename}.html">
+        <link rel="next" href="$next_filename$">
 $endif$
 <link type="text/css" rel="stylesheet" href="sh/Styles/SyntaxHighlighter.css">
 <link href="rss.php" rel="alternate" type="application/rss+xml" title="Learn You a Haskell for Great Good! feed">
@@ -26,7 +26,7 @@ $if(footdiv)$
                 <ul>
                     <li style="text-align:left">
 $if(prev_filename)$
-                                                        <a href="${prev_filename}.html" class="prevlink">$prev_title$</a>
+                                                        <a href="$prev_filename$" class="prevlink">$prev_title$</a>
 $endif$
                                             </li>
                     <li style="text-align:center">
@@ -34,19 +34,20 @@ $endif$
                     </li>
                     <li style="text-align:right">
 $if(next_filename)$
-                                                        <a href="${next_filename}.html" class="nxtlink">$next_title$</a>
+                                                        <a href="$next_filename$" class="nxtlink">$next_title$</a>
 $endif$
                                             </li>
                 </ul>
             </div>
 $endif$
+<h1>$title$</h1>
 $body$
 $if(footdiv)$
                 <div class="footdiv">
                 <ul>
                     <li style="text-align:left">
 $if(prev_filename)$
-                                                        <a href="$prev_filename$.html" class="prevlink">$prev_title$</a>
+                                                        <a href="$prev_filename$" class="prevlink">$prev_title$</a>
 $endif$
                                             </li>
                     <li style="text-align:center">
@@ -54,7 +55,7 @@ $endif$
                     </li>
                     <li style="text-align:right">
 $if(next_filename)$
-                                                        <a href="$next_filename$.html" class="nxtlink">$next_title$</a>
+                                                        <a href="$next_filename$" class="nxtlink">$next_title$</a>
 $endif$
                                             </li>
                 </ul>

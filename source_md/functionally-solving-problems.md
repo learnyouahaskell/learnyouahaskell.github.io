@@ -1,4 +1,7 @@
-# Functionally Solving Problems 
+---
+chapter: 10
+title: "Functionally Solving Problems"
+---
 
 In this chapter, we'll take a look at a few interesting problems and how to think functionally to solve them as elegantly as possible.
 We probably won't be introducing any new concepts, we'll just be flexing our newly acquired Haskell muscles and practicing our coding skills.
