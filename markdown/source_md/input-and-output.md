@@ -390,7 +390,7 @@ teh
 
 `putStr` is actually defined recursively with the help of `putChar`.
 The edge condition of `putStr` is the empty string, so if we're printing an empty string, just return an I/O action that does nothing by using `return ()`.
-If it's not empty, then print the first character of the string by doing `putChar` and then print of them using `putStr`.
+If it's not empty, then print the first character of the string by doing `putChar` and then print the remainder using `putStr` recursively.
 
 ```{.haskell:hs}
 putStr :: String -> IO ()
