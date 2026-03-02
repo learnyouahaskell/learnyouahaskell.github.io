@@ -673,9 +673,59 @@ It would be `map' f xs = foldl (\acc x -> acc ++ [f x]) [] xs`, but the thing is
 If you reverse a list, you can do a right fold on it just like you would have done a left fold and vice versa.
 Sometimes you don't even have to do that.
 The `sum` function can be implemented pretty much the same with a left and right fold.
-One big difference is that right folds work on infinite lists, whereas left ones don't!
-To put it plainly, if you take an infinite list at some point and you fold it up from the right, you'll eventually reach the beginning of the list.
-However, if you take an infinite list at a point and you try to fold it up from the left, you'll never reach an end!
+*One big difference is that right folds work on infinite lists, whereas left ones don't!*
+
+How `foldr` works with infinite lists
+
+Recall the definition of `foldr`:
+```{.haskell:hs}
+foldr f acc []     = acc
+foldr f acc (x:xs) = f x (foldr f acc xs)
+```
+The key insight is that the recursive call `foldr f acc xs` is passed as an argument to the function `f`. Because Haskell is lazy, if `f` never uses its second argument, the recursive call is never evaluated. This allows `foldr` to terminate on infinite lists, provided `f` is lazy in its right argument.
+
+Example: Checking for a Value in an infinite list
+
+Suppose we want to check if `3` appears in an infinite list `[1..]`. We can use `foldr` like this:
+```{.haskell:hs}
+containsThree :: [Int] -> Bool
+containsThree = foldr (\x rest -> if x == 3 then True else rest) False
+```
+Let's unfold this step-by-step on the infinite list `[1,2,3,4,...]`:
+1. Start: foldr (...) False [1,2,3,4,...]
+2. For `x=1`: `if 1 == 3 then True else (foldr (...) False [2,3,4,...])` -> `1 /= 3`, so this becomes `foldr (...) False [2,3,4,...]` (we recurse).
+3. For `x=2`: `if 2 == 3 then True else (foldr (...) False [3,4,5,...])` -> `2 /= 3`, so this becomes `foldr (...) False [3,4,5,...]` (we recurse again).
+4. For `x=3`: `if 3 == 3 then True else (foldr (...) False [4,5,6,...])` -> `3 == 3` is `True`! *Here, `f` ignores the recursive call (the [4,5,6,...] part) and returns True immediately*.
+
+Why `foldl` Fails with Infinite Lists
+
+Now, contrast this with foldl's definition:
+```{.haskell:hs}
+foldl f acc []     = acc
+foldl f acc (x:xs) = foldl f (f acc x) xs
+```
+Notice that `foldl` always makes a recursive call first, passing `f acc x` as the new accumulator. This means:
+Even if the accumulator becomes True at some point, foldl will still continue recursing down the list.
+For an infinite list, this leads to infinite recursion (it never stops).
+
+Example: `foldl` on the Same Problem
+
+If we try to implement containsThree with `foldl`:
+```{.haskell:hs}
+containsThreeFoldl :: [Int] -> Bool
+containsThreeFoldl = foldl (\acc x -> if x == 3 then True else acc) False
+```
+1. Unfolding on `[1,2,3,4,...]`:
+2. Start: `acc = False`, list [1,2,3,4,...].
+3. Compute `f False 1` -> `if 1==3 then True else False` -> `False`. Recurse: `foldl (...) False [2,3,4,...]`.
+4. Compute `f False 2` -> `False`. Recurse: `foldl (...) False [3,4,5,...]`.
+5. Compute `f False 3` -> `True`. But now we must recurse: `foldl (...) True [4,5,6,...]`.
+6. Compute `f True 4` -> `True` (since 4 /= 3, it returns the accumulator True). But we recurse again: `foldl (...) True [5,6,7,...]`.
+7. This continues forever. Even though we found 3, we never stop.
+
+`foldr` can terminate on infinite lists if the function `f` is lazy in its right argument (i.e., `f` can short-circuit by ignoring the recursive result).
+`foldl` always processes the list from left to right and cannot short-circuit in the same way, so it fails on infinite lists.
+This is why `foldr` is often more suitable for working with infinite lists. Just remember: *the function `f` must be lazy in its right argument for `foldr` to terminate early*.
 
 **Folds can be used to implement any function where you traverse a list once, element by element, and then return something based on that.
 Whenever you want to traverse a list to return something, chances are you want a fold.**
