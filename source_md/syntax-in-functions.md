@@ -288,7 +288,7 @@ A guard can be one of two things.
 The first is basically a boolean expression.
 If it evaluates to `True`, then the corresponding function body is used.
 If it evaluates to `False`, checking drops through to the next guard and so on.
-If we call this function with `24.3`, it will first check if that's smaller than or equal to `1.2`.
+If we call this function with `24.3`, it will first check if that's smaller than `1.2`.
 Because it isn't, it falls through to the next guard.
 The check is carried out with the second guard and because `24.3` is less than `1000.0`, the second string is returned.
 
