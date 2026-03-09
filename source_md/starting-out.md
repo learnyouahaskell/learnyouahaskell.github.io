@@ -240,9 +240,9 @@ Functions in Haskell don't have to be in any particular order, so it doesn't mat
 Now we're going to make a function that multiplies a number by 2 but only if that number is smaller than or equal to 100 because numbers bigger than 100 are big enough as it is!
 
 ```{.haskell:hs}
-doubleSmallNumber x = if x >= 100
-                        then x
-                        else x*2
+doubleSmallNumber x = if x <= 100
+                        then x*2
+                        else x
 ```
 
 ![this is you](assets/images/starting-out/baby.png){.left width=140 height=211}
