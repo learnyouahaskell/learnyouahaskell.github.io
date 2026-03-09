@@ -240,7 +240,7 @@ Functions in Haskell don't have to be in any particular order, so it doesn't mat
 Now we're going to make a function that multiplies a number by 2 but only if that number is smaller than or equal to 100 because numbers bigger than 100 are big enough as it is!
 
 ```{.haskell:hs}
-doubleSmallNumber x = if x > 100
+doubleSmallNumber x = if x >= 100
                         then x
                         else x*2
 ```
@@ -902,4 +902,3 @@ ghci> rightTriangles'
 And there's our answer!
 This is a common pattern in functional programming.
 You take a starting set of solutions and then you apply transformations to those solutions and filter them until you get the right ones.
-
