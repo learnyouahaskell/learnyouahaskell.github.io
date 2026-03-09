@@ -238,7 +238,7 @@ main = do
 ```
 
 See how the I/O actions in the *do* block are lined up?
-Also notice how the *let* is lined up with the I/O actions and the names of the *let* are lined up with each other?
+Also notice how the `let` is lined up with the I/O actions and the names of the `let` are lined up with each other?
 That's good practice, because indentation is important in Haskell.
 Now, we did `map toUpper firstName`, which turns something like `"John"` into a much cooler string like `"JOHN"`.
 We bound that uppercased string to a name and then used it in a string later on that we printed to the terminal.
