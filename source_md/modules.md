@@ -37,14 +37,14 @@ When you do `import Data.List`, all the functions that `Data.List` exports becom
 `nub` is a function defined in `Data.List` that takes a list and weeds out duplicate elements.
 Composing `length` and `nub` by doing `length . nub` produces a function that's the equivalent of `\xs -> length (nub xs)`.
 
-You can also put the functions of modules into the global namespace when using GHCI.
-If you're in GHCI and you want to be able to call the functions exported by `Data.List`, do this:
+You can also put the functions of modules into the global namespace when using GHCi.
+If you're in GHCi and you want to be able to call the functions exported by `Data.List`, do this:
 
 ```{.haskell:ghci}
 ghci> :m + Data.List
 ```
 
-If we want to load up the names from several modules inside GHCI, we don't have to do `:m +` several times, we can just load up several modules at once.
+If we want to load up the names from several modules inside GHCi, we don't have to do `:m +` several times, we can just load up several modules at once.
 
 ```{.haskell:ghci}
 ghci> :m + Data.List Data.Map Data.Set
@@ -945,7 +945,7 @@ Because `Data.Map` exports functions that clash with the `Prelude` and `Data.Lis
 import qualified Data.Map as Map
 ```
 
-Put this import statement into a script and then load the script via GHCI.
+Put this import statement into a script and then load the script via GHCi.
 
 Let's go ahead and see what `Data.Map` has in store for us!
 Here's the basic rundown of its functions.
@@ -1158,7 +1158,7 @@ Put this import statement in a script:
 import qualified Data.Set as Set
 ```
 
-And then load the script via GHCI.
+And then load the script via GHCi.
 
 Let's say we have two pieces of text.
 We want to find out which characters were used in both of them.

@@ -17,7 +17,7 @@ GHCi, version 9.2.4: https://www.haskell.org/ghc/  :? for help
 ghci>
 ```
 
-Congratulations, you're in GHCI!
+Congratulations, you're in GHCi!
 
 Here's some simple arithmetic.
 
@@ -50,7 +50,7 @@ Pretty cool, huh?
 Yeah, I know it's not but bear with me.
 A little pitfall to watch out for here is negating numbers.
 If we want to have a negative number, it's always best to surround it with parentheses.
-Doing `5 * -3` will make GHCI yell at you but doing `5 * (-3)` will work just fine.
+Doing `5 * -3` will make GHCi yell at you but doing `5 * (-3)` will work just fine.
 
 Boolean algebra is also pretty straightforward.
 As you probably know, `&&` means a boolean *and*, `||` means a boolean *or*.
@@ -96,10 +96,10 @@ Well, if we try the first snippet, we get a big scary error message!
 ```
 
 Yikes!
-What GHCI is telling us here is that `"llama"` is not a number and so it doesn't know how to add it to 5.
+What GHCi is telling us here is that `"llama"` is not a number and so it doesn't know how to add it to 5.
 Even if it wasn't `"llama"` but `"four"` or `"4"`, Haskell still wouldn't consider it to be a number.
 `+` expects its left and right side to be numbers.
-If we tried to do `True == 5`, GHCI would tell us that the types don't match.
+If we tried to do `True == 5`, GHCi would tell us that the types don't match.
 Whereas `+` works only on things that are considered numbers, `==` works on any two things that can be compared.
 But the catch is that they both have to be the same type of thing.
 You can't compare apples and oranges.
@@ -189,7 +189,7 @@ The function name is followed by parameters separated by spaces.
 But when defining functions, there's a `=` and after that we define what the function does.
 Save this as `baby.hs` or something.
 Now navigate to where it's saved and run `ghci` from there.
-Once inside GHCI, do `:l baby`.
+Once inside GHCi, do `:l baby`.
 Now that our script is loaded, we can play with the function that we defined.
 
 ```{.haskell: .ghci}
@@ -211,7 +211,7 @@ doubleUs x y = x*2 + y*2
 
 Simple.
 We could have also defined it as `doubleUs x y = x + x + y + y`.
-Testing it out produces pretty predictable results (remember to append this function to the `baby.hs` file, save it and then do `:l baby` inside GHCI).
+Testing it out produces pretty predictable results (remember to append this function to the `baby.hs` file, save it and then do `:l baby` inside GHCi).
 
 ```{.haskell: .ghci}
 ghci> doubleUs 4 9
@@ -761,7 +761,7 @@ ghci> [ [ x | x <- xs, even x ] | xs <- xxs]
 ```
 
 You can write list comprehensions across several lines.
-So if you're not in GHCI, it's better to split longer list comprehensions across multiple lines, especially if they're nested.
+So if you're not in GHCi, it's better to split longer list comprehensions across multiple lines, especially if they're nested.
 
 ## Tuples {#tuples}
 
@@ -882,7 +882,7 @@ ghci> triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 ```
 
 We're just drawing from three lists and our output function is combining them into a triple.
-If you evaluate that by typing out `triangles` in GHCI, you'll get a list of all possible triangles with sides under or equal to 10.
+If you evaluate that by typing out `triangles` in GHCi, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
 We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.
 

@@ -1418,7 +1418,7 @@ But this is just something to think about, because `==` will always have a type 
 :::
 
 Ooh, one more thing, check this out!
-If you want to see what the instances of a typeclass are, just do `:info YourTypeClass` in GHCI.
+If you want to see what the instances of a typeclass are, just do `:info YourTypeClass` in GHCi.
 So typing `:info Num` will show which functions the typeclass defines and it will give you a list of the types in the typeclass.
 `:info` works for types and type constructors too.
 If you do `:info Maybe`, it will show you all the typeclasses that `Maybe` is an instance of.
@@ -1753,7 +1753,7 @@ A kind is more or less the type of a type.
 This may sound a bit weird and confusing, but it's actually a really cool concept.
 
 What are kinds and what are they good for?
-Well, let's examine the kind of a type by using the `:k` command in GHCI.
+Well, let's examine the kind of a type by using the `:k` command in GHCi.
 
 ```{.haskell:hs}
 ghci> :k Int
@@ -1902,7 +1902,7 @@ Well, we see it takes three type parameters, so it's going to be `something -> s
 It's safe to say that `p` is a concrete type and thus has a kind of `*`.
 For `k`, we assume `*` and so by extension, `t` has a kind of `* -> *`.
 Now let's just replace those kinds with the *somethings* that we used as placeholders and we see it has a kind of `(* -> *) -> * -> * -> *`.
-Let's check that with GHCI.
+Let's check that with GHCi.
 
 ```{.haskell:hs}
 ghci> :k Barry

@@ -223,7 +223,7 @@ So `a -> b -> c` can be written as `a -> (b -> c)`, to make the currying more ap
 In the same vein, if we write `fmap :: (a -> b) -> (f a -> f b)`, we can think of `fmap` not as a function that takes one function and a functor and returns a functor, but as a function that takes a function and returns a new function that's just like the old one, only it takes a functor as a parameter and returns a functor as the result.
 It takes an `a -> b` function and returns a function `f a -> f b`.
 This is called *lifting* a function.
-Let's play around with that idea by using GHCI's `:t` command:
+Let's play around with that idea by using GHCi's `:t` command:
 
 ```{.haskell:hs}
 ghci> :t fmap (*2)
@@ -241,7 +241,7 @@ When we say *a functor over numbers*, you can think of that as *a functor that h
 The former is a bit fancier and more technically correct, but the latter is usually easier to get.
 :::
 
-This is even more apparent if we partially apply, say, `fmap (++"!")` and then bind it to a name in GHCI.
+This is even more apparent if we partially apply, say, `fmap (++"!")` and then bind it to a name in GHCi.
 
 You can think of `fmap` as either a function that takes a function and a functor and then maps that function over the functor, or you can think of it as a function that takes a function and lifts that function so that it operates on functors.
 Both views are correct and in Haskell, equivalent.
