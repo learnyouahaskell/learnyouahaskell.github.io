@@ -1,0 +1,15 @@
+<ol class="chapters" type="1">
+$for(chapters)$
+  <li><a href="$htmlname$">$title$</a>
+  $if(sections)$
+    <ul>
+    $for(sections)$
+      <li><a href="$link$">$title$</a></li>
+    $endfor$
+    </ul>
+  $endif$
+  </li>
+$endfor$
+</ol>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license">Creative Commons Attribution-Noncommercial-Share Alike 3.0 Unported License</a> because I couldn't find a license with an even longer name.</p>
