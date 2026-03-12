@@ -432,15 +432,15 @@ densityTell mass volume
           water = 1000.0
 ```
 
-The names we define in the where section of a function are only visible to that function, so we don't have to worry about them polluting the namespace of other functions.
+The names we define in the where-block of a function are only visible to that function, so we don't have to worry about them polluting the namespace of other functions.
 Notice that all the names are aligned at a single column.
 If we don't align them nice and proper, Haskell gets confused because then it doesn't know they're all part of the same block.
 
 *where* bindings aren't shared across function bodies of different patterns.
 If you want several patterns of one function to access some shared name, you have to define it globally.
 
-You can also use where bindings to **pattern match**!
-We could have rewritten the where section of our previous function as:
+You can also use *where* bindings to **pattern match**!
+We could have rewritten the where-block of our previous function as:
 
 ```{.haskell:hs}
 ...
@@ -457,9 +457,9 @@ initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
           (l:_) = lastname
 ```
 
-We could have done this pattern matching directly in the function's parameters (it would have been shorter and clearer actually) but this just goes to show that it's possible to do it in where bindings as well.
+We could have done this pattern matching directly in the function's parameters (it would have been shorter and clearer actually) but this just goes to show that it's possible to do it in *where* bindings as well.
 
-Just like we've defined constants in where blocks, you can also define functions.
+Just like we've defined constants in where-blocks, you can also define functions.
 Staying true to our solids programming theme, let's make a function that takes a list of mass-volume pairs and returns a list of densities.
 
 ```{.haskell:hs}
@@ -473,14 +473,14 @@ The reason we had to introduce `density` as a function in this example is becaus
 We have to examine the list passed to the function and there's a different density for every pair in there.
 
 *where* bindings can also be nested.
-It's a common idiom to make a function and define some helper function in its *where* clause and then to give those functions helper functions as well, each with its own *where* clause.
+It's a common idiom to make a function and define some helper function in its where-block and then to give those functions helper functions as well, each with its own where-block.
 
 ## Let it be {#let-it-be}
 
-Very similar to where bindings are let bindings.
-Where bindings are a syntactic construct that let you bind to variables at the end of a function and the whole function can see them, including all the guards.
-Let bindings let you bind to variables anywhere and are expressions themselves, but are very local, so they don't span across guards.
-Just like any construct in Haskell that is used to bind values to names, let bindings can be used for pattern matching.
+Very similar to *where* bindings are *let* bindings.
+*where* bindings are a syntactic construct that let you bind to variables at the end of a function and the whole function can see them, including all the guards.
+*let* bindings let you bind to variables anywhere and are expressions themselves, but are very local, so they don't span across guards.
+Just like any construct in Haskell that is used to bind values to names, *let* bindings can be used for pattern matching.
 Let's see them in action!
 This is how we could define a function that gives us a cylinder's surface area based on its height and radius:
 
@@ -495,11 +495,11 @@ cylinder r h =
 ![let it be](assets/images/syntax-in-functions/letitbe.png){.right width=215 height=240}
 
 The form is `let <bindings> in <expression>`.
-The names that you define in the *let* part are accessible to the expression after the *in* part.
+The names that you define in the `let` part are accessible to the expression after the `in` part.
 As you can see, we could have also defined this with a *where* binding.
 Notice that the names are also aligned in a single column.
 So what's the difference between the two?
-For now it just seems that *let* puts the bindings first and the expression that uses them later whereas *where* is the other way around.
+For now it just seems that `let` puts the bindings first and the expression that uses them later whereas `where` is the other way around.
 
 The difference is that *let* bindings are expressions themselves.
 *where* bindings are just syntactic constructs.
@@ -512,7 +512,7 @@ ghci> 4 * (if 10 > 5 then 10 else 0) + 2
 42
 ```
 
-You can also do that with let bindings.
+You can also do that with *let* bindings.
 
 ```{.haskell:ghci}
 ghci> 4 * (let a = 9 in a + 1) + 2
@@ -544,15 +544,15 @@ ghci> (let (a,b,c) = (1,2,3) in a+b+c) * 100
 ```
 
 You can also put *let* bindings inside list comprehensions.
-Let's rewrite our previous example of calculating lists of mass-volume pairs to use a *let* inside a list comprehension instead of defining an auxiliary function with a *where*.
+Let's rewrite our previous example of calculating lists of mass-volume pairs to use a `let` inside a list comprehension instead of defining an auxiliary function with a `where`.
 
 ```{.haskell:hs}
 calcDensities :: (RealFloat a) => [(a, a)] -> [a]
 calcDensities xs = [density | (m, v) <- xs, let density = m / v]
 ```
 
-We include a *let* inside a list comprehension much like we would a predicate, only it doesn't filter the list, it only binds to names.
-The names defined in a *let* inside a list comprehension are visible to the output function (the part before the `|`) and all predicates and sections that come after of the binding.
+We include a `let` inside a list comprehension much like we would a predicate, only it doesn't filter the list, it only binds to names.
+The names defined in a `let` inside a list comprehension are visible to the output function (the part before the `|`) and all predicates and sections that come after of the binding.
 So we could make our function return only the densities that will float in air:
 
 ```{.haskell:hs}
