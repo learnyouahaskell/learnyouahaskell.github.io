@@ -23,7 +23,7 @@ A type is a kind of label that every expression has.
 It tells us in which category of things that expression fits.
 The expression `True` is a boolean, `"hello"` is a string, etc.
 
-Now we'll use GHCI to examine the types of some expressions.
+Now we'll use GHCi to examine the types of some expressions.
 We'll do that by using the `:t` command which, followed by any valid expression, tells us its type.
 Let's give it a whirl.
 
@@ -303,9 +303,9 @@ ghci> read "4"
     Probable fix: add a type signature that fixes these type variable(s)
 ```
 
-What GHCI is telling us here is that it doesn't know what we want in return.
+What GHCi is telling us here is that it doesn't know what we want in return.
 Notice that in the previous uses of `read` we did something with the result afterwards.
-That way, GHCI could infer what kind of result we wanted out of our `read`.
+That way, GHCi could infer what kind of result we wanted out of our `read`.
 If we used it as a boolean, it knew it had to return a `Bool`.
 But now, it knows we want some type that is part of the `Read` class, it just doesn't know which one.
 Let's take a look at the type signature of `read`.
@@ -338,7 +338,7 @@ ghci> read "(3, 'a')" :: (Int, Char)
 Most expressions are such that the compiler can infer what their type is by itself.
 But sometimes, the compiler doesn't know whether to return a value of type `Int` or `Float` for an expression like `read "5"`.
 To see what the type is, Haskell would have to actually evaluate `read "5"`.
-But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCI, evaluated).
+But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCi, evaluated).
 So we have to tell Haskell: "Hey, this expression should have this type, in case you don't know!".
 
 `Enum`{.label .class} members are sequentially ordered types --- they can be enumerated.

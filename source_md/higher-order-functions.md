@@ -130,7 +130,7 @@ From the definition of sections, `(-4)` would result in a function that takes a 
 However, for convenience, `(-4)` means minus four.
 So if you want to make a function that subtracts 4 from the number it gets as a parameter, partially apply the `subtract` function like so: `(subtract 4)`.
 
-What happens if we try to just do `multThree 3 4` in GHCI instead of binding it to a name with a *let* or passing it to another function?
+What happens if we try to just do `multThree 3 4` in GHCi instead of binding it to a name with a *let* or passing it to another function?
 
 ```{.haskell:hs}
 ghci> multThree 3 4
@@ -140,9 +140,9 @@ ghci> multThree 3 4
     • In a stmt of an interactive GHCi command: print it
 ```
 
-GHCI is telling us that the expression produced a function of type `a -> a` but it doesn't know how to print it to the screen.
+GHCi is telling us that the expression produced a function of type `a -> a` but it doesn't know how to print it to the screen.
 Functions aren't instances of the `Show` typeclass, so we can't get a neat string representation of a function.
-When we do, say, `1 + 1` at the GHCI prompt, it first calculates that to `2` and then calls `show` on `2` to get a textual representation of that number.
+When we do, say, `1 + 1` at the GHCi prompt, it first calculates that to `2` and then calls `show` on `2` to get a textual representation of that number.
 And the textual representation of `2` is just the string `"2"`, which then gets printed to our screen.
 
 ## Some higher-orderism is in order {#higher-orderism}
@@ -392,7 +392,7 @@ First, we'll begin by mapping the `(^2)` function to the infinite list `[1..]`.
 Then we filter them so we only get the odd ones.
 And then, we'll take elements from that list while they are smaller than 10,000.
 Finally, we'll get the sum of that list.
-We don't even have to define a function for that, we can do it in one line in GHCI:
+We don't even have to define a function for that, we can do it in one line in GHCi:
 
 ```{.haskell:ghci}
 ghci> sum (takeWhile (<10000) (filter odd (map (^2) [1..])))

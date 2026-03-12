@@ -27,7 +27,7 @@ With those two parts separated, we can still reason about our pure program and t
 
 ![HELLO!](assets/images/input-and-output/helloworld.png){.left width=223 height=179}
 
-Up until now, we've always loaded our functions into GHCI to test them out and play with them.
+Up until now, we've always loaded our functions into GHCi to test them out and play with them.
 We've also explored the standard library functions that way.
 But now, after eight or so chapters, we're finally going to write our first *real* Haskell program!
 Yay!
@@ -208,14 +208,14 @@ We can also use a *do* block to glue together a few I/O actions and then we can 
 Either way, they'll be performed only if they eventually fall into `main`.
 
 Oh, right, there's also one more case when I/O actions will be performed.
-When we type out an I/O action in GHCI and press return, it will be performed.
+When we type out an I/O action in GHCi and press return, it will be performed.
 
 ```{.haskell:hs}
 ghci> putStrLn "HEEY"
 HEEY
 ```
 
-Even when we just punch out a number or call a function in GHCI and press return, it will evaluate it (as much as it needs) and then call `show` on it and then it will print that string to the terminal using `putStrLn` implicitly.
+Even when we just punch out a number or call a function in GHCi and press return, it will evaluate it (as much as it needs) and then call `show` on it and then it will print that string to the terminal using `putStrLn` implicitly.
 
 Remember *let* bindings?
 If you don't, refresh your memory on them by reading [this section](syntax-in-functions.html#let-it-be).
@@ -429,8 +429,8 @@ True
 ```
 
 As you can see, it's a very handy function.
-Remember how we talked about how I/O actions are performed only when they fall into `main` or when we try to evaluate them in the GHCI prompt?
-When we type out a value (like `3` or `[1,2,3]`) and press the return key, GHCI actually uses `print` on that value to display it on our terminal!
+Remember how we talked about how I/O actions are performed only when they fall into `main` or when we try to evaluate them in the GHCi prompt?
+When we type out a value (like `3` or `[1,2,3]`) and press the return key, GHCi actually uses `print` on that value to display it on our terminal!
 
 ```{.haskell:hs}
 ghci> 3
@@ -534,9 +534,9 @@ ghci> sequence (map print [1,2,3,4,5])
 ```
 
 What's with the `[(),(),(),(),()]` at the end?
-Well, when we evaluate an I/O action in GHCI, it's performed and then its result is printed out, unless that result is `()`, in which case it's not printed out.
-That's why evaluating `putStrLn "hehe"` in GHCI just prints out `hehe` (because the contained result in `putStrLn "hehe"` is `()`).
-But when we do `getLine` in GHCI, the result of that I/O action is printed out, because `getLine` has a type of `IO String`.
+Well, when we evaluate an I/O action in GHCi, it's performed and then its result is printed out, unless that result is `()`, in which case it's not printed out.
+That's why evaluating `putStrLn "hehe"` in GHCi just prints out `hehe` (because the contained result in `putStrLn "hehe"` is `()`).
+But when we do `getLine` in GHCi, the result of that I/O action is printed out, because `getLine` has a type of `IO String`.
 
 Because mapping a function that returns an I/O action over a list and then sequencing it is so common, the utility functions `mapM`{.label .function} and `mapM_`{.label .function} were introduced.
 `mapM` takes a function and a list, maps the function over the list and then sequences it.
@@ -626,7 +626,7 @@ In this section, we learned the basics of input and output.
 We also found out what I/O actions are, how they enable us to do input and output and when they are actually performed.
 To reiterate, I/O actions are values much like any other value in Haskell.
 We can pass them as parameters to functions and functions can return I/O actions as results.
-What's special about them is that if they fall into the `main` function (or are the result in a GHCI line), they are performed.
+What's special about them is that if they fall into the `main` function (or are the result in a GHCi line), they are performed.
 And that's when they get to write stuff on your screen or play Yakety Sax through your speakers.
 Each I/O action can also encapsulate a result with which it tells you what it got from the real world.
 
@@ -1920,7 +1920,7 @@ This is cool because it won't cause the memory usage to skyrocket and the 32 KiB
 
 If you look through the [documentation](https://hackage.haskell.org/package/bytestring/docs/Data-ByteString-Lazy.html) for `Data.ByteString.Lazy`, you'll see that it has a lot of functions that have the same names as the ones from `Data.List`, only the type signatures have `ByteString` instead of `[a]` and `Word8` instead of `a` in them.
 The functions with the same names mostly act the same as the ones that work on lists.
-Because the names are the same, we're going to do a qualified import in a script and then load that script into GHCI to play with bytestrings.
+Because the names are the same, we're going to do a qualified import in a script and then load that script into GHCi to play with bytestrings.
 
 ```{.haskell:hs}
 import qualified Data.ByteString.Lazy as B
