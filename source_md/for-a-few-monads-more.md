@@ -153,6 +153,9 @@ applyLog :: (Monoid m) => (a,m) -> (a -> (b,m)) -> (b,m)
 applyLog (x,log) f = let (y,newLog) = f x in (y,log <> newLog)
 ```
 
+Actually, this code works for any semigroup, not just monoids.
+But I'll just ignore that, as we'll be using an identity value shortly anyway.
+
 Because the accompanying value can now be any monoid value, we no longer have to think of the tuple as a value and a log, but now we can think of it as a value with an accompanying monoid value.
 For instance, we can have a tuple that has an item name and an item price as the monoid value.
 We just use the `Sum` newtype to make sure that the prices get added as we operate with the items.
