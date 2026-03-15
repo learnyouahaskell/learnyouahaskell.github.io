@@ -529,9 +529,11 @@ Because a difference list is a function that prepends something to another list,
 Here's the `Monoid` instance:
 
 ```{.haskell:hs}
+instance Semigroup (DiffList a) where
+    DiffList f <> DiffList g = DiffList (\xs -> f (g xs))
+
 instance Monoid (DiffList a) where
     mempty = DiffList (\xs -> [] ++ xs)
-    (DiffList f) <> (DiffList g) = DiffList (\xs -> f (g xs))
 ```
 
 Notice how for lists, `mempty` is just the `id` function and `<>` is actually just function composition.
