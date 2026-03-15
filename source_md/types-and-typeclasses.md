@@ -297,17 +297,19 @@ But what happens if we try to do just `read "4"`?
 
 ```{.haskell: .ghci}
 ghci> read "4"
-<interactive>:1:0:
-    Ambiguous type variable `a' in the constraint:
-      `Read a' arising from a use of `read' at <interactive>:1:0-7
-    Probable fix: add a type signature that fixes these type variable(s)
+*** Exception: Prelude.read: no parse
 ```
 
-What GHCi is telling us here is that it doesn't know what we want in return.
+Well that's no good.
+What is happening here?
+
 Notice that in the previous uses of `read` we did something with the result afterwards.
 That way, GHCi could infer what kind of result we wanted out of our `read`.
 If we used it as a boolean, it knew it had to return a `Bool`.
 But now, it knows we want some type that is part of the `Read` class, it just doesn't know which one.
+And sometimes, when it cannot figure out a type, GHCi tries to be helpful by taking a guess.
+Not just any guess of course, but wrong in this case anyway.
+
 Let's take a look at the type signature of `read`.
 
 ```{.haskell: .ghci}
@@ -316,7 +318,7 @@ read :: (Read a) => String -> a
 ```
 
 See?
-It returns a type that's part of `Read` but if we don't try to use it in some way later, it has no way of knowing which type.
+It returns a type that's part of `Read` but if we don't try to use it in some way later, there's no way of knowing which type.
 That's why we can use explicit **type annotations**.
 Type annotations are a way of explicitly saying what the type of an expression should be.
 We do that by adding `::` at the end of the expression and then specifying a type.
@@ -334,6 +336,49 @@ ghci> read "[1,2,3,4]" :: [Int]
 ghci> read "(3, 'a')" :: (Int, Char)
 (3, 'a')
 ```
+
+And what happens if we ask for the wrong type?
+
+```{.haskell: .ghci}
+ghci> read "13" :: Bool
+*** Exception: Prelude.read: no parse
+```
+
+Same as before, and for the same reason.
+The string `"13"` cannot be parsed as a `Bool`, but `read` tries to anyway --- because we told it to --- and fails.
+
+If you put the same code as before in a file instead of in GHCi, things are a bit different:
+
+```{.haskell: .ghci}
+-- file: oops.hs
+four = read "4"
+```
+```{.haskell: .ghci}
+ghci> :l oops.hs
+oops.hs:2:8: error: [GHC-39999]
+    • Ambiguous type variable ‘a0’ arising from a use of ‘read’
+      prevents the constraint ‘(Read a0)’ from being solved.
+      Relevant bindings include four :: a0 (bound at oops.hs:2:1)
+      Probable fix: use a type annotation to specify what ‘a0’ should be.
+      Potentially matching instances:
+        instance Read Ordering -- Defined in ‘GHC.Read’
+        instance Read a => Read (Maybe a) -- Defined in ‘GHC.Read’
+        ...plus 24 others
+        ...plus 11 instances involving out-of-scope types
+        (use -fprint-potential-instances to see them all)
+    • In the expression: read "4"
+      In an equation for ‘four’: four = read "4"
+  |
+4 | four = read "4"
+  |        ^^^^
+```
+
+Yikes!
+Even though this looks very different from earlier, the problem is really the same.
+GHC even tells us as much: whatever the type of `four` is, it must be part of `Read`.
+But it can't tell that it is, because it doesn't know the actual type: it is ambiguous.
+Whereas GHCi at this point tried to guess, GHC does not.
+Instead, it immediately complains and demands that we clarify the type.
 
 Most expressions are such that the compiler can infer what their type is by itself.
 But sometimes, the compiler doesn't know whether to return a value of type `Int` or `Float` for an expression like `read "5"`.
