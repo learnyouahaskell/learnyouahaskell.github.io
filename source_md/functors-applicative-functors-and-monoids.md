@@ -1497,9 +1497,9 @@ Let's see how the type class is defined:
 ```{.haskell:hs}
 class Monoid m where
     mempty :: m
-    mappend :: m -> m -> m
+    (<>) :: m -> m -> m
     mconcat :: [m] -> m
-    mconcat = foldr mappend mempty
+    mconcat = foldr (<>) mempty
 ```
 
 ![woof dee do!!!](assets/images/functors-applicative-functors-and-monoids/balloondog.png){.right width=260 height=326}
@@ -1514,17 +1514,18 @@ The first function is `mempty`.
 It's not really a function, since it doesn't take parameters, so it's a polymorphic constant, kind of like `minBound` from `Bounded`.
 `mempty` represents the identity value for a particular monoid.
 
-Next up, we have `mappend`, which, as you've probably guessed, is the binary function.
+Next up, we have `<>`, which, as you've probably guessed, is the binary function.
 It takes two values of the same type and returns a value of that type as well.
-It's worth noting that the decision to name `mappend` as it's named was kind of unfortunate, because it implies that we're appending two things in some way.
+In the past this function was called `mappend`, and `<>` is still often pronounced that way.
+Which is kind of unfortunate, because it implies that we're appending two things in some way.
 While `++` does take two lists and append one to the other, `*` doesn't really do any appending, it just multiplies two numbers together.
-When we meet other instances of `Monoid`, we'll see that most of them don't append values either, so avoid thinking in terms of appending and just think in terms of `mappend` being a binary function that takes two monoid values and returns a third.
+When we meet other instances of `Monoid`, we'll see that most of them don't append values either, so avoid thinking in terms of appending and just think in terms of `<>` being a binary function that takes two monoid values and returns a third.
 
 The last function in this type class definition is `mconcat`.
-It takes a list of monoid values and reduces them to a single value by doing `mappend` between the list's elements.
-It has a default implementation, which just takes `mempty` as a starting value and folds the list from the right with `mappend`.
+It takes a list of monoid values and reduces them to a single value by doing `<>` between the list's elements.
+It has a default implementation, which just takes `mempty` as a starting value and folds the list from the right with `<>`.
 Because the default implementation is fine for most instances, we won't concern ourselves with `mconcat` too much from now on.
-When making a type an instance of `Monoid`, it suffices to just implement `mempty` and `mappend`.
+When making a type an instance of `Monoid`, it suffices to just implement `mempty` and `<>`.
 The reason `mconcat` is there at all is because for some instances, there might be a more efficient way to implement `mconcat`, but for most instances the default implementation is just fine.
 
 Before moving on to specific instances of `Monoid`, let's take a brief look at the monoid laws.
@@ -1533,11 +1534,11 @@ It's possible to make instances of `Monoid` that don't follow these rules, but s
 Otherwise, what's the point?
 That's why when making instances, we have to make sure they follow these laws:
 
-* ``mempty `mappend` x = x``{.label .law}
-* ``x `mappend` mempty = x``{.label .law}
-* ``(x `mappend` y) `mappend` z = x `mappend` (y `mappend` z)``{.label .law}
+* `mempty <> x = x`{.label .law}
+* `x <> mempty = x`{.label .law}
+* `(x <> y) <> z = x <> (y <> z)`{.label .law}
 
-The first two state that `mempty` has to act as the identity with respect to `mappend` and the third says that `mappend` has to be associative i.e. that it the order in which we use `mappend` to reduce several monoid values into one doesn't matter.
+The first two state that `mempty` has to act as the identity with respect to `<>` and the third says that `<>` has to be associative i.e. that it the order in which we use `<>` to reduce several monoid values into one doesn't matter.
 Haskell doesn't enforce these laws, so we as the programmer have to be careful that our instances do indeed obey them.
 
 ### Lists are monoids 
@@ -1549,7 +1550,7 @@ The instance is very simple:
 ```{.haskell:hs}
 instance Monoid [a] where
     mempty = []
-    mappend = (++)
+    (<>) = (++)
 ```
 
 Lists are an instance of the `Monoid` type class regardless of the type of the elements they hold.
@@ -1558,15 +1559,15 @@ Notice that we wrote `instance Monoid [a]` and not `instance Monoid []`, because
 Giving this a test run, we encounter no surprises:
 
 ```{.haskell:hs}
-ghci> [1,2,3] `mappend` [4,5,6]
+ghci> [1,2,3] <> [4,5,6]
 [1,2,3,4,5,6]
-ghci> ("one" `mappend` "two") `mappend` "tree"
+ghci> ("one" <> "two") <> "tree"
 "onetwotree"
-ghci> "one" `mappend` ("two" `mappend` "tree")
+ghci> "one" <> ("two" <> "tree")
 "onetwotree"
-ghci> "one" `mappend` "two" `mappend` "tree"
+ghci> "one" <> "two" <> "tree"
 "onetwotree"
-ghci> "pang" `mappend` mempty
+ghci> "pang" <> mempty
 "pang"
 ghci> mconcat [[1,2],[3,6],[9]]
 [1,2,3,6,9]
@@ -1584,15 +1585,15 @@ In the case of the list, `mconcat` turns out to be just `concat`.
 It takes a list of lists and flattens it, because that's the equivalent of doing `++` between all the adjacent lists in a list.
 
 The monoid laws do indeed hold for the list instance.
-When we have several lists and we `mappend` (or `++`) them together, it doesn't matter which ones we do first, because they're just joined at the ends anyway.
+When we have several lists and we `<>` (or `++`) them together, it doesn't matter which ones we do first, because they're just joined at the ends anyway.
 Also, the empty list acts as the identity so all is well.
-Notice that monoids don't require that ``a `mappend` b`` be equal to ``b `mappend` a``.
+Notice that monoids don't require that `a <> b` be equal to `b <> a`.
 In the case of the list, they clearly aren't:
 
 ```{.haskell:hs}
-ghci> "one" `mappend` "two"
+ghci> "one" <> "two"
 "onetwo"
-ghci> "two" `mappend` "one"
+ghci> "two" <> "one"
 "twoone"
 ```
 
@@ -1638,21 +1639,21 @@ Its instance for `Monoid` goes a little something like this:
 ```{.haskell:hs}
 instance Num a => Monoid (Product a) where
     mempty = Product 1
-    Product x `mappend` Product y = Product (x * y)
+    Product x <> Product y = Product (x * y)
 ```
 
 `mempty` is just `1` wrapped in a `Product` constructor.
-`mappend` pattern matches on the `Product` constructor, multiplies the two numbers and then wraps the resulting number back.
+`<>` pattern matches on the `Product` constructor, multiplies the two numbers and then wraps the resulting number back.
 As you can see, there's a `Num a` class constraint.
 So this means that `Product a` is an instance of `Monoid` for all `a`'s that are already an instance of `Num`.
 To use `Product a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
 
 ```{.haskell:hs}
-ghci> getProduct $ Product 3 `mappend` Product 9
+ghci> getProduct $ Product 3 <> Product 9
 27
-ghci> getProduct $ Product 3 `mappend` mempty
+ghci> getProduct $ Product 3 <> mempty
 3
-ghci> getProduct $ Product 3 `mappend` Product 4 `mappend` Product 2
+ghci> getProduct $ Product 3 <> Product 4 <> Product 2
 24
 ghci> getProduct . mconcat . map Product $ [3,4,2]
 24
@@ -1665,9 +1666,9 @@ But a bit later, we'll see how these `Monoid` instances that may seem trivial at
 We use it in the same way:
 
 ```{.haskell:hs}
-ghci> getSum $ Sum 2 `mappend` Sum 9
+ghci> getSum $ Sum 2 <> Sum 9
 11
-ghci> getSum $ mempty `mappend` Sum 3
+ghci> getSum $ mempty <> Sum 3
 3
 ghci> getSum . mconcat . map Sum $ [1,2,3]
 6
@@ -1692,20 +1693,20 @@ Its instance looks goes like so:
 ```{.haskell:hs}
 instance Monoid Any where
         mempty = Any False
-        Any x `mappend` Any y = Any (x || y)
+        Any x <> Any y = Any (x || y)
 ```
 
-The reason it's called `Any` is because ``x `mappend` y`` will be `True` if *any* one of those two is `True`.
-Even if three or more `Any` wrapped `Bool`s are `mappend`ed together, the result will hold `True` if any of them are `True`:
+The reason it's called `Any` is because `x <> y` will be `True` if *any* one of those two is `True`.
+Even if three or more `Any` wrapped `Bool`s are `<>`ed together, the result will hold `True` if any of them are `True`:
 
 ```{.haskell:hs}
-ghci> getAny $ Any True `mappend` Any False
+ghci> getAny $ Any True <> Any False
 True
-ghci> getAny $ mempty `mappend` Any True
+ghci> getAny $ mempty <> Any True
 True
 ghci> getAny . mconcat . map Any $ [False, False, False, True]
 True
-ghci> getAny $ mempty `mappend` mempty
+ghci> getAny $ mempty <> mempty
 False
 ```
 
@@ -1723,15 +1724,15 @@ And this is the instance:
 ```{.haskell:hs}
 instance Monoid All where
         mempty = All True
-        All x `mappend` All y = All (x && y)
+        All x <> All y = All (x && y)
 ```
 
-When we `mappend` values of the `All` type, the result will be `True` only if *all* the values used in the `mappend` operations are `True`:
+When we `<>` values of the `All` type, the result will be `True` only if *all* the values used in the `<>` operations are `True`:
 
 ```{.haskell:hs}
-ghci> getAll $ mempty `mappend` All True
+ghci> getAll $ mempty <> All True
 True
-ghci> getAll $ mempty `mappend` All False
+ghci> getAll $ mempty <> All False
 False
 ghci> getAll . mconcat . map All $ [True, True, True]
 True
@@ -1739,7 +1740,7 @@ ghci> getAll . mconcat . map All $ [True, True, False]
 False
 ```
 
-Just like with multiplication and addition, we usually explicitly state the binary functions instead of wrapping them in *newtype*s and then using `mappend` and `mempty`.
+Just like with multiplication and addition, we usually explicitly state the binary functions instead of wrapping them in *newtype*s and then using `<>` and `mempty`.
 `mconcat` seems useful for `Any` and `All`, but usually it's easier to use the `or` and `and` functions, which take lists of `Bool`s and return `True` if any of them are `True` or if all of them are `True`, respectively.
 
 ### The `Ordering` monoid 
@@ -1762,14 +1763,14 @@ With `Ordering`, we have to look a bit harder to recognize a monoid, but it turn
 ```{.haskell:hs}
 instance Monoid Ordering where
     mempty = EQ
-    LT `mappend` _ = LT
-    EQ `mappend` y = y
-    GT `mappend` _ = GT
+    LT <> _ = LT
+    EQ <> y = y
+    GT <> _ = GT
 ```
 
 ![did anyone ORDER pizza?!?! I can't BEAR these puns!](assets/images/functors-applicative-functors-and-monoids/bear.png){.right width=330 height=339}
 
-The instance is set up like this: when we `mappend` two `Ordering` values, the one on the left is kept, unless the value on the left is `EQ`, in which case the right one is the result.
+The instance is set up like this: when we `<>` two `Ordering` values, the one on the left is kept, unless the value on the left is `EQ`, in which case the right one is the result.
 The identity is `EQ`.
 At first, this may seem kind of arbitrary, but it actually resembles the way we alphabetically compare words.
 We compare the first two letters and if they differ, we can already decide which word would go first in a dictionary.
@@ -1780,17 +1781,17 @@ We see that `'x'` is alphabetically greater than `'n'`, and so we know how the w
 To gain some intuition for `EQ` being the identity, we can notice that if we were to cram the same letter in the same position in both words, it wouldn't change their alphabetical ordering.
 `"oix"` is still alphabetically greater than and `"oin"`.
 
-It's important to note that in the `Monoid` instance for `Ordering`, ``x `mappend` y`` doesn't equal ``y `mappend` x``.
-Because the first parameter is kept unless it's `EQ`, ``LT `mappend` GT`` will result in `LT`, whereas ``GT `mappend` LT`` will result in `GT`:
+It's important to note that in the `Monoid` instance for `Ordering`, `x <> y` doesn't equal `y <> x`.
+Because the first parameter is kept unless it's `EQ`, `LT <> GT` will result in `LT`, whereas `GT <> LT` will result in `GT`:
 
 ```{.haskell:hs}
-ghci> LT `mappend` GT
+ghci> LT <> GT
 LT
-ghci> GT `mappend` LT
+ghci> GT <> LT
 GT
-ghci> mempty `mappend` LT
+ghci> mempty <> LT
 LT
-ghci> mempty `mappend` GT
+ghci> mempty <> GT
 GT
 ```
 
@@ -1814,7 +1815,7 @@ But by employing our understanding of how `Ordering` is a monoid, we can rewrite
 import Data.Monoid
 
 lengthCompare :: String -> String -> Ordering
-lengthCompare x y = (length x `compare` length y) `mappend`
+lengthCompare x y = (length x `compare` length y) <>
                     (x `compare` y)
 ```
 
@@ -1827,7 +1828,7 @@ ghci> lengthCompare "zen" "ant"
 GT
 ```
 
-Remember, when we use `mappend`, its left parameter is always kept unless it's `EQ`, in which case the right one is kept.
+Remember, when we use `<>`, its left parameter is always kept unless it's `EQ`, in which case the right one is kept.
 That's why we put the comparison that we consider to be the first, more important criterion as the first parameter.
 If we wanted to expand this function to also compare for the number of vowels and set this to be the second most important criterion for comparison, we'd just modify it like this:
 
@@ -1835,8 +1836,8 @@ If we wanted to expand this function to also compare for the number of vowels an
 import Data.Monoid
 
 lengthCompare :: String -> String -> Ordering
-lengthCompare x y = (length x `compare` length y) `mappend`
-                    (vowels x `compare` vowels y) `mappend`
+lengthCompare x y = (length x `compare` length y) <>
+                    (vowels x `compare` vowels y) <>
                     (x `compare` y)
     where vowels = length . filter (`elem` "aeiou")
 ```
@@ -1863,30 +1864,30 @@ The `Ordering` monoid is very cool because it allows us to easily compare things
 
 Let's take a look at the various ways that `Maybe a` can be made an instance of `Monoid` and what those instances are useful for.
 
-One way is to treat `Maybe a` as a monoid only if its type parameter `a` is a monoid as well and then implement `mappend` in such a way that it uses the `mappend` operation of the values that are wrapped with `Just`.
-We use `Nothing` as the identity, and so if one of the two values that we're `mappend`ing is `Nothing`, we keep the other value.
+One way is to treat `Maybe a` as a monoid only if its type parameter `a` is a monoid as well and then implement `<>` in such a way that it uses the `<>` operation of the values that are wrapped with `Just`.
+We use `Nothing` as the identity, and so if one of the two values that we're `<>`ing is `Nothing`, we keep the other value.
 Here's the instance declaration:
 
 ```{.haskell:hs}
 instance Monoid a => Monoid (Maybe a) where
     mempty = Nothing
-    Nothing `mappend` m = m
-    m `mappend` Nothing = m
-    Just m1 `mappend` Just m2 = Just (m1 `mappend` m2)
+    Nothing <> m = m
+    m <> Nothing = m
+    Just m1 <> Just m2 = Just (m1 <> m2)
 ```
 
 Notice the class constraint.
 It says that `Maybe a` is an instance of `Monoid` only if `a` is an instance of `Monoid`.
-If we `mappend` something with a `Nothing`, the result is that something.
-If we `mappend` two `Just` values, the contents of the `Just`s get `mappended` and then wrapped back in a `Just`.
+If we `<>` something with a `Nothing`, the result is that something.
+If we `<>` two `Just` values, the contents of the `Just`s get `<>`ed and then wrapped back in a `Just`.
 We can do this because the class constraint ensures that the type of what's inside the `Just` is an instance of `Monoid`.
 
 ```{.haskell:hs}
-ghci> Nothing `mappend` Just "andy"
+ghci> Nothing <> Just "andy"
 Just "andy"
-ghci> Just LT `mappend` Nothing
+ghci> Just LT <> Nothing
 Just LT
-ghci> Just (Sum 3) `mappend` Just (Sum 4)
+ghci> Just (Sum 3) <> Just (Sum 4)
 Just (Sum {getSum = 7})
 ```
 
@@ -1894,8 +1895,8 @@ This comes in use when you're dealing with monoids as results of computations th
 Because of this instance, we don't have to check if the computations have failed by seeing if they're a `Nothing` or `Just` value; we can just continue to treat them as normal monoids.
 
 But what if the type of the contents of the `Maybe` aren't an instance of `Monoid`?
-Notice that in the previous instance declaration, the only case where we have to rely on the contents being monoids is when both parameters of `mappend` are `Just` values.
-But if we don't know if the contents are monoids, we can't use `mappend` between them, so what are we to do?
+Notice that in the previous instance declaration, the only case where we have to rely on the contents being monoids is when both parameters of `<>` are `Just` values.
+But if we don't know if the contents are monoids, we can't use `<>` between them, so what are we to do?
 Well, one thing we can do is to just discard the second value and keep the first one.
 For this, the `First a` type exists and this is its definition:
 
@@ -1910,21 +1911,21 @@ The `Monoid` instance is as follows:
 ```{.haskell:hs}
 instance Monoid (First a) where
     mempty = First Nothing
-    First (Just x) `mappend` _ = First (Just x)
-    First Nothing `mappend` x = x
+    First (Just x) <> _ = First (Just x)
+    First Nothing <> x = x
 ```
 
 Just like we said.
 `mempty` is just a `Nothing` wrapped with the `First` *newtype* constructor.
-If `mappend`'s first parameter is a `Just` value, we ignore the second one.
+If `<>`'s first parameter is a `Just` value, we ignore the second one.
 If the first one is a `Nothing`, then we present the second parameter as a result, regardless of whether it's a `Just` or a `Nothing`:
 
 ```{.haskell:hs}
-ghci> getFirst $ First (Just 'a') `mappend` First (Just 'b')
+ghci> getFirst $ First (Just 'a') <> First (Just 'b')
 Just 'a'
-ghci> getFirst $ First Nothing `mappend` First (Just 'b')
+ghci> getFirst $ First Nothing <> First (Just 'b')
 Just 'b'
-ghci> getFirst $ First (Just 'a') `mappend` First Nothing
+ghci> getFirst $ First (Just 'a') <> First Nothing
 Just 'a'
 ```
 
@@ -1936,12 +1937,12 @@ ghci> getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
 Just 9
 ```
 
-If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `mappend` are `Just` values, `Data.Monoid` provides a `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `mappend`ing and using `mconcat`:
+If we want a monoid on `Maybe a` such that the second parameter is kept if both parameters of `<>` are `Just` values, `Data.Monoid` provides a `Last a` type, which works like `First a`, only the last non-`Nothing` value is kept when `<>`ing and using `mconcat`:
 
 ```{.haskell:hs}
 ghci> getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
 Just 10
-ghci> getLast $ Last (Just "one") `mappend` Last (Just "two")
+ghci> getLast $ Last (Just "one") <> Last (Just "two")
 Just "two"
 ```
 
@@ -2019,7 +2020,7 @@ foldMap :: (Monoid m, Foldable t) => (a -> m) -> t a -> m
 Its first parameter is a function that takes a value of the type that our foldable structure contains (denoted here with `a`) and returns a monoid value.
 Its second parameter is a foldable structure that contains values of type `a`.
 It maps that function over the foldable structure, thus producing a foldable structure that contains monoid values.
-Then, by doing `mappend` between those monoid values, it joins them all into a single monoid value.
+Then, by doing `<>` between those monoid values, it joins them all into a single monoid value.
 This function may sound kind of odd at the moment, but we'll see that it's very easy to implement.
 What's also cool is that implementing this function is all it takes for our type to be made an instance of `Foldable`.
 So if we just implement `foldMap` for some type, we get `foldr` and `foldl` on that type for free!
@@ -2029,8 +2030,8 @@ This is how we make `Tree` an instance of `Foldable`:
 ```{.haskell:hs}
 instance F.Foldable Tree where
     foldMap f Empty = mempty
-    foldMap f (Node x l r) = F.foldMap f l `mappend`
-                             f x           `mappend`
+    foldMap f (Node x l r) = F.foldMap f l <>
+                             f x           <>
                              F.foldMap f r
 ```
 
@@ -2038,7 +2039,7 @@ instance F.Foldable Tree where
 
 We think like this: if we are provided with a function that takes an element of our tree and returns a monoid value, how do we reduce our whole tree down to one single monoid value?
 When we were doing `fmap` over our tree, we applied the function that we were mapping to a node and then we recursively mapped the function over the left subtree as well as the right one.
-Here, we're tasked with not only mapping a function, but with also joining up the results into a single monoid value by using `mappend`.
+Here, we're tasked with not only mapping a function, but with also joining up the results into a single monoid value by using `<>`.
 First we consider the case of the empty tree --- a sad and lonely tree that has no values or subtrees.
 It doesn't hold any value that we can give to our monoid-making function, so we just say that if our tree is empty, the monoid value it becomes is `mempty`.
 
@@ -2048,7 +2049,7 @@ In this case, we recursively `foldMap` the same function `f` over the left and t
 Remember, our `foldMap` results in a single monoid value.
 We also apply our function `f` to the value in the node.
 Now we have three monoid values (two from our subtrees and one from applying `f` to the value in the node) and we just have to bang them together into a single value.
-For this purpose we use `mappend`, and naturally the left subtree comes first, then the node value and then the right subtree.
+For this purpose we use `<>`, and naturally the left subtree comes first, then the node value and then the right subtree.
 
 Notice that we didn't have to provide the function that takes a value and returns a monoid value.
 We receive that function as a parameter to `foldMap` and all we have to decide is where to apply that function and how to join up the resulting monoids from it.
@@ -2088,7 +2089,7 @@ True
 ```
 
 Here, `\x -> Any $ x == 3` is a function that takes a number and returns a monoid value, namely a `Bool` wrapped in `Any`.
-`foldMap` applies this function to every element in our tree and then reduces the resulting monoids into a single monoid with `mappend`.
+`foldMap` applies this function to every element in our tree and then reduces the resulting monoids into a single monoid with `<>`.
 If we do this:
 
 ```{.haskell:hs}
@@ -2097,12 +2098,12 @@ False
 ```
 
 All of the nodes in our tree would hold the value `Any False` after having the function in the lambda applied to them.
-But to end up `True`, `mappend` for `Any` has to have at least one `True` value as a parameter.
+But to end up `True`, `<>` for `Any` has to have at least one `True` value as a parameter.
 That's why the final result is `False`, which makes sense because no value in our tree is greater than `15`.
 
 We can also easily turn our tree into a list by doing a `foldMap` with the `\x -> [x]` function.
 By first projecting that function onto our tree, each element becomes a singleton list.
-The `mappend` action that takes place between all those singleton list results in a single list that holds all of the elements that are in our tree:
+The `<>` action that takes place between all those singleton list results in a single list that holds all of the elements that are in our tree:
 
 ```{.haskell:hs}
 ghci> F.foldMap (\x -> [x]) testTree
