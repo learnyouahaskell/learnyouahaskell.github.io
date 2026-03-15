@@ -1504,7 +1504,6 @@ class Monoid m where
 
 ![woof dee do!!!](assets/images/functors-applicative-functors-and-monoids/balloondog.png){.right width=260 height=326}
 
-The `Monoid` type class is defined in `import Data.Monoid`.
 Let's take some time and get properly acquainted with it.
 
 First of all, we see that only concrete types can be made instances of `Monoid`, because the `m` in the type class definition doesn't take any type parameters.
@@ -1812,8 +1811,6 @@ We name the result of comparing the lengths `a` and the result of the alphabetic
 But by employing our understanding of how `Ordering` is a monoid, we can rewrite this function in a much simpler manner:
 
 ```{.haskell:hs}
-import Data.Monoid
-
 lengthCompare :: String -> String -> Ordering
 lengthCompare x y = (length x `compare` length y) <>
                     (x `compare` y)
@@ -1833,8 +1830,6 @@ That's why we put the comparison that we consider to be the first, more importan
 If we wanted to expand this function to also compare for the number of vowels and set this to be the second most important criterion for comparison, we'd just modify it like this:
 
 ```{.haskell:hs}
-import Data.Monoid
-
 lengthCompare :: String -> String -> Ordering
 lengthCompare x y = (length x `compare` length y) <>
                     (vowels x `compare` vowels y) <>
