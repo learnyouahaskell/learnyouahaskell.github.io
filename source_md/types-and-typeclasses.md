@@ -345,18 +345,20 @@ ghci> read "13" :: Bool
 ```
 
 Same as before, and for the same reason.
-The string `"13"` cannot be parsed as a `Bool`, but `read` tries to anyway -- because we told it to -- and fails.
+The string `"13"` cannot be parsed as a `Bool`, but `read` tries to anyway --- because we told it to --- and fails.
 
 If you put the same code as before in a file instead of in GHCi, things are a bit different:
 
 ```{.haskell: .ghci}
+-- file: oops.hs
 four = read "4"
 ```
 ```{.haskell: .ghci}
-Oops.hs:4:8: error: [GHC-39999]
+ghci> :l oops.hs
+oops.hs:2:8: error: [GHC-39999]
     • Ambiguous type variable ‘a0’ arising from a use of ‘read’
       prevents the constraint ‘(Read a0)’ from being solved.
-      Relevant bindings include four :: a0 (bound at Oops.hs:4:1)
+      Relevant bindings include four :: a0 (bound at oops.hs:2:1)
       Probable fix: use a type annotation to specify what ‘a0’ should be.
       Potentially matching instances:
         instance Read Ordering -- Defined in ‘GHC.Read’
