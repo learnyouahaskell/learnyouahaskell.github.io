@@ -1486,18 +1486,20 @@ We call this property *associativity*.
 `*` is associative, and so is `++`, but `-`, for example, is not.
 The expressions `(5 - 3) - 4` and `5 - (3 - 4)` result in different numbers.
 
-By noticing and writing down these properties, we have chanced upon *monoids*!
-A monoid is when you have an associative binary function and a value which acts as an identity with respect to that function.
+By noticing and writing down these properties, we have chanced upon *semigroups* and *monoids*!
+A semigroup is when you have an associative binary function, and a monoid is when you also have a value which acts as an identity with respect to that function.
 When something acts as an identity with respect to a function, it means that when called with that function and some other value, the result is always equal to that other value.
 `1` is the identity with respect to `*` and `[]` is the identity with respect to `++`.
-There are a lot of other monoids to be found in the world of Haskell, which is why the `Monoid` type class exists.
-It's for types which can act like monoids.
-Let's see how the type class is defined:
+There are a lot of other monoids and semigroups to be found in the world of Haskell, which is why the `Monoid` and `Semigroup` type classes exist.
+It's for types which can act like monoids and semigroups.
+Let's see how the type classes are defined:
 
 ```{.haskell:hs}
-class Monoid m where
-    mempty :: m
+class Semigroup m where
     (<>) :: m -> m -> m
+
+class Semigroup m => Monoid m where
+    mempty :: m
     mconcat :: [m] -> m
     mconcat = foldr (<>) mempty
 ```
@@ -1508,6 +1510,8 @@ Let's take some time and get properly acquainted with it.
 
 First of all, we see that only concrete types can be made instances of `Monoid`, because the `m` in the type class definition doesn't take any type parameters.
 This is different from `Functor` and `Applicative`, which require their instances to be type constructors which take one parameter.
+We also see that all `Monoid`s must also be `Semigroup`s, just like all `Applicative`s must be `Functor`s.
+This is because monoids are a special kind of semigroup, as they also have an identity value.
 
 The first function is `mempty`.
 It's not really a function, since it doesn't take parameters, so it's a polymorphic constant, kind of like `minBound` from `Bounded`.
@@ -1527,17 +1531,18 @@ Because the default implementation is fine for most instances, we won't concern 
 When making a type an instance of `Monoid`, it suffices to just implement `mempty` and `<>`.
 The reason `mconcat` is there at all is because for some instances, there might be a more efficient way to implement `mconcat`, but for most instances the default implementation is just fine.
 
-Before moving on to specific instances of `Monoid`, let's take a brief look at the monoid laws.
+Before moving on to specific instances of `Monoid`, let's take a brief look at the semigroup and monoid laws.
 We mentioned that there has to be a value that acts as the identity with respect to the binary function and that the binary function has to be associative.
-It's possible to make instances of `Monoid` that don't follow these rules, but such instances are of no use to anyone because when using the `Monoid` type class, we rely on its instances acting like monoids.
+It's possible to make instances of `Semigroup` and `Monoid` that don't follow these rules, but such instances are of no use to anyone because when using the `Monoid` type class, we rely on its instances acting like monoids.
 Otherwise, what's the point?
 That's why when making instances, we have to make sure they follow these laws:
 
-* `mempty <> x = x`{.label .law}
-* `x <> mempty = x`{.label .law}
-* `(x <> y) <> z = x <> (y <> z)`{.label .law}
+* `(x <> y) <> z = x <> (y <> z)`{.label .law} (semigroup law)
+* `mempty <> x = x`{.label .law} (monoid law)
+* `x <> mempty = x`{.label .law} (monoid law)
 
-The first two state that `mempty` has to act as the identity with respect to `<>` and the third says that `<>` has to be associative i.e. that it the order in which we use `<>` to reduce several monoid values into one doesn't matter.
+The first says that `<>` has to be associative i.e. that the order in which we use `<>` to reduce several semigroup values into one doesn't matter, and the other two state that `mempty` has to act as the identity with respect to `<>`.
+Semigroups follow the first law, but monoids must follow all three.
 Haskell doesn't enforce these laws, so we as the programmer have to be careful that our instances do indeed obey them.
 
 ### Lists are monoids 
@@ -1547,9 +1552,11 @@ Like we've seen, the `++` function and the empty list `[]` form a monoid.
 The instance is very simple:
 
 ```{.haskell:hs}
+instance Semigroup [a] where
+    (<>) = (++)
+
 instance Monoid [a] where
     mempty = []
-    (<>) = (++)
 ```
 
 Lists are an instance of the `Monoid` type class regardless of the type of the elements they hold.
@@ -1636,9 +1643,11 @@ Simple, just a *newtype* wrapper with one type parameter along with some derived
 Its instance for `Monoid` goes a little something like this:
 
 ```{.haskell:hs}
+instance Num a => Semigroup (Product a) where
+    Product x <> Product y = Product (x * y)
+
 instance Num a => Monoid (Product a) where
     mempty = Product 1
-    Product x <> Product y = Product (x * y)
 ```
 
 `mempty` is just `1` wrapped in a `Product` constructor.
@@ -1690,9 +1699,11 @@ newtype Any = Any { getAny :: Bool }
 Its instance looks goes like so:
 
 ```{.haskell:hs}
+instance Semigroup Any where
+        Any x <> Any y = Any (x || y)
+
 instance Monoid Any where
         mempty = Any False
-        Any x <> Any y = Any (x || y)
 ```
 
 The reason it's called `Any` is because `x <> y` will be `True` if *any* one of those two is `True`.
@@ -1721,9 +1732,11 @@ newtype All = All { getAll :: Bool }
 And this is the instance:
 
 ```{.haskell:hs}
+instance Semigroup All where
+        All x <> All y = All (x && y)
+
 instance Monoid All where
         mempty = All True
-        All x <> All y = All (x && y)
 ```
 
 When we `<>` values of the `All` type, the result will be `True` only if *all* the values used in the `<>` operations are `True`:
@@ -1760,11 +1773,13 @@ With lists, numbers and boolean values, finding monoids was just a matter of loo
 With `Ordering`, we have to look a bit harder to recognize a monoid, but it turns out that its `Monoid` instance is just as intuitive as the ones we've met so far and also quite useful:
 
 ```{.haskell:hs}
-instance Monoid Ordering where
-    mempty = EQ
+instance Semigroup Ordering where
     LT <> _ = LT
     EQ <> y = y
     GT <> _ = GT
+
+instance Monoid Ordering where
+    mempty = EQ
 ```
 
 ![did anyone ORDER pizza?!?! I can't BEAR these puns!](assets/images/functors-applicative-functors-and-monoids/bear.png){.right width=330 height=339}
@@ -1859,23 +1874,25 @@ The `Ordering` monoid is very cool because it allows us to easily compare things
 
 Let's take a look at the various ways that `Maybe a` can be made an instance of `Monoid` and what those instances are useful for.
 
-One way is to treat `Maybe a` as a monoid only if its type parameter `a` is a monoid as well and then implement `<>` in such a way that it uses the `<>` operation of the values that are wrapped with `Just`.
+One way is to treat `Maybe a` as a monoid only if its type parameter `a` is a semigroup (or even a monoid) and then implement `<>` in such a way that it uses the `<>` operation of the values that are wrapped with `Just`.
 We use `Nothing` as the identity, and so if one of the two values that we're `<>`ing is `Nothing`, we keep the other value.
 Here's the instance declaration:
 
 ```{.haskell:hs}
-instance Monoid a => Monoid (Maybe a) where
-    mempty = Nothing
+instance Semigroup a => Semigroup (Maybe a) where
     Nothing <> m = m
     m <> Nothing = m
     Just m1 <> Just m2 = Just (m1 <> m2)
+
+instance Semigroup a => Monoid (Maybe a) where
+    mempty = Nothing
 ```
 
 Notice the class constraint.
-It says that `Maybe a` is an instance of `Monoid` only if `a` is an instance of `Monoid`.
+It says that `Maybe a` is an instance of `Monoid` only if `a` is an instance of `Semigroup`.
 If we `<>` something with a `Nothing`, the result is that something.
 If we `<>` two `Just` values, the contents of the `Just`s get `<>`ed and then wrapped back in a `Just`.
-We can do this because the class constraint ensures that the type of what's inside the `Just` is an instance of `Monoid`.
+We can do this because the class constraint ensures that the type of what's inside the `Just` is an instance of `Semigroup`.
 
 ```{.haskell:hs}
 ghci> Nothing <> Just "andy"
@@ -1886,12 +1903,12 @@ ghci> Just (Sum 3) <> Just (Sum 4)
 Just (Sum {getSum = 7})
 ```
 
-This comes in use when you're dealing with monoids as results of computations that may have failed.
-Because of this instance, we don't have to check if the computations have failed by seeing if they're a `Nothing` or `Just` value; we can just continue to treat them as normal monoids.
+This comes in use when you're dealing with semigroups as results of computations that may have failed.
+Because of this instance, we don't have to check if the computations have failed by seeing if they're a `Nothing` or `Just` value; we can just continue to treat them as normal semigroups.
 
-But what if the type of the contents of the `Maybe` aren't an instance of `Monoid`?
-Notice that in the previous instance declaration, the only case where we have to rely on the contents being monoids is when both parameters of `<>` are `Just` values.
-But if we don't know if the contents are monoids, we can't use `<>` between them, so what are we to do?
+But what if the type of the contents of the `Maybe` aren't an instance of `Semigroup`?
+Notice that in the previous instance declaration, the only case where we have to rely on the contents being a semigroup is when both parameters of `<>` are `Just` values.
+But if we don't know if the contents are a semigroup, we can't use `<>` between them, so what are we to do?
 Well, one thing we can do is to just discard the second value and keep the first one.
 For this, the `First a` type exists and this is its definition:
 
@@ -1904,10 +1921,12 @@ We take a `Maybe a` and we wrap it with a *newtype*.
 The `Monoid` instance is as follows:
 
 ```{.haskell:hs}
-instance Monoid (First a) where
-    mempty = First Nothing
+instance Semigroup (First a) where
     First (Just x) <> _ = First (Just x)
     First Nothing <> x = x
+
+instance Monoid (First a) where
+    mempty = First Nothing
 ```
 
 Just like we said.
