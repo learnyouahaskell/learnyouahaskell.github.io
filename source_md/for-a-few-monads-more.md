@@ -1087,11 +1087,10 @@ This is pretty much just an enhanced `Maybe`, so it makes sense for it to be a m
 Its `Monad` instance is similar to that of `Maybe` and it can be found in `Control.Monad.Error`:
 
 ```{.haskell:hs}
-instance (Error e) => Monad (Either e) where
+instance Monad (Either e) where
     return x = Right x
     Right x >>= f = f x
     Left err >>= f = Left err
-    fail msg = Left (strMsg msg)
 ```
 
 `return`, as always, takes a value and puts it in a default minimal context.
@@ -1102,20 +1101,6 @@ The `>>=` examines two possible cases: a `Left` and a `Right`.
 In the case of a `Right`, the function `f` is applied to the value inside it, similar to how in the case of a `Just`, the function is just applied to its contents.
 In the case of an error, the `Left` value is kept, along with its contents, which describe the failure.
 
-The `Monad` instance for `Either e` makes an additional requirement, and that is that the type of the value contained in a `Left`, the one that's indexed by the `e` type parameter, has to be an instance of the `Error` type class.
-The `Error` type class is for types whose values can act like error messages.
-It defines the `strMsg` function, which takes an error in the form of a string and returns such a value.
-A good example of an `Error` instance is, well, the `String` type!
-In the case of `String`, the `strMsg` function just returns the string that it got:
-
-```{.haskell:hs}
-ghci> :t strMsg
-strMsg :: (Error a) => String -> a
-ghci> strMsg "boom!" :: String
-"boom!"
-```
-
-But since we usually use `String` to describe the error when using `Either`, we don't have to worry about this too much.
 When a pattern match fails in `do` notation, a `Left` value is used to signify this failure.
 
 Anyway, here are a few examples of usage:
@@ -1130,33 +1115,9 @@ Left "no way!"
 When we use `>>=` to feed a `Left` value to a function, the function is ignored and an identical `Left` value is returned.
 When we feed a `Right` value to a function, the function gets applied to what's on the inside, but in this case that function produced a `Left` value anyway!
 
-When we try to feed a `Right` value to a function that also succeeds, we're tripped up by a peculiar type error!
-Hmmm.
-
-```{.haskell:hs}
-ghci> Right 3 >>= \x -> return (x + 100)
-
-<interactive>:1:0:
-    Ambiguous type variable `a' in the constraints:
-      `Error a' arising from a use of `it' at <interactive>:1:0-33
-      `Show a' arising from a use of `print' at <interactive>:1:0-33
-    Probable fix: add a type signature that fixes these type variable(s)
-```
-
-Haskell says that it doesn't know which type to choose for the `e` part of our `Either e a` typed value, even though we're just printing the `Right` part.
-This is due to the `Error e` constraint on the `Monad` instance.
-So if you get type errors like this one when using `Either` as a monad, just add an explicit type signature:
-
-```{.haskell:hs}
-ghci> Right 3 >>= \x -> return (x + 100) :: Either String Int
-Right 103
-```
-
-Alright, now it works!
-
-Other than this little hangup, using this monad is very similar to using `Maybe` as a monad.
+Using this monad is very similar to using `Maybe` as a monad.
 In the previous chapter, we used the monadic aspects of `Maybe` to simulate birds landing on the balancing pole of a tightrope walker.
-As an exercise, you can rewrite that with the error monad so that when the tightrope walker slips and falls, we remember how many birds were on each side of the pole when he fell.
+As an exercise, you can rewrite that with the `Either` monad so that when the tightrope walker slips and falls, we remember how many birds were on each side of the pole when he fell.
 
 ## Some useful monadic functions {#useful-monadic-functions}
 
