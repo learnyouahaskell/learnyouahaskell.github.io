@@ -130,7 +130,7 @@ From the definition of sections, `(-4)` would result in a function that takes a 
 However, for convenience, `(-4)` means minus four.
 So if you want to make a function that subtracts 4 from the number it gets as a parameter, partially apply the `subtract` function like so: `(subtract 4)`.
 
-What happens if we try to just do `multThree 3 4` in GHCi instead of binding it to a name with a *let* or passing it to another function?
+What happens if we try to just do `multThree 3 4` in GHCi instead of binding it to a name with a `let` or passing it to another function?
 
 ```{.haskell:hs}
 ghci> multThree 3 4
@@ -495,7 +495,7 @@ To make a lambda, we write a `\` (because it kind of looks like the greek letter
 After that comes a `->` and then the function body.
 We usually surround them by parentheses, because otherwise they extend all the way to the right.
 
-If you look about 5 inches up, you'll see that we used a *where* binding in our `numLongChains` function to make the `isLong` function for the sole purpose of passing it to `filter`.
+If you look about 5 inches up, you'll see that we used a `where` binding in our `numLongChains` function to make the `isLong` function for the sole purpose of passing it to `filter`.
 Well, instead of doing that, we can use a lambda:
 
 ```{.haskell:hs}
@@ -960,7 +960,7 @@ Many times, a point free style is more readable and concise, because it makes yo
 You can take simple functions and use composition as glue to form more complex functions.
 However, many times, writing a function in point free style can be less readable if a function is too complex.
 That's why making long chains of function composition is discouraged, although I plead guilty of sometimes being too composition-happy.
-The preferred style is to use *let* bindings to give labels to intermediary results or split the problem into sub-problems and then put it together so that the function makes sense to someone reading it instead of just making a huge composition chain.
+The preferred style is to use `let` bindings to give labels to intermediary results or split the problem into sub-problems and then put it together so that the function makes sense to someone reading it instead of just making a huge composition chain.
 
 In the section about maps and filters, we solved a problem of finding the sum of all odd squares that are smaller than 10,000.
 Here's what the solution looks like when put into a function.

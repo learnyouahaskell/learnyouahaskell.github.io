@@ -50,7 +50,7 @@ We saw how we can map functions over them for great good.
 In this section, we'll take a look at two more instances of functor, namely `IO` and `(->) r`.
 
 If some value has a type of, say, `IO String`, that means that it's an I/O action that, when performed, will go out into the real world and get some string for us, which it will yield as a result.
-We can use `<-` in *do* syntax to bind that result to a name.
+We can use `<-` in `do` syntax to bind that result to a name.
 We mentioned that I/O actions are like boxes with little feet that go out and fetch some value from the outside world for us.
 We can inspect what they fetched, but after inspecting, we have to wrap the value back in `IO`.
 By thinking about this box with little feet analogy, we can see how `IO` acts like a functor.
@@ -65,11 +65,11 @@ instance Functor IO where
         return (f result)
 ```
 
-The result of mapping something over an I/O action will be an I/O action, so right off the bat we use *do* syntax to glue two actions and make a new one.
+The result of mapping something over an I/O action will be an I/O action, so right off the bat we use `do` syntax to glue two actions and make a new one.
 In the implementation for `fmap`, we make a new I/O action that first performs the original I/O action and calls its result `result`.
 Then, we do `return (f result)`.
 `return` is, as you know, a function that makes an I/O action that doesn't do anything but only presents something as its result.
-The action that a *do* block produces will always have the result value of its last action.
+The action that a `do` block produces will always have the result value of its last action.
 That's why we use return to make an I/O action that doesn't really do anything, it just presents `f result` as the result of the new I/O action.
 
 We can play around with it to gain some intuition.
@@ -754,8 +754,8 @@ Since `pure` is all about putting a value in a minimal context that still holds 
 
 If `<*>` were specialized for `IO` it would have a type of `(<*>) :: IO (a -> b) -> IO a -> IO b`.
 It would take an I/O action that yields a function as its result and another I/O action and create a new I/O action from those two that, when performed, first performs the first one to get the function and then performs the second one to get the value and then it would yield that function applied to the value as its result.
-We used *do* syntax to implement it here.
-Remember, *do* syntax is about taking several I/O actions and gluing them into one, which is exactly what we do here.
+We used `do` syntax to implement it here.
+Remember, `do` syntax is about taking several I/O actions and gluing them into one, which is exactly what we do here.
 
 With `Maybe` and `[]`, we could think of `<*>` as simply extracting a function from its left parameter and then sort of applying it over the right one.
 With `IO`, extracting is still in the game, but now we also have a notion of *sequencing*, because we're taking two I/O actions and we're sequencing, or gluing, them into one.
@@ -1123,9 +1123,9 @@ Just by using `<$>` and `<*>` we can use normal functions to uniformly operate o
 
 ![why so serious?](assets/images/functors-applicative-functors-and-monoids/maoi.png){.left width=107 height=202}
 
-So far, we've learned how to make our own algebraic data types by using the **data** keyword.
-We've also learned how to give existing types synonyms with the **type** keyword.
-In this section, we'll be taking a look at how to make new types out of existing data types by using the **newtype** keyword and why we'd want to do that in the first place.
+So far, we've learned how to make our own algebraic data types by using the `data` keyword.
+We've also learned how to give existing types synonyms with the `type` keyword.
+In this section, we'll be taking a look at how to make new types out of existing data types by using the `newtype` keyword and why we'd want to do that in the first place.
 
 In the previous section, we saw that there are actually more ways for the list type to be an applicative functor.
 One way is to have `<*>` take every function out of the list that is its left parameter and apply it to every value in the list that is on the right, resulting in every possible combination of applying a function from the left list to a value in the right list.
@@ -1147,7 +1147,7 @@ ghci> getZipList $ ZipList [(+1),(*100),(*5)] <*> ZipList [1,2,3]
 [2,200,15]
 ```
 
-So, what does this have to do with this *newtype* keyword?
+So, what does this have to do with this `newtype` keyword?
 Well, think about how we might write the data declaration for our `ZipList a` type.
 One way would be to do it like so:
 
@@ -1163,25 +1163,25 @@ data ZipList a = ZipList { getZipList :: [a] }
 ```
 
 This looks fine and would actually work pretty well.
-We had two ways of making an existing type an instance of a type class, so we used the *data* keyword to just wrap that type into another type and made the other type an instance in the second way.
+We had two ways of making an existing type an instance of a type class, so we used the `data` keyword to just wrap that type into another type and made the other type an instance in the second way.
 
-The *newtype* keyword in Haskell is made exactly for these cases when we want to just take one type and wrap it in something to present it as another type.
+The `newtype` keyword in Haskell is made exactly for these cases when we want to just take one type and wrap it in something to present it as another type.
 In the actual libraries, `ZipList a` is defined like this:
 
 ```{.haskell:hs}
 newtype ZipList a = ZipList { getZipList :: [a] }
 ```
 
-Instead of the *data* keyword, the *newtype* keyword is used.
+Instead of the `data` keyword, the `newtype` keyword is used.
 Now why is that?
-Well for one, *newtype* is faster.
-If you use the *data* keyword to wrap a type, there's some overhead to all that wrapping and unwrapping when your program is running.
-But if you use *newtype*, Haskell knows that you're just using it to wrap an existing type into a new type (hence the name), because you want it to be the same internally but have a different type.
+Well for one, `newtype` is faster.
+If you use the `data` keyword to wrap a type, there's some overhead to all that wrapping and unwrapping when your program is running.
+But if you use `newtype`, Haskell knows that you're just using it to wrap an existing type into a new type (hence the name), because you want it to be the same internally but have a different type.
 With that in mind, Haskell can get rid of the wrapping and unwrapping once it resolves which value is of what type.
 
-So why not just use *newtype* all the time instead of *data* then?
-Well, when you make a new type from an existing type by using the *newtype* keyword, you can only have one value constructor and that value constructor can only have one field.
-But with *data*, you can make data types that have several value constructors and each constructor can have zero or more fields:
+So why not just use `newtype` all the time instead of `data` then?
+Well, when you make a new type from an existing type by using the `newtype` keyword, you can only have one value constructor and that value constructor can only have one field.
+But with `data`, you can make data types that have several value constructors and each constructor can have zero or more fields:
 
 ```{.haskell:hs}
 data Profession = Fighter | Archer | Accountant
@@ -1191,12 +1191,12 @@ data Race = Human | Elf | Orc | Goblin
 data PlayerCharacter = PlayerCharacter Race Profession
 ```
 
-When using *newtype*, you're restricted to just one constructor with one field.
+When using `newtype`, you're restricted to just one constructor with one field.
 
-We can also use the *deriving* keyword with *newtype* just like we would with *data*.
+We can also use the `deriving` keyword with `newtype` just like we would with `data`.
 We can derive instances for `Eq`, `Ord`, `Enum`, `Bounded`, `Show` and `Read`.
 If we derive the instance for a type class, the type that we're wrapping has to be in that type class to begin with.
-It makes sense, because *newtype* just wraps an existing type.
+It makes sense, because `newtype` just wraps an existing type.
 So now if we do the following, we can print and equate values of our new type:
 
 ```{.haskell:hs}
@@ -1214,7 +1214,7 @@ ghci> CharList "benny" == CharList "oysters"
 False
 ```
 
-In this particular *newtype*, the value constructor has the following type:
+In this particular `newtype`, the value constructor has the following type:
 
 ```{.haskell:hs}
 CharList :: [Char] -> CharList
@@ -1222,7 +1222,7 @@ CharList :: [Char] -> CharList
 
 It takes a `[Char]` value, such as `"my sharona"` and returns a `CharList` value.
 From the above examples where we used the `CharList` value constructor, we see that really is the case.
-Conversely, the `getCharList` function, which was generated for us because we used record syntax in our *newtype*, has this type:
+Conversely, the `getCharList` function, which was generated for us because we used record syntax in our `newtype`, has this type:
 
 ```{.haskell:hs}
 getCharList :: CharList -> [Char]
@@ -1262,7 +1262,7 @@ That way, doing `fmap (+3) (1,1)` would result in `(4,1)`.
 It turns out that writing the instance for that is kind of hard.
 With `Maybe`, we just say `instance Functor Maybe where` because only type constructors that take exactly one parameter can be made an instance of `Functor`.
 But it seems like there's no way to do something like that with `(a,b)` so that the type parameter `a` ends up being the one that changes when we use `fmap`.
-To get around this, we can *newtype* our tuple in such a way that the second type parameter represents the type of the first component in the tuple:
+To get around this, we can `newtype` our tuple in such a way that the second type parameter represents the type of the first component in the tuple:
 
 ```{.haskell:hs}
 newtype Pair b a = Pair { getPair :: (a,b) }
@@ -1275,7 +1275,7 @@ instance Functor (Pair c) where
     fmap f (Pair (x,y)) = Pair (f x, y)
 ```
 
-As you can see, we can pattern match on types defined with *newtype*.
+As you can see, we can pattern match on types defined with `newtype`.
 We pattern match to get the underlying tuple, then we apply the function `f` to the first component in the tuple and then we use the `Pair` value constructor to convert the tuple back to our `Pair b a`.
 If we imagine what the type `fmap` would be if it only worked on our new pairs, it would be:
 
@@ -1301,9 +1301,9 @@ ghci> getPair $ fmap reverse (Pair ("london calling", 3))
 
 ### On newtype laziness 
 
-We mentioned that *newtype* is usually faster than *data*.
-The only thing that can be done with *newtype* is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with *newtype* just like the original ones, only it has to keep in mind that their types are now distinct.
-This fact means that not only is *newtype* faster, it's also lazier.
+We mentioned that `newtype` is usually faster than `data`.
+The only thing that can be done with `newtype` is turning an existing type into a new type, so internally, Haskell can represent the values of types defined with `newtype` just like the original ones, only it has to keep in mind that their types are now distinct.
+This fact means that not only is `newtype` faster, it's also lazier.
 Let's take a look at what this means.
 
 Like we've said before, Haskell is lazy by default, which means that only when we try to actually print the results of our functions will any computation take place.
@@ -1329,7 +1329,7 @@ Now consider the following type:
 data CoolBool = CoolBool { getCoolBool :: Bool }
 ```
 
-It's your run-of-the-mill algebraic data type that was defined with the *data* keyword.
+It's your run-of-the-mill algebraic data type that was defined with the `data` keyword.
 It has one value constructor, which has one field whose type is `Bool`.
 Let's make a function that pattern matches on a `CoolBool` and returns the value `"hello"` regardless of whether the `Bool` inside the `CoolBool` was `True` or `False`:
 
@@ -1348,17 +1348,17 @@ ghci> helloMe undefined
 Yikes!
 An exception!
 Now why did this exception happen?
-Types defined with the *data* keyword can have multiple value constructors (even though `CoolBool` only has one).
+Types defined with the `data` keyword can have multiple value constructors (even though `CoolBool` only has one).
 So in order to see if the value given to our function conforms to the `(CoolBool _)` pattern, Haskell has to evaluate the value just enough to see which value constructor was used when we made the value.
 And when we try to evaluate an `undefined` value, even a little, an exception is thrown.
 
-Instead of using the *data* keyword for `CoolBool`, let's try using *newtype*:
+Instead of using the `data` keyword for `CoolBool`, let's try using `newtype`:
 
 ```{.haskell:hs}
 newtype CoolBool = CoolBool { getCoolBool :: Bool }
 ```
 
-We don't have to change our `helloMe` function, because the pattern matching syntax is the same if you use *newtype* or *data* to define your type.
+We don't have to change our `helloMe` function, because the pattern matching syntax is the same if you use `newtype` or `data` to define your type.
 Let's do the same thing here and apply `helloMe` to an `undefined` value:
 
 ```{.haskell:hs}
@@ -1370,19 +1370,19 @@ ghci> helloMe undefined
 
 It worked!
 Hmmm, why is that?
-Well, like we've said, when we use *newtype*, Haskell can internally represent the values of the new type in the same way as the original values.
+Well, like we've said, when we use `newtype`, Haskell can internally represent the values of the new type in the same way as the original values.
 It doesn't have to add another box around them, it just has to be aware of the values being of different types.
-And because Haskell knows that types made with the *newtype* keyword can only have one constructor, it doesn't have to evaluate the value passed to the function to make sure that it conforms to the `(CoolBool _)` pattern because *newtype* types can only have one possible value constructor and one field!
+And because Haskell knows that types made with the `newtype` keyword can only have one constructor, it doesn't have to evaluate the value passed to the function to make sure that it conforms to the `(CoolBool _)` pattern because `newtype` types can only have one possible value constructor and one field!
 
-This difference in behavior may seem trivial, but it's actually pretty important because it helps us realize that even though types defined with *data* and *newtype* behave similarly from the programmer's point of view because they both have value constructors and fields, they are actually two different mechanisms.
-Whereas *data* can be used to make your own types from scratch, *newtype* is for making a completely new type out of an existing type.
-Pattern matching on *newtype* values isn't like taking something out of a box (like it is with *data*), it's more about making a direct conversion from one type to another.
+This difference in behavior may seem trivial, but it's actually pretty important because it helps us realize that even though types defined with `data` and `newtype` behave similarly from the programmer's point of view because they both have value constructors and fields, they are actually two different mechanisms.
+Whereas `data` can be used to make your own types from scratch, `newtype` is for making a completely new type out of an existing type.
+Pattern matching on `newtype` values isn't like taking something out of a box (like it is with `data`), it's more about making a direct conversion from one type to another.
 
 ### `type` vs. `newtype` vs. `data` 
 
-At this point, you may be a bit confused about what exactly the difference between *type*, *data* and *newtype* is, so let's refresh our memory a bit.
+At this point, you may be a bit confused about what exactly the difference between `type`, `data` and `newtype` is, so let's refresh our memory a bit.
 
-The **type** keyword is for making type synonyms.
+The `type` keyword is for making type synonyms.
 What that means is that we just give another name to an already existing type so that the type is easier to refer to.
 Say we did the following:
 
@@ -1403,9 +1403,9 @@ ghci> ([1,2,3] :: IntList) ++ ([1,2,3] :: [Int])
 We use type synonyms when we want to make our type signatures more descriptive by giving types names that tell us something about their purpose in the context of the functions where they're being used.
 For instance, when we used an association list of type `[(String,String)]` to represent a phone book, we gave it the type synonym of `PhoneBook` so that the type signatures of our functions were easier to read.
 
-The **newtype** keyword is for taking existing types and wrapping them in new types, mostly so that it's easier to make them instances of certain type classes.
-When we use *newtype* to wrap an existing type, the type that we get is separate from the original type.
-If we make the following *newtype*:
+The `newtype` keyword is for taking existing types and wrapping them in new types, mostly so that it's easier to make them instances of certain type classes.
+When we use `newtype` to wrap an existing type, the type that we get is separate from the original type.
+If we make the following `newtype`:
 
 ```{.haskell:hs}
 newtype CharList = CharList { getCharList :: [Char] }
@@ -1415,19 +1415,19 @@ We can't use `++` to put together a `CharList` and a list of type `[Char]`.
 We can't even use `++` to put together two `CharList`s, because `++` works only on lists and the `CharList` type isn't a list, even though it could be said that it contains one.
 We can, however, convert two `CharList`s to lists, `++` them and then convert that back to a `CharList`.
 
-When we use record syntax in our *newtype* declarations, we get functions for converting between the new type and the original type: namely the value constructor of our *newtype* and the function for extracting the value in its field.
+When we use record syntax in our `newtype` declarations, we get functions for converting between the new type and the original type: namely the value constructor of our `newtype` and the function for extracting the value in its field.
 The new type also isn't automatically made an instance of the type classes that the original type belongs to, so we have to derive or manually write them.
 
-In practice, you can think of *newtype* declarations as *data* declarations that can only have one constructor and one field.
-If you catch yourself writing such a *data* declaration, consider using *newtype*.
+In practice, you can think of `newtype` declarations as `data` declarations that can only have one constructor and one field.
+If you catch yourself writing such a `data` declaration, consider using `newtype`.
 
-The **data** keyword is for making your own data types and with them, you can go hog wild.
+The `data` keyword is for making your own data types and with them, you can go hog wild.
 They can have as many constructors and fields as you wish and can be used to implement any algebraic data type by yourself.
 Everything from lists and `Maybe`-like types to trees.
 
 If you just want your type signatures to look cleaner and be more descriptive, you probably want type synonyms.
-If you want to take an existing type and wrap it in a new type in order to make it an instance of a type class, chances are you're looking for a *newtype*.
-And if you want to make something completely new, odds are good that you're looking for the *data* keyword.
+If you want to take an existing type and wrap it in a new type in order to make it an instance of a type class, chances are you're looking for a `newtype`.
+And if you want to make something completely new, odds are good that you're looking for the `data` keyword.
 
 ## Monoids {#monoids}
 
@@ -1621,7 +1621,7 @@ The monoid laws hold, because if you add 0 to any number, the result is that num
 And addition is also associative, so we get no problems there.
 So now that there are two equally valid ways for numbers to be monoids, which way do choose?
 Well, we don't have to.
-Remember, when there are several ways for some type to be an instance of the same type class, we can wrap that type in a *newtype* and then make the new type an instance of the type class in a different way.
+Remember, when there are several ways for some type to be an instance of the same type class, we can wrap that type in a `newtype` and then make the new type an instance of the type class in a different way.
 We can have our cake and eat it too.
 
 The `Data.Monoid` module exports two types for this, namely `Product` and `Sum`.
@@ -1632,7 +1632,7 @@ newtype Product a =  Product { getProduct :: a }
     deriving (Eq, Ord, Read, Show, Bounded)
 ```
 
-Simple, just a *newtype* wrapper with one type parameter along with some derived instances.
+Simple, just a `newtype` wrapper with one type parameter along with some derived instances.
 Its instance for `Monoid` goes a little something like this:
 
 ```{.haskell:hs}
@@ -1645,7 +1645,7 @@ instance Num a => Monoid (Product a) where
 `mappend` pattern matches on the `Product` constructor, multiplies the two numbers and then wraps the resulting number back.
 As you can see, there's a `Num a` class constraint.
 So this means that `Product a` is an instance of `Monoid` for all `a`'s that are already an instance of `Num`.
-To use `Product a` as a monoid, we have to do some *newtype* wrapping and unwrapping:
+To use `Product a` as a monoid, we have to do some `newtype` wrapping and unwrapping:
 
 ```{.haskell:hs}
 ghci> getProduct $ Product 3 `mappend` Product 9
@@ -1679,7 +1679,7 @@ Another type which can act like a monoid in two distinct but equally valid ways 
 The first way is to have the *or* function `||` act as the binary function along with `False` as the identity value.
 The way *or* works in logic is that if any of its two parameters is `True`, it returns `True`, otherwise it returns `False`.
 So if we use `False` as the identity value, it will return `False` when *or*-ed with `False` and `True` when *or*-ed with `True`.
-The `Any` *newtype* constructor is an instance of `Monoid` in this fashion.
+The `newtype` constructor `Any` is an instance of `Monoid` in this fashion.
 It's defined like this:
 
 ```{.haskell:hs}
@@ -1711,7 +1711,7 @@ False
 
 The other way for `Bool` to be an instance of `Monoid` is to kind of do the opposite: have `&&` be the binary function and then make `True` the identity value.
 Logical *and* will return `True` only if both of its parameters are `True`.
-This is the *newtype* declaration, nothing fancy:
+This is the `newtype` declaration, nothing fancy:
 
 ```{.haskell:hs}
 newtype All = All { getAll :: Bool }
@@ -1739,7 +1739,7 @@ ghci> getAll . mconcat . map All $ [True, True, False]
 False
 ```
 
-Just like with multiplication and addition, we usually explicitly state the binary functions instead of wrapping them in *newtype*s and then using `mappend` and `mempty`.
+Just like with multiplication and addition, we usually explicitly state the binary functions instead of wrapping them in `newtype`s and then using `mappend` and `mempty`.
 `mconcat` seems useful for `Any` and `All`, but usually it's easier to use the `or` and `and` functions, which take lists of `Bool`s and return `True` if any of them are `True` or if all of them are `True`, respectively.
 
 ### The `Ordering` monoid 
@@ -1904,7 +1904,7 @@ newtype First a = First { getFirst :: Maybe a }
     deriving (Eq, Ord, Read, Show)
 ```
 
-We take a `Maybe a` and we wrap it with a *newtype*.
+We take a `Maybe a` and we wrap it with a `newtype`.
 The `Monoid` instance is as follows:
 
 ```{.haskell:hs}
@@ -1915,7 +1915,7 @@ instance Monoid (First a) where
 ```
 
 Just like we said.
-`mempty` is just a `Nothing` wrapped with the `First` *newtype* constructor.
+`mempty` is just a `Nothing` wrapped with the `newtype` constructor `First`.
 If `mappend`'s first parameter is a `Just` value, we ignore the second one.
 If the first one is a `Nothing`, then we present the second parameter as a result, regardless of whether it's a `Just` or a `Nothing`:
 
