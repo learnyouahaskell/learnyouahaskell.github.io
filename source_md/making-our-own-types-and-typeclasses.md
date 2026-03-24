@@ -11,7 +11,7 @@ In this chapter, we'll learn how to make our own and how to put them to work!
 So far, we've run into a lot of data types.
 `Bool`, `Int`, `Char`, `Maybe`, etc.
 But how do we make our own?
-Well, one way is to use the **data** keyword to define a type.
+Well, one way is to use the `data` keyword to define a type.
 Let's see how the `Bool` type is defined in the standard library.
 
 ```{.haskell:hs}
@@ -105,7 +105,7 @@ data Shape = Circle Float Float Float | Rectangle Float Float Float Float derivi
 ```
 
 We won't concern ourselves with deriving too much for now.
-Let's just say that if we add `deriving (Show)` at the end of a *data* declaration, Haskell automagically makes that type part of the `Show` typeclass.
+Let's just say that if we add `deriving (Show)` at the end of a `data` declaration, Haskell automagically makes that type part of the `Show` typeclass.
 So now, we can do this:
 
 ```{.haskell:hs}
@@ -477,7 +477,7 @@ Another example of a parameterized type that we've already met is `Map k v` from
 The `k` is the type of the keys in a map and the `v` is the type of the values.
 This is a good example of where type parameters are very useful.
 Having maps parameterized enables us to have mappings from any type to any other type, as long as the type of the key is part of the `Ord` typeclass.
-If we were defining a mapping type, we could add a typeclass constraint in the *data* declaration:
+If we were defining a mapping type, we could add a typeclass constraint in the `data` declaration:
 
 ```{.haskell:hs}
 data (Ord k) => Map k v = ...
@@ -486,13 +486,13 @@ data (Ord k) => Map k v = ...
 However, it's a very strong convention in Haskell to **never add typeclass constraints in data declarations.**
 Why?
 Well, because we don't benefit a lot, but we end up writing more class constraints, even when we don't need them.
-If we put or don't put the `Ord k` constraint in the *data* declaration for `Map k v`, we're going to have to put the constraint into functions that assume the keys in a map can be ordered.
+If we put or don't put the `Ord k` constraint in the `data` declaration for `Map k v`, we're going to have to put the constraint into functions that assume the keys in a map can be ordered.
 But if we don't put the constraint in the data declaration, we don't have to put `(Ord k) =>` in the type declarations of functions that don't care whether the keys can be ordered or not.
 An example of such a function is `toList`, that just takes a mapping and converts it to an associative list.
 Its type signature is `toList :: Map k a -> [(k, a)]`.
-If `Map k v` had a type constraint in its *data* declaration, the type for `toList` would have to be `toList :: (Ord k) => Map k a -> [(k, a)]`, even though the function doesn't do any comparing of keys by order.
+If `Map k v` had a type constraint in its `data` declaration, the type for `toList` would have to be `toList :: (Ord k) => Map k a -> [(k, a)]`, even though the function doesn't do any comparing of keys by order.
 
-So don't put type constraints into *data* declarations even if it seems to make sense, because you'll have to put them into the function type declarations either way.
+So don't put type constraints into `data` declarations even if it seems to make sense, because you'll have to put them into the function type declarations either way.
 
 Let's implement a 3D vector type and add some operations for it.
 We'll be using a parameterized type because even though it will usually contain numeric types, it will still support several of them.
@@ -515,7 +515,7 @@ Two vectors are added just by adding their corresponding components.
 `scalarMult` is for the scalar product of two vectors and `vectMult` is for multiplying a vector with a scalar.
 These functions can operate on types of `Vector Int`, `Vector Integer`, `Vector Float`, whatever, as long as the `a` from `Vector a` is from the `Num` typeclass.
 Also, if you examine the type declaration for these functions, you'll see that they can operate only on vectors of the same type and the numbers involved must also be of the type that is contained in the vectors.
-Notice that we didn't put a `Num` class constraint in the *data* declaration, because we'd have to repeat it in the functions anyway.
+Notice that we didn't put a `Num` class constraint in the `data` declaration, because we'd have to repeat it in the functions anyway.
 
 Once again, it's very important to distinguish between the type constructor and the value constructor.
 When declaring a data type, the part before the `=` is the type constructor and the constructors after it (possibly separated by `|`'s) are value constructors.
@@ -558,7 +558,7 @@ If it can act like something that can be ordered, we make it an instance of the 
 
 In the next section, we'll take a look at how we can manually make our types instances of typeclasses by implementing the functions defined by the typeclasses.
 But right now, let's see how Haskell can automatically make our type an instance of any of the following typeclasses: `Eq`, `Ord`, `Enum`, `Bounded`, `Show`, `Read`.
-Haskell can derive the behavior of our types in these contexts if we use the *deriving* keyword when making our data type.
+Haskell can derive the behavior of our types in these contexts if we use the `deriving` keyword when making our data type.
 
 Consider this data type:
 
@@ -770,8 +770,8 @@ type String = [Char]
 
 ![chicken](assets/images/making-our-own-types-and-typeclasses/chicken.png){.left width=169 height=225}
 
-We've introduced the *type* keyword.
-The keyword might be misleading to some, because we're not actually making anything new (we did that with the *data* keyword), but we're just making a synonym for an already existing type.
+We've introduced the `type` keyword.
+The keyword might be misleading to some, because we're not actually making anything new (we did that with the `data` keyword), but we're just making a synonym for an already existing type.
 
 If we make a function that converts a string to uppercase and call it `toUpperString` or something, we can give it a type declaration of `toUpperString :: [Char] -> [Char]` or `toUpperString :: String -> String`.
 Both of these are essentially the same, only the latter is nicer to read.
@@ -870,7 +870,7 @@ Just because we made a type synonym called `IntMap` or `AssocList` doesn't mean 
 All it means is that we can refer to its type by using different names.
 We can do `[(1,2),(3,5),(8,9)] :: AssocList Int Int`, which will make the numbers inside assume a type of `Int`, but we can still use that list as we would any normal list that has pairs of integers inside.
 Type synonyms (and types generally) can only be used in the type portion of Haskell.
-We're in Haskell's type portion whenever we're defining new types (so in *data* and *type* declarations) or when we're located after a `::`.
+We're in Haskell's type portion whenever we're defining new types (so in `data` and `type` declarations) or when we're located after a `::`.
 The `::` is in type declarations or in type annotations.
 
 Another cool data type that takes two types as its parameters is the `Either a b` type.
@@ -1284,13 +1284,13 @@ instance Eq TrafficLight where
     _ == _ = False
 ```
 
-We did it by using the *instance* keyword.
-So *class* is for defining new typeclasses and *instance* is for making our types instances of typeclasses.
+We did it by using the `instance` keyword.
+So `class` is for defining new typeclasses and `instance` is for making our types instances of typeclasses.
 When we were defining `Eq`, we wrote `class Eq a where` and we said that `a` plays the role of whichever type will be made an instance later on.
 We can see that clearly here, because when we're making an instance, we write `instance Eq TrafficLight where`.
 We replace the `a` with the actual type.
 
-Because `==` was defined in terms of `/=` and vice versa in the *class* declaration, we only had to overwrite one of them in the instance declaration.
+Because `==` was defined in terms of `/=` and vice versa in the `class` declaration, we only had to overwrite one of them in the instance declaration.
 That's called the minimal complete definition for the typeclass --- the minimum of functions that we have to implement so that our type can behave like the class advertises.
 To fulfill the minimal complete definition for `Eq`, we have to overwrite either one of `==` or `/=`.
 If `Eq` was defined simply like this:
@@ -1337,7 +1337,7 @@ However, deriving `Show` would have just directly translated the value construct
 But if we want lights to appear like `"Red light"`, then we have to make the instance declaration by hand.
 
 You can also make typeclasses that are subclasses of other typeclasses.
-The *class* declaration for `Num` is a bit long, but here's the first part:
+The `class` declaration for `Num` is a bit long, but here's the first part:
 
 ```{.haskell:hs}
 class (Eq a) => Num a where
@@ -1348,8 +1348,8 @@ As we mentioned previously, there are a lot of places where we can cram in class
 So this is just like writing `class Num a where`, only we state that our type `a` must be an instance of `Eq`.
 We're essentially saying that we have to make a type an instance of `Eq` before we can make it an instance of `Num`.
 Before some type can be considered a number, it makes sense that we can determine whether values of that type can be equated or not.
-That's all there is to subclassing really, it's just a class constraint on a *class* declaration!
-When defining function bodies in the *class* declaration or when defining them in *instance* declarations, we can assume that `a` is a part of `Eq` and so we can use `==` on values of that type.
+That's all there is to subclassing really, it's just a class constraint on a `class` declaration!
+When defining function bodies in the `class` declaration or when defining them in `instance` declarations, we can assume that `a` is a part of `Eq` and so we can use `==` on values of that type.
 
 But how are the `Maybe` or list types made as instances of typeclasses?
 What makes `Maybe` different from, say, `TrafficLight` is that `Maybe` in itself isn't a concrete type, it's a type constructor that takes one type parameter (like `Char` or something) to produce a concrete type (like `Maybe Char`).
@@ -1392,7 +1392,7 @@ By specifying a type parameter (`m`, which is in lowercase), we said that we wan
 There's one problem with this though.
 Can you spot it?
 We use `==` on the contents of the `Maybe` but we have no assurance that what the `Maybe` contains can be used with `Eq`!
-That's why we have to modify our *instance* declaration like this:
+That's why we have to modify our `instance` declaration like this:
 
 ```{.haskell:hs}
 instance (Eq m) => Eq (Maybe m) where
@@ -1402,16 +1402,16 @@ instance (Eq m) => Eq (Maybe m) where
 ```
 
 We had to add a class constraint!
-With this *instance* declaration, we say this: we want all types of the form `Maybe m` to be part of the `Eq` typeclass, but only those types where the `m` (so what's contained inside the `Maybe`) is also a part of `Eq`.
+With this `instance` declaration, we say this: we want all types of the form `Maybe m` to be part of the `Eq` typeclass, but only those types where the `m` (so what's contained inside the `Maybe`) is also a part of `Eq`.
 This is actually how Haskell would derive the instance too.
 
-Most of the times, class constraints in *class* declarations are used for making a typeclass a subclass of another typeclass and class constraints in *instance* declarations are used to express requirements about the contents of some type.
+Most of the times, class constraints in `class` declarations are used for making a typeclass a subclass of another typeclass and class constraints in `instance` declarations are used to express requirements about the contents of some type.
 For instance, here we required the contents of the `Maybe` to also be part of the `Eq` typeclass.
 
 When making instances, if you see that a type is used as a concrete type in the type declarations (like the `a` in `a -> a -> Bool`), you have to supply type parameters and add parentheses so that you end up with a concrete type.
 
 ::: {.hintbox}
-Take into account that the type you're trying to make an instance of will replace the parameter in the *class* declaration.
+Take into account that the type you're trying to make an instance of will replace the parameter in the `class` declaration.
 The `a` from `class Eq a where` will be replaced with a real type when you make an instance, so try mentally putting your type into the function type declarations as well.
 `(==) :: Maybe -> Maybe -> Bool` doesn't make much sense but `(==) :: (Eq m) => Maybe m -> Maybe m -> Bool` does.
 But this is just something to think about, because `==` will always have a type of `(==) :: (Eq a) => a -> a -> Bool`, no matter what instances we make.
@@ -1435,7 +1435,7 @@ If you do `if ("WHAT") alert ("YEAH") else alert("NO!")`, it will alert a `"YEAH
 
 Even though strictly using `Bool` for boolean semantics works better in Haskell, let's try and implement that JavaScript-ish behavior anyway.
 For fun!
-Let's start out with a *class* declaration.
+Let's start out with a `class` declaration.
 
 ```{.haskell:hs}
 class YesNo a where

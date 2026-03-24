@@ -94,7 +94,7 @@ Well, this is where `main` comes in.
 An I/O action will be performed when we give it a name of `main` and then run our program.
 
 Having your whole program be just one I/O action seems kind of limiting.
-That's why we can use *do* syntax to glue together several I/O actions into one.
+That's why we can use `do` syntax to glue together several I/O actions into one.
 Take a look at the following example:
 
 ```{.haskell:hs}
@@ -107,9 +107,9 @@ main = do
 Ah, interesting, new syntax!
 And this reads pretty much like an imperative program.
 If you compile it and try it out, it will probably behave just like you expect it to.
-Notice that we said *do* and then we laid out a series of steps, like we would in an imperative program.
+Notice that we said `do` and then we laid out a series of steps, like we would in an imperative program.
 Each of these steps is an I/O action.
-By putting them together with *do* syntax, we glued them into one I/O action.
+By putting them together with `do` syntax, we glued them into one I/O action.
 The action that we got has a type of `IO ()`, because that's the type of the last I/O action inside.
 
 Because of that, `main` always has a type signature of <code>main :: IO *something*</code>, where <code>*something*</code> is some concrete type.
@@ -185,11 +185,11 @@ main = do
 
 However, `foo` would just have a value of `()`, so doing that would be kind of moot.
 Notice that we didn't bind the last `putStrLn` to anything.
-That's because in a *do* block, **the last action cannot be bound to a name** like the first two were.
+That's because in a `do` block, **the last action cannot be bound to a name** like the first two were.
 We'll see exactly why that is so a bit later when we venture off into the world of monads.
-For now, you can think of it in the way that the *do* block automatically extracts the value from the last action and binds it to its own result.
+For now, you can think of it in the way that the `do` block automatically extracts the value from the last action and binds it to its own result.
 
-Except for the last line, every line in a *do* block that doesn't bind can also be written with a bind.
+Except for the last line, every line in a `do` block that doesn't bind can also be written with a bind.
 So `putStrLn "BLAH"` can be written as `_ <- putStrLn "BLAH"`.
 But that's useless, so we leave out the `<-` for I/O actions that don't contain an important result, like <code>putStrLn *something*</code>.
 
@@ -203,8 +203,8 @@ will read from the input and then bind the value of that to `name`.
 Well, it won't, all this does is give the `getLine` I/O action a different name called, well, `name`.
 Remember, to get the value out of an I/O action, you have to perform it inside another I/O action by binding it to a name with `<-`.
 
-I/O actions will only be performed when they are given a name of `main` or when they're inside a bigger I/O action that we composed with a *do* block.
-We can also use a *do* block to glue together a few I/O actions and then we can use that I/O action in another *do* block and so on.
+I/O actions will only be performed when they are given a name of `main` or when they're inside a bigger I/O action that we composed with a `do` block.
+We can also use a `do` block to glue together a few I/O actions and then we can use that I/O action in another `do` block and so on.
 Either way, they'll be performed only if they eventually fall into `main`.
 
 Oh, right, there's also one more case when I/O actions will be performed.
@@ -217,11 +217,11 @@ HEEY
 
 Even when we just punch out a number or call a function in GHCi and press return, it will evaluate it (as much as it needs) and then call `show` on it and then it will print that string to the terminal using `putStrLn` implicitly.
 
-Remember *let* bindings?
+Remember `let` bindings?
 If you don't, refresh your memory on them by reading [this section](syntax-in-functions.html#let-it-be).
 They have to be in the form of <code>let *bindings* in *expression*</code>, where <code>*bindings*</code> are names to be given to expressions and <code>*expression*</code> is the expression that is to be evaluated that sees them.
-We also said that in list comprehensions, the *in* part isn't needed.
-Well, you can use them in *do* blocks pretty much like you use them in list comprehensions.
+We also said that in list comprehensions, the `in` part isn't needed.
+Well, you can use them in `do` blocks pretty much like you use them in list comprehensions.
 Check this out:
 
 ```{.haskell:hs}
@@ -237,17 +237,17 @@ main = do
     putStrLn $ "hey " ++ bigFirstName ++ " " ++ bigLastName ++ ", how are you?"
 ```
 
-See how the I/O actions in the *do* block are lined up?
-Also notice how the *let* is lined up with the I/O actions and the names of the *let* are lined up with each other?
+See how the I/O actions in the `do` block are lined up?
+Also notice how the `let` is lined up with the I/O actions and the names of the `let` are lined up with each other?
 That's good practice, because indentation is important in Haskell.
 Now, we did `map toUpper firstName`, which turns something like `"John"` into a much cooler string like `"JOHN"`.
 We bound that uppercased string to a name and then used it in a string later on that we printed to the terminal.
 
-You may be wondering when to use `<-` and when to use *let* bindings?
+You may be wondering when to use `<-` and when to use `let` bindings?
 Well, remember, `<-` is (for now) for performing I/O actions and binding their results to names.
 `map toUpper firstName`, however, isn't an I/O action.
 It's a pure expression in Haskell.
-So use `<-` when you want to bind results of I/O actions to names and you can use *let* bindings to bind pure expressions to names.
+So use `<-` when you want to bind results of I/O actions to names and you can use `let` bindings to bind pure expressions to names.
 Had we done something like `let firstName = getLine`, we would have just called the `getLine` I/O action a different name and we'd still have to run it through a `<-` to perform it.
 
 Now we're going to make a program that continuously reads a line and prints out the same line with the words reversed.
@@ -282,12 +282,12 @@ Without function composition, we'd have to write something like `reverseWords st
 What about `main`?
 First, we get a line from the terminal by performing `getLine` call that line `line`.
 And now, we have a conditional expression.
-Remember that in Haskell, every *if* must have a corresponding *else* because every expression has to have some sort of value.
-We make the *if* so that when a condition is true (in our case, the line that we entered is blank), we perform one I/O action and when it isn't, the I/O action under the *else* is performed.
-That's why in an I/O *do* block, *if*s have to have a form of <code>if *condition* then *I/O action* else *I/O action*.</code>
+Remember that in Haskell, every `if` must have a corresponding `else` because every expression has to have some sort of value.
+We make the `if` so that when a condition is true (in our case, the line that we entered is blank), we perform one I/O action and when it isn't, the I/O action under the `else` is performed.
+That's why in an I/O `do` block, `if`s have to have a form of <code>if *condition* then *I/O action* else *I/O action*.</code>
 
-Let's first take a look at what happens under the *else* clause.
-Because, we have to have exactly one I/O action after the *else*, we use a *do* block to glue together two I/O actions into one.
+Let's first take a look at what happens under the `else` clause.
+Because, we have to have exactly one I/O action after the `else`, we use a `do` block to glue together two I/O actions into one.
 You could also write that part out as:
 
 ```{.haskell:hs}
@@ -296,14 +296,14 @@ else (do
     main)
 ```
 
-This makes it more explicit that the *do* block can be viewed as one I/O action, but it's uglier.
-Anyway, inside the *do* block, we call `reverseWords` on the line that we got from `getLine` and then print that out to the terminal.
+This makes it more explicit that the `do` block can be viewed as one I/O action, but it's uglier.
+Anyway, inside the `do` block, we call `reverseWords` on the line that we got from `getLine` and then print that out to the terminal.
 After that, we just perform `main`.
 It's called recursively and that's okay, because `main` is itself an I/O action.
 So in a sense, we go back to the start of the program.
 
 Now what happens when `null line` holds true?
-What's after the *then* is performed in that case.
+What's after the `then` is performed in that case.
 If we look up, we'll see that it says `then return ()`.
 If you've done imperative languages like C, Java or Python, you're probably thinking that you know what this `return` does and chances are you've already skipped this really long paragraph.
 Well, here's the thing: **the `return` in Haskell is really nothing like the `return` in most other languages!**
@@ -318,7 +318,7 @@ Why taint our program with `IO` more than it has to be?
 Well, we needed some I/O action to carry out in the case of an empty input line.
 That's why we just made a bogus I/O action that doesn't do anything by writing `return ()`.
 
-Using `return` doesn't cause the I/O *do* block to end in execution or anything like that.
+Using `return` doesn't cause the I/O `do` block to end in execution or anything like that.
 For instance, this program will quite happily carry out all the way to the last line:
 
 ```{.haskell:hs}
@@ -343,7 +343,7 @@ main = do
 
 So you see, `return` is sort of the opposite to `<-`.
 While `return` takes a value and wraps it up in a box, `<-` takes a box (and performs it) and takes the value out of it, binding it to a name.
-But doing this is kind of redundant, especially since you can use *let* bindings in *do* blocks to bind to names, like so:
+But doing this is kind of redundant, especially since you can use `let` bindings in `do` blocks to bind to names, like so:
 
 ```{.haskell:hs}
 main = do
@@ -352,12 +352,12 @@ main = do
     putStrLn $ a ++ " " ++ b
 ```
 
-When dealing with I/O *do* blocks, we mostly use `return` either because we need to create an I/O action that doesn't do anything or because we don't want the I/O action that's made up from a *do* block to have the result value of its last action, but we want it to have a different result value, so we use `return` to make an I/O action that always has our desired result contained and we put it at the end.
+When dealing with I/O `do` blocks, we mostly use `return` either because we need to create an I/O action that doesn't do anything or because we don't want the I/O action that's made up from a `do` block to have the result value of its last action, but we want it to have a different result value, so we use `return` to make an I/O action that always has our desired result contained and we put it at the end.
 
 ::: {.hintbox}
-A *do* block can also have just one I/O action.
+A `do` block can also have just one I/O action.
 In that case, it's the same as just writing the I/O action.
-Some people would prefer writing `then do return ()` in this case because the *else* also has a *do*.
+Some people would prefer writing `then do return ()` in this case because the `else` also has a `do`.
 :::
 
 Before we move on to files, let's take a look at some functions that are useful when dealing with I/O.
@@ -477,7 +477,7 @@ But once we press return, it acts on what we've been putting in so far.
 Try playing with this program to get a feel for it!
 
 The `when`{.label .function} function is found in `Control.Monad` (to get access to it, do `import Control.Monad`).
-It's interesting because in a *do* block it looks like a control flow statement, but it's actually a normal function.
+It's interesting because in a `do` block it looks like a control flow statement, but it's actually a normal function.
 It takes a boolean value and an I/O action if that boolean value is `True`, it returns the same I/O action that we supplied to it.
 However, if it's `False`, it returns the `return ()`, action, so an I/O action that doesn't do anything.
 Here's how we could rewrite the previous piece of code with which we demonstrated `getChar` by using `when`:
@@ -572,7 +572,7 @@ main = forever $ do
 `forM`{.label .function} (located in `Control.Monad`) is like `mapM`, only that it has its parameters switched around.
 The first parameter is the list and the second one is the function to map over that list, which is then sequenced.
 Why is that useful?
-Well, with some creative use of lambdas and *do* notation, we can do stuff like this:
+Well, with some creative use of lambdas and `do` notation, we can do stuff like this:
 
 ```{.haskell:hs}
 import Control.Monad
@@ -588,8 +588,8 @@ main = do
 
 The `(\a -> do ... )` is a function that takes a number and returns an I/O action.
 We have to surround it with parentheses, otherwise the lambda thinks the last two I/O actions belong to it.
-Notice that we do `return color` in the inside *do* block.
-We do that so that the I/O action which the *do* block defines has the result of our color contained within it.
+Notice that we do `return color` in the inside `do` block.
+We do that so that the I/O action which the `do` block defines has the result of our color contained within it.
 We actually didn't have to do that, because `getLine` already has that contained within it.
 Doing `color <- getLine` and then `return color` is just unpacking the result from `getLine` and then repackaging it again, so it's the same as just doing `getLine`.
 The `forM` (called with its two parameters) produces an I/O action, whose result we bind to `colors`.
@@ -619,7 +619,7 @@ orange
 ```
 
 We could have actually done that without `forM`, only with `forM` it's more readable.
-Normally we write `forM` when we want to map and sequence some actions that we define there on the spot using *do* notation.
+Normally we write `forM` when we want to map and sequence some actions that we define there on the spot using `do` notation.
 In the same vein, we could have replaced the last line with `forM colors putStrLn`.
 
 In this section, we learned the basics of input and output.
@@ -938,8 +938,8 @@ In the second line, Avril tells us that she doesn't like our current romantic pa
 The third line serves to emphasize that disapproval, whereas the fourth line suggests we should seek out a new girlfriend.
 
 Let's also go over the program line by line!
-Our program is several I/O actions glued together with a *do* block.
-In the first line of the *do* block, we notice a new function called `openFile`{.label .function}.
+Our program is several I/O actions glued together with a `do` block.
+In the first line of the `do` block, we notice a new function called `openFile`{.label .function}.
 This is its type signature: `openFile :: FilePath -> IOMode -> IO Handle`.
 If you read that out loud, it states: `openFile` takes a file path and an `IOMode` and returns an I/O action that will open a file and have the file's associated handle encapsulated as its result.
 
@@ -1018,7 +1018,7 @@ withFile' path mode f = do
 
 ![butter toast](assets/images/input-and-output/edd.png){.right width=246 height=360}
 
-We know the result will be an I/O action so we can just start off with a *do*.
+We know the result will be an I/O action so we can just start off with a `do`.
 First we open the file and get a handle from it.
 Then, we apply `handle` to our function to get back the I/O action that does all the work.
 We bind that action to `result`, close the handle and then do `return result`.
@@ -1361,7 +1361,7 @@ What happens if our command isn't in the dispatch list?
 Well then the lookup will return `Nothing`, but we said we won't concern ourselves with failing gracefully too much, so the pattern matching will fail and our program will throw a fit.
 
 Finally, we call our `action` function with the rest of the argument list.
-That will return an I/O action that either adds an item, displays a list of items or deletes an item and because that action is part of the `main` *do* block, it will get performed.
+That will return an I/O action that either adds an item, displays a list of items or deletes an item and because that action is part of the `main` `do` block, it will get performed.
 If we follow our concrete example so far and our `action` function is `add`, it will get called with `args` (so `["todo.txt", "Spank the monkey"]`) and return an I/O action that adds `Spank the monkey` to *todo.txt*.
 
 Great!
@@ -1819,7 +1819,7 @@ We perform `getLine` and bind its result to `numberString`.
 When the user enters `7`, `numberString` becomes `"7"`.
 Next, we use `when` to check if the string the user entered is an empty string.
 If it is, an empty I/O action of `return ()` is performed, which effectively ends the program.
-If it isn't, the action consisting of that *do* block right there gets performed.
+If it isn't, the action consisting of that `do` block right there gets performed.
 We use `read` on `numberString` to convert it to a number, so `number` is now `7`.
 
 ::: {.hintbox}
@@ -2070,7 +2070,7 @@ ghci> head []
 
 ![Stop right there, criminal scum! Nobody breaks the law on my watch! Now pay your fine or it's off to jail.](assets/images/input-and-output/police.png){width=241 height=328 .left}
 
-Pure code can throw exceptions, but they can only be caught in the I/O part of our code (when we're inside a *do* block that goes into `main`).
+Pure code can throw exceptions, but they can only be caught in the I/O part of our code (when we're inside a `do` block that goes into `main`).
 That's because you don't know when (or if) anything will be evaluated in pure code, because it is lazy and doesn't have a well-defined order of execution, whereas I/O code does.
 
 Earlier, we talked about how we should spend as little time as possible in the I/O part of our program.
@@ -2131,7 +2131,7 @@ main = do (fileName:_) <- getArgs
 ```
 
 We did `fileExists <- doesFileExist fileName` because `doesFileExist` has a type of `doesFileExist :: FilePath -> IO Bool`, which means that it returns an I/O action that has as its result a boolean value which tells us if the file exists.
-We can't just use `doesFileExist` in an *if* expression directly.
+We can't just use `doesFileExist` in an `if` expression directly.
 
 Another solution here would be to use exceptions.
 It's perfectly acceptable to use them in this context.
@@ -2227,7 +2227,7 @@ If it's not caused by a file not existing, we re-throw the exception that was pa
 It has a type of `ioError :: IOException -> IO a`, so it takes an `IOError` and produces an I/O action that will throw it.
 The I/O action has a type of `IO a`, because it never actually yields a result, so it can act as <code>IO *anything*</code>.
 
-So if the exception thrown in the `toTry` I/O action that we glued together with a *do* block isn't caused by a file not existing, ``toTry `catch` handler`` will catch that and then re-throw it.
+So if the exception thrown in the `toTry` I/O action that we glued together with a `do` block isn't caused by a file not existing, ``toTry `catch` handler`` will catch that and then re-throw it.
 Pretty cool, huh?
 
 There are several predicates that act on `IOError` and if a guard doesn't evaluate to `True`, evaluation falls through to the next guard.
@@ -2290,8 +2290,8 @@ handler e
     | otherwise = ioError e
 ```
 
-In the guard where `isDoesNotExistError` is `True`, we used a *case* expression to call `ioeGetFileName` with `e` and then pattern match against the `Maybe` value that it returned.
-Using *case* expressions is commonly used when you want to pattern match against something without bringing in a new function.
+In the guard where `isDoesNotExistError` is `True`, we used a `case` expression to call `ioeGetFileName` with `e` and then pattern match against the `Maybe` value that it returned.
+Using `case` expressions is commonly used when you want to pattern match against something without bringing in a new function.
 
 You don't have to use one handler to `catch` exceptions in your whole I/O part.
 You can just cover certain parts of your I/O code with `catch` or you can cover several of them with `catch` and use different handlers for them, like so:
@@ -2304,7 +2304,7 @@ main = do toTry `catch` handler1
 
 Here, `toTry` uses `handler1` as the handler and `thenTryThis` uses `handler2`.
 `launchRockets` isn't a parameter to `catch`, so whichever exceptions it might throw will likely crash our program, unless `launchRockets` uses `catch` internally to handle its own exceptions.
-Of course `toTry`, `thenTryThis` and `launchRockets` are I/O actions that have been glued together using *do* syntax and hypothetically defined somewhere else.
+Of course `toTry`, `thenTryThis` and `launchRockets` are I/O actions that have been glued together using `do` syntax and hypothetically defined somewhere else.
 This is kind of similar to *try-catch* blocks of other languages, where you can surround your whole program in a single *try-catch* or you can use a more fine-grained approach and use different ones in different parts of your code to control what kind of error handling happens where.
 
 Now you know how to deal with I/O exceptions!
