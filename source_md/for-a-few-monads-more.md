@@ -1175,6 +1175,7 @@ Finally, we introduced monads as improved applicative functors, which added the 
 
 So every monad is an applicative functor and every applicative functor is a functor.
 The `Applicative` type class has a class constraint such that our type has to be an instance of `Functor` before we can make it an instance of `Applicative`.
+Likewise, the `Monad` class enforces an `Applicative` constraint, ensuring every monad is strictly built upon an applicative functor.
 
 But even though every monad is a functor, we don't have to rely on it having a `Functor` instance because of the `liftM` function.
 `liftM` takes a function and a monadic value and maps it over the monadic value.
