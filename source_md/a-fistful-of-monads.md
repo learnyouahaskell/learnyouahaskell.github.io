@@ -208,7 +208,7 @@ Wow, who would have thought?
 This is what the type class looks like:
 
 ```{.haskell:hs}
-class Monad m where
+class Applicative m => Monad m where
     return :: a -> m a
 
     (>>=) :: m a -> (a -> m b) -> m b
@@ -221,13 +221,6 @@ class Monad m where
 ```
 
 ![this is you on monads](assets/images/a-fistful-of-monads/kid.png){.right width=363 height=451}
-
-Let's start with the first line.
-It says `class Monad m where`.
-But wait, didn't we say that monads are just beefed up applicative functors?
-Shouldn't there be a class constraint in there along the lines of `class (Applicative m) => Monad m where` so that a type has to be an applicative functor first before it can be made a monad?
-Well, there should, but when Haskell was made, it hadn't occurred to people that applicative functors are a good fit for Haskell so they weren't in there.
-But rest assured, every monad is an applicative functor, even if the `Monad` class declaration doesn't say so.
 
 The first function that the `Monad` type class defines is `return`.
 It's the same as `pure`, only with a different name.
