@@ -1084,7 +1084,7 @@ Left "out of cheese error" :: Either [Char] b
 
 This is pretty much just an enhanced `Maybe`, so it makes sense for it to be a monad, because it can also be viewed as a value with an added context of possible failure, only now there's a value attached when there's an error as well.
 
-Its `Monad` instance is similar to that of `Maybe` and it can be found in `Data.Either`:
+Its `Monad` instance is similar to that of `Maybe`:
 
 ```{.haskell:hs}
 instance Monad (Either e) where
