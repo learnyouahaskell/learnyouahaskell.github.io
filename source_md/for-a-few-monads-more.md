@@ -1084,7 +1084,7 @@ Left "out of cheese error" :: Either [Char] b
 
 This is pretty much just an enhanced `Maybe`, so it makes sense for it to be a monad, because it can also be viewed as a value with an added context of possible failure, only now there's a value attached when there's an error as well.
 
-Its `Monad` instance is similar to that of `Maybe` and it can be found in `Control.Monad.Error`:
+Its `Monad` instance is similar to that of `Maybe` and it can be found in `Data.Either`:
 
 ```{.haskell:hs}
 instance Monad (Either e) where
@@ -1101,7 +1101,7 @@ The `>>=` examines two possible cases: a `Left` and a `Right`.
 In the case of a `Right`, the function `f` is applied to the value inside it, similar to how in the case of a `Just`, the function is just applied to its contents.
 In the case of an error, the `Left` value is kept, along with its contents, which describe the failure.
 
-When a pattern match fails in `do` notation, a `Left` value is used to signify this failure.
+Note that unlike Maybe, pattern match failures in do notation will result in a runtime exception, not a Left value.
 
 Anyway, here are a few examples of usage:
 
@@ -1117,7 +1117,7 @@ When we feed a `Right` value to a function, the function gets applied to what's 
 
 Using this monad is very similar to using `Maybe` as a monad.
 In the previous chapter, we used the monadic aspects of `Maybe` to simulate birds landing on the balancing pole of a tightrope walker.
-As an exercise, you can rewrite that with the `Either` monad so that when the tightrope walker slips and falls, we remember how many birds were on each side of the pole when he fell.
+As an exercise, you can rewrite that with `Either` so that when the tightrope walker slips and falls, we remember how many birds were on each side of the pole when he fell.
 
 ## Some useful monadic functions {#useful-monadic-functions}
 
