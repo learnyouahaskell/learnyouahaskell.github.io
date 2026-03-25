@@ -1101,7 +1101,7 @@ The `>>=` examines two possible cases: a `Left` and a `Right`.
 In the case of a `Right`, the function `f` is applied to the value inside it, similar to how in the case of a `Just`, the function is just applied to its contents.
 In the case of an error, the `Left` value is kept, along with its contents, which describe the failure.
 
-Note that unlike Maybe, pattern match failures in do notation will result in a runtime exception, not a Left value.
+Note that unlike `Maybe`, pattern match failures in `do` notation will result in a runtime exception, not a `Left` value.
 
 Anyway, here are a few examples of usage:
 
