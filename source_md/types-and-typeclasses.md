@@ -344,8 +344,9 @@ ghci> read "13" :: Bool
 *** Exception: Prelude.read: no parse
 ```
 
-Same as before, and for the same reason.
-The string `"13"` cannot be parsed as a `Bool`, but `read` tries to anyway --- because we told it to --- and fails.
+Same as before, and for the same reason: `read` is applied at the wrong type.
+This time not because GHCi guessed the wrong type, but because we explicitly told it to use `Bool`.
+The string `"13"` cannot be parsed as a `Bool`, but `read` tries to anyway, and fails.
 
 If you put the same code as before in a file instead of in GHCi, things are a bit different:
 
