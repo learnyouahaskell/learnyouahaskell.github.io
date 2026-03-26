@@ -330,6 +330,12 @@ read :: (Read a) => String -> a
 
 See?
 It returns a type that's part of `Read` but if we don't try to use it in some way later, there's no way of knowing which type.
+Most expressions are such that the compiler can infer what their type is by itself.
+But sometimes, the compiler doesn't know whether to return a value of type `Float` or `[Bool]` for an expression like `read "5"`.
+To see what the type is, Haskell would have to actually evaluate `read "5"`.
+But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCi, evaluated).
+So we have to tell Haskell: "Hey, this expression should have this type, in case you don't know!".
+
 That's why we can use explicit **type annotations**.
 Type annotations are a way of explicitly saying what the type of an expression should be.
 We do that by adding `::` at the end of the expression and then specifying a type.
@@ -391,12 +397,7 @@ GHC even tells us as much: whatever the type of `four` is, it must be part of `R
 But it can't tell that it is, because it doesn't know the actual type: it is ambiguous.
 Whereas GHCi at this point tried to guess, GHC does not.
 Instead, it immediately complains and demands that we clarify the type.
-
-Most expressions are such that the compiler can infer what their type is by itself.
-But sometimes, the compiler doesn't know whether to return a value of type `Int` or `Float` for an expression like `read "5"`.
-To see what the type is, Haskell would have to actually evaluate `read "5"`.
-But since Haskell is a statically typed language, it has to know all the types before the code is compiled (or in the case of GHCi, evaluated).
-So we have to tell Haskell: "Hey, this expression should have this type, in case you don't know!".
+And this we can do by adding type declarations to definitions, or type annotations to expressions.
 
 `Enum`{.label .class} members are sequentially ordered types --- they can be enumerated.
 The main advantage of the `Enum` typeclass is that we can use its types in list ranges.
