@@ -310,6 +310,17 @@ But now, it knows we want some type that is part of the `Read` class, it just do
 And sometimes, when it cannot figure out a type, GHCi tries to be helpful by taking a guess.
 Not just any guess of course, but wrong in this case anyway.
 
+::: {.hintbox}
+**What's this? *Guessing*, at *my* types?!**
+It's not as bad as it sounds!
+But it is a bit of a technical story.
+The process is called *type variable defaulting* and you can read about it in the
+[Type variable defaulting](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/type_defaulting.html)
+and
+[Type defaulting in GHCi](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/ghci.html#type-defaulting-in-ghci)
+sections of the GHC User's Guide.
+:::
+
 Let's take a look at the type signature of `read`.
 
 ```{.haskell: .ghci}
