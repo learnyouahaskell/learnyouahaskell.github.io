@@ -896,7 +896,7 @@ Now, we just modify the function by saying that we want the ones where the perim
 ```{.haskell: .ghci}
 ghci> rightTriangles' = [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], a^2 + b^2 == c^2, a+b+c == 24]
 ghci> rightTriangles'
-[(6,8,10)]
+[(8,6,10)]
 ```
 
 And there's our answer!
