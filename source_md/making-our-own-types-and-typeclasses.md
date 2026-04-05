@@ -1873,7 +1873,7 @@ Because in order to have a value, it has to be a concrete type and thus has to b
 
 Making `Frank` an instance of `Tofu` is pretty simple.
 We see that `tofu` takes a `j a` (so an example type of that form would be `Maybe Int`) and returns a `t a j`.
-So if we replace `Frank` with `t`, the result type would be `Frank Int Maybe`.
+So if we replace `t` with `Frank`, `a` with `Int`, and `j` with `Maybe`, the result type would be `Frank Int Maybe`.
 
 ```{.haskell:hs}
 instance Tofu Frank where
