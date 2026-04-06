@@ -1549,7 +1549,7 @@ Haskell doesn't enforce these laws, so we as the programmer have to be careful t
 
 Yes, lists are monoids!
 Like we've seen, the `++` function and the empty list `[]` form a monoid.
-The instance is very simple:
+The instances are very simple:
 
 ```{.haskell:hs}
 instance Semigroup [a] where
@@ -1640,7 +1640,7 @@ newtype Product a =  Product { getProduct :: a }
 ```
 
 Simple, just a `newtype` wrapper with one type parameter along with some derived instances.
-Its instance for `Monoid` goes a little something like this:
+Its instances for `Semigroup` and `Monoid` go a little something like this:
 
 ```{.haskell:hs}
 instance Num a => Semigroup (Product a) where
@@ -1696,7 +1696,7 @@ newtype Any = Any { getAny :: Bool }
     deriving (Eq, Ord, Read, Show, Bounded)
 ```
 
-Its instance looks goes like so:
+Its instances look like so:
 
 ```{.haskell:hs}
 instance Semigroup Any where
@@ -1729,7 +1729,7 @@ newtype All = All { getAll :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 ```
 
-And this is the instance:
+And these are the instances:
 
 ```{.haskell:hs}
 instance Semigroup All where
@@ -1876,7 +1876,7 @@ Let's take a look at the various ways that `Maybe a` can be made an instance of 
 
 One way is to treat `Maybe a` as a monoid only if its type parameter `a` is a semigroup (or even a monoid) and then implement `<>` in such a way that it uses the `<>` operation of the values that are wrapped with `Just`.
 We use `Nothing` as the identity, and so if one of the two values that we're `<>`ing is `Nothing`, we keep the other value.
-Here's the instance declaration:
+Here are the instance declarations:
 
 ```{.haskell:hs}
 instance Semigroup a => Semigroup (Maybe a) where
@@ -1918,7 +1918,7 @@ newtype First a = First { getFirst :: Maybe a }
 ```
 
 We take a `Maybe a` and we wrap it with a `newtype`.
-The `Monoid` instance is as follows:
+The `Semigroup` and `Monoid` instances are as follows:
 
 ```{.haskell:hs}
 instance Semigroup (First a) where

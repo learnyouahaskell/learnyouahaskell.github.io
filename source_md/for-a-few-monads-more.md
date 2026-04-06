@@ -529,7 +529,7 @@ fromDiffList (DiffList f) = f []
 To make a normal list into a difference list we just do what we did before and make it a function that prepends it to another list.
 Because a difference list is a function that prepends something to another list, if we just want that something, we apply the function to an empty list!
 
-Here's the `Monoid` instance:
+Here are the `Semigroup` and `Monoid` instances:
 
 ```{.haskell:hs}
 instance Semigroup (DiffList a) where
