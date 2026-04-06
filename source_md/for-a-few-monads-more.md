@@ -133,24 +133,24 @@ However, the type we have now only works for lists.
 It seems like we'd have to make a separate `applyLog` for bytestrings.
 But wait!
 Both lists and bytestrings are monoids.
-As such, they are both instances of the `Monoid` type class, which means that they implement the `mappend` function.
-And for both lists and bytestrings, `mappend` is for appending.
+As such, they are both instances of the `Monoid` type class, which means that they implement the `<>` function.
+And for both lists and bytestrings, `<>` is for appending.
 Watch:
 
 ```{.haskell:hs}
-ghci> [1,2,3] `mappend` [4,5,6]
+ghci> [1,2,3] <> [4,5,6]
 [1,2,3,4,5,6]
-ghci> B.pack [99,104,105] `mappend` B.pack [104,117,97,104,117,97]
+ghci> B.pack [99,104,105] <> B.pack [104,117,97,104,117,97]
 Chunk "chi" (Chunk "huahua" Empty)
 ```
 
 Cool!
 Now our `applyLog` can work for any monoid.
-We have to change the type to reflect this, as well as the implementation, because we have to change `++` to `mappend`:
+We have to change the type to reflect this, as well as the implementation, because we have to change `++` to `<>`:
 
 ```{.haskell:hs}
 applyLog :: (Monoid m) => (a,m) -> (a -> (b,m)) -> (b,m)
-applyLog (x,log) f = let (y,newLog) = f x in (y,log `mappend` newLog)
+applyLog (x,log) f = let (y,newLog) = f x in (y,log <> newLog)
 ```
 
 Because the accompanying value can now be any monoid value, we no longer have to think of the tuple as a value and a log, but now we can think of it as a value with an accompanying monoid value.
@@ -171,10 +171,10 @@ addDrink _ = ("beer", Sum 30)
 ```
 
 We use strings to represent foods and an `Int` in a `Sum` `newtype` wrapper to keep track of how many cents something costs.
-Just a reminder, doing `mappend` with `Sum` results in the wrapped values getting added together:
+Just a reminder, doing `<>` with `Sum` results in the wrapped values getting added together:
 
 ```{.haskell:hs}
-ghci> Sum 3 `mappend` Sum 9
+ghci> Sum 3 <> Sum 9
 Sum {getSum = 12}
 ```
 
@@ -229,7 +229,7 @@ Its `Monad` instance is defined like so:
 ```{.haskell:hs}
 instance (Monoid w) => Monad (Writer w) where
     return x = Writer (x, mempty)
-    (Writer (x,v)) >>= f = let (Writer (y, v')) = f x in Writer (y, v `mappend` v')
+    (Writer (x,v)) >>= f = let (Writer (y, v')) = f x in Writer (y, v <> v')
 ```
 
 ![when you have to poop, poop, don't talk](assets/images/for-a-few-monads-more/angeleyes.png){.right width=383 height=248}
@@ -238,7 +238,7 @@ First off, let's examine `>>=`.
 Its implementation is essentially the same as `applyLog`, only now that our tuple is wrapped in the `Writer` `newtype`, we have to unwrap it when pattern matching.
 We take the value `x` and apply the function `f` to it.
 This gives us a `Writer w a` value and we use a `let` expression to pattern match on it.
-We present `y` as the new result and use `mappend` to combine the old monoid value with the new one.
+We present `y` as the new result and use `<>` to combine the old monoid value with the new one.
 We pack that up with the result value in a tuple and then wrap that with the `Writer` constructor so that our result is a `Writer` value instead of just an unwrapped tuple.
 
 So, what about `return`?
@@ -246,7 +246,7 @@ It has to take a value and put it in a default minimal context that still presen
 So what would such a context be for `Writer` values?
 If we want the accompanying monoid value to affect other monoid values as little as possible, it makes sense to use `mempty`.
 `mempty` is used to present identity monoid values, such as `""` and `Sum 0` and empty bytestrings.
-Whenever we use `mappend` between `mempty` and some other monoid value, the result is that other monoid value.
+Whenever we use `<>` between `mempty` and some other monoid value, the result is that other monoid value.
 So if we use `return` to make a `Writer` value and then use `>>=` to feed that value to a function, the resulting monoid value will be only what the function returns.
 Let's use `return` on the number `3` a bunch of times, only we'll pair it with a different monoid every time:
 
@@ -271,7 +271,7 @@ The `Writer` instance doesn't feature an implementation for `fail`, so if a patt
 Now that we have a `Monad` instance, we're free to use `do` notation for `Writer` values.
 It's handy for when we have a several `Writer` values and we want to do stuff with them.
 Like with other monads, we can treat them as normal values and the context gets taken for us.
-In this case, all the monoid values that come attached get `mappend`ed and so are reflected in the final result.
+In this case, all the monoid values that come attached get `<>`ed and so are reflected in the final result.
 Here's a simple example of using `do` notation with `Writer` to multiply two numbers:
 
 ```{.haskell:hs}
@@ -428,7 +428,7 @@ We just replace normal values with `Writer` values where we want and change norm
 ### Inefficient list construction 
 
 When using the `Writer` monad, you have to be careful which monoid to use, because using lists can sometimes turn out to be very slow.
-That's because lists use `++` for `mappend` and using `++` to add something to the end of a list is slow if that list is really long.
+That's because lists use `++` for `<>` and using `++` to add something to the end of a list is slow if that list is really long.
 
 In our `gcd'` function, the logging is fast because the list appending ends up looking like this:
 
@@ -531,14 +531,14 @@ Here's the `Monoid` instance:
 ```{.haskell:hs}
 instance Monoid (DiffList a) where
     mempty = DiffList (\xs -> [] ++ xs)
-    (DiffList f) `mappend` (DiffList g) = DiffList (\xs -> f (g xs))
+    (DiffList f) <> (DiffList g) = DiffList (\xs -> f (g xs))
 ```
 
-Notice how for lists, `mempty` is just the `id` function and `mappend` is actually just function composition.
+Notice how for lists, `mempty` is just the `id` function and `<>` is actually just function composition.
 Let's see if this works:
 
 ```{.haskell:hs}
-ghci> fromDiffList (toDiffList [1,2,3,4] `mappend` toDiffList [1,2,3])
+ghci> fromDiffList (toDiffList [1,2,3,4] <> toDiffList [1,2,3])
 [1,2,3,4,1,2,3]
 ```
 
@@ -883,7 +883,7 @@ But what goes on in it?
 Well, we somehow have to extract the result value from the first stateful computation.
 Because we're in a stateful computation right now, we can give the stateful computation `h` our current state `s`, which results in a pair of result and a new state: `(a, newState)`.
 Every time so far when we were implementing `>>=`, once we had the extracted the result from the monadic value, we applied the function `f` to it to get the new monadic value.
-In `Writer`, after doing that and getting the new monadic value, we still had to make sure that the context was taken care of by `mappend`ing the old monoid value with the new one.
+In `Writer`, after doing that and getting the new monadic value, we still had to make sure that the context was taken care of by `<>`ing the old monoid value with the new one.
 Here, we do `f a` and we get a new stateful computation `g`.
 Now that we have a new stateful computation and a new state (goes by the name of `newState`) we just apply that stateful computation `g` to the `newState`.
 The result is a tuple of final result and final state!
@@ -1303,7 +1303,7 @@ ghci> join [[1,2,3],[4,5,6]]
 ```
 
 As you can see, for lists, `join` is just `concat`.
-To flatten a `Writer` value whose result is a `Writer` value itself, we have to `mappend` the monoid value.
+To flatten a `Writer` value whose result is a `Writer` value itself, we have to `<>` the monoid value.
 
 ```{.haskell:hs}
 ghci> runWriter $ join (Writer (Writer (1,"aaa"),"bbb"))

@@ -968,7 +968,7 @@ class Monad m => MonadPlus m where
     mplus :: m a -> m a -> m a
 ```
 
-`mzero` is synonymous to `mempty` from the `Monoid` type class and `mplus` corresponds to `mappend`.
+`mzero` is synonymous to `mempty` from the `Monoid` type class and `mplus` corresponds to `<>`.
 Because lists are monoids as well as monads, they can be made an instance of this type class:
 
 ```{.haskell:hs}
