@@ -878,25 +878,25 @@ Here's a problem that combines tuples and list comprehensions: which right trian
 First, let's try generating all triangles with sides equal to or smaller than 10:
 
 ```{.haskell: .ghci}
-ghci> triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
+ghci> triangles = [ (a,b,c) | c <- [1..10], a <- [1..10], b <- [1..10] ]
 ```
 
 We're just drawing from three lists and our output function is combining them into a triple.
 If you evaluate that by typing out `triangles` in GHCi, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
-We'll also modify this function by taking into consideration that side b isn't larger than the hypotenuse and that side a isn't larger than side b.
+We'll also modify this function by taking into consideration that side *a* isn't larger than the hypotenuse and that side *b* isn't larger than side *a*.
 
 ```{.haskell: .ghci}
-ghci> rightTriangles = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2]
+ghci> rightTriangles = [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], a^2 + b^2 == c^2]
 ```
 
 We're almost done.
 Now, we just modify the function by saying that we want the ones where the perimeter is 24.
 
 ```{.haskell: .ghci}
-ghci> rightTriangles' = [ (a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2, a+b+c == 24]
+ghci> rightTriangles' = [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], a^2 + b^2 == c^2, a+b+c == 24]
 ghci> rightTriangles'
-[(6,8,10)]
+[(8,6,10)]
 ```
 
 And there's our answer!
