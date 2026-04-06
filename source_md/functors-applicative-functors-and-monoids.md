@@ -1511,7 +1511,7 @@ Let's take some time and get properly acquainted with it.
 First of all, we see that only concrete types can be made instances of `Monoid`, because the `m` in the type class definition doesn't take any type parameters.
 This is different from `Functor` and `Applicative`, which require their instances to be type constructors which take one parameter.
 We also see that all `Monoid`s must also be `Semigroup`s, just like all `Applicative`s must be `Functor`s.
-This is because monoids are a special kind of semigroup, as they also have an identity value.
+This is because monoids are a special kind of semigroup, as in addition to the associative operation they also have a matching identity value.
 
 The first function is `mempty`.
 It's not really a function, since it doesn't take parameters, so it's a polymorphic constant, kind of like `minBound` from `Bounded`.
@@ -1533,7 +1533,7 @@ The reason `mconcat` is there at all is because for some instances, there might 
 
 Before moving on to specific instances of `Monoid`, let's take a brief look at the semigroup and monoid laws.
 We mentioned that there has to be a value that acts as the identity with respect to the binary function and that the binary function has to be associative.
-It's possible to make instances of `Semigroup` and `Monoid` that don't follow these rules, but such instances are of no use to anyone because when using the `Monoid` type class, we rely on its instances acting like monoids.
+It's possible to make instances that don't follow these rules, but such instances are of no use to anyone because when using the `Monoid` type class, we rely on its instances acting like monoids.
 Otherwise, what's the point?
 That's why when making instances, we have to make sure they follow these laws:
 
@@ -1541,8 +1541,8 @@ That's why when making instances, we have to make sure they follow these laws:
 * `mempty <> x = x`{.label .law} (monoid law)
 * `x <> mempty = x`{.label .law} (monoid law)
 
-The first says that `<>` has to be associative i.e. that the order in which we use `<>` to reduce several semigroup values into one doesn't matter, and the other two state that `mempty` has to act as the identity with respect to `<>`.
-Semigroups follow the first law, but monoids must follow all three.
+The first says that `<>` has to be associative i.e. that the order in which we use `<>` to reduce several values into one doesn't matter, and the other two state that `mempty` has to act as the identity with respect to `<>`.
+Semigroups follow the first law, but monoids follow all three.
 Haskell doesn't enforce these laws, so we as the programmer have to be careful that our instances do indeed obey them.
 
 ### Lists are monoids 
@@ -1903,7 +1903,7 @@ ghci> Just (Sum 3) <> Just (Sum 4)
 Just (Sum {getSum = 7})
 ```
 
-This comes in use when you're dealing with semigroups as results of computations that may have failed.
+This comes in handy when you're dealing with semigroups as results of computations that may have failed.
 Because of this instance, we don't have to check if the computations have failed by seeing if they're a `Nothing` or `Just` value; we can just continue to treat them as normal semigroups.
 
 But what if the type of the contents of the `Maybe` aren't an instance of `Semigroup`?
