@@ -865,7 +865,7 @@ ghci> map ($ 3) [(4+), (10*), (^2), sqrt]
 
 ## Function composition {#composition}
 
-In mathematics, function composition is defined like this: ![ (f . g)(x) = f(g(x))](assets/images/higher-order-functions/composition.png), meaning that composing two functions produces a new function that, when called with a parameter, say, *x* is the equivalent of calling *g* with the parameter *x* and then calling the *f* with that result.
+In mathematics, function composition is defined like this: $\left( f \circ g \right) (x) = f \left( g(x) \right)$, meaning that composing two functions produces a new function that, when called with an argument, say, $x$ is the equivalent of calling $g$ with the argument $x$ and then calling the $f$ with that result.
 
 In Haskell, function composition is pretty much the same thing.
 We do function composition with the `.` function, which is defined like so:
