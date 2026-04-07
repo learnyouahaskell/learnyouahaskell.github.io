@@ -28,7 +28,12 @@ import Text.Pandoc.Walk as Pandoc (query)
 import Text.Pandoc.Shared as Pandoc (stringify)
 import Text.Pandoc.Class (runIO)
 import Text.Pandoc.Readers.Markdown (readMarkdown)
-import Text.Pandoc.Options (readerExtensions, Extension(Ext_implicit_figures), ReaderOptions)
+import Text.Pandoc.Options
+  ( Extension (Ext_implicit_figures),
+    HTMLMathMethod (MathML),
+    ReaderOptions (readerExtensions),
+    WriterOptions (writerHTMLMathMethod),
+  )
 import Text.Pandoc.Extensions (disableExtension)
 import System.Directory (listDirectory)
 import Control.Monad (forM_)
@@ -187,7 +192,7 @@ chapterCtx mprev mnext =
 
 -- Custom pandoc compiler that uses our custom reader options
 customPandocCompiler :: Compiler (Item String)
-customPandocCompiler = pandocCompilerWith customReaderOptions defaultHakyllWriterOptions
+customPandocCompiler = pandocCompilerWith customReaderOptions customWriterOptions
 
 -- Custom reader options that disable implicit_figures extension
 customReaderOptions :: ReaderOptions
@@ -195,6 +200,12 @@ customReaderOptions = defaultHakyllReaderOptions
   { readerExtensions = disableExtension Ext_implicit_figures 
                       (readerExtensions defaultHakyllReaderOptions)
   }
+
+customWriterOptions :: WriterOptions
+customWriterOptions =
+  defaultHakyllWriterOptions
+    { writerHTMLMathMethod = MathML
+    }
 
 -- Helper function to pair each element with its previous and next elements
 zipPrevNext :: [a] -> [(Maybe a, a, Maybe a)]
