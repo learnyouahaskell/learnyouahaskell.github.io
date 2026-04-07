@@ -1770,7 +1770,7 @@ GT
 ```
 
 With lists, numbers and boolean values, finding monoids was just a matter of looking at already existing commonly used functions and seeing if they exhibit some sort of monoid behavior.
-With `Ordering`, we have to look a bit harder to recognize a monoid, but it turns out that its  instances are just as intuitive as the ones we've met so far and also quite useful:
+With `Ordering`, we have to look a bit harder to recognize a monoid, but it turns out that its `Monoid` instance is just as intuitive as the ones we've met so far and also quite useful:
 
 ```{.haskell:hs}
 instance Semigroup Ordering where
