@@ -336,9 +336,13 @@ Let's use a fold to implement searching a list for a sublist.
 
 ```{.haskell:hs}
 search :: (Eq a) => [a] -> [a] -> Bool
-search needle haystack =
-    let nlen = length needle
-    in  foldl (\acc x -> if take nlen x == needle then True else acc) False (tails haystack)
+search needle haystack = foldr step False (tails haystack)
+  where
+    step segment continue =
+      if take nlen segment == needle
+        then True
+        else continue
+    nlen = length needle
 ```
 
 First we call `tails` with the list in which we're searching.
