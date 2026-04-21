@@ -132,7 +132,7 @@ ghci> transpose ["hey","there","folks"]
 ["htf","eho","yel","rk","es"]
 ```
 
-Say we have the polynomials *3x^2^ + 5x + 9*, *10x^3^ + 9* and *8x^3^ + 5x^2^ + x - 1* and we want to add them together.
+Say we have the polynomials $3x^2 + 5x + 9$, $10x^3 + 9$ and $8x^3 + 5x^2 + x - 1$ and we want to add them together.
 We can use the lists `[0,3,5,9]`, `[10,0,0,9]` and `[8,5,1,-1]` to represent them in Haskell.
 Now, to add them, all we have to do is this:
 
