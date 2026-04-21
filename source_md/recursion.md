@@ -17,7 +17,7 @@ Recursion is actually a way of defining functions in which the function is appli
 Definitions in mathematics are often given recursively.
 For instance, the fibonacci sequence is defined recursively.
 First, we define the first two fibonacci numbers non-recursively.
-We say that $F(0) = 0$ and $F(1) = 1$, meaning that the 0<sup>th</sup> and 1<sup>st</sup> fibonacci numbers are $0$ and $1$, respectively.
+We say that $F(0) = 0$ and $F(1) = 1$, meaning that the 0^th^ and 1^st^ fibonacci numbers are $0$ and $1$, respectively.
 Then we say that for any other natural number, that fibonacci number is the sum of the previous two fibonacci numbers.
 So $F(n) = F(n-1) + F(n-2)$.
 That way, $F(3)$ is $F(2) + F(1)$, which is $(F(1) + F(0)) + F(1)$.
