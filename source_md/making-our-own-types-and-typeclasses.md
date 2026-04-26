@@ -1811,6 +1811,22 @@ ghci> :k Either String Int
 Either String Int :: *
 ```
 
+What if we do something crazy and ask what the kind is of something entirely different, like a type class?
+
+```{.haskell:hs}
+ghci> :k Functor
+Functor :: (* -> *) -> Constraint
+```
+
+Woot, that works!
+We see two new things here.
+First, `Constraint` is the kind of constraints, i.e. the things that appear to the left of the `=>` in type signatures.
+The `Ord Int` instance, for instance, has kind `Constraint`.
+
+We also see that, whereas `Maybe` and `Either` take concrete types as arguments, `Functor` does not.
+Instead of a concrete type, it takes something that *itself* takes a single concrete type as an argument.
+So it can take `Maybe`, which has kind `* -> *`, but it will not take `Char`, as its kind is merely `*`.
+
 When we wanted to make `Either` a part of the `Functor` typeclass, we had to partially apply it because `Functor` wants types that take only one parameter while `Either` takes two.
 In other words, `Functor` wants types of kind `* -> *` and so we had to partially apply `Either` to get a type of kind `* -> *` instead of its original kind `* -> * -> *`.
 If we look at the definition of `Functor` again
