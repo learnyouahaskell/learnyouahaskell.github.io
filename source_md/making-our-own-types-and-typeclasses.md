@@ -1842,6 +1842,9 @@ We see that `t` has to produce a concrete value too and that it takes two argume
 And knowing that `a` has a kind of `k` and `j` has a kind of `k -> *`, we infer that `t` has to have a kind of `k -> (k -> *) -> *`.
 Wow.
 
+Is that actually correct?
+Try `:k Tofu` to find out.
+
 OK, so let's make a type with a kind of `k -> (k -> *) -> *`.
 Here's one way of going about it.
 
