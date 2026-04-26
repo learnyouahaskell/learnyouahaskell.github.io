@@ -1876,7 +1876,7 @@ Let's make some `Frank` values and check out their types.
 
 ```{.haskell:hs}
 ghci> :t Frank {frankField = Just "HAHA"}
-Frank {frankField = Just "HAHA"} :: Frank [Char] Maybe
+Frank {frankField = Just "HAHA"} :: Frank String Maybe
 ghci> :t Frank {frankField = Node 'a' EmptyTree EmptyTree}
 Frank {frankField = Node 'a' EmptyTree EmptyTree} :: Frank Char Tree
 ghci> :t Frank {frankField = "YES"}
@@ -1885,9 +1885,9 @@ Frank {frankField = "YES"} :: Frank Char []
 
 Hmm.
 Because `frankField` has a type of form `a b`, its values must have types that are of a similar form as well.
-So they can be `Just "HAHA"`, which has a type of `Maybe [Char]` or it can have a value of `['Y','E','S']`, which has a type of `[Char]` (if we used our own list type for this, it would have a type of `List Char`).
+So they can be `Just "HAHA"`, which has a type of `Maybe String` or it can have a value of `['Y','E','S']`, which has a type of `[Char]` (if we used our own list type for this, it would have a type of `List Char`).
 And we see that the types of the `Frank` values correspond with the kind for `Frank`.
-`[Char]` has a kind of `*` and `Maybe` has a kind of `* -> *`.
+`String` has a kind of `*` and `Maybe` has a kind of `* -> *`.
 Because in order to have a value, it has to be a concrete type and thus has to be fully applied, every value of `Frank blah blaah` has a kind of `*`.
 
 Making `Frank` an instance of `Tofu` is pretty simple.
@@ -1902,7 +1902,7 @@ instance Tofu Frank where
 ```{.haskell:hs}
 ghci> tofu (Just 'a') :: Frank Char Maybe
 Frank {frankField = Just 'a'}
-ghci> tofu ["HELLO"] :: Frank [Char] []
+ghci> tofu ["HELLO"] :: Frank String []
 Frank {frankField = ["HELLO"]}
 ```
 
