@@ -23,13 +23,13 @@ jobs:
           make nix-site
       
       - name: Upload artifact
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/math-formatting'
         uses: actions/upload-pages-artifact@v4
         with:
           path: _site/
 
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/math-formatting'
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}

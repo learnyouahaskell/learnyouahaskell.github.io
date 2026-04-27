@@ -626,8 +626,8 @@ Although it's simpler to just use the `replicate`{.label .function} function if 
 ![frog](assets/images/starting-out/kermit.png){.left width=180 height=156}
 If you've ever taken a course in mathematics, you've probably run into *set comprehensions*.
 They're normally used for building more specific sets out of general sets.
-A basic comprehension for a set that contains the first ten even natural numbers is ![set notation](assets/images/starting-out/setnotation.png).
-The part before the pipe is called the output function, `x` is the variable, `N` is the input set and `x <= 10` is the predicate.
+A basic comprehension for a set that contains the first ten even natural numbers is $S = \left\{ 2 \cdot x \mid x \in \mathbb N, x \le 10 \right\}$.
+The part before the pipe is called the output function, $x$ is the variable, $\mathbb N$ is the input set and $x \le 10$ is the predicate.
 That means that the set contains the doubles of all natural numbers that satisfy the predicate.
 
 If we wanted to write that in Haskell, we could do something like `take 10 [2,4..]`.
@@ -884,7 +884,7 @@ ghci> triangles = [ (a,b,c) | c <- [1..10], a <- [1..10], b <- [1..10] ]
 We're just drawing from three lists and our output function is combining them into a triple.
 If you evaluate that by typing out `triangles` in GHCi, you'll get a list of all possible triangles with sides under or equal to 10.
 Next, we'll add a condition that they all have to be right triangles.
-We'll also modify this function by taking into consideration that side *a* isn't larger than the hypotenuse and that side *b* isn't larger than side *a*.
+We'll also modify this function by taking into consideration that side $a$ isn't larger than the hypotenuse and that side $b$ isn't larger than side $a$.
 
 ```{.haskell: .ghci}
 ghci> rightTriangles = [ (a,b,c) | c <- [1..10], a <- [1..c], b <- [1..a], a^2 + b^2 == c^2]
