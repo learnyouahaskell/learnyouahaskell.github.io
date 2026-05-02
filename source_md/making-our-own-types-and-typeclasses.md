@@ -217,7 +217,7 @@ However, you can make a mapping by using one of the auxiliary functions like `Ma
 Remember, value constructors are just functions that take the fields as parameters and return a value of some type (like `Shape`) as a result.
 So when we choose not to export them, we just prevent the person importing our module from using those functions, but if some other functions that are exported return a type, we can use them to make values of our custom data types.
 
-Not exporting the value constructors of a data types makes them more abstract in such a way that we hide their implementation.
+Not exporting the value constructors of data types makes them more abstract in such a way that we hide their implementation.
 Also, whoever uses our module can't pattern match against the value constructors.
 
 ## Record syntax {#record-syntax}

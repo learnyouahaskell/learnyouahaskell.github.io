@@ -207,7 +207,7 @@ zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
 Look at the type declaration.
 The first parameter is a function that takes two things and produces a third thing.
 They don't have to be of the same type, but they can.
-The second and third parameter are lists.
+The second and third parameters are lists.
 The result is also a list.
 The first has to be a list of `a`'s, because the joining function takes `a`'s as its first argument.
 The second has to be a list of `b`'s, because the second parameter of the joining function is of type `b`.
@@ -340,7 +340,7 @@ There's no set rule for when to use `map` and `filter` versus using list compreh
 The `filter` equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical `&&` function.
 
 Remember our quicksort function from the [previous chapter](recursion.html)?
-We used list comprehensions to filter out the list elements that are smaller than (or equal to) and larger than the pivot.
+We used list comprehensions to filter out the list of elements that are smaller than (or equal to) and larger than the pivot.
 We can achieve the same functionality in a more readable way by using `filter`:
 
 ```{.haskell:ghci}
@@ -865,7 +865,7 @@ ghci> map ($ 3) [(4+), (10*), (^2), sqrt]
 
 ## Function composition {#composition}
 
-In mathematics, function composition is defined like this: ![ (f . g)(x) = f(g(x))](assets/images/higher-order-functions/composition.png), meaning that composing two functions produces a new function that, when called with a parameter, say, *x* is the equivalent of calling *g* with the parameter *x* and then calling the *f* with that result.
+In mathematics, function composition is defined like this: ![ (f . g)(x) = f(g(x))](assets/images/higher-order-functions/composition.png), meaning that composing two functions produces a new function that, when called with a parameter, say *x*, is the equivalent of calling *g* with the parameter *x* and then calling the *f* with that result.
 
 In Haskell, function composition is pretty much the same thing.
 We do function composition with the `.` function, which is defined like so:
