@@ -340,7 +340,7 @@ There's no set rule for when to use `map` and `filter` versus using list compreh
 The `filter` equivalent of applying several predicates in a list comprehension is either filtering something several times or joining the predicates with the logical `&&` function.
 
 Remember our quicksort function from the [previous chapter](recursion.html)?
-We used list comprehensions to filter out the list of elements that are smaller than (or equal to) and larger than the pivot.
+We used list comprehensions to filter out the list elements that are smaller than (or equal to) and larger than the pivot.
 We can achieve the same functionality in a more readable way by using `filter`:
 
 ```{.haskell:ghci}

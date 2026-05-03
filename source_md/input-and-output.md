@@ -2150,7 +2150,7 @@ So the final result is an I/O action that will either act the same as the first 
 ![non sequitor](assets/images/input-and-output/puppy.png){.right width=334 height=240}
 
 If you're familiar with *try-catch* blocks in languages like Java or Python, the `catch` function is similar to them.
-The first parameter is the thing to try, kind of like the stuff in the *try* block in other imperative languages.
+The first parameter is the thing to try, kind of like the stuff in the *try* block in other, imperative languages.
 The second parameter is the handler that takes an exception, just like most *catch* blocks take exceptions that you can then examine to see what happened.
 The handler is invoked if an exception is thrown.
 
