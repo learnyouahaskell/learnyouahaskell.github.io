@@ -11,15 +11,15 @@ First we'll describe the problem, then we'll try and find out what the best (or 
 ## Reverse Polish notation calculator {#reverse-polish-notation-calculator}
 
 Usually when we write mathematical expressions in school, we write them in an infix manner.
-For instance, we write `10 - (4 + 3) * 2`.
-`+`, `*` and `-` are infix operators, just like the infix functions we met in Haskell (`+`, `` `elem` ``, etc.).
+For instance, we write $10 - (4 + 3) \times 2$.
+$+$, $\times$ and $-$ are infix operators, just like the infix functions we met in Haskell (`+`, `` `elem` ``, etc.).
 This makes it handy because we, as humans, can parse it easily in our minds by looking at such an expression.
 The downside to it is that we have to use parentheses to denote precedence.
 
 [Reverse Polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) is another way of writing down mathematical expressions.
 Initially it looks a bit weird, but it's actually pretty easy to understand and use because there's no need for parentheses and it's very easy to punch into a calculator.
 While most modern calculators use infix notation, some people still swear by RPN calculators.
-This is what the previous infix expression looks like in RPN: `10 4 3 + 2 * -`.
+This is what the previous infix expression looks like in RPN: $10\ 4\ 3 + 2 \times -$.
 How do we calculate what the result of that is?
 Well, think of a stack.
 You go over the expression from left to right.
@@ -29,20 +29,20 @@ When you reach the end of the expression, you should be left with a single numbe
 
 ![this expression](assets/images/functionally-solving-problems/rpn.png){.center width=626 height=224}
 
-Let's go over the expression `10 4 3 + 2 * -` together!
-First we push `10` onto the stack and the stack is now `10`.
-The next item is `4`, so we push it to the stack as well.
-The stack is now `10, 4`.
-We do the same with `3` and the stack is now `10, 4, 3`.
-And now, we encounter an operator, namely `+`!
-We pop the two top numbers from the stack (so now the stack is just `10`), add those numbers together and push that result to the stack.
-The stack is now `10, 7`.
-We push `2` to the stack, the stack for now is `10, 7, 2`.
-We've encountered an operator again, so let's pop `7` and `2` off the stack, multiply them and push that result to the stack.
-Multiplying `7` and `2` produces a `14`, so the stack we have now is `10, 14`.
-Finally, there's a `-`.
-We pop `10` and `14` from the stack, subtract `14` from `10` and push that back.
-The number on the stack is now `-4` and because there are no more numbers or operators in our expression, that's our result!
+Let's go over the expression $10\ 4\ 3 + 2 \times -$ together!
+First we push $10$ onto the stack and the stack is now $[10]$.
+The next item is $4$, so we push it to the stack as well.
+The stack is now $[10, 4]$.
+We do the same with $3$ and the stack is now $[10, 4, 3]$.
+And now, we encounter an operator, namely $+$!
+We pop the two top numbers from the stack (so now the stack is just $[10]$), add those numbers together and push that result to the stack.
+The stack is now $[10, 7]$.
+We push $2$ to the stack, the stack for now is $[10, 7, 2]$.
+We've encountered an operator again, so let's pop $7$ and $2$ off the stack, multiply them and push that result to the stack.
+Multiplying $7$ and $2$ produces $14$, so the stack we have now is $[10, 14]$.
+Finally, there's a $-$.
+We pop $10$ and $14$ from the stack, subtract $14$ from $10$ and push that back.
+The number on the stack is now $-4$ and because there are no more numbers or operators in our expression, that's our result!
 
 Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains an RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
 
