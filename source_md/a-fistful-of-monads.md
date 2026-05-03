@@ -255,7 +255,7 @@ instance Monad Maybe where
 ```
 
 Both `return` and `(>>)` have _default implementations_, so we can omit them in instances.
-`return` is the same as `pure`, it wraps a value in `Just`.
+`return` is the same as `pure`; it wraps a value in `Just`.
 
 The `>>=` function is the same as our `applyMaybe`.
 When feeding the `Maybe a` to our function, we keep in mind the context and return a `Nothing` if the value on the left is `Nothing` because if there's no value then there's no way to apply our function to it.
@@ -777,7 +777,7 @@ class Monad m => MonadFail m where
 ```
 
 Monads that incorporate a context of possible failure (like `Maybe`) usually implement it.
-For `Maybe`, its implemented like so:
+For `Maybe`, it's implemented like so:
 
 ```{.haskell:hs}
 instance MonadFail Maybe where
