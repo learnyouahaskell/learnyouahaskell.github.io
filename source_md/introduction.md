@@ -92,6 +92,7 @@ A text editor and a Haskell compiler.
 You probably already have your favorite text editor installed so we won't waste time on that.
 For the purposes of this tutorial we'll be using GHC, the most widely used Haskell compiler.
 The best way to get started is to download [GHCup](https://www.haskell.org/ghcup/), which is the recommended Haskell installer.
+If you'd rather not install anything right now, you can try out Haskell directly in your browser at the [Haskell Playground](https://play.haskell.org/).
 
 GHC can take a Haskell file (they usually have a .hs extension) and compile it but it also has an interactive mode which allows you to interactively interact with files.
 Interactively.
