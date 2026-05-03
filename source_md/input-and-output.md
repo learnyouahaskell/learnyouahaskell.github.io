@@ -478,7 +478,8 @@ Try playing with this program to get a feel for it!
 
 The `when`{.label .function} function is found in `Control.Monad` (to get access to it, do `import Control.Monad`).
 It's interesting because in a `do` block it looks like a control flow statement, but it's actually a normal function.
-It takes a boolean value and an I/O action. If that boolean value is `True`, it returns the same I/O action that we supplied to it.
+It takes a boolean value and an I/O action.
+If that boolean value is `True`, it returns the same I/O action that we supplied to it.
 However, if it's `False`, it returns the `return ()`, action, so an I/O action that doesn't do anything.
 Here's how we could rewrite the previous piece of code with which we demonstrated `getChar` by using `when`:
 
