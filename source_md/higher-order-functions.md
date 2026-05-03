@@ -796,14 +796,14 @@ ghci> scanl (flip (:)) [] [3,2,1]
 When using a `scanl`, the final result will be in the last element of the resulting list while a `scanr` will place the result in the head.
 
 Scans are used to monitor the progression of a function that can be implemented as a fold.
-Let's answer us this question: **How many elements does it take for the sum of the square roots of all natural numbers to exceed 1000?**
+Let's answer us this question: **How many elements does it take for the sum of the square roots of all natural numbers to exceed $1000$?**
 To get the square roots of all natural numbers, we just do `map sqrt [1..]`.
 Now, to get the sum, we could do a fold, but because we're interested in how the sum progresses, we're going to do a scan.
-Once we've done the scan, we just see how many sums are under 1000.
-The first sum in the scanlist will be 1, normally.
-The second will be 1 plus the square root of 2.
-The third will be that plus the square root of 3.
-If there are X sums under 1000, then it takes X+1 elements for the sum to exceed 1000.
+Once we've done the scan, we just see how many sums are under $1000$.
+The first sum in the scanlist will be $1$, normally.
+The second will be $1 + \sqrt 2$.
+The third will be $1 + \sqrt 2 + \sqrt 3$.
+If there are $n$ sums under 1000, then it takes $n + 1$ elements for the sum to exceed $1000$.
 
 ```{.haskell:hs}
 sqrtSums :: Int
@@ -820,7 +820,7 @@ ghci> sum (map sqrt [1..130])
 ```
 
 We use `takeWhile` here instead of `filter` because `filter` doesn't work on infinite lists.
-Even though we know the list is ascending, `filter` doesn't, so we use `takeWhile` to cut the scanlist off at the first occurrence of a sum greater than 1000.
+Even though we know the list is ascending, `filter` doesn't, so we use `takeWhile` to cut the scanlist off at the first occurrence of a sum greater than $1000$.
 
 ## Function application with $ {#function-application}
 
@@ -865,7 +865,7 @@ ghci> map ($ 3) [(4+), (10*), (^2), sqrt]
 
 ## Function composition {#composition}
 
-In mathematics, function composition is defined like this: ![ (f . g)(x) = f(g(x))](assets/images/higher-order-functions/composition.png), meaning that composing two functions produces a new function that, when called with a parameter, say, *x* is the equivalent of calling *g* with the parameter *x* and then calling the *f* with that result.
+In mathematics, function composition is defined like this: $\left( f \circ g \right) (x) = f \left( g(x) \right)$, meaning that composing two functions produces a new function that, when called with an argument, say, $x$ is the equivalent of calling $g$ with the argument $x$ and then calling the $f$ with that result.
 
 In Haskell, function composition is pretty much the same thing.
 We do function composition with the `.` function, which is defined like so:

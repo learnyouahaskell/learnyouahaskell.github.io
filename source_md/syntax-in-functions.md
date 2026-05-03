@@ -91,7 +91,7 @@ When making patterns, we should always include a catch-all pattern so that our p
 
 Pattern matching can also be used on tuples.
 What if we wanted to make a function that takes two vectors in a 2D space (that are in the form of pairs) and adds them together?
-To add together two vectors, we add their x components separately and then their y components separately.
+To add together two vectors, we add their $x$ components separately and then their $y$ components separately.
 Here's how we would have done it if we didn't know about pattern matching:
 
 ```{.haskell:hs}

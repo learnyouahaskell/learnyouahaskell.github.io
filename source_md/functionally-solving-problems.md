@@ -11,15 +11,15 @@ First we'll describe the problem, then we'll try and find out what the best (or 
 ## Reverse Polish notation calculator {#reverse-polish-notation-calculator}
 
 Usually when we write mathematical expressions in school, we write them in an infix manner.
-For instance, we write `10 - (4 + 3) * 2`.
-`+`, `*` and `-` are infix operators, just like the infix functions we met in Haskell (`+`, `` `elem` ``, etc.).
+For instance, we write $10 - (4 + 3) \times 2$.
+$+$, $\times$ and $-$ are infix operators, just like the infix functions we met in Haskell (`+`, `` `elem` ``, etc.).
 This makes it handy because we, as humans, can parse it easily in our minds by looking at such an expression.
 The downside to it is that we have to use parentheses to denote precedence.
 
 [Reverse Polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) is another way of writing down mathematical expressions.
 Initially it looks a bit weird, but it's actually pretty easy to understand and use because there's no need for parentheses and it's very easy to punch into a calculator.
 While most modern calculators use infix notation, some people still swear by RPN calculators.
-This is what the previous infix expression looks like in RPN: `10 4 3 + 2 * -`.
+This is what the previous infix expression looks like in RPN: $10\ 4\ 3 + 2 \times -$.
 How do we calculate what the result of that is?
 Well, think of a stack.
 You go over the expression from left to right.
@@ -29,20 +29,20 @@ When you reach the end of the expression, you should be left with a single numbe
 
 ![this expression](assets/images/functionally-solving-problems/rpn.png){.center width=626 height=224}
 
-Let's go over the expression `10 4 3 + 2 * -` together!
-First we push `10` onto the stack and the stack is now `10`.
-The next item is `4`, so we push it to the stack as well.
-The stack is now `10, 4`.
-We do the same with `3` and the stack is now `10, 4, 3`.
-And now, we encounter an operator, namely `+`!
-We pop the two top numbers from the stack (so now the stack is just `10`), add those numbers together and push that result to the stack.
-The stack is now `10, 7`.
-We push `2` to the stack, the stack for now is `10, 7, 2`.
-We've encountered an operator again, so let's pop `7` and `2` off the stack, multiply them and push that result to the stack.
-Multiplying `7` and `2` produces a `14`, so the stack we have now is `10, 14`.
-Finally, there's a `-`.
-We pop `10` and `14` from the stack, subtract `14` from `10` and push that back.
-The number on the stack is now `-4` and because there are no more numbers or operators in our expression, that's our result!
+Let's go over the expression $10\ 4\ 3 + 2 \times -$ together!
+First we push $10$ onto the stack and the stack is now $[10]$.
+The next item is $4$, so we push it to the stack as well.
+The stack is now $[10, 4]$.
+We do the same with $3$ and the stack is now $[10, 4, 3]$.
+And now, we encounter an operator, namely $+$!
+We pop the two top numbers from the stack (so now the stack is just $[10]$), add those numbers together and push that result to the stack.
+The stack is now $[10, 7]$.
+We push $2$ to the stack, the stack for now is $[10, 7, 2]$.
+We've encountered an operator again, so let's pop $7$ and $2$ off the stack, multiply them and push that result to the stack.
+Multiplying $7$ and $2$ produces $14$, so the stack we have now is $[10, 14]$.
+Finally, there's a $-$.
+We pop $10$ and $14$ from the stack, subtract $14$ from $10$ and push that back.
+The number on the stack is now $-4$ and because there are no more numbers or operators in our expression, that's our result!
 
 Now that we know how we'd calculate any RPN expression by hand, let's think about how we could make a Haskell function that takes as its parameter a string that contains an RPN expression, like `"10 4 3 + 2 * -"` and gives us back its result.
 
@@ -234,7 +234,7 @@ You start on the left side and can either cross to the other main road or go for
 
 ![Heathrow - London](assets/images/functionally-solving-problems/roads.png){.center width=780 height=237}
 
-As you can see in the picture, the shortest path from Heathrow to London in this case is to start on main road B, cross over, go forward on A, cross over again and then go forward twice on B.
+As you can see in the picture, the shortest path from Heathrow to London in this case is to start on main road $B$, cross over, go forward on $A$, cross over again and then go forward twice on $B$.
 If we take this path, it takes us 75 minutes.
 Had we chosen any other path, it would take more than that.
 
@@ -257,7 +257,7 @@ Here's what the input would look like for this case:
 ```
 
 To mentally parse the input file, read it in threes and mentally split the road system into sections.
-Each section is composed of road A, road B and a crossing road.
+Each section is composed of road $A$, road $B$ and a crossing road.
 To have it neatly fit into threes, we say that there's a last crossing section that takes 0 minutes to drive over.
 That's because we don't care where we arrive in London, as long as we're in London.
 
@@ -282,48 +282,48 @@ Here's a simplified picture of our road system:
 
 ![roads](assets/images/functionally-solving-problems/roads_simple.png){.center width=686 height=245}
 
-Alright, can you figure out what the shortest path to the first crossroads (the first blue dot on A, marked *A1*) on road A is?
+Alright, can you figure out what the shortest path to the first crossroads (the first blue dot on $A$, marked $A1$) on road $A$ is?
 That's pretty trivial.
-We just see if it's shorter to go directly forward on A or if it's shorter to go forward on B and then cross over.
-Obviously, it's cheaper to go forward via B and then cross over because that takes 40 minutes, whereas going directly via A takes 50 minutes.
-What about crossroads *B1*?
+We just see if it's shorter to go directly forward on $A$ or if it's shorter to go forward on $B$ and then cross over.
+Obviously, it's cheaper to go forward via $B$ and then cross over because that takes 40 minutes, whereas going directly via $A$ takes 50 minutes.
+What about crossroads $B1$?
 Same thing.
-We see that it's a lot cheaper to just go directly via B (incurring a cost of 10 minutes), because going via A and then crossing over would take us a whole 80 minutes!
+We see that it's a lot cheaper to just go directly via $B$ (incurring a cost of 10 minutes), because going via $A$ and then crossing over would take us a whole 80 minutes!
 
-Now we know what the cheapest path to *A1* is (go via B and then cross over, so we'll say that's `B, C` with a cost of 40) and we know what the cheapest path to *B1* is (go directly via B, so that's just `B`, going at 10).
+Now we know what the cheapest path to $A1$ is (go via $B$ and then cross over, so we'll say that's $B, C$ with a cost of 40) and we know what the cheapest path to $B1$ is (go directly via $B$, so that's just $B$, going at 10).
 Does this knowledge help us at all if we want to know the cheapest path to the next crossroads on both main roads?
 Gee golly, it sure does!
 
-Let's see what the shortest path to *A2* would be.
-To get to *A2*, we'll either go directly to *A2* from *A1* or we'll go forward from *B1* and then cross over (remember, we can only move forward or cross to the other side).
-And because we know the cost to *A1* and *B1*, we can easily figure out what the best path to *A2* is.
-It costs 40 to get to *A1* and then 5 to get from *A1* to *A2*, so that's `B, C, A` for a cost of 45.
-It costs only 10 to get to *B1*, but then it would take an additional 110 minutes to go to *B2* and then cross over!
-So obviously, the cheapest path to *A2* is `B, C, A`.
-In the same way, the cheapest way to *B2* is to go forward from *A1* and then cross over.
+Let's see what the shortest path to $A2$ would be.
+To get to $A2$, we'll either go directly to $A2$ from $A1$ or we'll go forward from $B1$ and then cross over (remember, we can only move forward or cross to the other side).
+And because we know the cost to $A1$ and $B1$, we can easily figure out what the best path to $A2$ is.
+It costs 40 to get to $A1$ and then 5 to get from $A1$ to $A2$, so that's $B, C, A$ for a cost of 45.
+It costs only 10 to get to $B1$, but then it would take an additional 110 minutes to go to $B2$ and then cross over!
+So obviously, the cheapest path to $A2$ is $B, C, A$.
+In the same way, the cheapest way to $B2$ is to go forward from $A1$ and then cross over.
 
 ::: {.hintbox}
-**Maybe you're asking yourself**: but what about getting to *A2* by first crossing over at *B1* and then going on forward?
-Well, we already covered crossing from *B1* to *A1* when we were looking for the best way to *A1*, so we don't have to take that into account in the next step as well.
+**Maybe you're asking yourself**: but what about getting to $A2$ by first crossing over at $B1$ and then going on forward?
+Well, we already covered crossing from $B1$ to $A1$ when we were looking for the best way to $A1$, so we don't have to take that into account in the next step as well.
 :::
 
-Now that we have the best path to *A2* and *B2*, we can repeat this indefinitely until we reach the end.
-Once we've gotten the best paths for *A4* and *B4*, the one that's cheaper is the optimal path!
+Now that we have the best path to $A2$ and $B2$, we can repeat this indefinitely until we reach the end.
+Once we've gotten the best paths for $A4$ and $B4$, the one that's cheaper is the optimal path!
 
-So in essence, for the second section, we just repeat the step we did at first, only we take into account what the previous best paths on A and B.
-We could say that we also took into account the best paths on A and on B in the first step, only they were both empty paths with a cost of 0.
+So in essence, for the second section, we just repeat the step we did at first, only we take into account what the previous best paths on $A$ and $B$.
+We could say that we also took into account the best paths on $A$ and on $B$ in the first step, only they were both empty paths with a cost of 0.
 
 Here's a summary.
-To get the best path from Heathrow to London, we do this: first we see what the best path to the next crossroads on main road A is.
+To get the best path from Heathrow to London, we do this: first we see what the best path to the next crossroads on main road $A$ is.
 The two options are going directly forward or starting at the opposite road, going forward and then crossing over.
 We remember the cost and the path.
-We use the same method to see what the best path to the next crossroads on main road B is and remember that.
-Then, we see if the path to the next crossroads on A is cheaper if we go from the previous A crossroads or if we go from the previous B crossroads and then cross over.
+We use the same method to see what the best path to the next crossroads on main road $B$ is and remember that.
+Then, we see if the path to the next crossroads on $A$ is cheaper if we go from the previous $A$ crossroads or if we go from the previous $B$ crossroads and then cross over.
 We remember the cheaper path and then we do the same for the crossroads opposite of it.
 We do this for every section until we reach the end.
 Once we've reached the end, the cheapest of the two paths that we have is our optimal path!
 
-So in essence, we keep one shortest path on the A road and one shortest path on the B road and when we reach the end, the shorter of those two is our path.
+So in essence, we keep one shortest path on the $A$ road and one shortest path on the $B$ road and when we reach the end, the shorter of those two is our path.
 We now know how to figure out the shortest path by hand.
 If you had enough time, paper and pencils, you could figure out the shortest path through a road system with any number of sections.
 
@@ -340,7 +340,7 @@ data Road = Road Int Node
 
 A node is either a normal node and has information about the road that leads to the other main road and the road that leads to the next node or an end node, which only has information about the road to the other main road.
 A road keeps information about how long it is and which node it points to.
-For instance, the first part of the road on the A main road would be `Road 50 a1` where `a1` would be a node `Node x y`, where `x` and `y` are roads that point to *B1* and *A2*.
+For instance, the first part of the road on the $A$ main road would be `Road 50 a1` where `a1` would be a node `Node x y`, where `x` and `y` are roads that point to $B1$ and $A2$.
 
 Another way would be to use `Maybe` for the road parts that point forward.
 Each node has a road part that point to the opposite road, but only those nodes that aren't the end ones have road parts that point forward.
@@ -351,8 +351,8 @@ data Road = Road Int Node
 ```
 
 This is an alright way to represent the road system in Haskell and we could certainly solve this problem with it, but maybe we could come up with something simpler?
-If we think back to our solution by hand, we always just checked the lengths of three road parts at once: the road part on the A road, its opposite part on the B road and part C, which touches those two parts and connects them.
-When we were looking for the shortest path to *A1* and *B1*, we only had to deal with the lengths of the first three parts, which have lengths of 50, 10 and 30.
+If we think back to our solution by hand, we always just checked the lengths of three road parts at once: the road part on the $A$ road, its opposite part on the $B$ road and part $C$, which touches those two parts and connects them.
+When we were looking for the shortest path to $A1$ and $B1$, we only had to deal with the lengths of the first three parts, which have lengths of 50, 10 and 30.
 We'll call that one section.
 So the road system that we use for this example can be easily represented as four sections: `50, 10, 30`, `5, 90, 20`, `40, 2, 25`, and `10, 8, 0`.
 
@@ -402,16 +402,16 @@ If called with the road system `heathrowToLondon`, it should return the followin
 [(B,10),(C,30),(A,5),(C,20),(B,2),(B,8)]
 ```
 
-We're going to have to walk over the list with the sections from left to right and keep the optimal path on A and optimal path on B as we go along.
+We're going to have to walk over the list with the sections from left to right and keep the optimal path on $A$ and optimal path on $B$ as we go along.
 We'll accumulate the best path as we walk over the list, left to right.
 What does that sound like?
 Ding, ding, ding!
 That's right, A LEFT FOLD!
 
 When doing the solution by hand, there was a step that we repeated over and over again.
-It involved checking the optimal paths on A and B so far and the current section to produce the new optimal paths on A and B.
-For instance, at the beginning the optimal paths were `[]` and `[]` for A and B respectively.
-We examined the section `Section 50 10 30` and concluded that the new optimal path to *A1* is `[(B,10),(C,30)]` and the optimal path to *B1* is `[(B,10)]`.
+It involved checking the optimal paths on $A$ and $B$ so far and the current section to produce the new optimal paths on $A$ and $B$.
+For instance, at the beginning the optimal paths were `[]` and `[]` for $A$ and $B$ respectively.
+We examined the section `Section 50 10 30` and concluded that the new optimal path to $A1$ is `[(B,10),(C,30)]` and the optimal path to $B1$ is `[(B,10)]`.
 If you look at this step as a function, it takes a pair of paths and a section and produces a new pair of paths.
 The type is `(Path, Path) -> Section -> (Path, Path)`.
 Let's go ahead and implement this function, because it's bound to be useful.
@@ -441,29 +441,29 @@ roadStep (pathA, pathB) (Section a b c) =
 ![this is you](assets/images/functionally-solving-problems/guycar.png){.right width=420 height=381}
 
 What's going on here?
-First, calculate the optimal price on road A based on the best so far on A and we do the same for B.
+First, calculate the optimal price on road $A$ based on the best so far on $A$ and we do the same for $B$.
 We do `sum $ map snd pathA`, so if `pathA` is something like `[(A,100),(C,20)]`, `priceA` becomes `120`.
-`forwardPriceToA` is the price that we would pay if we went to the next crossroads on A if we went there directly from the previous crossroads on A.
-It equals the best price to our previous A, plus the length of the A part of the current section.
-`crossPriceToA` is the price that we would pay if we went to the next A by going forward from the previous B and then crossing over.
-It's the best price to the previous B so far plus the B length of the section plus the C length of the section.
+`forwardPriceToA` is the price that we would pay if we went to the next crossroads on $A$ if we went there directly from the previous crossroads on $A$.
+It equals the best price to our previous $A$, plus the length of the $A$ part of the current section.
+`crossPriceToA` is the price that we would pay if we went to the next $A$ by going forward from the previous $B$ and then crossing over.
+It's the best price to the previous $B$ so far plus the $B$ length of the section plus the $C$ length of the section.
 We determine `forwardPriceToB` and `crossPriceToB` in the same manner.
 
-Now that we know what the best way to A and B is, we just need to make the new paths to A and B based on that.
-If it's cheaper to go to A by just going forwards, we set `newPathToA` to be `(A,a):pathA`.
-Basically we prepend the `Label` `A` and the section length `a` to the optimal path path on A so far.
-Basically, we say that the best path to the next A crossroads is the path to the previous A crossroads and then one section forward via A.
+Now that we know what the best way to $A$ and $B$ is, we just need to make the new paths to $A$ and $B$ based on that.
+If it's cheaper to go to $A$ by just going forwards, we set `newPathToA` to be `(A,a):pathA`.
+Basically we prepend the `Label` `A` and the section length `a` to the optimal path path on $A$ so far.
+Basically, we say that the best path to the next $A$ crossroads is the path to the previous $A$ crossroads and then one section forward via $A$.
 Remember, `A` is just a label, whereas `a` has a type of `Int`.
 Why do we prepend instead of doing `pathA ++ [(A,a)]`?
 Well, adding an element to the beginning of a list (also known as consing) is much faster than adding it to the end.
 This means that the path will be the wrong way around once we fold over a list with this function, but it's easy to reverse the list later.
-If it's cheaper to get to the next A crossroads by going forward from road B and then crossing over, then `newPathToA` is the old path to B that then goes forward and crosses to A.
+If it's cheaper to get to the next $A$ crossroads by going forward from road $B$ and then crossing over, then `newPathToA` is the old path to $B$ that then goes forward and crosses to $A$.
 We do the same thing for `newPathToB`, only everything's mirrored.
 
 Finally, we return `newPathToA` and `newPathToB` in a pair.
 
 Let's run this function on the first section of `heathrowToLondon`.
-Because it's the first section, the best paths on A and B parameter will be a pair of empty lists.
+Because it's the first section, the best paths on $A$ and $B$ parameter will be a pair of empty lists.
 
 ```{.haskell:hs}
 ghci> roadStep ([], []) (head heathrowToLondon)
@@ -471,11 +471,11 @@ ghci> roadStep ([], []) (head heathrowToLondon)
 ```
 
 Remember, the paths are reversed, so read them from right to left.
-From this we can read that the best path to the next A is to start on B and then cross over to A and that the best path to the next B is to just go directly forward from the starting point at B.
+From this we can read that the best path to the next $A$ is to start on $B$ and then cross over to $A$ and that the best path to the next $B$ is to just go directly forward from the starting point at $B$.
 
 ::: {.hintbox}
 **Optimization tip:** when we do `priceA = sum $ map snd pathA`, we're calculating the price from the path on every step.
-We wouldn't have to do that if we implemented `roadStep` as a `(Path, Path, Int, Int) -> Section -> (Path, Path, Int, Int)` function where the integers represent the best price on A and B.
+We wouldn't have to do that if we implemented `roadStep` as a `(Path, Path, Int, Int) -> Section -> (Path, Path, Int, Int)` function where the integers represent the best price on $A$ and $B$.
 :::
 
 Now that we have a function that takes a pair of paths and a section and produces a new optimal path, we can just easily do a left fold over a list of sections.
