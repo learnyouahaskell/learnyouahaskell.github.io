@@ -1821,7 +1821,7 @@ Functor :: (* -> *) -> Constraint
 Woot, that works!
 We see two new things here.
 First, `Constraint` is the kind of constraints, i.e. the things that appear to the left of the `=>` in type signatures.
-The `Ord Int` instance, for instance, has kind `Constraint`.
+`Ord Int`, for instance, has kind `Constraint`.
 
 We also see that, whereas `Maybe` and `Either` take concrete types as arguments, `Functor` does not.
 Instead of a concrete type, it takes something that *itself* takes a single concrete type as an argument.
