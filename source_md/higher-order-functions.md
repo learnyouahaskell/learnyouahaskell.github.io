@@ -130,7 +130,7 @@ From the definition of sections, `(-4)` would result in a function that takes a 
 However, for convenience, `(-4)` means minus four.
 So if you want to make a function that subtracts 4 from the number it gets as a parameter, partially apply the `subtract` function like so: `(subtract 4)`.
 
-What happens if we try to just do `multThree 3 4` in GHCi instead of binding it to a name with a `let` or passing it to another function?
+What happens if we try to just do `multThree 3 4` in GHCi instead of binding it to a name or passing it to another function?
 
 ```{.haskell:hs}
 ghci> multThree 3 4
