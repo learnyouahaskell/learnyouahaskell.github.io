@@ -583,9 +583,6 @@ ghci> boot
 Back in the day, using `let` used to be required when binding in GHCi.
 A bit inconvenient!
 These days you can omit the `let` and enjoy exactly the same result.
-But why, you may wonder, require `let` in the first place?
-The answer is that the notation at GHCi's prompt was modeled after a syntactic form called *`do`-notation*.
-You'll get to know this syntax when we get to dealing with `IO`.
 :::
 
 If `let` bindings are so cool, why not use them all the time instead of `where` bindings, you ask?
