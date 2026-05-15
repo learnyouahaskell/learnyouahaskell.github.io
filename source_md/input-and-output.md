@@ -478,7 +478,8 @@ Try playing with this program to get a feel for it!
 
 The `when`{.label .function} function is found in `Control.Monad` (to get access to it, do `import Control.Monad`).
 It's interesting because in a `do` block it looks like a control flow statement, but it's actually a normal function.
-It takes a boolean value and an I/O action if that boolean value is `True`, it returns the same I/O action that we supplied to it.
+It takes a boolean value and an I/O action.
+If that boolean value is `True`, it returns the same I/O action that we supplied to it.
 However, if it's `False`, it returns the `return ()`, action, so an I/O action that doesn't do anything.
 Here's how we could rewrite the previous piece of code with which we demonstrated `getChar` by using `when`:
 
@@ -494,7 +495,7 @@ main = do
 
 So as you can see, it's useful for encapsulating the <code>if *something* then do *some I/O action* else return ()</code> pattern.
 
-`sequence`{.label .function} takes a list of I/O actions and returns an I/O actions that will perform those actions one after the other.
+`sequence`{.label .function} takes a list of I/O actions and returns an I/O action that will perform those actions one after the other.
 The result contained in that I/O action will be a list of the results of all the I/O actions that were performed.
 Its type signature is `sequence :: [IO a] -> IO [a]`.
 Doing this:
@@ -862,7 +863,7 @@ not a palindrome
 Even though we made a program that transforms one big string of input into another, it acts like we made a program that does it line by line.
 That's because Haskell is lazy and it wants to print the first line of the result string, but it can't because it doesn't have the first line of the input yet.
 So as soon as we give it the first line of input, it prints the first line of the output.
-We get out of the program by issuing an end-of-line character.
+We get out of the program by issuing an end-of-file character.
 
 We can also use this program by just piping a file into it.
 Let's say we have this file:
@@ -1693,7 +1694,7 @@ What if we want a random value in some sort of range?
 All the random integers so far were outrageously big or small.
 What if we want to throw a die?
 Well, we use `randomR`{.label .function} for that purpose.
-It has a type of `randomR :: (RandomGen g, Random a) :: (a, a) -> g -> (a, g)`, meaning that it's kind of like `random`, only it takes as its first parameter a pair of values that set the lower and upper bounds and the final value produced will be within those bounds.
+It has a type of `randomR :: (RandomGen g, Random a) => (a, a) -> g -> (a, g)`, meaning that it's kind of like `random`, only it takes as its first parameter a pair of values that set the lower and upper bounds and the final value produced will be within those bounds.
 
 ```{.haskell:hs}
 ghci> randomR (1,6) (mkStdGen 359353)
