@@ -556,6 +556,14 @@ ghci> boot
 <interactive>:1:0: Not in scope: `boot'
 ```
 
+::: {.hintbox}
+**Let's not.**
+
+Back in the day, using `let` used to be required when binding in GHCi.
+A bit inconvenient!
+These days you can omit the `let` and enjoy exactly the same result.
+:::
+
 If `let` bindings are so cool, why not use them all the time instead of `where` bindings, you ask?
 Well, since `let` bindings are expressions and are fairly local in their scope, they can't be used across guards.
 Some people prefer `where` bindings because the names come after the function they're being used in.

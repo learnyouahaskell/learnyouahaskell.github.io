@@ -220,8 +220,8 @@ Even when we just punch out a number or call a function in GHCi and press return
 Remember `let` bindings?
 If you don't, refresh your memory on them by reading [this section](syntax-in-functions.html#let-it-be).
 They have to be in the form of <code>let *bindings* in *expression*</code>, where <code>*bindings*</code> are names to be given to expressions and <code>*expression*</code> is the expression that is to be evaluated that sees them.
-We also said that in list comprehensions, the `in` part isn't needed.
-Well, you can use them in `do` blocks pretty much like you use them in list comprehensions.
+We also said that in list comprehensions and in GHCi, the `in` part isn't needed.
+Well, you can use them in `do` blocks pretty much the same way.
 Check this out:
 
 ```{.haskell:hs}
