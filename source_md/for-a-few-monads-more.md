@@ -153,6 +153,9 @@ applyLog :: (Monoid m) => (a,m) -> (a -> (b,m)) -> (b,m)
 applyLog (x,log) f = let (y,newLog) = f x in (y,log <> newLog)
 ```
 
+Actually, this code works for any semigroup, not just monoids.
+But I'll just ignore that, as we'll be using an identity value shortly anyway.
+
 Because the accompanying value can now be any monoid value, we no longer have to think of the tuple as a value and a log, but now we can think of it as a value with an accompanying monoid value.
 For instance, we can have a tuple that has an item name and an item price as the monoid value.
 We just use the `Sum` newtype to make sure that the prices get added as we operate with the items.
@@ -526,12 +529,14 @@ fromDiffList (DiffList f) = f []
 To make a normal list into a difference list we just do what we did before and make it a function that prepends it to another list.
 Because a difference list is a function that prepends something to another list, if we just want that something, we apply the function to an empty list!
 
-Here's the `Monoid` instance:
+Here are the `Semigroup` and `Monoid` instances:
 
 ```{.haskell:hs}
+instance Semigroup (DiffList a) where
+    DiffList f <> DiffList g = DiffList (\xs -> f (g xs))
+
 instance Monoid (DiffList a) where
     mempty = DiffList (\xs -> [] ++ xs)
-    (DiffList f) <> (DiffList g) = DiffList (\xs -> f (g xs))
 ```
 
 Notice how for lists, `mempty` is just the `id` function and `<>` is actually just function composition.
