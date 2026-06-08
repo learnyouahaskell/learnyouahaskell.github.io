@@ -254,7 +254,6 @@ instance Monad Maybe where
 ```
 
 Both `return` and `(>>)` have default implementations, so we usually omit them in instances.
-
 The `>>=` function is the same as our `applyMaybe`.
 When feeding the `Maybe a` to our function, we keep in mind the context and return a `Nothing` if the value on the left is `Nothing` because if there's no value then there's no way to apply our function to it.
 If it's a `Just` we take what's inside and apply `f` to it.
