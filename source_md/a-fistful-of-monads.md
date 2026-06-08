@@ -957,9 +957,8 @@ class Applicative f => Alternative f where
     (<|>) :: f a -> f a -> f a
 ```
 
-`empty` is synonymous to `mempty` from the `Monoid` type class and `(<|>)` corresponds to `<>`.
-Because lists are monoids as well as monads, they can be made an instance of this type class:
-
+`empty` is analogous to `mempty` from `Monoid`, and `(<|>)` resembles to `<>`, but they aren't the same thing as a `Monoid` instance in general.
+ Lists are an instance of `Alternative`, where `empty` is `[]` and `(<|>)` concatenates lists:
 ```{.haskell:hs}
 instance Alternative [] where
     empty = []
