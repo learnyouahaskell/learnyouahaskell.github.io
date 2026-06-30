@@ -373,7 +373,7 @@ False
 `minBound` and `maxBound` are interesting because they have a type of `(Bounded a) => a`.
 In a sense they are polymorphic constants.
 
-All tuples are also part of `Bounded` if the components are also in it.
+All tuples are also part of `Bounded` if their components are part of `Bounded` as well.
 
 ```{.haskell: .ghci}
 ghci> maxBound :: (Bool, Int, Char)
