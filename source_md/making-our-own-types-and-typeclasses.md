@@ -1040,7 +1040,7 @@ data List a = Empty | a :-: (List a) deriving (Show, Read, Eq, Ord)
 First off, we notice a new syntactic construct, the fixity declarations.
 When we define functions as operators, we can use that to give them a fixity (but we don't have to).
 A fixity states how tightly the operator binds and whether it's left-associative or right-associative.
-For instance, `*`'s fixity is `infixl 7 *` and `+`'s fixity is `infixl 6`.
+For instance, `*`'s fixity is `infixl 7` and `+`'s fixity is `infixl 6`.
 That means that they're both left-associative (`4 * 3 * 2` is `(4 * 3) * 2`) but `*` binds tighter than `+`, because it has a greater fixity, so `5 * 4 + 3` is `(5 * 4) + 3`.
 
 Otherwise, we just wrote `a :-: (List a)` instead of `Cons a (List a)`.
