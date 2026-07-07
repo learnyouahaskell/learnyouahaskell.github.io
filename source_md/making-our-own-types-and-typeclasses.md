@@ -1811,6 +1811,22 @@ ghci> :k Either String Int
 Either String Int :: *
 ```
 
+What if we do something crazy and ask what the kind is of something entirely different, like a type class?
+
+```{.haskell:hs}
+ghci> :k Functor
+Functor :: (* -> *) -> Constraint
+```
+
+Woot, that works!
+We see two new things here.
+First, `Constraint` is the kind of constraints, i.e. the things that appear to the left of the `=>` in type signatures.
+`Ord Int`, for instance, has kind `Constraint`.
+
+We also see that, whereas `Maybe` and `Either` take concrete types as arguments, `Functor` does not.
+Instead of a concrete type, it takes something that *itself* takes a single concrete type as an argument.
+So it can take `Maybe`, which has kind `* -> *`, but it will not take `Char`, as its kind is merely `*`.
+
 When we wanted to make `Either` a part of the `Functor` typeclass, we had to partially apply it because `Functor` wants types that take only one parameter while `Either` takes two.
 In other words, `Functor` wants types of kind `* -> *` and so we had to partially apply `Either` to get a type of kind `* -> *` instead of its original kind `* -> * -> *`.
 If we look at the definition of `Functor` again
@@ -1836,28 +1852,31 @@ Man, that looks weird.
 How would we make a type that could be an instance of that strange typeclass?
 Well, let's look at what its kind would have to be.
 Because `j a` is used as the type of a value that the `tofu` function takes as its parameter, `j a` has to have a kind of `*`.
-We assume `*` for `a` and so we can infer that `j` has to have a kind of `* -> *`.
-We see that `t` has to produce a concrete value too and that it takes two types.
-And knowing that `a` has a kind of `*` and `j` has a kind of `* -> *`, we infer that `t` has to have a kind of `* -> (* -> *) -> *`.
-So it takes a concrete type (`a`), a type constructor that takes one concrete type (`j`) and produces a concrete type.
+It looks like the kind of `a` is probably `*`, but it's not certain, so let's just call it `k` for now.
+We can infer that `j` has to have a kind of `k -> *`.
+We see that `t` has to produce a concrete value too and that it takes two arguments.
+And knowing that `a` has a kind of `k` and `j` has a kind of `k -> *`, we infer that `t` has to have a kind of `k -> (k -> *) -> *`.
 Wow.
 
-OK, so let's make a type with a kind of `* -> (* -> *) -> *`.
+Is that actually correct?
+Try `:k Tofu` to find out.
+
+OK, so let's make a type with a kind of `k -> (k -> *) -> *`.
 Here's one way of going about it.
 
 ```{.haskell:hs}
 data Frank a b  = Frank {frankField :: b a} deriving (Show)
 ```
 
-How do we know this type has a kind of `* -> (* -> *) - > *`?
+How do we know this type has a kind of `k -> (k -> *) - > *`?
 Well, fields in ADTs are made to hold values, so they must be of kind `*`, obviously.
-We assume `*` for `a`, which means that `b` takes one type parameter and so its kind is `* -> *`.
-Now we know the kinds of both `a` and `b` and because they're parameters for `Frank`, we see that `Frank` has a kind of `* -> (* -> *) -> *` The first `*` represents `a` and the `(* -> *)` represents `b`.
+We assume `k` for `a`, and `b` takes it as its argument so its kind is `k -> *`.
+Now we know the kinds of both `a` and `b` and because they're parameters for `Frank`, we see that `Frank` has a kind of `k -> (k -> *) -> *` The first `k` represents `a` and the `(k -> *)` represents `b`.
 Let's make some `Frank` values and check out their types.
 
 ```{.haskell:hs}
 ghci> :t Frank {frankField = Just "HAHA"}
-Frank {frankField = Just "HAHA"} :: Frank [Char] Maybe
+Frank {frankField = Just "HAHA"} :: Frank String Maybe
 ghci> :t Frank {frankField = Node 'a' EmptyTree EmptyTree}
 Frank {frankField = Node 'a' EmptyTree EmptyTree} :: Frank Char Tree
 ghci> :t Frank {frankField = "YES"}
@@ -1866,9 +1885,9 @@ Frank {frankField = "YES"} :: Frank Char []
 
 Hmm.
 Because `frankField` has a type of form `a b`, its values must have types that are of a similar form as well.
-So they can be `Just "HAHA"`, which has a type of `Maybe [Char]` or it can have a value of `['Y','E','S']`, which has a type of `[Char]` (if we used our own list type for this, it would have a type of `List Char`).
+So they can be `Just "HAHA"`, which has a type of `Maybe String` or it can have a value of `['Y','E','S']`, which has a type of `[Char]` (if we used our own list type for this, it would have a type of `List Char`).
 And we see that the types of the `Frank` values correspond with the kind for `Frank`.
-`[Char]` has a kind of `*` and `Maybe` has a kind of `* -> *`.
+`String` has a kind of `*` and `Maybe` has a kind of `* -> *`.
 Because in order to have a value, it has to be a concrete type and thus has to be fully applied, every value of `Frank blah blaah` has a kind of `*`.
 
 Making `Frank` an instance of `Tofu` is pretty simple.
@@ -1883,7 +1902,7 @@ instance Tofu Frank where
 ```{.haskell:hs}
 ghci> tofu (Just 'a') :: Frank Char Maybe
 Frank {frankField = Just 'a'}
-ghci> tofu ["HELLO"] :: Frank [Char] []
+ghci> tofu ["HELLO"] :: Frank String []
 Frank {frankField = ["HELLO"]}
 ```
 
@@ -1892,32 +1911,32 @@ Let's do some more type-foo.
 We have this data type:
 
 ```{.haskell:hs}
-data Barry t k p = Barry { yabba :: p, dabba :: t k }
+data Barry t m p = Barry { yabba :: p, dabba :: t m }
 ```
 
 And now we want to make it an instance of `Functor`.
 `Functor` wants types of kind `* -> *` but `Barry` doesn't look like it has that kind.
 What is the kind of `Barry`?
-Well, we see it takes three type parameters, so it's going to be `something -> something -> something -> *`.
+Well, we see it takes three arguments, so it's going to be `something -> something -> something -> *`.
 It's safe to say that `p` is a concrete type and thus has a kind of `*`.
-For `k`, we assume `*` and so by extension, `t` has a kind of `* -> *`.
-Now let's just replace those kinds with the *somethings* that we used as placeholders and we see it has a kind of `(* -> *) -> * -> * -> *`.
+For `m`, we assume `k` and so by extension, `t` has a kind of `k -> *`.
+Now let's just replace those kinds with the *somethings* that we used as placeholders and we see it has a kind of `(k -> *) -> k -> * -> *`.
 Let's check that with GHCi.
 
 ```{.haskell:hs}
 ghci> :k Barry
-Barry :: (* -> *) -> * -> * -> *
+Barry :: (k -> *) -> k -> * -> *
 ```
 
 Ah, we were right.
 How satisfying.
-Now, to make this type a part of `Functor` we have to partially apply the first two type parameters so that we're left with `* -> *`.
-That means that the start of the instance declaration will be: `instance Functor (Barry a b) where`.
+Now, to make this type a part of `Functor` we have to fill the first two parameters so that we're left with `* -> *`.
+That means that the start of the instance declaration will be: `instance Functor (Barry … …) where`.
 If we look at `fmap` as if it was made specifically for `Barry`, it would have a type of `fmap :: (a -> b) -> Barry c d a -> Barry c d b`, because we just replace the `Functor`'s `f` with `Barry c d`.
 The third type parameter from `Barry` will have to change and we see that it's conveniently in its own field.
 
 ```{.haskell:hs}
-instance Functor (Barry a b) where
+instance Functor (Barry c d) where
     fmap f (Barry {yabba = x, dabba = y}) = Barry {yabba = f x, dabba = y}
 ```
 
