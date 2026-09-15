@@ -882,7 +882,7 @@ data Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
 
 It has two value constructors.
 If the `Left` is used, then its contents are of type `a` and if `Right` is used, then its contents are of type `b`.
-So we can use this type to encapsulate a value of one type or another and then when we get a value of type `Either a b`, we usually pattern match on both `Left` and `Right` and we different stuff based on which one of them it was.
+So we can use this type to encapsulate a value of one type or another and then when we get a value of type `Either a b`, we usually pattern match on both `Left` and `Right` and we do different stuff based on which one of them it was.
 
 ```{.haskell:hs}
 ghci> Right 20
