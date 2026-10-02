@@ -31,7 +31,7 @@ That's why there are no while loops or for loops in Haskell and instead we many 
 
 ## Maximum awesome {#maximum-awesome}
 
-The `maximum` function takes a list of things that can be ordered (e.g. instances of the `Ord` typeclass) and returns the biggest of them.
+The `maximum` function takes a list of things that can be ordered (i.e. instances of the `Ord` typeclass) and returns the biggest of them.
 Think about how you'd implement that in an imperative fashion.
 You'd probably set up a variable to hold the maximum value so far and then you'd loop through the elements of a list and if an element is bigger than then the current maximum value, you'd replace it with that element.
 The maximum value that remains at the end is the result.
