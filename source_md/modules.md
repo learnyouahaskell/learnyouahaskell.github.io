@@ -336,13 +336,49 @@ Let's use a fold to implement searching a list for a sublist.
 
 ```{.haskell:hs}
 search :: (Eq a) => [a] -> [a] -> Bool
-search needle haystack =
-    let nlen = length needle
-    in  foldl (\acc x -> if take nlen x == needle then True else acc) False (tails haystack)
+search needle haystack = foldr step False (tails haystack)
+  where
+    step segment continue =
+      if take nlen segment == needle
+        then True
+        else continue
+    nlen = length needle
 ```
 
 First we call `tails` with the list in which we're searching.
 Then we go over each tail and see if it starts with what we're looking for.
+
+Maybe you're surprised to see `foldr` being used here, instead of `foldl'`.
+Why aren't we going through the list simply from left to right, like a normal person?
+Ah, but we are!
+You see, `foldr` does not *really* go through lists from right to left.
+It actually walks the list from left to right, just like `foldl'`.
+The real difference is not the direction, but the way the end result is composed.
+
+In a strict left fold, at every step the accumulator is immediately updated.
+Nice, no time or space wasted.
+The catch is that `foldl'` refuses to stop until it has reached the end of the list.
+The accumulation function you pass it has no say in the matter.
+This is unfortunate: if we have already found what we're looking for, there is little point in continuing the search!
+
+This is where the lazy right fold comes in.
+`foldr` actually gives its accumulation function some control, which allows us to stop searching early.
+At each step `foldr` is like: hey combining function, here's this list element that I found.
+Do with it what you will.
+I'd rather not go further down the list, because I'm lazy, but if you really need me to I will and I'll pass the result of that to you as a second argument.
+If the combining function at any point does not really need its second argument, then the list walking can stop.
+But if it does need its second argument then, well, the walk must go on.
+
+Coming back to the implementation of `search`, we see an element--accumulator combining function appropriately named `step`.
+From `foldr` it receives elements of `tails haystack`, which are themselves lists and therefore called `segment` in this code.
+For each `segment` we check whether it matches the `needle`.
+If it does, then we're done.
+No need to even look at the second argument, we can just return `True` immediately and thereby stop the search.
+But if it does not match the `needle`, then we need to continue.
+Fortunately, `foldr` also passes `step` a second argument: the promise to continue the search, should it need it to.
+I have cheekily chosen to call this promise `continue`.
+Not yet having found our `needle`, we have no choice but to take `foldr` up on its promise.
+We therefore return `continue`.
 
 With that, we actually just made a function that behaves like `isInfixOf`{.label .function}.
 `isInfixOf` searches for a sublist within a list and returns `True` if the sublist we're looking for is somewhere inside the target list.
